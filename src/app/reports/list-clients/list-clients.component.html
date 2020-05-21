@@ -1,0 +1,33 @@
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+</div>
+
+<div style="margin-left: 20px; margin-top: 20px;" id="report">
+    <h2 style="margin-left: 220px; text-decoration: underline">Listado de Clientes</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Items</th>
+                <th>RUC</th>
+                <th>Razon Social</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Contanto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clients">
+                <td>{{client.ITEMS}}</td>
+                <td>{{client.COD_CLIENT}}</td>
+                <td>{{client.DS_CLIENT}}</td>
+                <td>{{client.EMAIL}}</td>
+                <td>{{client.PHONE}}</td>
+                <td>{{client.CONTACT}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

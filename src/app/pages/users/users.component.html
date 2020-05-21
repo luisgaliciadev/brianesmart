@@ -1,0 +1,110 @@
+<div class="col-12 animated fadeInRight"> 
+    
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12" >
+            <div class="card" style="overflow: auto">
+                <div class="card-body"> 
+
+                    <div class="text-left" style="float: left;">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getUsersExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>  
+
+                    <div class="text-right">
+                        <button [routerLink]="(['/user',0])" type="button" class="btn waves-effect waves-light btn-rounded btn-primary">
+                            <i class="fa fa-plus"></i>
+                            Crear Usuario
+                        </button>                    
+                    </div>
+                    
+                    <br/>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar Usuario" (keyup.enter)="getUsers(search)" (keyup)="activeButtons()">
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-group">                        
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="exampleInputuname2" placeholder="Buscar Usuario" (keyup.enter)="getUsers(search)">
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" (click)="clear()"></i></div>
+                        </div>
+                    </div> -->
+
+                    <h3>Listado de Usuario (<small>{{totalRegistros}}</small>)</h3>                   
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Auntenticacón</th>
+                                <th>Rol</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td><img [src]="user.IMAGE | image: 'user'" class="img-profile-list"/></td>
+                                <td>{{user.NAME}}</td>
+                                <td>{{user.EMAIL}}</td>
+                                <td>
+                                    <label *ngIf="user.GOOGLE" class="label label-danger">Google</label>
+                                    <label *ngIf="!user.GOOGLE" class="label label-info">Normal</label>
+                                </td>
+                                <td>
+                                    <select [(ngModel)]="user.ID_ROLE" name="ID_ROLE" class="form-control" required>                                       
+                                        <option disabled = "true" *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                     <button [routerLink]="(['/user',user.ID_USER])" type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteUser(user.ID_USER)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-secondary" (click)="changePage(-5)">
+                        Anterior
+                    </button>
+
+                    <button class="btn btn-secondary" (click)="changePage(+5)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

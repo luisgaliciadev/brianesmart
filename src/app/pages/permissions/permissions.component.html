@@ -1,0 +1,51 @@
+<div class="col-12 animated fadeInRight">      
+
+    <div class="row">
+        <div class="col-7">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">                                 
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Tipo Modulo/Menu</label>
+                        <div class="input-group">                   
+                            <select (change)="getsModulesRol(ID_TYPE_MENU, ID_ROLE)" [(ngModel)]="ID_TYPE_MENU" name="ID_TYPE_MENU" class="form-control" required>                                
+                                <option *ngFor="let typeMenu of typeMenus" value = "{{typeMenu.ID_TYPE_MENU}}">{{typeMenu.DS_TYPE_MENU}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Rol de Usuario</label>
+                        <div class="input-group">                   
+                            <select (change)="getsModulesRol(ID_TYPE_MENU, ID_ROLE)" [(ngModel)]="ID_ROLE" name="ID_ROLE" class="form-control" required>                                
+                                <option *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Modulo</th>
+                                <th>Permitido</th>                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let allModule of allModules">                              
+                                <td>{{allModule.DS_MODULE}}</td>
+                                <td>
+                                    <div class="checkbox checkbox-primary p-t-0">
+                                        <input (change)="updateRolesModules(allModule)" [value]="allModule.ACCESS" [(ngModel)]="allModule.ACCESS" name="condiciones" id="{{allModule.ID_MODULE}}" type="checkbox">
+                                        <label for="{{allModule.ID_MODULE}}"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

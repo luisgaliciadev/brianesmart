@@ -1,0 +1,95 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+
+                    <div class="text-left" style="float: left;">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getClientsExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>  
+                    
+
+                    <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/client/0">
+                            <i class="fa fa-plus"></i>
+                            Registrar Cliente
+                        </button>
+                    </div>
+
+                    <br/>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar Cliente" (keyup.enter)="getClients(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <h3>Listado de Clientes (<small>{{totalRegistros}}</small>)</h3>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>RUC</th>
+                                <th>Razon Social</th>
+                                <th>Email</th>
+                                <th>Telefono</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let client of clients">
+                                <td>{{client.COD_CLIENT}}</td>
+                                <td>{{client.DS_CLIENT}}</td>
+                                <td>{{client.EMAIL}}</td>
+                                <td>{{client.PHONE}}</td>
+                                <td></td>
+                                <td>
+                                    <button [routerLink]="(['/client',client.ID_CLIENT])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
+                                        <i class="fa fa-pencil">
+                                        </i>
+                                        
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)=deleteClient(client.ID_CLIENT)>
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-secondary" (click)="changePage(-5)">
+                        Anterior
+                    </button>
+
+                    <button class="btn btn-secondary" (click)="changePage(+5)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

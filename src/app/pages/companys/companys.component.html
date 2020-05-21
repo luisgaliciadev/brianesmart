@@ -1,0 +1,97 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+
+                    <div class="text-left" style="float: left;">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getCompanysExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>  
+                    
+
+                    <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/company/0">
+                            <i class="fa fa-plus"></i>
+                            Crear Empresa
+                        </button>
+                    </div>
+
+                    <br/>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar Usuario" (keyup.enter)="getCompanys(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <h3>Listado de Empresas (<small>{{totalRegistros}}</small>)</h3>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>RUC</th>
+                                <th>Razon Social</th>
+                                <th>Email</th>                                
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let companyUser of companyUser">
+                                <td class="w70">                                    
+                                    <img (click)="showModal('company', companyUser.ID_COMPANY_USER, companyUser.IMAGE, false)" [src]="companyUser.IMAGE | image: 'company'" class="img-profile-list pointer"/>
+                                </td>
+                                <td>{{companyUser.ID_COMPANY}}</td>
+                                <td>{{companyUser.DS_COMPANY}}</td>
+                                <td>{{companyUser.EMAIL}}</td>                                
+                                <td></td>
+                                <td>
+                                    <button [routerLink]="(['/company',companyUser.ID_COMPANY_USER])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
+                                        <i class="fa fa-pencil">
+                                        </i>
+                                        
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)=deleteCompany(companyUser.ID_COMPANY_USER)>
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-secondary" (click)="changePage(-5)">
+                        Anterior
+                    </button>
+
+                    <button class="btn btn-secondary" (click)="changePage(+5)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,162 @@
+<div class="col-12 animated fadeInRight">      
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body"> 
+
+                    <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" data-toggle="modal" data-target="#MODULE" (click)="cancel()">
+                            <i class="fa fa-plus"></i>
+                            Crear Modulo
+                        </button>                    
+                    </div>                  
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Tipo Modulo/Menu</label>
+                        <div class="input-group">                   
+                            <select (change)="getModules(ID_TYPE_MENU)" [(ngModel)]="ID_TYPE_MENU" name="ID_TYPE_MENU" class="form-control" required>                                
+                                <option *ngFor="let typeMenu of typeMenus" value = "{{typeMenu.ID_TYPE_MENU}}">{{typeMenu.DS_TYPE_MENU}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Modulo</th>
+                               
+                                <th>URL</th>
+                                <th>Icono</th>                               
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let allModule of allModules">
+                              
+                                <td>{{allModule.DS_MODULE}}</td>                                   
+                                <td>{{allModule.URL}}</td>
+                                <td>{{allModule.ICON}}</td>                                
+                                <td>
+                                    
+                                    <button  type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Subir" (click)="moveModule(allModule, -1)">
+                                        <i class="ti-angle-up"></i>
+                                    </button>
+
+                                    <button  type="button" class="btn btn-default" data-toggle="modal" data-placement="top" title="Bajar" (click)="moveModule(allModule, 1)">
+                                        <i class="ti-angle-down"></i>
+                                    </button>
+
+                                    <button [routerLink]="(['/module',allModule.ID_MODULE])"  type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+
+                                    <button [disabled] = "allModule.FG_DELETE" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteModule(allModule.ID_MODULE)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="MODULE" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Modulo</h5>
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>     
+
+            <form ngNativeValidate #formModule="ngForm" class="form p-t-20"> 
+
+                <div class="modal-body">
+                
+                    <div class="form-group">
+                        <label for="exampleInputuname">Tipo Menu</label>
+                        <div class="input-group">                   
+                            <select (change)="changeTypeMenu()" [(ngModel)]="idTypeMenu" name="idTypeMenu" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let typeMenu of typeMenus" value = "{{typeMenu.ID_TYPE_MENU}}">{{typeMenu.DS_TYPE_MENU}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div *ngIf="idTypeMenu === '2'" class="form-group">
+
+                        <label for="exampleInputuname">Modulo Principal</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idModuloPrincipal" name="idModuloPrincipal" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let principalModule of principalModules" value = "{{principalModule.ID_MODULE}}">{{principalModule.DS_MODULE}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div *ngIf="idTypeMenu === '3'" class="form-group">
+                        <label for="exampleInputuname">Modulo Secundario</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idModuloSec" name="idModuloSec" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let secModule of secModules" value = "{{secModule.ID_MODULE}}">{{secModule.DS_MODULE}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div *ngIf="idTypeMenu === '1' || idTypeMenu === '2'" class="form-group">
+                        <label for="exampleInputuname">Tiene Sub Menu</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="subMenu" name="subMenu" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option value = "1">Si</option>
+                                <option value = "0">No</option>
+                            </select>
+                        </div>
+                    </div>                        
+
+                    <div *ngIf="subMenu === '1' || subMenu === '0' || idTypeMenu === '3'" class="form-group">
+                        <label for="exampleInputuname">Nombre</label>
+                        <div class="input-group">                    
+                            <input [(ngModel)]="modules.DS_MODULE" name="DS_MODULE" type="text" class="form-control" placeholder="Nombre del Modulo" required>
+                        </div>
+                    </div>
+
+                    <div *ngIf="(idTypeMenu != '')" class="form-group">
+                        <label for="exampleInputuname">Icono</label>
+                        <div class="input-group">                    
+                            <input [(ngModel)]="modules.ICON" name="ICON" type="text" class="form-control" placeholder="Icono para el menu">
+                        </div>
+                    </div>
+
+                    <div *ngIf="subMenu === '0' || idTypeMenu === '3'" class="form-group">
+                        <label for="exampleInputuname">URL</label>
+                        <div class="input-group">                    
+                            <input [(ngModel)]="modules.URL" name="URL" type="text" class="form-control" placeholder="URL del Modulo" required>
+                        </div>
+                    </div>                                              
+                            
+                    <button [disabled]="!formModule.form.valid" type="button" data-dismiss="modal" class="btn btn-primary waves-effect waves-light m-r-10" (click)="saveModule(formModule.value)">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button> 
+                    
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+

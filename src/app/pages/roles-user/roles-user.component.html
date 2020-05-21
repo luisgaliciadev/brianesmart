@@ -1,0 +1,86 @@
+<div class="col-12 animated fadeInRight">      
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body"> 
+
+                    <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" data-toggle="modal" data-target="#ROL" (click)="cancel()">
+                            <i class="fa fa-plus"></i>
+                            Crear Rol
+                        </button>                    
+                    </div>                  
+
+                                       
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rol de Usuario</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let role of roles">
+                                <td>
+                                    <input [(ngModel)]="role.DS_ROLE" name="DS_ROLE" type="text" class="form-control" placeholder="Nombre del Modulo" required>
+                                </td>
+                                <td>
+                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar" (click)="updateRole(role)">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteRole(role)">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                                
+                            </tr>
+                        </tbody>
+                    </table> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="ROL" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Rol de Usuario</h5>
+          
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>     
+
+            <form ngNativeValidate #formRol="ngForm" class="form p-t-20"> 
+
+                <div class="modal-body">
+                
+                    
+                      
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Rol</label>
+                        <div class="input-group">                    
+                            <input [(ngModel)]="dsRoles" name="dsRoles" type="text" class="form-control" placeholder="Nombre del Rol" required>
+                        </div>
+                    </div>
+
+                    <button [disabled]="!formRol.form.valid" type="button" data-dismiss="modal" class="btn btn-primary waves-effect waves-light m-r-10" (click)="saveRole(formRol.value)">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button> 
+                    
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="row animated fadeInRight">
+
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Información del Perfil</h4>
+                <h6 class="card-subtitle">{{user.NAME}}</h6>
+                <form ngNativeValidate #form="ngForm" (ngSubmit)="saveProfile(form.value)" class="form p-t-20">
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre de Usuario</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input [ngModel]="user.NAME" name="NAME" type="text" class="form-control" placeholder="Nombre del Usuario" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input [ngModel]="user.EMAIL" name="EMAIL" type="email" [disabled]="user.GOOGLE" class="form-control" placeholder="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Telefono</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-mobile"></i></div>
+                            <input [ngModel]="user.PHONE" name="PHONE" type="text" class="form-control" placeholder="Telefono Contacto" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body" align="center">
+                <h4 class="card-title">Imagen del Perfil</h4>
+                <!-- <h6 class="card-subtitle">Nombre del usuario</h6> -->
+
+                <img *ngIf="!tempImage" [src]="user.IMAGE | image: 'user'" class="img-profile">
+                <img *ngIf="tempImage" [src]="tempImage" class="img-profile">
+
+                <input type="file" (change)="selectImage($event.target.files[0])" [disabled]="google">
+
+                <br><br>
+
+                <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="changeImage()" [disabled]="!imageUpload">
+                    <i class="fa fa-save"></i>
+                    Subir Imagen
+                </button>   
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Restaurar Contraseña</h4>
+                
+                <form ngNativeValidate #formPassword="ngForm" (ngSubmit)="updatePassword(formPassword.value)" class="form p-t-20">
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [(ngModel)]="passReset" name="passReset" type="password"  class="form-control" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Confirmar Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [(ngModel)]="passReset2" name="passReset2" type="password" class="form-control" placeholder="Confirmar Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="formPassword.value.passReset != formPassword.value.passReset2">
+                        <p class="text-danger">
+                            Las contraseñas no son iguales.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Actualizar
+                    </button>                
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+</div>

@@ -1,0 +1,94 @@
+<div class="col-12 animated fadeInRight">      
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body"> 
+                    <h4 class="card-title">Modulo: {{module.DS_MODULE}}</h4>
+                    <form ngNativeValidate #formModule="ngForm" class="form p-t-20"> 
+
+                        <div class="modal-body">
+                        
+                            <div class="form-group">
+                                <label for="exampleInputuname">Tipo Menu</label>
+                                <div class="input-group">                   
+                                    <select (change)="changeTypeMenu()" [(ngModel)]="idTypeMenu" name="idTypeMenu" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let typeMenu of typeMenus" value = "{{typeMenu.ID_TYPE_MENU}}">{{typeMenu.DS_TYPE_MENU}}</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="idTypeMenu === '2'" class="form-group">
+        
+                                <label for="exampleInputuname">Modulo Principal</label>
+                                <div class="input-group">                   
+                                    <select [(ngModel)]="idModuloPrincipal" name="idModuloPrincipal" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let principalModule of principalModules" value = "{{principalModule.ID_MODULE}}">{{principalModule.DS_MODULE}}</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="idTypeMenu === '3'" class="form-group">
+                                <label for="exampleInputuname">Modulo Secundario</label>
+                                <div class="input-group">                   
+                                    <select [(ngModel)]="idModuloSec" name="idModuloSec" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let secModule of secModules" value = "{{secModule.ID_MODULE}}">{{secModule.DS_MODULE}}</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="idTypeMenu === '1' || idTypeMenu === '2'" class="form-group">
+                                <label for="exampleInputuname">Tiene Sub Menu</label>
+                                <div class="input-group">                   
+                                    <select [(ngModel)]="subMenu" name="subMenu" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option value = "1">Si</option>
+                                        <option value = "0">No</option>
+                                    </select>
+                                </div>
+                            </div>                        
+        
+                            <div *ngIf="subMenu === '1' || subMenu === '0' || idTypeMenu === '3'" class="form-group">
+                                <label for="exampleInputuname">Nombre</label>
+                                <div class="input-group">                    
+                                    <input [(ngModel)]="module.DS_MODULE" name="DS_MODULE" type="text" class="form-control" placeholder="Nombre del Modulo" required>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="idTypeMenu != ''" class="form-group">
+                                <label for="exampleInputuname">Icono</label>
+                                <div class="input-group">                    
+                                    <input [(ngModel)]="module.ICON" name="ICON" type="text" class="form-control" placeholder="Icono para el menu">
+                                </div>
+                            </div>
+        
+                            <div *ngIf="subMenu === '0' || idTypeMenu === '3'" class="form-group">
+                                <label for="exampleInputuname">URL</label>
+                                <div class="input-group">                    
+                                    <input [(ngModel)]="module.URL" name="URL" type="text" class="form-control" placeholder="URL del Modulo" required>
+                                </div>
+                            </div>                                              
+                                    
+                            <button [disabled]="!formModule.form.valid" type="button" data-dismiss="modal" class="btn btn-primary waves-effect waves-light m-r-10" (click)="updateModule(formModule.value)">
+                                <i class="fa fa-save"></i>
+                                Guardar
+                            </button>
+                           
+                            <button *ngIf="module.FG_DELETE === 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteModule(module.ID_MODULE)">
+                                <i class="fa fa-trash-o"></i>
+                                Eliminar
+                            </button>    
+                            
+                        </div>
+        
+                    </form>                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

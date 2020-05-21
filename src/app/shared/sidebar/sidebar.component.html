@@ -1,0 +1,63 @@
+<!-- ============================================================== -->
+<!-- Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->
+<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="user-profile">
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img [src]="user.IMAGE | image: 'user'" alt="user" alt="user" /><span class="hide-menu">{{user.NAME}} </span></a>
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a routerLink="/profile" routerLinkActive="active">Mi Perfil </a></li>
+                        <!-- <li><a routerLink="/companys" routerLinkActive="active">Mis Empresas</a></li> -->
+                        <!-- <li><a href="#">Inbox</a></li> -->
+                        <li><a routerLink="/account-settigns" routerLinkActive="active">Temas</a></li>
+                        <li><a (click)="_userService.logout()" class="pointer">Cerra Sesión</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-devider"></li>
+
+                <li class="nav-small-cap">Menú de Opciones</li>
+
+                <!-- <li>
+                                <a routerLink="/home" routerLinkActive="active"><i class="mdi mdi-home"></i><span class="hide-menu">Inicio</span></a>                         
+                            </li>    -->
+
+                <li *ngFor="let menu of _sidebar.menu">
+
+                    <a (click)="idModule(menu.ID_MODULE)" *ngIf="!menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" [routerLink]="[menu.URL]" routerLinkActive="active"><i [class]="menu.ICON"></i><span class="hide-menu">{{menu.DS_MODULE}}</span></a>
+
+
+                    <a (click)="idModule(menu.ID_MODULE)" *ngIf="menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="menu.ICON"></i><span class="hide-menu">{{menu.DS_MODULE}} </span></a>
+
+                    <ul aria-expanded="false" class="collapse">
+                        <li *ngFor="let submenu of _sidebar.menu">
+                            <a (click)="idModule(submenu.ID_MODULE)" *ngIf="!submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL != ''" [routerLink]="[submenu.URL]" routerLinkActive="active" [class]="submenu.ICON"> {{submenu.DS_MODULE}}</a>
+
+                            <!-- <ul aria-expanded="false" class="collapse"> -->
+                            <a (click)="idModule(submenu.ID_MODULE)" *ngIf="submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL === ''" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="submenu.ICON"></i><span class="hide-menu">{{submenu.DS_MODULE}} </span></a>
+                            <!-- </ul>   -->
+
+                            <ul aria-expanded="false" class="collapse">
+                                <li *ngFor="let submenu_sec of _sidebar.menu">
+                                    <a (click)="idModule(submenu_sec.ID_MODULE)" *ngIf="!submenu_sec.FG_SUB_MENU && submenu_sec.ID_TYPE_MENU === 3 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu_sec.ID_MODULE_SEC === submenu.ID_MODULE && submenu_sec.URL != ''" [routerLink]="[submenu_sec.URL]"
+                                        routerLinkActive="active" [class]="submenu_sec.ICON"> {{submenu_sec.DS_MODULE}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <!-- </ul>  -->
+            </ul>
+
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+<!-- ============================================================== -->
+<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+<!-- ============================================================== -->

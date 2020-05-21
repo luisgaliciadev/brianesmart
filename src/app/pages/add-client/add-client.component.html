@@ -1,0 +1,278 @@
+<div class="row animated fadeInRight">
+
+    <div class="row col-lg-12" *ngIf="!loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Buscando RUC...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="col-lg-7" *ngIf="loading">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Información del Cliente</h4>                
+                <form ngNativeValidate #form="ngForm" (ngSubmit)="saveClient(form.value)" class="form p-t-20">
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Tipo Documento de Identidad</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idenType" name="idType" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let idenTypeClient of idenTypeClient" value = "{{idenTypeClient.ID_TYPE}}">{{idenTypeClient.COD_ID_TYPE}} - {{idenTypeClient.DS_ID_TYPE}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Tipo Cliente</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idTypeClient" name="idTypeClient" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let typeClient of typeClient" value = "{{typeClient.ID_TYPE_CLIENT}}">{{typeClient.DS_TYPE_CLIENT}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exampleInputuname">R.U.C</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-layout-cta-left"></i></div>
+                                <input [ngModel]="client.COD_CLIENT" name="COD_CLIENT" type="text" class="form-control" placeholder="Ruc del Cliente" required>
+                                <button *ngIf="ID_CLIENT == 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getRucSunat(form.value.COD_CLIENT)">
+                                    <i class="fa fa-search"></i>
+                                    SUNAT
+                                </button>
+                            </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre del Cliente</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-home"></i></div>
+                            <input [ngModel]="client.DS_CLIENT" name="DS_CLIENT" type="text" class="form-control" placeholder="Nombre del Cliente" required>
+                            </div>
+                    </div>              
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input [ngModel]="client.EMAIL" name="EMAIL" type="email" class="form-control" placeholder="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Telefono</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-mobile"></i></div>
+                            <input [ngModel]="client.PHONE" name="PHONE" type="text" class="form-control" placeholder="Telefono Contacto" required >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre Contacto</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-id-badge"></i></div>
+                            <input [ngModel]="client.CONTACT" name="CONTACT" type="text" class="form-control" placeholder="Nombre de Contacto" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="ID_CLIENT == 0">
+                        <label for="exampleInputuname">Dirección:</label>
+                        <div class="input-group">
+                            <textarea [ngModel]="client.ADDRESS" name="ADDRESS" type="text" class="form-control" placeholder="Dirección" required></textarea>
+                        </div>
+                    </div> 
+
+                    <div class="form-group" *ngIf="ID_CLIENT == 0">
+                        <label for="exampleInputuname">Departamento</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idDepartamento" name="idDepartamento" class="form-control" (click)="getProvincias(idDepartamento)" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let departamento of departamentos" value = "{{departamento.ID_DEPARTAMENTO}}">{{departamento.DS_DEPARTAMENTO}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="ID_CLIENT == 0">
+                        <label for="exampleInputuname">Provincia</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idProvincia" name="idProvincia" class="form-control" (click)="getDistritos(idProvincia)" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let provincia of provincias" value = "{{provincia.ID_PROVINCIA}}">{{provincia.DS_PROVINCIA}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="ID_CLIENT == 0">
+                        <label for="exampleInputuname">Distrito</label>
+                        <div class="input-group">
+                            <select [(ngModel)]="idDistrito" name="idDistrito" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let distrito of distritos" value = "{{distrito.ID_DISTRITO}}">{{distrito.DS_DISTRITO}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button *ngIf="ID_CLIENT == 0" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+
+                    <button *ngIf="ID_CLIENT > 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateClient(form.value)">
+                        <i class="fa fa-save"></i>
+                        Modificar
+                    </button>                    
+
+                    <button *ngIf="ID_CLIENT > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteClient(ID_CLIENT)">
+                        <i class="fa fa-trash-o"></i>
+                        Eliminar
+                    </button>
+                </form>            
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="ID_CLIENT > 0" class="row">
+    <div class="col-12">
+        <div class="card" style="overflow: auto">
+            <div class="card-body">
+
+                <div class="text-right">
+                    <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" data-toggle="modal" data-target="#ADDRESSCLIENT" (click)="cancelAddress()">
+                        <i class="fa fa-plus"></i>
+                        Crear Sucursal
+                    </button>                    
+                </div>  
+
+              
+                <h3>Listado de Sucursales (<small>{{addressClients.length}}</small>)</h3>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Departamento</th>
+                            <th>Província</th>
+                            <th>Distrito</th>
+                            <th>Principal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let addressClient of addressClients">
+                            <td>{{addressClient.DS_ADDRESS_CLIENT}}</td>
+                            <td>{{addressClient.ADDRESS}}</td>
+                            <td>{{addressClient.DS_DEPARTAMENTO}}</td>
+                            <td>{{addressClient.DS_PROVINCIA}}</td>
+                            <td>{{addressClient.DS_DISTRITO}}</td>
+
+                            <td>
+                                <div class="checkbox checkbox-primary p-t-0">
+                                    <input (change)="defaultAddressClient(addressClient, addressClient.ID_ADDRESS_CLIENT)" [value]="addressClient.FG_PRINCIPAL" [(ngModel)]="addressClient.FG_PRINCIPAL" id="{{addressClient.ID_ADDRESS_CLIENT}}" type="checkbox">
+                                    <label for="{{addressClient.ID_ADDRESS_CLIENT}}"></label>
+                                </div>
+                            </td>
+                            
+                            <td>
+
+                              
+
+                                <button [routerLink]="(['/addressclient',addressClient.ID_ADDRESS_CLIENT])" type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar">
+                                    <i class="fa fa-pencil"></i>
+                                    
+                                </button>
+                                <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteAddress(addressClient.ID_ADDRESS_CLIENT)">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+               
+
+            </div>
+        </div>
+    </div>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="ADDRESSCLIENT" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Sucursal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>       
+
+        <form ngNativeValidate #formSucursal="ngForm" class="form p-t-20"> 
+
+            <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre</label>
+                        <div class="input-group">                    
+                            <input [ngModel]="addressClient.DS_ADDRESS_CLIENT" name="DS_ADDRESS_CLIENT" type="text" class="form-control" placeholder="Nombre de la sucursal" required>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Dirección:</label>
+                        <div class="input-group">
+                            <textarea [ngModel]="addressClient.ADDRESS" name="ADDRESS" type="text" class="form-control" placeholder="Dirección de la surcursal" required></textarea>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Departamento</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idDepartamento" name="idDepartamento" class="form-control" (click)="getProvincias(idDepartamento)" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let departamento of departamentos" value = "{{departamento.ID_DEPARTAMENTO}}">{{departamento.DS_DEPARTAMENTO}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Provincia</label>
+                        <div class="input-group">                   
+                            <select [(ngModel)]="idProvincia" name="idProvincia" class="form-control" (click)="getDistritos(idProvincia)" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let provincia of provincias" value = "{{provincia.ID_PROVINCIA}}">{{provincia.DS_PROVINCIA}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Distrito</label>
+                        <div class="input-group">
+                            <select [(ngModel)]="idDistrito" name="idDistrito" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let distrito of distritos" value = "{{distrito.ID_DISTRITO}}">{{distrito.DS_DISTRITO}}</option>
+                            </select>
+                        </div>
+                    </div>
+            
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelAddress()">Cancelar</button>
+                <button [disabled]="!formSucursal.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveAddress(formSucursal.value, false)">Guadar</button>
+            </div>
+
+        </form>       
+
+      </div>
+    </div>
+  </div>

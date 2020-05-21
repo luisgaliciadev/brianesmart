@@ -1,0 +1,67 @@
+<div class="row animated fadeInRight">
+
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Información de la Sucursal</h4>
+                <h4>Empresa: {{addressCompany.DS_COMPANY}}</h4>
+                
+                <form ngNativeValidate #formSucursal="ngForm" class="form p-t-20"  (ngSubmit)="updateAddress(formSucursal.value)"> 
+
+                        <div class="form-group">
+                            <label for="exampleInputuname">Nombre</label>
+                            <div class="input-group">                    
+                                <input [ngModel]="addressCompany.DS_ADDRESS_COMPANY" name="DS_ADDRESS_COMPANY" type="text" class="form-control" placeholder="Nombre de la sucursal" required>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label for="exampleInputuname">Dirección:</label>
+                            <div class="input-group">
+                                <textarea [ngModel]="addressCompany.ADDRESS" name="ADDRESS" type="text" class="form-control" placeholder="Dirección de la surcursal" required></textarea>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label for="exampleInputuname">Departamento</label>
+                            <div class="input-group">                   
+                                <select [(ngModel)]="idDepartamento" name="idDepartamento" class="form-control" (click)="getProvincias(idDepartamento)" required>
+                                    <option value = "">Seleccione</option>
+                                    <option *ngFor="let departamento of departamentos" value = "{{departamento.ID_DEPARTAMENTO}}">{{departamento.DS_DEPARTAMENTO}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Provincia</label>
+                            <div class="input-group">                   
+                                <select [(ngModel)]="idProvincia" name="idProvincia" class="form-control" (click)="getDistritos(idProvincia)" required>
+                                    <option value = "">Seleccione</option>
+                                    <option *ngFor="let provincia of provincias" value = "{{provincia.ID_PROVINCIA}}">{{provincia.DS_PROVINCIA}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputuname">Distrito</label>
+                            <div class="input-group">
+                                <select [(ngModel)]="idDistrito" name="idDistrito" class="form-control" required>
+                                    <option value = "">Seleccione</option>
+                                    <option *ngFor="let distrito of distritos" value = "{{distrito.ID_DISTRITO}}">{{distrito.DS_DISTRITO}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Modificar
+                    </button>                    
+
+                    <button type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteAddress()">
+                        <i class="fa fa-trash-o"></i>
+                        Eliminar
+                    </button>
+
+                    
+
+                </form>
+
+            </div>
+    </div>
+</div>

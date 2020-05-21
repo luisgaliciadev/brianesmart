@@ -1,0 +1,124 @@
+<div class="row animated fadeInRight">
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Información del Perfil</h4>
+                <h6 class="card-subtitle">{{user.NAME}}</h6>
+                <form ngNativeValidate #formUser="ngForm" (ngSubmit)="saveUser(formUser.value)" class="form p-t-20">
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre de Usuario</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                            <input [ngModel]="user.NAME" name="NAME" type="text" class="form-control" placeholder="Nombre del Usuario" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-email"></i></div>
+                            <input [disabled]="user.GOOGLE" [ngModel]="user.EMAIL" name="EMAIL" type="email" class="form-control" placeholder="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="ID_USER === 0">
+                        <label for="exampleInputEmail1">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [ngModel]="user.PASSWORD" name="PASSWORD" type="password"  class="form-control" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="ID_USER === 0">
+                        <label for="exampleInputEmail1">Confirmar Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [ngModel]="PASSWORD2" name="PASSWORD2" type="password" class="form-control" placeholder="Confirmar Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="formUser.value.PASSWORD2 != formUser.value.PASSWORD">
+                        <p class="text-danger">
+                            Las contraseñas no son iguales.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Rol</label>
+                        <select [(ngModel)]="user.ID_ROLE" name="ID_ROLE" class="form-control" required>                                       
+                            <option *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Telefono</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-mobile"></i></div>
+                            <input [ngModel]="user.PHONE" name="PHONE" type="text" class="form-control" placeholder="Telefono Contacto">
+                        </div>
+                    </div>
+
+                    <button *ngIf="ID_USER === 0" type="submit" class="btn btn-primary waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+
+                    <button *ngIf="ID_USER > 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateUser(formUser.value)">
+                        <i class="fa fa-save"></i>
+                        Modificar
+                    </button>
+
+                    <button *ngIf="ID_USER > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteUser(ID_USER)">
+                        <i class="fa fa-save"></i>
+                        Eliminar
+                    </button>
+
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4" *ngIf="ID_USER > 0 && !user.GOOGLE">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Restaurar Contraseña</h4>
+                
+                <form ngNativeValidate #formPassword="ngForm" (ngSubmit)="updatePassword(formPassword.value)" class="form p-t-20">
+                    
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [ngModel]="passReset" name="passReset" type="password"  class="form-control" placeholder="Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Confirmar Password</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [ngModel]="passReset2" name="passReset2" type="password" class="form-control" placeholder="Confirmar Password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="formPassword.value.passReset != formPassword.value.passReset2">
+                        <p class="text-danger">
+                            Las contraseñas no son iguales.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>                
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
