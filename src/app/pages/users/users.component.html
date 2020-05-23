@@ -61,7 +61,7 @@
                                 <th>Imagen</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Auntenticacón</th>
+                                <!-- <th>Auntenticacón</th> -->
                                 <th>Rol</th>
                                 <th></th>
                             </tr>
@@ -71,10 +71,10 @@
                                 <td><img [src]="user.IMAGE | image: 'user'" class="img-profile-list"/></td>
                                 <td>{{user.NAME}}</td>
                                 <td>{{user.EMAIL}}</td>
-                                <td>
+                                <!-- <td>
                                     <label *ngIf="user.GOOGLE" class="label label-danger">Google</label>
                                     <label *ngIf="!user.GOOGLE" class="label label-info">Normal</label>
-                                </td>
+                                </td> -->
                                 <td>
                                     <select [(ngModel)]="user.ID_ROLE" name="ID_ROLE" class="form-control" required>                                       
                                         <option disabled = "true" *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
