@@ -37,6 +37,7 @@ import { AddClientComponent } from './add-client/add-client.component';
 import { UpdateAddressClientComponent } from './update-address-client/update-address-client.component';
 import { DashboardOpComponent } from './dashboard-op/dashboard-op.component';
 import { RutaPeajeComponent } from './ruta-peaje/ruta-peaje.component';
+import { DashboardGuiasComponent } from './dashboard-guias/dashboard-guias.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { RutaPeajeComponent } from './ruta-peaje/ruta-peaje.component';
         AddClientComponent,
         UpdateAddressClientComponent,
         DashboardOpComponent,
-        RutaPeajeComponent
+        RutaPeajeComponent,
+        DashboardGuiasComponent
     ],
     exports: [
         // PagesComponent,

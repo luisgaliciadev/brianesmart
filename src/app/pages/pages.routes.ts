@@ -26,6 +26,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { AddClientComponent } from './add-client/add-client.component';
 import { UpdateAddressClientComponent } from './update-address-client/update-address-client.component';
 import { DashboardOpComponent } from './dashboard-op/dashboard-op.component';
+import { DashboardGuiasComponent } from './dashboard-guias/dashboard-guias.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -57,7 +58,8 @@ const pagesRoutes: Routes = [
              { path: 'client/:id', component: AddClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registrar Cliente'}},
              { path: 'addressclient/:id',
              component: UpdateAddressClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal Cliente'}},
-             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Operaciones'}},
+             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
+             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},
 
               // Matenimientos SERVAL
             {path: 'modules', component: ModulesComponent,

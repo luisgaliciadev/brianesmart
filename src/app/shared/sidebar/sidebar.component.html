@@ -31,14 +31,14 @@
                     <a (click)="idModule(menu.ID_MODULE)" *ngIf="!menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" [routerLink]="[menu.URL]" routerLinkActive="active"><i [class]="menu.ICON"></i><span class="hide-menu">{{menu.DS_MODULE}}</span></a>
 
 
-                    <a (click)="idModule(menu.ID_MODULE)" *ngIf="menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="menu.ICON"></i><span class="hide-menu">{{menu.DS_MODULE}} </span></a>
+                    <a (click)="idModule(menu.ID_MODULE)" *ngIf="menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="menu.ICON"></i><span class="hide-menu"> {{menu.DS_MODULE}} </span></a>
 
                     <ul aria-expanded="false" class="collapse">
                         <li *ngFor="let submenu of _sidebar.menu">
                             <a (click)="idModule(submenu.ID_MODULE)" *ngIf="!submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL != ''" [routerLink]="[submenu.URL]" routerLinkActive="active" [class]="submenu.ICON"> {{submenu.DS_MODULE}}</a>
 
                             <!-- <ul aria-expanded="false" class="collapse"> -->
-                            <a (click)="idModule(submenu.ID_MODULE)" *ngIf="submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL === ''" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="submenu.ICON"></i><span class="hide-menu">{{submenu.DS_MODULE}} </span></a>
+                            <a (click)="idModule(submenu.ID_MODULE)" *ngIf="submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL === ''" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="submenu.ICON"></i><span class="hide-menu"> {{submenu.DS_MODULE}} </span></a>
                             <!-- </ul>   -->
 
                             <ul aria-expanded="false" class="collapse">
