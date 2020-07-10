@@ -51,7 +51,7 @@
                         <div class="form-row">
                             <div class="col-4">
                                 <div class="input-group">
-                                    <input [(ngModel)]="idConductor" name="idConductor" type="text" class="form-control" placeholder="Buscar Conductor">                        
+                                    <input [(ngModel)]="idConductor" name="idConductor" type="text" class="form-control" placeholder="Buscar Conductor" required>                        
                                     <div class="input-group-addon"><i class="mdi mdi-account-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar Conductor" (click)="getConductor(idConductor)"></i></div>
                                 </div>
                             </div> 
@@ -65,59 +65,66 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th align="center">Dia</th>
-                                    <th align="center">Turno 23-07</th>
+                                    <th style="text-align: center;">Dia</th>
+                                    <th style="text-align: center;">Turno 23-07</th>
                                     <th></th>
-                                    <th align="center">Turno 07-15</th>
+                                    <th style="text-align: center;">Turno 07-15</th>
                                     <th></th>
-                                    <th align="center">Turno 15-23</th>
+                                    <th style="text-align: center;">Turno 15-23</th>
                                     <th></th>                                
-                                    <th align="center">Monto Total</th>
+                                    <th style="text-align: center;">Monto Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let dias of viaticoDeta; let i = index">
-                                    <td>{{dias.dia}}</td>
-                                    <td  align="center">{{dias.monto1}}</td>
+                                    <td align="center">{{dias.dia}}</td>
+                                    <td align="center">{{dias.monto1}}</td>
                                     <td>
                                         <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="montos(i, dias)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
+                                            <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
                                             <label for="check1-{{i}}"></label>
                                         </div>
                                     </td>
-                                    <td  align="center">{{dias.monto2}}</td>                                
+                                    <td align="center">{{dias.monto2}}</td>                                
                                     <td>
                                         <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="montos(i, dias)" [value]="dias.check2" [(ngModel)]="dias.check2" name="check2-{{i}}" id="check2-{{i}}" type="checkbox">
+                                            <input (change)="getVerificarViatico(i, dias, 2)" [value]="dias.check2" [(ngModel)]="dias.check2" name="check2-{{i}}" id="check2-{{i}}" type="checkbox">
                                             <label for="check2-{{i}}"></label>
                                         </div>
                                     </td>
-                                    <td  align="center">{{dias.monto3}}</td>
+                                    <td align="center">{{dias.monto3}}</td>
                                     <td>
                                         <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="montos(i, dias)" [value]="dias.check3" [(ngModel)]="dias.check3" name="check3-{{i}}" id="check3-{{i}}" type="checkbox">
+                                            <input (change)="getVerificarViatico(i, dias, 3)" [value]="dias.check3" [(ngModel)]="dias.check3" name="check3-{{i}}" id="check3-{{i}}" type="checkbox">
                                             <label for="check3-{{i}}"></label>
                                         </div>
                                     </td>
-                                    <td  align="center">{{dias.montoTotal}}</td>
+                                    <td align="center">{{dias.montoTotal}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="col-12" *ngIf="viatico.ID_ZONA > 1 && nombreConductor">                        
+                    <div class="col-12" *ngIf="idZona > 1 && nombreConductor">                        
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Dia</th>
-                                    <th>Monto</th>
+                                    <th style="text-align: center;">Dia</th>
+                                    <th style="text-align: center;">Monto</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let dias of viaticoDeta">
-                                    <td>{{dias.dia}}</td>
+                                <tr *ngFor="let dias of viaticoDeta; let i = index">
+                                    <td align="center">{{dias.dia}}</td>
+                                    <td align="center">{{dias.monto1}}</td>
                                     <td>
+                                        <div class="checkbox checkbox-primary p-t-0">
+                                            <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
+                                            <label for="check1-{{i}}"></label>
+                                        </div>
                                     </td>
+
                                 </tr>
                             </tbody>
                         </table>

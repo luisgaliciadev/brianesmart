@@ -468,7 +468,6 @@ getConductor(idConductor) {
 }
 // End Get zonas conductor
 
-
 // Get datos semana
 getDatoSemana(dia) {
   return this._http.get(this.URL + '/conductor/datosemana/' + dia)
@@ -519,8 +518,28 @@ registerViatico(visticos) {
 }
 // End Register Client
 
-
-
+// Get verificar viatico
+getVerificarViatico(idConductor, dia) {
+  var fhDia = dia
+  var arrayFhDia = fhDia.split("/");
+  fhDia = arrayFhDia[2] + '-' + arrayFhDia[1] + '-' + arrayFhDia[0];
+  return this._http.get(this.URL + '/conductor/verificarviatico/' + idConductor + '/' + fhDia)
+  .pipe(map((res: any) => {
+    console.log(res);
+    if (res.idViatico > 0) {
+      Swal.fire('Mensaje', 'Este registro de viatico ya existe.', 'warning');
+      return false;
+    } else {
+      return true;
+    }
+    
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar el conductor.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get verificar viatico
 
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////

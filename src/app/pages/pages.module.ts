@@ -48,6 +48,7 @@ import { MygeotabComponent } from './mygeotab/mygeotab.component';
 import { GraphicsBarchartComponent } from '../components/graphics-barchart/graphics-barchart.component';
 import { ViaticosCondComponent } from './viaticos-cond/viaticos-cond.component';
 import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpitracto.component';
+import { ViaticosComponent } from './viaticos/viaticos.component';
 
 @NgModule({
     declarations: [
@@ -81,7 +82,8 @@ import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpi
         MygeotabComponent,
         GraphicsBarchartComponent,
         ViaticosCondComponent,
-        DashboardKpitractoComponent
+        DashboardKpitractoComponent,
+        ViaticosComponent
     ],
     exports: [
         // PagesComponent,

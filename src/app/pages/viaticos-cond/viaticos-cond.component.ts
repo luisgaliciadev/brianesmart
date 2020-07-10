@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import { Viatico } from 'src/app/models/viatico.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-viaticos-cond',
@@ -10,26 +11,23 @@ import { Viatico } from 'src/app/models/viatico.model';
   ]
 })
 export class ViaticosCondComponent implements OnInit {
-  idZona: number;
+  idZona = 0 ;
   zonasConductor: any[] = [];
-  viatico: Viatico;
-  nombreConductor: string;
-  idConductor: string;
-  dniConductor: string;
-  viaticoDeta;
+  viatico: Viatico = new Viatico(0,'',0,'','','',0,0,0,0,0);;
+  nombreConductor = '';
+  idConductor = '';
+  dniConductor = '';
+  viaticoDeta = [];
   diasSemana = [];
-  fhDesde: string;
-  fhHasta: string;
-  nroSemana: number;
+  fhDesde = '';
+  fhHasta = '';
+  nroSemana = 0;
 
   constructor(
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService
-  ) { 
-    this.viatico = new Viatico(0,'',0,'','','',0,0,0,0,0);
-    this.viaticoDeta = [];
-  }
+  ) { }
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
@@ -40,7 +38,6 @@ export class ViaticosCondComponent implements OnInit {
     this._registerService.getZonaConductor().subscribe(
       (response: any) => {        
         this.zonasConductor = response.zonasConductor
-        // console.log( this.zonasConductor);
       }
     );
   }
@@ -57,7 +54,6 @@ export class ViaticosCondComponent implements OnInit {
             this.idConductor = '';
             this.nombreConductor = '';
           }
-          
         }
       );
     }
@@ -65,15 +61,19 @@ export class ViaticosCondComponent implements OnInit {
   }
 
   getDatoSemana(dia) {
+    this.idZona = 0;
+    this.nombreConductor = '';
+    this.idConductor = '';
+    this.dniConductor = '';
     this._registerService.getDatoSemana(dia).subscribe(
       (response: any) => {
-        // console.log(response.datosSemana);
         if (response) {
           this.fhHasta = response.datosSemana.FH_FIN;
           this.nroSemana = response.datosSemana.NRO_SEMANA;       
           this._registerService.getDiasSemana(dia, this.fhHasta).subscribe(
             (response: any) => {
               this.diasSemana = response.diasSemana;
+              console.log(this.diasSemana);
             }
           );
         }
@@ -99,7 +99,6 @@ export class ViaticosCondComponent implements OnInit {
                 check3: false
               });
             });
-          
             this.viaticoDeta = viaticos;
             console.log(this.viaticoDeta);
           }
@@ -108,15 +107,41 @@ export class ViaticosCondComponent implements OnInit {
     } else {
       return;
     }
-
   }
 
+  getVerificarViatico(i, data, check) {
+    var dia = data.dia;
+    this._registerService.getVerificarViatico(this.dniConductor, dia).subscribe(
+      (response: any) => {
+        if (response) {
+          this.montos(i, data);
+        } else {
+          console.log('Existe');
+          if (check === 1) {
+            this.viaticoDeta[i].check1 = false;
+          }
+
+          if (check === 2) {
+            this.viaticoDeta[i].check2 = false;
+          }
+
+          if (check === 3) {
+            this.viaticoDeta[i].check3 = false;
+          }
+          
+        }
+      }
+    );
+  }
+ 
   registerViatico(data) {
+    if (this.dniConductor === '') {
+      Swal.fire('Mensaje', 'Debe seleccionar un conductor.', 'warning');
+      return;
+    }
     let viaticos = [];
     let dni = this.dniConductor;
-    
     this.viaticoDeta.forEach(function (viatico) {  
-
       let monto1 = 0;
       let monto2 = 0;
       let monto3 = 0;
@@ -133,19 +158,6 @@ export class ViaticosCondComponent implements OnInit {
         monto3 = viatico.monto3;
       }
       
-      // viaticos = {
-      //   ID_ZONA: data.idZona,
-      //   ID_CONDUCTOR: dni,
-      //   FH_DESDE: data.fhDesde,
-      //   FH_HASTA: data.fhHasta,
-      //   NRO_SEMANA: data.nroSemana,
-      //   FH_DIA: viatico.dia,
-      //   MONTO1: monto1,
-      //   MONTO2: monto2,
-      //   MONTO3: monto3,
-      //   MONTO_TOTAL: viatico.montoTotal
-      // }
-
       viaticos.push({
         ID_ZONA: data.idZona,
         ID_CONDUCTOR: dni,
@@ -161,14 +173,25 @@ export class ViaticosCondComponent implements OnInit {
 
     });
 
-    console.log('viaticos:', viaticos);
+    var montoTotal = 0
+    viaticos.forEach(function (viatico) {
+      montoTotal = montoTotal + viatico.MONTO_TOTAL
+    });
 
+    console.log(montoTotal);
+    if (montoTotal === 0) {
+      Swal.fire('Mensaje', 'Debe ingresar al menos un registro.', 'warning');
+      return;
+    }
+    
     this._registerService.registerViatico(viaticos).subscribe(
       (response:any) => {
         console.log(response);
+        if (response) {
+          this.limpiar();
+        }
       }
     );
-    
   }
 
   montos(i,data) {
@@ -189,10 +212,9 @@ export class ViaticosCondComponent implements OnInit {
   limpiar() {
     this.dniConductor = '';
     this.nombreConductor = '';
-    // this.viatico = new Viatico(0,'',0,'','','',0,0,0,0,0);
-    // this.idZona = 0;
-    this.diasSemana = [];
+    this.idConductor = '';
     this.viaticoDeta = []
+    this.getTarifasViatico(this.idZona)
   }
 
 }
