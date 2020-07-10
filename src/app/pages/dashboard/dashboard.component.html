@@ -1,12 +1,34 @@
-<div class="row animated fadeInRight" style="overflow: auto">
+<div class="row animated fadeInRight">
     <div class="col-12">
         <div class="card">
-            <iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMjk0MTBlZGYtNjIxZi00ZWVkLWFhNDgtNDZiYTNhYjU4NDUzIiwidCI6IjhjYzJjZGExLWVkNzQtNDc3YS04YWU5LTQyNWNmYjg1ZjE4MSJ9" frameborder="0" allowFullScreen="true">
-            </iframe>
+            <div class="card-body">         
+                <table class="table table-hover">
+                    <tbody>
+                        <tr *ngFor="let menu of _sidebar.menu">
+                            <td *ngIf="!menu.FG_SUB_MENU && menu.ID_MODULE_MAIN === 1" [routerLink]="[menu.URL]">
+                                <div>
+                                    <a [routerLink]="[menu.URL]">
+                                        <button style="width: 85px;" type="button" class="btn btn-w-m btn-info"><i [class]="menu.ICON + ' fa-3x'"></i></button>
+                                        <span style="color: gray;"> {{menu.DS_MODULE}}</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                    <!-- <tr *ngFor="let menu of _sidebar.menu">                
+                    <td *ngFor="let submenu of _sidebar.menu">
+                        <tr *ngFor="let submenu_sec of _sidebar.menu">
+                            <a *ngIf="!submenu_sec.FG_SUB_MENU && submenu_sec.ID_TYPE_MENU === 3 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu_sec.ID_MODULE_SEC === submenu.ID_MODULE && submenu_sec.URL != ''" [routerLink]="[submenu_sec.URL]"
+                                routerLinkActive="active" [class]="submenu_sec.ICON"> {{submenu_sec.DS_MODULE}}</a>
+                        </tr>
+                    </td>
+                </tr> -->
+            </div>
         </div>
     </div>
 </div>
-
 <!-- 
 <div class="row animated fadeInRight">
     <div class="col-6">

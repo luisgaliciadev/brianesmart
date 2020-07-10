@@ -12,9 +12,9 @@ import { RenewTokenGuard } from '../services/guards/renew-token.guard';
 import { UserGuard } from '../services/guards/user.guard';
 
 // Components SERVAL
-import { CompanysComponent } from './companys/companys.component';
-import { AddcompanyComponent } from './addcompany/addcompany.component';
-import { UpdateAddressComponent } from './update-address/update-address.component';
+// import { CompanysComponent } from './companys/companys.component';
+// import { AddcompanyComponent } from './addcompany/addcompany.component';
+// import { UpdateAddressComponent } from './update-address/update-address.component';
 import { ModulesComponent } from './modules/modules.component';
 import { UpdateModuleComponent } from './update-module/update-module.component';
 import { RolesUserComponent } from './roles-user/roles-user.component';
@@ -22,11 +22,20 @@ import { UsersComponent } from './users/users.component';
 import { AddUsersComponent } from './add-users/add-users.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { HomeComponent } from './home/home.component';
-import { ClientsComponent } from './clients/clients.component';
-import { AddClientComponent } from './add-client/add-client.component';
-import { UpdateAddressClientComponent } from './update-address-client/update-address-client.component';
+// import { ClientsComponent } from './clients/clients.component';
+// import { AddClientComponent } from './add-client/add-client.component';
+// import { UpdateAddressClientComponent } from './update-address-client/update-address-client.component';
 import { DashboardOpComponent } from './dashboard-op/dashboard-op.component';
 import { DashboardGuiasComponent } from './dashboard-guias/dashboard-guias.component';
+import { DenunciasComponent } from './denuncias/denuncias.component';
+import { VerdenunciaComponent } from './verdenuncia/verdenuncia.component';
+import { RepDenunciaComponent } from './rep-denuncia/rep-denuncia.component';
+import { DashboarditTicketComponent } from './dashboardit-ticket/dashboardit-ticket.component';
+import { DashboarditInvComponent } from './dashboardit-inv/dashboardit-inv.component';
+import { DashboardMygeotabComponent } from './dashboard-mygeotab/dashboard-mygeotab.component';
+import { MygeotabComponent } from './mygeotab/mygeotab.component';
+import { ViaticosCondComponent } from './viaticos-cond/viaticos-cond.component';
+import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpitracto.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -34,52 +43,41 @@ const pagesRoutes: Routes = [
         // component: PagesComponent,
         // canActivate: [LoginGuardGuard],
         // children: [
-            {
-                path: 'home',
-                component: HomeComponent,
-                canActivate: [RenewTokenGuard],
-                data: {titulo: 'Inicio'}
-            },
-            {
-                path: 'dashboard',
-                component: DashboardComponent,
-                canActivate: [RenewTokenGuard, AdminGuard, UserGuard],
-                data: {titulo: 'Dashboard'}
-            },
+            
+            // Pages
             { path: 'account-settigns', component: AccountSettingsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Ajustes'}},
             { path: 'profile', component: ProfileComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Perfil de Usuario'}},
             { path: 'search/:termino', component: SearchComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Buscador'}},
+            // { path: 'companys', component: CompanysComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Empresas'}},
+            // { path: 'company/:id', component: AddcompanyComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Empresa'}},
+            // { path: 'address/:id', component: UpdateAddressComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal'}},
+            // { path: 'clients', component: ClientsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Clientes'}},
+            // { path: 'client/:id', component: AddClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registrar Cliente'}},
+            // { path: 'addressclient/:id',
+            // component: UpdateAddressClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal Cliente'}},
+            {path: 'home', component: HomeComponent, canActivate: [RenewTokenGuard, UserGuard], data: {titulo: 'Inicio'}},
+            {path: 'dashboard', component: DashboardComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard'}},
+            {path: 'denuncias', component: DenunciasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncias'}},
+            {path: 'denuncia/:id', component: VerdenunciaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncia'}},
+            // {path: 'repdenuncia/:id', component: RepDenunciaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncia'}},
+            {path: 'viatico', component: ViaticosCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Viaticos'}},
+           
+            // Dashboard
+            {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
+            {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},
+            {path: 'dashboardit-tickets', component: DashboarditTicketComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Sistema de Tickets TI'}},             
+            {path: 'dashboardit-inv', component: DashboarditInvComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Inventario TI'}},     
+            {path: 'dashboardgeotab', component: DashboardMygeotabComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard MyGeotab Totales'}},     
+            {path: 'dashboardgeotab-2', component: MygeotabComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard MyGeotab Por Fechas'}},     
+            {path: 'dashboardkpioptracto', component: DashboardKpitractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Desempeño por Tracto'}},     
 
-             // SERVAL
-             { path: 'companys', component: CompanysComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Empresas'}},
-             { path: 'company/:id', component: AddcompanyComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Empresa'}},
-             { path: 'address/:id', component: UpdateAddressComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal'}},
-             { path: 'clients', component: ClientsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Clientes'}},
-             { path: 'client/:id', component: AddClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registrar Cliente'}},
-             { path: 'addressclient/:id',
-             component: UpdateAddressClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal Cliente'}},
-             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
-             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},
-
-              // Matenimientos SERVAL
-            {path: 'modules', component: ModulesComponent,
-            canActivate: [AdminGuard, RenewTokenGuard, UserGuard],
-            data: {titulo: 'Administración de Modulos'}},
-            {path: 'module/:id', component: UpdateModuleComponent,
-            canActivate: [AdminGuard, RenewTokenGuard],
-            data: {titulo: 'Modificar de Modulo'}},
-            {path: 'roles', component: RolesUserComponent,
-            canActivate: [AdminGuard, RenewTokenGuard],
-            data: {titulo: 'Roles de Usuario'}},
-            {path: 'users', component: UsersComponent,
-            canActivate: [AdminGuard, RenewTokenGuard],
-            data: {titulo: 'Administración de Usuario'}},
-            {path: 'user/:id', component: AddUsersComponent,
-            canActivate: [AdminGuard, RenewTokenGuard],
-            data: {titulo: 'Administración de Usuario'}},
-            {path: 'permissions', component: PermissionsComponent,
-            canActivate: [AdminGuard, RenewTokenGuard],
-            data: {titulo: 'Permisología'}},
+            // Modulos Matenimientos sistema
+            {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},
+            {path: 'module/:id', component: UpdateModuleComponent, canActivate: [AdminGuard, RenewTokenGuard], data: {titulo: 'Modificar de Modulo'}},
+            {path: 'roles', component: RolesUserComponent, canActivate: [AdminGuard, RenewTokenGuard], data: {titulo: 'Roles de Usuario'}},
+            {path: 'users', component: UsersComponent, canActivate: [AdminGuard, RenewTokenGuard],data: {titulo: 'Administración de Usuario'}},
+            {path: 'user/:id', component: AddUsersComponent, canActivate: [AdminGuard, RenewTokenGuard], data: {titulo: 'Administración de Usuario'}},
+            {path: 'permissions', component: PermissionsComponent, canActivate: [AdminGuard, RenewTokenGuard], data: {titulo: 'Permisología'}},
 
             // Predeterminado
             { path: '', redirectTo: '/home', pathMatch: 'full'},

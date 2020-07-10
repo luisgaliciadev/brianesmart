@@ -1,0 +1,172 @@
+
+<div style="background-color: red; height: 70px; width: 100%; margin-left: 10px;">
+    <img style="margin-top: 10px; margin-left: 15px;" src="assets/images/logo01.png" />
+</div>
+<div class="row animated fadeInRight">    
+    <div class="col-7">       
+        <div class="card">
+            <div class="card-body">                     
+                <div class="jumbotron jumbotron-fluid" style="margin-left: 10px;">
+                    <div class="container">
+                        <h1>Datos de denuncia</h1>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- (ngSubmit)="guardarDenuncia(form.value)" -->
+                                <form ngNativeValidate #form="ngForm" class="form p-t-20" (ngSubmit)="guardarDenuncia(form.value)">  
+                                    
+                                    <div>
+                                        <label style="color:orangered; font-size: 30px;">*</label> <label>¿Es usted empleado de BRIANE?</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input  type="radio" id="empleadoSi" name="empleadoSi" class="custom-control-input" (click)="fnEmpleado(true)" required>
+                                        <label class="custom-control-label" for="empleadoSi">Si</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="empleadoNo" name="empleadoSi" class="custom-control-input" (click)="fnEmpleado(false)">
+                                        <label class="custom-control-label" for="empleadoNo">No</label>
+                                    </div>
+
+                                    <div>
+                                        <label style="color:orangered; font-size: 30px;">*</label> <label>¿Desea permanecer en el ANONIMATO para esta denuncia?</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="anonimatoSi" name="anonimatoSi" class="custom-control-input" (click)="fnAnonimato(true)" required>
+                                        <label class="custom-control-label" for="anonimatoSi">Si</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="anonimatoNo" name="anonimatoSi" class="custom-control-input" (click)="fnAnonimato(false)">
+                                        <label class="custom-control-label" for="anonimatoNo">No</label>
+                                    </div>
+
+
+                                    <div *ngIf="!anonimato">
+                                        <label style="color:orangered; font-size: 30px;">*</label><label>Si desea que BRIANE conozca su identidad, complete la siguiente información:</label>
+                                          
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">                                              
+                                                    <label>Nombres:</label>
+                                                    <div class="input-group">                                            
+                                                        <input [ngModel]="denuncia.NOMBRES" name="nombres" type="text" class="form-control" placeholder="Nombres" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm">
+                                                <div class="form-group">                                              
+                                                    <label>Apellidos:</label>
+                                                    <div class="input-group">                                            
+                                                        <input [ngModel]="denuncia.APELLIDOS" name="apellidos" type="text" class="form-control" placeholder="Apellidos" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Teléfono:</label>
+                                                    <div class="input-group">                                            
+                                                        <input [ngModel]="denuncia.TELEFONO" name="telefono" type="text" class="form-control" placeholder="Teléfono" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm">
+                                                <div class="form-group">
+                                                    <label>Correo:</label>
+                                                    <div class="input-group">                                            
+                                                        <input [ngModel]="denuncia.CORREO" name="correo" type="email" class="form-control" placeholder="Correo" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                              
+
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label>La mejor hora para comunicarse con usted:</label>
+                                                <div class="input-group">                                            
+                                                    <textarea class="form-control" [ngModel]="denuncia.HORA_CONTACTO" name="horaContacto" rows="2" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="form-group">
+                                        <label style="color:orangered; font-size: 30px;">*</label><label>Identifique a las personas involucradas en esta denuncia:</label>
+                                        <div class="input-group">                                            
+                                            <textarea class="form-control" [ngModel]="denuncia.PERSONAS_INVOLUCRADAS" name="personasInvolucradas" rows="6" required></textarea>
+                                        </div>
+                                    </div> 
+                                   
+    
+                                    
+                                    
+                                    <div class="form-group">
+                                        <label>¿Cuál es la naturaleza general de este asunto?</label>
+                                        <div class="input-group">                                            
+                                            <input [ngModel]="denuncia.TITULO" name="titulo" type="text" class="form-control" placeholder="Asunto" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Indique todos los detalles relacionados con la presunta infracción, inclusive las ubicaciones de los testigos y cualquier otra información que pueda ser valiosa en la evaluación y resolución final de esta situación:</label>
+                                        <div class="input-group">                                            
+                                            <textarea class="form-control" [ngModel]="denuncia.DESCRIPCION" name="descripcion" rows="6" required></textarea>
+                                        </div>
+                                    </div>                                    
+                                    
+                                    <label style="font-weight: bold;">Si dispone algun documento que asista a su informe, puede cargar los tipos de archivos más comunes:</label>
+                                    <div class="form-group">                                  
+                                        <input type="file" (change)="selectImage($event.target.files[0])">                                                                           
+                                        <input type="file" (change)="selectImage2($event.target.files[0])">                                       
+                                        <input type="file" (change)="selectImage3($event.target.files[0])">                                        
+                                    </div>
+                                    <!-- <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="changeImage()" [disabled]="!imageUpload">
+                                        <i class="fa fa-save"></i>
+                                        Subir Imagen
+                                    </button>  -->
+                                    
+                                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                                        <i class="fa fa-envelope-o"></i>
+                                        Enviar
+                                    </button> 
+                                </form>            
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card">
+            <div class="card-body">                     
+                <div class="jumbotron jumbotron-fluid" style="margin-left: 15px;">
+                    <div class="container">
+                        <h1>Denuncia</h1>
+                        <p style="text-align: justify;">
+                            Para presentar tu denuncia sobre presuntos actos de corrupción cometidos por el personal de la empresa, deberás indicar el lugar en donde se habría realizado el presunto acto de corrupción, adjuntando la documentación probatoria.
+                        </p>
+
+                        <p style="text-align: justify;">
+                            Puedes realizar tu denuncia en forma anónima, para lo cual la unidad encargada de tramitar tu denuncia garantizará la reserva de tu identidad. Las personas protegidas podrán cooperar en las diligencias sin que ello ponga en riesgo su identidad, a fin de reafirmar la veracidad de los términos de denuncia en cualquier estado del procedimiento.
+                        </p>                        
+                    </div>        
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+
+
+
+
+
+
+
+    

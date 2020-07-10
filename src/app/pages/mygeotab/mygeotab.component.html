@@ -1,0 +1,155 @@
+<div class="row animated fadeInRight" style="overflow: auto">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- <div class="form-group">
+                    <div class="btn-toolbar">
+                        <div class="btn-group btn-group-xs" *ngFor="let mes of meses">
+                            <button type="button" class="btn btn btn-sm waves-effect waves-light m-r-5" (click)="getOdometer(desde,hasta)">
+                                {{mes.mes}}                   
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 5px;" class="btn-toolbar">
+                        <div class="btn-group btn-group-xs" *ngFor="let i of [1...31]">
+                            <button type="button" class="btn btn btn-sm waves-effect waves-light m-r-5" (click)="getOdometer(desde,hasta)">
+                                {{i}                   
+                            </button>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- <div class="card">
+                    <div class="card-body">      
+                        <h4 class="card-title">prueba</h4>              
+                        <app-graphics-barchart
+                            [Data] = "barChartData"
+                            [Labels] = "barChartLabels"
+                            [Options] = "barChartOptions"
+                            [Plugins] = "barChartPlugins"
+                            [Legend] = "barChartLegend"
+                            [Type] = "barChartType"
+                            [Leyenda] = "'prueba'">
+                        </app-graphics-barchart>
+                    </div>
+                </div> -->
+
+
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label>Desde:</label>
+                            <div class="input-group">                                            
+                                <input [(ngModel)]="desde" name="desde" type="date" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label>Hasta:</label>
+                            <div class="input-group">                                            
+                                <input [(ngModel)]="hasta" name="hasta" type="date" class="form-control" required>
+                                
+                                <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getOdometer(desde,hasta)">
+                                    <i class="fa fa-search"></i>
+                                    Consultar
+                                </button>
+                            </div>
+                        </div>
+                    </div>                       
+                </div> 
+            </div>
+
+
+            <div class="row" *ngIf="loading">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning text-center">
+                        <strong>Cargando...</strong>
+                        <br>
+                        <i class="fa fa-refresh fa-spin fa-2x"></i>
+                        <br>
+                        <span>Por Favor Espere...</span>
+                    </div>
+                </div>    
+            </div>
+    
+            <div *ngIf ="!loading">
+
+                <!-- <div class="card">
+                    <div class="card-body">      
+                        <h4 class="card-title"> {{odometer.leyenda}}</h4>              
+                        <app-graphics-barchart
+                            [Data] = "odometer.Data"
+                            [Labels] = "odometer.labels"
+                            [Options] = "odometer.options"
+                            [Plugins] = "odometer.plugins"
+                            [Legend] = "odometer.legends"
+                            [Type] = "odometer.type"
+                            [Leyenda] = "odometer.leyenda">
+                        </app-graphics-barchart>
+                    </div>
+                </div> -->
+
+                <!-- <div class="card">
+                    <div class="card-body">         
+                        <h4 class="card-title"> {{fuelConsume.leyenda}}</h4>              
+                        <app-graphics-barchart
+                            [Data] = "fuelConsume.Data"
+                            [Labels] = "fuelConsume.labels"
+                            [Options] = "fuelConsume.options"
+                            [Plugins] = "fuelConsume.plugins"
+                            [Legend] = "fuelConsume.legends"
+                            [Type] = "fuelConsume.type"
+                            [Leyenda] = "fuelConsume.leyenda">
+                        </app-graphics-barchart>
+                    </div>
+                </div> -->
+
+                <!-- <div class="card">
+                    <div class="card-body">         
+                        <h4 class="card-title"> {{horasMotor.leyenda}}</h4>              
+                        <app-graphics-barchart
+                            [Data] = "horasMotor.Data"
+                            [Labels] = "horasMotor.labels"
+                            [Options] = "horasMotor.options"
+                            [Plugins] = "horasMotor.plugins"
+                            [Legend] = "horasMotor.legends"
+                            [Type] = "horasMotor.type"
+                            [Leyenda] = "horasMotor.leyenda">
+                        </app-graphics-barchart>
+                    </div>
+                </div> -->
+
+               
+                <div class="card">
+                    <div class="card-body">         
+                        <h4 class="card-title"> {{dataGrafico.leyenda}}</h4>              
+                        <app-graphics-barchart
+                            [Data] = "dataGrafico.Data"
+                            [Labels] = "dataGrafico.labels"
+                            [Options] = "dataGrafico.options"
+                            [Plugins] = "dataGrafico.plugins"
+                            [Legend] = "dataGrafico.legends"
+                            [Type] = "dataGrafico.type"
+                            [Leyenda] = "dataGrafico.leyenda">
+                        </app-graphics-barchart>
+                    </div>
+                </div>
+              
+                
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

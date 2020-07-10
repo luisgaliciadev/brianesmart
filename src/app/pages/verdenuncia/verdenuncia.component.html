@@ -1,0 +1,170 @@
+
+
+<div class="row animated fadeInRight">    
+    <div class="col-12">     
+        <div class="card">
+            <h2 class="card-title">Datos de Denuncia</h2>
+            <div class="card-body">                                            
+                <form ngNativeValidate #form="ngForm" (ngSubmit)="imprimir()" class="form p-t-20">
+
+                    <div class="form-group">
+                        <label>Personas involucradas en esta denuncia:</label>
+                        <div class="input-group">                                            
+                            <textarea class="form-control" [ngModel]="denuncia.PERSONAS_INVOLUCRADAS" name="personas_involucradas" rows="6" readonly></textarea>
+                        </div>
+                    </div>               
+
+                    <div class="form-group">
+                        <label>Asunto:</label>
+                        <div class="input-group">                                            
+                            <input [ngModel]="denuncia.TITULO" name="titulo" type="text" class="form-control" placeholder="Asunto" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Detalles relacionados con la presunta infracción:</label>
+                        <div class="input-group">                                            
+                            <textarea class="form-control" [ngModel]="denuncia.DESCRIPCION" name="descripcion" rows="6" readonly></textarea>
+                        </div>
+                    </div>
+
+                    <div *ngIf="denuncia.ARCHIVO1 || denuncia.ARCHIVO2 || denuncia.ARCHIVO3"  class="form-group">
+                        
+                        <label>Documentos relacionados con la presunta infracción:</label>
+                        <div class="col-5">
+                            <table class="table table-hover" >
+                                <thead>
+                                    <tr>
+                                        <th>Documentos:</th>                                                                                               
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="denuncia.ARCHIVO1">   
+                                        <td>1.- {{denuncia.ARCHIVO1}}</td>                                               
+                                        <td><button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Descargar" (click)="descargar(denuncia.ARCHIVO1)">
+                                            <i class="fa fa-download"></i>                                        
+                                        </button></td>
+                                    </tr>
+                                    <tr *ngIf="denuncia.ARCHIVO2">   
+                                        <td>2.- {{denuncia.ARCHIVO2}}</td>                                               
+                                        <td><button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Descargar" (click)="descargar(denuncia.ARCHIVO2)">
+                                            <i class="fa fa-download"></i>                                        
+                                        </button></td>
+                                    </tr>
+                                    <tr *ngIf="denuncia.ARCHIVO3">   
+                                        <td>3.- {{denuncia.ARCHIVO3}}</td>                                               
+                                        <td><button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Descargar" (click)="descargar(denuncia.ARCHIVO3)">
+                                            <i class="fa fa-download"></i>                                        
+                                        </button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>                
+                    </div>
+
+
+
+                    <hr/>
+
+                    <h4>Datos del denunciante:</h4>
+
+                    <div>
+                        <label>¿Es empleado de BRIANE?</label>
+                    </div>
+                    
+                    <div class="form-group" *ngIf="empleado">
+                        <p>Si</p>
+                    </div>
+                    
+                    <div class="form-group" *ngIf="!empleado">
+                        <p>No</p>
+                    </div>                  
+
+                    <div>
+                        <label>¿La persona permanecio en el anonimato?</label>
+                    </div>
+
+                    <div class="form-group" *ngIf="anonimato">
+                        <p>Si</p>
+                    </div>
+                    
+                    <div class="form-group" *ngIf="!anonimato">
+                        <p>No</p>
+                    </div>
+
+                    <br/>
+
+                    <div *ngIf="!anonimato">
+                        <label>Datos personales:</label>
+                          
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">                                              
+                                    <label>Nombres:</label>
+                                    <div class="input-group">                                            
+                                        <input [ngModel]="denuncia.NOMBRES" name="nombres" type="text" class="form-control" placeholder="Nombres" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <div class="form-group">                                              
+                                    <label>Apellidos:</label>
+                                    <div class="input-group">                                            
+                                        <input [ngModel]="denuncia.APELLIDOS" name="apellidos" type="text" class="form-control" placeholder="Apellidos" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Teléfono:</label>
+                                    <div class="input-group">                                            
+                                        <input [ngModel]="denuncia.TELEFONO" name="telefono" type="text" class="form-control" placeholder="Teléfono" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label>Correo:</label>
+                                    <div class="input-group">                                            
+                                        <input [ngModel]="denuncia.CORREO" name="correo" type="email" class="form-control" placeholder="Correo" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                              
+
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Mejor hora para comunicarse con el denunciante:</label>
+                                <div class="input-group">                                            
+                                    <textarea class="form-control" [ngModel]="denuncia.HORA_CONTACTO" name="horaContacto" rows="2" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                             
+                    <!-- <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="mdi mdi-printer"></i>
+                        Imprimir
+                    </button>    -->
+                    
+                    <button class="btn btn-success waves-effect waves-light m-r-10" (click)="volver()">
+                        Volver
+                    </button>   
+                </form>            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+    

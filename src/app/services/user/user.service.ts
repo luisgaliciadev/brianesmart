@@ -25,7 +25,7 @@ export class UserService {
   public menus: any = [];
   public idRole: number;
   public modules: any = [];
-  public ID_MODULE = 0;
+  public ID_MODULE = '';
   public report;
 
   constructor(
@@ -55,15 +55,14 @@ export class UserService {
     localStorage.setItem('report', this.report.toString());
   }
 
-  idModule(ID_MODULE: number) {
+  idModule(ID_MODULE) {
     this.ID_MODULE = ID_MODULE;
-    localStorage.setItem('idModule', this.ID_MODULE.toString());
+    localStorage.setItem('idModule', this.ID_MODULE);
   }
 
   loadIdmodule() {
     if (localStorage.getItem('token')) {
-      // tslint:disable-next-line: radix
-      this.ID_MODULE = parseInt(localStorage.getItem('idModule'));
+      this.ID_MODULE = (localStorage.getItem('idModule'));
     }
   }
 
@@ -85,6 +84,18 @@ export class UserService {
                }));
   }
   // Fin de Renovar token
+
+  
+  //Permiso a modulo
+  permisoModule(url){    
+    let menu = localStorage.getItem('menu');
+    // console.log('nomenu', menu.indexOf(url));
+    if (menu.indexOf(url) < 0 && this.user.ID_ROLE != 1) {
+      Swal.fire('Mensaje', 'No tiene permiso para ingresar a este modulo.', 'warning');
+      this._router.navigate(['/home']);
+    } 
+  }
+  // Fin Permiso a modulo
 
   // FIN DE OTROS METODOS
   //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,6 +292,7 @@ export class UserService {
 
   // Login Normal
   login(user: User, remenberme: boolean = false) {
+    // console.log(user);
    if (remenberme) {
      localStorage.setItem('email', user.EMAIL);
    } else {
@@ -378,7 +390,7 @@ export class UserService {
 
   // Cargar los datos del localStorage
   loadStorage() {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('token') && localStorage.getItem('menu')) {
       this.token = localStorage.getItem('token');
       this.user = JSON.parse(localStorage.getItem('user'));
       this.menu = JSON.parse(localStorage.getItem('menu'));
@@ -387,11 +399,12 @@ export class UserService {
       // tslint:disable-next-line: radix
       this.report = parseInt(localStorage.getItem('report'));
     } else {
-     this.token = '';
-     this.user = null;
-     this.menu = [];
-     this.idRole = 0;
-     this.report = 0;
+    //  this.token = '';
+    //  this.user = null;
+    //  this.menu = [];
+    //  this.idRole = 0;
+    //  this.report = 0;
+     this.logout()
     }
   }
   // Fin Cargar los datos del localStorage

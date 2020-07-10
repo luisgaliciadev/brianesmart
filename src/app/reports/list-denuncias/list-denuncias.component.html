@@ -1,0 +1,30 @@
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+</div>
+
+
+<div style="margin-left: 20px; margin-top: 20px;" id="report">
+    <h2 style="margin-left: 220px; text-decoration: underline">Listado de Denuncias</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>            
+                <th>Items</th>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Fecha</th>            
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let denuncia of denuncias">
+                <td>{{denuncia.ITEMS}}</td>
+                <td>{{denuncia.ID_DENUNCIA}}</td>
+                <td>{{denuncia.TITULO}}</td>
+                <td>{{denuncia.FH_REGISTRO}}</td>                
+            </tr>
+        </tbody>
+    </table>
+</div>

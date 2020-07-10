@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 import { Client } from '../../models/client';
 import { UserService } from '../user/user.service';
 import { AddressClient } from '../../models/addressClient.model';
+import { Denuncia } from 'src/app/models/denuncia.model';
+import { UploadFileService } from '../uploadFile/upload-file.service';
 
 
 @Injectable({
@@ -24,7 +26,8 @@ export class RegisterService {
     // tslint:disable-next-line: variable-name
     public _http: HttpClient,
     // tslint:disable-next-line: variable-name
-    public _router: Router
+    public _router: Router,
+    public _uploadFileService: UploadFileService
   ) {
     this.URL = URL_SERVICES;
   }
@@ -249,7 +252,7 @@ getAddressClients(idClient) {
     return res.address;
   }));
 }
-// End Get Clients
+// End Get Address Clients
 
 // Establecer direccion principal de cliente
 defaultAddressClient(addressClient: AddressClient, idAddress: number) {
@@ -296,8 +299,230 @@ deleteAddressClient(id: number) {
 }
 // End Delete Address Client
 
-
 // METODO PARA CLIENTES
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// DENUNCIAS
+
+ // Register Denuncias
+ registerDenuncia(denuncia: Denuncia) {
+  let params = denuncia;
+  return this._http.post(this.URL + '/register/denuncia', params)
+    .pipe(map((res: any) => {
+      Swal.fire('Mensaje', 'Denuncia registrada correctamente', 'success');
+      return res;
+    }))
+    .pipe(catchError( (err: any) => {
+      if (err.status === 400) {
+        Swal.fire('Mensaje', err.error.message, 'error');
+      } else {
+        Swal.fire('Mensaje', 'No se pudo realizar el registro', 'error');
+        return throwError(err);
+      }
+    }));
+ }
+// End Register Denuncias
+
+// Get denuncias
+getDenuncias(search) {
+  if (search === '') {
+    search = '0';
+  }
+  return this._http.get(this.URL + '/register/denuncias/' + search)
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }));
+}
+// End Get denuncias
+
+// Get denuncias
+getDenuncia(idDenuncia) {
+  return this._http.get(this.URL + '/register/verdenuncia/' + idDenuncia)
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      this._router.navigate(['/denuncias']);
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar el usuario.', 'error');
+      this._router.navigate(['/denuncias']);
+      return throwError(err);
+    }
+  }));
+}
+// End Get denuncias
+
+// Delete Denuncia
+deleteDenuncia(id) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/denuncia/' + id, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Denuncia Eliminada Correctamente.', 'success');
+    return true;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se Pudo eliminar la denuncia.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete Denuncia
+
+// Metodo para exportar a excel listado de denuncias
+getDenunciasExcel(search) {
+  if (search === '') {
+    search = '0';
+  }    
+  return this._http.get(this.URL + '/excel/denuncias/' + search, {responseType: 'blob'})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// Fin Metodo para exportar empresas
+
+ // Cambiar imagen de empresa
+ uploadFileDenuncia(file: File, id: number, numArchivo: number) {
+  // console.log('ID_USER:'+ this.user.ID_USER);
+  // console.log('file:', file);
+  // console.log('id:', id);
+  // return;
+  this._uploadFileService.uploadFile(file, 'denuncia', id, numArchivo)
+      .then( (resp: any) => {
+        // Swal.fire('Mensaje', 'Imagen Actualizada Correctamente', 'success');
+      })
+      .catch( resp => {
+        // Swal.fire('Error', 'No se pudo subir la imagen', 'warning');
+      });
+ }
+// Fin Cambiar imagen de empresa
+
+// Metodo para exportar a excel listado de denuncias
+// getDenuncia(idDenuncia) {
+
+//   return this._http.get(this.URL + '/register/verdenuncia/' + idDenuncia)
+//   .pipe(map((res: any) => {
+//     // console.log(res);
+//     return res;
+//   }))
+//   .pipe(catchError( (err: any) => {
+//     if (err.status === 400) {
+//       Swal.fire('Mensaje', err.error.message, 'error');
+//       this._router.navigate(['/denuncias']);
+//       return throwError(err);
+//     } else {
+//       Swal.fire('Mensaje', 'No se pudo consultar el usuario.', 'error');
+//       this._router.navigate(['/denuncias']);
+//       return throwError(err);
+//     }
+//   }));
+// }
+// End Get denuncias
+// Fin Metodo para exportar empresas
+
+// DENUNCIAS
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// CONDUCTOR
+
+// Get zonas conductor
+getZonaConductor() {
+  return this._http.get(this.URL + '/conductor/zonas')
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }))
+}
+// End Get zonas conductor
+
+// Get zonas conductor
+getConductor(idConductor) {
+  return this._http.get(this.URL + '/conductor/' + idConductor)
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar el conductor.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get zonas conductor
+
+
+// Get datos semana
+getDatoSemana(dia) {
+  return this._http.get(this.URL + '/conductor/datosemana/' + dia)
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }));
+}
+// End Get datos semana
+
+// Get dias semana
+getDiasSemana(desde, hasta) {
+  return this._http.get(this.URL + '/conductor/diasemana/' + desde + '/' + hasta)
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }));
+}
+// End Get datos semana
+
+
+// Get tarifas viaticos
+getTarifasViatico(idZona) {
+  return this._http.get(this.URL + '/conductor/tarifasviatico/' + idZona)
+  .pipe(map((res: any) => {
+    // console.log(res);
+    return res;
+  }));
+}
+// End Get datos semana
+
+// Register Viatico
+registerViatico(visticos) { 
+  let json = JSON.stringify(visticos);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/viatico', params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Viatico Registrado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    
+    Swal.fire('Mensaje', 'No se pudo registrar el viatico.', 'error');
+    return throwError(err);
+    
+  }));
+}
+// End Register Client
+
+
+
+
+// FIN CONDUCTOR
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

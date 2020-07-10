@@ -27,6 +27,8 @@ export class RenewTokenGuard implements CanActivate {
     // tslint:disable-next-line: prefer-const
     let payload = JSON.parse( atob(token.split('.')[1]));
 
+    // console.log('toke: ', token);
+
     // tslint:disable-next-line: prefer-const
     let expired = this.veryfyTokenVen(payload.exp);
 

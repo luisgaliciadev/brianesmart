@@ -38,6 +38,16 @@ import { UpdateAddressClientComponent } from './update-address-client/update-add
 import { DashboardOpComponent } from './dashboard-op/dashboard-op.component';
 import { RutaPeajeComponent } from './ruta-peaje/ruta-peaje.component';
 import { DashboardGuiasComponent } from './dashboard-guias/dashboard-guias.component';
+import { DenunciasComponent } from './denuncias/denuncias.component';
+import { VerdenunciaComponent } from './verdenuncia/verdenuncia.component';
+import { RepDenunciaComponent } from './rep-denuncia/rep-denuncia.component';
+import { DashboarditTicketComponent } from './dashboardit-ticket/dashboardit-ticket.component';
+import { DashboarditInvComponent } from './dashboardit-inv/dashboardit-inv.component';
+import { DashboardMygeotabComponent } from './dashboard-mygeotab/dashboard-mygeotab.component';
+import { MygeotabComponent } from './mygeotab/mygeotab.component';
+import { GraphicsBarchartComponent } from '../components/graphics-barchart/graphics-barchart.component';
+import { ViaticosCondComponent } from './viaticos-cond/viaticos-cond.component';
+import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpitracto.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +71,17 @@ import { DashboardGuiasComponent } from './dashboard-guias/dashboard-guias.compo
         UpdateAddressClientComponent,
         DashboardOpComponent,
         RutaPeajeComponent,
-        DashboardGuiasComponent
+        DashboardGuiasComponent,
+        DenunciasComponent,
+        VerdenunciaComponent,
+        RepDenunciaComponent,
+        DashboarditTicketComponent,
+        DashboarditInvComponent,
+        DashboardMygeotabComponent,
+        MygeotabComponent,
+        GraphicsBarchartComponent,
+        ViaticosCondComponent,
+        DashboardKpitractoComponent
     ],
     exports: [
         // PagesComponent,

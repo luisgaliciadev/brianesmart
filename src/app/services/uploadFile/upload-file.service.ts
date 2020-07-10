@@ -23,7 +23,7 @@ export class UploadFileService {
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            console.log('imagen subida');
+            console.log('archivo cargado');
             resolve (JSON.parse(xhr.response));
 
           } else {
@@ -35,7 +35,7 @@ export class UploadFileService {
 
       // tslint:disable-next-line: prefer-const
       let url = URL_SERVICES + '/upload/' + type + '/' + id + '/' + idUser;
-      // console.log('idUser:' + idUser);
+      console.log('url:' + url);
 
       xhr.open('PUT', url, true);
       xhr.send(formData);

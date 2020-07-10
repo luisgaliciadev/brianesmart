@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/service.index';
 
 @Component({
   selector: 'app-dashboard-guias',
@@ -8,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardGuiasComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public _router: Router,
+    private _userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    console.log(this._router.url);
+    this._userService.permisoModule(this._router.url);
   }
 
 }

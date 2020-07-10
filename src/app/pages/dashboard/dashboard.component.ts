@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user.model';
+import { SidebarService, MygeotabService } from 'src/app/services/service.index';
 
 // declare function init_plugins();
 
@@ -9,6 +11,9 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class DashboardComponent implements OnInit {
+
+  public user: User;
+  public horasDivices;
 
   graficos: any = {
     'grafico1': {
@@ -38,10 +43,26 @@ export class DashboardComponent implements OnInit {
   };
 
 
-  constructor() { }
+  constructor(
+    public _sidebar: SidebarService,
+    public _mygeotabService: MygeotabService
+  ) { }
 
   ngOnInit() {
     // init_plugins();
+    
   }
+
+  getHorasTotalMotor() {
+    this._mygeotabService.getTotalHoursEngine().subscribe(
+      (response: any) => {
+       
+        this.horasDivices = response.results;
+        console.log(this.horasDivices[0].id);
+        
+      }
+    );
+  }
+  
 
 }

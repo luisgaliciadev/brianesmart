@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { SettingsService, SidebarService, SharedService, UserService, LoginGuardGuard, UploadFileService,
-RegisterService} from './service.index';
+RegisterService, MygeotabService} from './service.index';
 import { ModalUploadService } from '../components/modal-upload/modal-upload.service';
+
 
 
 @NgModule({
@@ -21,9 +22,8 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
     LoginGuardGuard,
     UploadFileService,
     ModalUploadService,
-    RegisterService
-    // HospitalService,
-    // DoctorService
+    RegisterService,
+    MygeotabService    
     // RenewTokenGuard
     // AdminGuard
 

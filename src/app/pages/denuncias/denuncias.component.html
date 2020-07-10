@@ -1,0 +1,84 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+
+                    <div class="text-left" style="float: left;">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getDenunciasExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>        
+
+                    <br/>
+                    <br/>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar Usuario" (keyup.enter)="getDenuncias(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <h3>Listado de Denuncias (<small>{{totalRegistros}}</small>)</h3>
+
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Titulo</th>
+                                <th>Fecha</th>                                                               
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let denuncia of denuncias">   
+                                <td>{{denuncia.ID_DENUNCIA}}</td>                           
+                                <td>{{denuncia.TITULO}}</td>
+                                <td>{{denuncia.FH_REGISTRO}}</td>                                                           
+                                <td></td>
+                                <td>
+                                    <button [routerLink]="(['/denuncia',denuncia.ID_DENUNCIA])" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Ver">
+                                        <i class="fa fa-search"></i>                                        
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)=deleteDenuncia(denuncia.ID_DENUNCIA)>
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-secondary" (click)="changePage(-5)">
+                        Anterior
+                    </button>
+
+                    <button class="btn btn-secondary" (click)="changePage(+5)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

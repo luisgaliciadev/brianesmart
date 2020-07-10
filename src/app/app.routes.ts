@@ -12,6 +12,8 @@ import { ListCompanysComponent } from './reports/list-companys/list-companys.com
 import { AdminGuard } from './services/guards/admin.guard';
 import { ReportGuard } from './services/guards/report.guard';
 import { ListClientsComponent } from './reports/list-clients/list-clients.component';
+import { DenunciaComponent } from './denuncia/denuncia.component';
+import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.component';
 
 
 
@@ -19,12 +21,14 @@ import { ListClientsComponent } from './reports/list-clients/list-clients.compon
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, data: {titulo: 'Login'}},
     { path: 'register', component: RegisterComponent, data: {titulo: 'Registro'}},
+    { path: 'denuncia', component: DenunciaComponent, data: {titulo: 'Denuncia'}},
 
     // Reportes con pestañas nuevas
     { path: 'listusers/:search',
     canActivate: [AdminGuard, ReportGuard], component: ListUsersComponent, data: {titulo: 'Listado de Usuarios'}},
     { path: 'listcompanys/:search', canActivate: [ReportGuard], component: ListCompanysComponent, data: {titulo: 'Listado de Empresas'}},
     { path: 'listclients/:search', canActivate: [ReportGuard], component: ListClientsComponent, data: {titulo: 'Listado de Clientes'}},
+    { path: 'listdenuncias/:search', canActivate: [ReportGuard], component: ListDenunciasComponent, data: {titulo: 'Listado de Denuncias'}},
 
     {
         path: '',

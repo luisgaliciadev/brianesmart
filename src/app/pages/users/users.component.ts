@@ -60,6 +60,7 @@ export class UsersComponent implements OnInit {
     this._userService.getUsers(search).subscribe(
       (response: any) => {
         this.users = response.users.slice(this.desde, this.hasta);
+        console.log(this.users);
         this.totalRegistros = response.users.length;
         this.loading = false;
       }
