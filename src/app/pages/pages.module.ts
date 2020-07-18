@@ -49,6 +49,8 @@ import { GraphicsBarchartComponent } from '../components/graphics-barchart/graph
 import { ViaticosCondComponent } from './viaticos-cond/viaticos-cond.component';
 import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpitracto.component';
 import { ViaticosComponent } from './viaticos/viaticos.component';
+import { GuiaComponent } from './guia/guia.component';
+import { GuiasComponent } from './guias/guias.component';
 
 @NgModule({
     declarations: [
@@ -83,7 +85,9 @@ import { ViaticosComponent } from './viaticos/viaticos.component';
         GraphicsBarchartComponent,
         ViaticosCondComponent,
         DashboardKpitractoComponent,
-        ViaticosComponent
+        ViaticosComponent,
+        GuiaComponent,
+        GuiasComponent
     ],
     exports: [
         // PagesComponent,

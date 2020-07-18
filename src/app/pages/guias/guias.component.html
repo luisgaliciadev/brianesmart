@@ -23,17 +23,17 @@
                             Imprimir
                         </button>
 
-                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
                             <i class="mdi mdi-file-excel"></i>
                             Exportar
-                        </button> -->
+                        </button>
                     </div>  
                     
 
                     <div class="text-right">
-                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/viatico/0/0">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/guia/0">
                             <i class="fa fa-plus"></i>
-                            Registrar Viatico
+                            Registrar Guia
                         </button>
                     </div>
 
@@ -53,7 +53,7 @@
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
                                     
-                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getViaticos()">
+                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
@@ -66,38 +66,53 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getViaticos()" (keyup)="activeButtons()">                        
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getGuias(search)" (keyup)="activeButtons()">                        
                             <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
                         </div>
                     </div>
                    
-                    <h3>Listado de Viaticos (<small>{{totalRegistros}}</small>)</h3>
+                    <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3>
 
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Nro. Semana</th>
-                                <th>Zona</th>
-                                <th>Fecha Desde</th>
-                                <th>Fecha Hasta</th>
-                                <th>Monto Total (S/)</th>
+                                <th>Correlativo</th>
+                                <th>Fecha</th>
+                                <th>Conductor</th>
+                                <th>Tracto</th>
+                                <th>Remolque</th>
+                                <th>Peso Bruto</th>
+                                <th>Peso Tara</th>
+                                <th>Peso Neto</th>
+                                <th>Orden Servicio</th>
+                                <th>Servicio</th>
+                                <th>Origen</th>
+                                <th>Destino</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let viatico of viaticos">
-                                <td>{{viatico.NRO_SEMANA}}</td>
-                                <td>{{viatico.NB_ZONA_COND}}</td>
-                                <td>{{viatico.fhDesde}}</td>
-                                <td>{{viatico.fhHasta}}</td>
-                                <td>{{viatico.MONTO_TOTAL}}</td>
+                            <tr *ngFor="let guia of guias">
+                                <td>{{guia.CORRELATIVO}}</td>
+                                <td>{{guia.FH_GUIA}}</td>
+                                <td>{{guia.NOMBRE_CONDUCTOR}}</td>
+                                <td>{{guia.PLACA_TRACTO}}</td>
+                                <td>{{guia.PLACA_REMOLQUE}}</td>
+                                <td>{{guia.PESO_BRUTO}}</td>
+                                <td>{{guia.PESO_TARA}}</td>
+                                <td>{{guia.PESO_NETO}}</td>
+                                <td>{{guia.CORRELATIVO_OS}}</td>
+                                <td>{{guia.DS_TIPO_SERVICIO}}</td>
+                                <td>{{guia.DS_ORI_DEST}}</td>
+                                <td>{{guia.DESTINO}}</td>
+                               
                                 <td>
-                                    <button [routerLink]="(['/viatico',viatico.NRO_SEMANA,viatico.ID_ZONA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
-                                        <i class="fa fa-search">
+                                    <button [routerLink]="(['/guia',guia.ID_GUIA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
+                                        <i class="fa fa-pencil">
                                         </i>
                                         
                                     </button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteViaticos(viatico.NRO_SEMANA,viatico.ID_ZONA)">
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteGuia(guia.ID_GUIA)">
                                         <i class="fa fa-trash-o"></i>
                                     </button>
                                 </td>

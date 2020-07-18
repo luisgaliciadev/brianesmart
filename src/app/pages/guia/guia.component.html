@@ -1,0 +1,317 @@
+
+<div class="row animated fadeInRight">    
+    <div class="col-12">     
+        <div class="card">
+            <!-- <h2 class="card-title">Registro de Guía</h2> -->
+            <div class="card-body">
+
+                
+
+                <div class="row" *ngIf="loading">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center">
+                            <strong>Cargando...</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>    
+                </div>
+
+                <div class="row" *ngIf="registrando">
+                    <div class="col-sm-12">
+                        <div class="alert alert-primary text-center">
+                            <strong>Guardando datos</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>    
+                </div>
+
+                <form *ngIf="!loading  && !registrando" ngNativeValidate #form="ngForm" (ngSubmit)="registerGuia(form.value)"  class="form p-t-20">
+                    <div class="row">       
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Nro Orden:</label>
+                                <div class="input-group">
+                                    <select (change) = "datosOrden(guia.ID_ORDEN_SERVICIO)" [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let orden of ordenes" value = "{{orden.ID_ORDEN_SERVICIO}}">{{orden.CORRELATIVO}} | {{orden.DS_TIPO_SERVICIO}} | {{orden.DS_PRODUCTO}} | {{orden.DS_ORI_DEST}} | {{orden.DESTINO}}</option>
+                                    </select>                                            
+                                    <!-- <input [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" type="text" class="form-control" placeholder="Buscar">                         -->
+                                    <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getOrdenServicio(guia.ID_ORDEN_SERVICIO)"></i></div>         -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Tipo Servicio:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="tipoServicio" name="tipoServicio" type="text" class="form-control" disabled = "true" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Producto:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="producto" name="producto" type="text" class="form-control" disabled = "true" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">       
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Cliente:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="cliente" name="cliente" type="text" class="form-control" disabled = "true" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Origen:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="origen" name="origen" type="text" class="form-control" disabled = "true" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Destino:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="destino" name="destino" type="text" class="form-control" disabled = "true" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">       
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Fecha Emisión/Inicio Hora - Min.</label>
+                                <div class="input-group">
+                                    <div class="input-group" style="width: 165px;">   
+                                        <input [(ngModel)]="fhEmision" name="fhEmision" id = "fhEmision" type="date" class="form-control" required>
+                                    </div>
+                    
+                                    <div class="input-group" style="margin-left: 5px; width: 100px;">
+                                        <input [(ngModel)]="horaEmision" name="horaEmision" type="text" class="form-control" required maxlength="2">
+                                        <input style="margin-left: 5px;" [(ngModel)]="minEmision" name="minEmision" type="text" class="form-control" required maxlength="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-sm">
+                            <div class="form-group">
+                                <label>Fecha Traslado:</label>
+                                <div class="input-group">
+                                    <div class="input-group" style="width: 165px;">   
+                                        <input [(ngModel)]="fhTraslado" name="fhTraslado" type="date" class="form-control" required>
+                                    </div>
+                                    <div class="input-group" style="margin-left: 5px; width: 100px;">
+                                        <input [(ngModel)]="horaTraslado" name="horaTraslado" type="text" class="form-control" required maxlength="2">
+                                        <input style="margin-left: 5px;" [(ngModel)]="minTraslado" name="minTraslado" type="text" class="form-control" required maxlength="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-sm" *ngIf = "tipoServicio === 'ALQUILER'">
+                            <div class="form-group">
+                                <label>Fecha Fin:</label>
+                                <label style="padding-left: 92px;">Hora - Min.</label>
+                                <div class="input-group">
+                                    <div class="input-group" style="width: 165px;">   
+                                        <input [(ngModel)]="fhFin" name="fhFin" type="date" class="form-control" required>
+                                    </div>
+                                    <div class="input-group" style="margin-left: 5px; width: 100px;">
+                                        <input [(ngModel)]="horaFin" name="horaFin" type="text" class="form-control" required maxlength="2"> 
+                                        <input style="margin-left: 5px;" [(ngModel)]="minFin" name="minFin" type="text" class="form-control" required maxlength="2">  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" >
+                        <label>Conductor:</label>
+                        <div class="input-group">
+                            <div class="input-group" style="width: 200px;">   
+                                <input [(ngModel)]="idConductor" name="idConductor" type="text" class="form-control" placeholder="Conductor" (focusout) = "getConductor(idConductor)" required>                        
+                                <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getConductor(idConductor)"></i></div>        
+                            </div>
+                            <div class="input-group" style="margin-left: 5px">
+                                <input [(ngModel)]="nombreConductor" name="nombreConductor" type="text" class="form-control" disabled = "true" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">       
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Placa Tracto:</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input (focusout) = "getVehiculo(tracto, 1)" (keyup) = "idVehiculos(1)" [(ngModel)]="tracto" name="tracto" type="text" class="form-control" placeholder="Buscar">                        
+                                        <div *ngIf ="guia.ID_TRACTO > 0" class="input-group-addon"><i style="color: #06D79C;" class="mdi mdi-check-circle" data-toggle="tooltip" data-placement="top" title="Placa Correcta"></i></div>        
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Placa Remolque:</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input (focusout) = "getVehiculo(remolque, 2)" (keyup) = "idVehiculos(2)" [(ngModel)]="remolque" name="remolque" type="text" class="form-control" placeholder="Buscar">                        
+                                        <div *ngIf ="guia.ID_REMOLQUE > 0" class="input-group-addon"><i style="color: #06D79C;" class="mdi mdi-check-circle" data-toggle="tooltip" data-placement="top" title="Placa Correcta"></i></div>        
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Peso Bruto (Kg):</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input (keyup) = "pesos()" [(ngModel)]="guia.PESO_BRUTO" name="PESO_BRUTO" type="number" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Peso Tara (Kg):</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input (keyup) = "pesos()" [(ngModel)]="guia.PESO_TARA" name="PESO_TARA" type="number" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Peso Neto (Kg):</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input [(ngModel)]="guia.PESO_NETO" name="PESO_NETO" type="number" class="form-control" disabled = "true" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">       
+
+                        <div class="col-sm" *ngIf = "tipoServicio === 'OPERATIVO'">
+                            <div class="form-group">
+                                <label>Nro. Persmiso:</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input [(ngModel)]="guia.NRO_PERMISO" name="NRO_PERMISO" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Guia Ciente/Nro. Parte:</label>
+                                <div class="input-group">
+                                    <div class="input-group">   
+                                        <input [(ngModel)]="guia.NRO_GUIA_CLIENTE" name="NRO_GUIA_CLIENTE" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Guia Transporte:</label>
+                                <div class="input-group">
+                                    <div class="input-group" style="width: 120px;">   
+                                        <input [(ngModel)]="guia.SERIAL" name="SERIAL" type="number" class="form-control" required [readonly]="modificar">
+                                    </div>
+                                    <div class="input-group" style="margin-left: 5px">
+                                        <input [(ngModel)]="guia.CORRELATIVO" name="CORRELATIVO" type="number" class="form-control" required [readonly]="modificar">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <label>Servicio Subcontratado:</label>
+                            <div class="form-group">
+                                
+                                <div class="checkbox checkbox-primary p-t-0">
+                                    <input  [value]="tipoEmpresa" [(ngModel)] = "tipoEmpresa" name="tipoEmpresa" id="tipoEmpresa" type="checkbox">
+                                    <label for="tipoEmpresa"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      
+                    <div class="form-group" *ngIf="tipoEmpresa">
+                        <label>RUC:</label>
+                        <div class="input-group">
+                            <div class="input-group" style="width: 200px;">   
+                                <input [(ngModel)]="ruc" name="ruc" type="text" class="form-control" placeholder="RUC" (focusout) = "getCliente(ruc)" required>                        
+                                <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getCliente(ruc)"></i></div>        
+                            </div>
+                            <div class="input-group" style="margin-left: 5px">
+                                <input [(ngModel)]="nombreCliente" name="nombreCliente" type="text" class="form-control" disabled = "true" required>
+                            </div>
+                        </div>
+                    </div>
+                        
+                 
+
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>Observación:</label>
+                            <div class="input-group">                                            
+                                <textarea [(ngModel)]="guia.OBSERVACION" name = "OBSERVACION" class="form-control" name="horaContacto" rows="2" maxlength="250"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button *ngIf="this.guia.ID_GUIA == 0" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+
+                    <button [disabled]="!form.form.valid" *ngIf="this.guia.ID_GUIA > 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateGuia(form.value)">
+                        <i class="fa fa-save"></i>
+                        Moificar
+                    </button>
+
+                    <button [disabled]="!form.form.valid" *ngIf="this.guia.ID_GUIA > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteGuia()">
+                        <i class="fa fa-trash-o"></i>
+                        Anular
+                    </button>
+
+                    <button type="button" class="btn btn-warning waves-effect waves-light m-r-10" routerLink="/guias">
+                        <!-- <i class="fa fa-save"></i> -->
+                        Volver
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

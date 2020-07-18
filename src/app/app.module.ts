@@ -27,6 +27,9 @@ import { ListUsersComponent } from './reports/list-users/list-users.component';
 import { ListCompanysComponent } from './reports/list-companys/list-companys.component';
 import { ListClientsComponent } from './reports/list-clients/list-clients.component';
 import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.component';
+import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
+import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';
+import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.
     ListCompanysComponent,
     ListClientsComponent,
     DenunciaComponent,
-    ListDenunciasComponent
+    ListDenunciasComponent,
+    ListGuiasComponent,
+    ListViaticosComponent,
+    ListDetaviaticosComponent
   ],
   imports: [
     BrowserModule,

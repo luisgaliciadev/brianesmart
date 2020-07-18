@@ -102,8 +102,6 @@ export class ClientsComponent implements OnInit {
     // this.getCompanys(this.search);
   }
 
-
-
   printer() {
     this._userService.loadReport();
     if (this.search.length === 0) {

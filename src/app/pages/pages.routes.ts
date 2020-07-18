@@ -37,6 +37,8 @@ import { MygeotabComponent } from './mygeotab/mygeotab.component';
 import { ViaticosCondComponent } from './viaticos-cond/viaticos-cond.component';
 import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpitracto.component';
 import { ViaticosComponent } from './viaticos/viaticos.component';
+import { GuiaComponent } from './guia/guia.component';
+import { GuiasComponent } from './guias/guias.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -61,8 +63,10 @@ const pagesRoutes: Routes = [
             {path: 'denuncias', component: DenunciasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncias'}},
             {path: 'denuncia/:id', component: VerdenunciaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncia'}},
             // {path: 'repdenuncia/:id', component: RepDenunciaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncia'}},
-            {path: 'viatico', component: ViaticosCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Viaticos'}},
+            {path: 'viatico/:semana/:zona', component: ViaticosCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Viaticos'}},
             {path: 'viaticos', component: ViaticosComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Viaticos'}},
+            {path: 'guia/:id', component: GuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Guía'}},
+            {path: 'guias', component: GuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Guías'}},
            
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

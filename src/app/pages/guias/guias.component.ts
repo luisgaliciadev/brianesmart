@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
+import {saveAs} from 'file-saver';
 
 @Component({
-  selector: 'app-viaticos',
-  templateUrl: './viaticos.component.html',
+  selector: 'app-guias',
+  templateUrl: './guias.component.html',
   styles: [
   ]
 })
-export class ViaticosComponent implements OnInit {
-  viaticos = [];
+export class GuiasComponent implements OnInit {
+
+  guias = [];
   desde = 0;
   hasta = 5;
   loading = true;
@@ -21,17 +23,16 @@ export class ViaticosComponent implements OnInit {
   date = new Date();
   mes;
   dia;
-  dataGrafico;
   paginas = 0;
   pagina = 1;
-  viaticosTotal = [];
-  
+  guiasTotal = [];
 
   constructor(
     public _router: Router,
     private _userService: UserService,
     public _registerService: RegisterService
   ) { 
+    this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -49,51 +50,68 @@ export class ViaticosComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    
-    this.getViaticos();
+    this.getGuias(this.search);
   }
 
-  getViaticos() {
+  getGuias(search) {
+
     this.loading = true;
-    this._registerService.getViaticos(this.fhDesde, this.fhHasta, this.search).subscribe(
+    if (search === '') {
+      search = '0';
+    }
+    this._registerService.getGuias(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
-        this.totalRegistros = response.viaticos.length;
+        this.totalRegistros = response.guias.length;
+        this.guiasTotal = response.guias;
+        this.guias = this.guiasTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.viaticosTotal = response.viaticos;
-        this.viaticos = this.viaticosTotal.slice(this.desde, this.hasta);
         this.loading = false;
         this.activeButton = false;
       }
     );
   }
 
-  deleteViaticos(nroSemana, zona) {
-    this._registerService.deleteViaticos(nroSemana,zona).subscribe(
+   // Exportar a excel listado de usuarios
+   getGuiasExcel() {
+    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
+        // tslint:disable-next-line: prefer-const
+        let fileBlob = response;
+        // tslint:disable-next-line: prefer-const
+        let blob = new Blob([fileBlob], {
+          type: "application/vnd.ms-excel"
+        });
+        // use file saver npm package for saving blob to file
+        saveAs(blob, `ListadoGuias.xlsx`);
+      }
+    );
+  }
+
+  deleteGuia(id) {
+    this._registerService.deleteGuia(id).subscribe(
+      (response: any) => {
+        console.log(response);
         if(response) {
-          this.getViaticos();
+          this.getGuias(this.search);
         }
       }
     );
   }
 
   filtroPagina () {
-    console.log(this.viaticos);
-    this.viaticos = this.viaticosTotal.slice(this.desde, this.hasta);
-    console.log(this.viaticos);
+    this.guias = this.guiasTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
 
-  // Cambiar pagina de lista de empresas
-  changePage(valor: number, pagina: number) {
-
+   // Cambiar pagina de lista de empresas
+   changePage(valor: number, pagina) {
     this.desde = this.desde + valor;
     this.hasta = this.hasta + valor;
     this.pagina = this.pagina + pagina;
@@ -119,6 +137,7 @@ export class ViaticosComponent implements OnInit {
       this.pagina = 1;
     }
 
+    // this.getGuias(this.search);
     this.filtroPagina();
   }
 
@@ -126,17 +145,16 @@ export class ViaticosComponent implements OnInit {
   printer() {
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listviaticos/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
+      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
     } else {
-      window.open('#/listviaticos/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
+      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
   }
 
   // Limpiar busqueda
   clear() {
     this.search = '';
-    this.getViaticos();
-    this.pagina = 1;
+     this.getGuias(this.search);
   }
 
   // Activar o desactivar botones de reportes
@@ -145,7 +163,8 @@ export class ViaticosComponent implements OnInit {
       this.activeButton = true;
     } else {
       this.activeButton = false;
-      this.getViaticos();
+      this.getGuias(this.search);
     }
   }
+
 }

@@ -4,18 +4,43 @@
             <h2 class="card-title">Viatico de Conductor</h2>
             <div class="card-body">
 
-                <form ngNativeValidate #form="ngForm" (ngSubmit)="registerViatico(form.value)"  class="form p-t-20">
+                <div class="row" *ngIf="loading">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center">
+                            <strong>Cargando...</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>    
+                </div>
+
+                <div class="row" *ngIf="registrando">
+                    <div class="col-sm-12">
+                        <div class="alert alert-primary text-center">
+                            <strong>Guardando datos</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>    
+                </div>
+
+
+                <form *ngIf="!loading && !registrando" ngNativeValidate #form="ngForm" (ngSubmit)="registerViatico(form.value)"  class="form p-t-20">
                     <div class="row">       
-                        <div class="col-sm">
+                        <div class="col-sm" style="width: 200px;">
                             <div class="form-group">
                                 <label>Fecha Inicio Semana:</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" (change)="getDatoSemana(fhDesde)" required>
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" (change)="getDatoSemana(fhDesde)" required [readonly] = 'modificar'>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-sm">
+                        <div class="col-sm" style="width: 200px;">
                             <div class="form-group">
                                 <label>Fecha Fin Semana:</label>
                                 <div class="input-group">                                            
@@ -28,7 +53,7 @@
                             <div class="form-group">
                                 <label>Semana Nro:</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="nroSemana" name="nroSemana" type="number" class="form-control" readonly required>
+                                    <input [(ngModel)]="nroSemana" name="nroSemana" type="number" class="form-control"readonly required>
                                 </div>
                             </div>
                         </div>
@@ -37,102 +62,208 @@
                             <div class="form-group">
                                 <label for="exampleInputuname">Zona:</label>
                                 <div class="input-group">                   
-                                    <select (change) = "getTarifasViatico(idZona)" [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                    <select (change) = "getTarifasViatico(idZona)" [(ngModel)]="idZona" name="idZona" class="form-control" required [disabled] = "modificar" >
                                         <option value = "">Seleccione</option>
                                         <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group" *ngIf="idZona > 0">
-                        <label>Conductor:</label>
-                        <div class="form-row">
-                            <div class="col-4">
-                                <div class="input-group">
-                                    <input [(ngModel)]="idConductor" name="idConductor" type="text" class="form-control" placeholder="Buscar Conductor" required>                        
-                                    <div class="input-group-addon"><i class="mdi mdi-account-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar Conductor" (click)="getConductor(idConductor)"></i></div>
+                        <div class="col-sm" *ngIf="modificar">
+                            <div class="form-group">
+                                <label>Monto Total (S/):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="montoTotal" name="montoTotal" type="number" class="form-control"readonly required>
                                 </div>
-                            </div> 
-                            <div class="col-8">
-                                <input [(ngModel)]="nombreConductor" name="nombreConductor" type="text" class="form-control" readonly required>
-                            </div> 
-                        </div>                                       
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-12" *ngIf="idZona == 1 && nombreConductor">                        
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: center;">Dia</th>
-                                    <th style="text-align: center;">Turno 23-07</th>
-                                    <th></th>
-                                    <th style="text-align: center;">Turno 07-15</th>
-                                    <th></th>
-                                    <th style="text-align: center;">Turno 15-23</th>
-                                    <th></th>                                
-                                    <th style="text-align: center;">Monto Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let dias of viaticoDeta; let i = index">
-                                    <td align="center">{{dias.dia}}</td>
-                                    <td align="center">{{dias.monto1}}</td>
-                                    <td>
-                                        <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
-                                            <label for="check1-{{i}}"></label>
-                                        </div>
-                                    </td>
-                                    <td align="center">{{dias.monto2}}</td>                                
-                                    <td>
-                                        <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="getVerificarViatico(i, dias, 2)" [value]="dias.check2" [(ngModel)]="dias.check2" name="check2-{{i}}" id="check2-{{i}}" type="checkbox">
-                                            <label for="check2-{{i}}"></label>
-                                        </div>
-                                    </td>
-                                    <td align="center">{{dias.monto3}}</td>
-                                    <td>
-                                        <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="getVerificarViatico(i, dias, 3)" [value]="dias.check3" [(ngModel)]="dias.check3" name="check3-{{i}}" id="check3-{{i}}" type="checkbox">
-                                            <label for="check3-{{i}}"></label>
-                                        </div>
-                                    </td>
-                                    <td align="center">{{dias.montoTotal}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div *ngIf="!modificar">
+                        <div class="form-group" *ngIf="idZona > 0">
+                            <label>Conductor:</label>
+                            <div class="form-row">
+                                <div class="col-4">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="idConductor" name="idConductor" type="text" class="form-control" placeholder="Buscar Conductor" required>                        
+                                        <div class="input-group-addon"><i class="mdi mdi-account-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar Conductor" (click)="getConductor(idConductor)"></i></div>
+                                    </div>
+                                </div> 
+                                <div class="col-8">
+                                    <input [(ngModel)]="nombreConductor" name="nombreConductor" type="text" class="form-control" disabled = "true" required>
+                                </div> 
+                            </div>                                       
+                        </div>
+    
+                        <div class="col-12" *ngIf="idZona == 1 && nombreConductor">                        
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Dia</th>
+                                        <th style="text-align: center;">Turno 23-07</th>
+                                        <th></th>
+                                        <th style="text-align: center;">Turno 07-15</th>
+                                        <th></th>
+                                        <th style="text-align: center;">Turno 15-23</th>
+                                        <th></th>                                
+                                        <th style="text-align: center;">Monto Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dias of viaticoDeta; let i = index">
+                                        <td align="center">{{dias.dia}}</td>
+                                        <td align="center">{{dias.monto1}}</td>
+                                        <td>
+                                            <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
+                                                <label for="check1-{{i}}"></label>
+                                            </div>
+                                        </td>
+                                        <td align="center">{{dias.monto2}}</td>                                
+                                        <td>
+                                            <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 2)" [value]="dias.check2" [(ngModel)]="dias.check2" name="check2-{{i}}" id="check2-{{i}}" type="checkbox">
+                                                <label for="check2-{{i}}"></label>
+                                            </div>
+                                        </td>
+                                        <td align="center">{{dias.monto3}}</td>
+                                        <td>
+                                            <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 3)" [value]="dias.check3" [(ngModel)]="dias.check3" name="check3-{{i}}" id="check3-{{i}}" type="checkbox">
+                                                <label for="check3-{{i}}"></label>
+                                            </div>
+                                        </td>
+                                        <td align="center">{{dias.montoTotal}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+    
+                        <div class="col-12" *ngIf="idZona > 1 && nombreConductor">                        
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Dia</th>
+                                        <th style="text-align: center;">Monto</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dias of viaticoDeta; let i = index">
+                                        <td align="center">{{dias.dia}}</td>
+                                        <td align="center">{{dias.monto1}}</td>
+                                        <td>
+                                            <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
+                                                <label for="check1-{{i}}"></label>
+                                            </div>
+                                        </td>
+    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="col-12" *ngIf="idZona > 1 && nombreConductor">                        
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: center;">Dia</th>
-                                    <th style="text-align: center;">Monto</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let dias of viaticoDeta; let i = index">
-                                    <td align="center">{{dias.dia}}</td>
-                                    <td align="center">{{dias.monto1}}</td>
-                                    <td>
-                                        <div class="checkbox checkbox-primary p-t-0">
-                                            <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
-                                            <label for="check1-{{i}}"></label>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div *ngIf="modificar">                    
+                        <div class="col-12" *ngIf="idZona == 1">                        
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Conductor</th>
+                                        <th style="text-align: center;">Dia</th>
+                                        <th style="text-align: center;">Turno 23-07</th>
+                                        <th></th>
+                                        <th style="text-align: center;">Turno 07-15</th>
+                                        <th></th>
+                                        <th style="text-align: center;">Turno 15-23</th>
+                                        <th></th>                                
+                                        <th style="text-align: center;">Monto Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let detaViatico of detaViaticos; let i = index">
+                                        <td align="center">{{detaViatico.Nombre}}</td>
+                                        <td align="center">{{detaViatico.DIA}}</td>
+                                        <td align="center">{{detaViatico.MONTO1}}</td>
+                                        <td>
+                                            <!-- <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
+                                                <label for="check1-{{i}}"></label>
+                                            </div> -->
+                                        </td>
+                                        <td align="center">{{detaViatico.MONTO2}}</td>                                
+                                        <td>
+                                            <!-- <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 2)" [value]="dias.check2" [(ngModel)]="dias.check2" name="check2-{{i}}" id="check2-{{i}}" type="checkbox">
+                                                <label for="check2-{{i}}"></label>
+                                            </div> -->
+                                        </td>
+                                        <td align="center">{{detaViatico.MONTO3}}</td>
+                                        <td>
+                                            <!-- <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 3)" [value]="dias.check3" [(ngModel)]="dias.check3" name="check3-{{i}}" id="check3-{{i}}" type="checkbox">
+                                                <label for="check3-{{i}}"></label>
+                                            </div> -->
+                                        </td>
+                                        <td align="center">{{detaViatico.MONTO_TOTAL}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+    
+                        <div class="col-12" *ngIf="idZona > 1">                        
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;">Conductor</th>
+                                        <th style="text-align: center;">Dia</th>
+                                        <th style="text-align: center;">Monto</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let detaViatico of detaViaticos; let i = index">
+                                        <td align="center">{{detaViatico.Nombre}}</td>
+                                        <td align="center">{{detaViatico.DIA}}</td>
+                                        <td align="center">{{detaViatico.MONTO1}}</td>
+                                        <td>
+                                            <!-- <div class="checkbox checkbox-primary p-t-0">
+                                                <input (change)="getVerificarViatico(i, dias, 1)" [value]="dias.check1" [(ngModel)]="dias.check1" name="check1-{{i}}" id="check1-{{i}}" type="checkbox">
+                                                <label for="check1-{{i}}"></label>
+                                            </div> -->
+                                        </td>
+    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+
+                    <div *ngIf="modificar">
+                        <button type="button" id = "Anterior" class="btn btn-secondary" (click)="changePage(-7, -1)">
+                            Anterior
+                        </button>
+                
+                        <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                        <button type="button" id = "Siguiente" class="btn btn-secondary" (click)="changePage(+7, +1)">
+                            Siguiente
+                        </button>
+                    </div>
+
+                    <br/>                    
+                    
+                    <button *ngIf="!modificar" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
                         <i class="fa fa-save"></i>
                         Guardar
+                    </button>
+
+                    <button type="button" class="btn btn-danger waves-effect waves-light m-r-10" routerLink="/viaticos">
+                        <!-- <i class="fa fa-save"></i> -->
+                        Volver
                     </button>
                     
                 </form>
