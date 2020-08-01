@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Guia } from 'src/app/models/guia.model';
@@ -109,7 +109,7 @@ export class GuiaComponent implements OnInit {
 
         console.log(this.guia);
         if (this.guia.ID_EMPRESA > 0) {
-          console.log('aqui');
+          // console.log('aqui');
           this.tipoEmpresa = true;
           this.getCliente(this.guia.ID_EMPRESA);
         }
@@ -118,7 +118,8 @@ export class GuiaComponent implements OnInit {
   }
 
   registerGuia(data) {    
-    
+    // console.log(data);
+    // return;
     this.registrando = true;
     this.guia.FECHA = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
     // this.guia.FH_TRASLADO = data.fhTraslado + ' ' + data.horaTraslado + ':' + data.minTraslado;
@@ -284,7 +285,7 @@ export class GuiaComponent implements OnInit {
   deleteGuia() {
     this._registerService.deleteGuia(this.guia.ID_GUIA).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         if(response) {
          this._router.navigate(['/guias']);
         }

@@ -7,13 +7,15 @@
 
 
 <div style="margin-left: 20px; margin-top: 20px;" id="report">
-    <h2 style="margin-left: 220px; text-decoration: underline">Listado de Guías | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
+    <h2 align="center" style="text-decoration: underline">Listado de Guías | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
 
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Item</th>
-                <th>Correlativo</th>
+                <th>ID</th>
+                <th>Nro. Guia Transporte</th>
+                <th>Nro. Guia Cliente</th>
                 <th>Fecha</th>
                 <th>Conductor</th>
                 <th>Tracto</th>
@@ -30,7 +32,9 @@
         <tbody>
             <tr *ngFor="let guia of guias">
                 <td>{{guia.ITEMS}}</td>
+                <td>{{guia.ID_GUIA}}</td>
                 <td>{{guia.CORRELATIVO}}</td>
+                <td>{{guia.NRO_GUIA_CLIENTE}}</td>
                 <td>{{guia.FH_GUIA}}</td>
                 <td>{{guia.NOMBRE_CONDUCTOR}}</td>
                 <td>{{guia.PLACA_TRACTO}}</td>

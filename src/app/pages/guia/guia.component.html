@@ -188,7 +188,7 @@
                                 <label>Peso Bruto (Kg):</label>
                                 <div class="input-group">
                                     <div class="input-group">   
-                                        <input (keyup) = "pesos()" [(ngModel)]="guia.PESO_BRUTO" name="PESO_BRUTO" type="number" class="form-control" required>
+                                        <input (keyup) = "pesos()" [(ngModel)]="guia.PESO_BRUTO" name="PESO_BRUTO" type="number" step="0.01" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                                 <label>Peso Tara (Kg):</label>
                                 <div class="input-group">
                                     <div class="input-group">   
-                                        <input (keyup) = "pesos()" [(ngModel)]="guia.PESO_TARA" name="PESO_TARA" type="number" class="form-control" required>
+                                        <input (keyup) = "pesos()" [(ngModel)]="guia.PESO_TARA" name="PESO_TARA" type="number" step="0.01" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                                 <label>Peso Neto (Kg):</label>
                                 <div class="input-group">
                                     <div class="input-group">   
-                                        <input [(ngModel)]="guia.PESO_NETO" name="PESO_NETO" type="number" class="form-control" disabled = "true" required>
+                                        <input [(ngModel)]="guia.PESO_NETO" name="PESO_NETO" type="number" step="0.01" class="form-control" disabled = "true" required>
                                     </div>
                                 </div>
                             </div>

@@ -32,7 +32,7 @@ export class GuiasComponent implements OnInit {
     private _userService: UserService,
     public _registerService: RegisterService
   ) { 
-    this.loading = false;
+    // this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -96,7 +96,7 @@ export class GuiasComponent implements OnInit {
   deleteGuia(id) {
     this._registerService.deleteGuia(id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         if(response) {
           this.getGuias(this.search);
         }

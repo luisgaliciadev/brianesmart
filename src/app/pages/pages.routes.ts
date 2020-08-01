@@ -39,6 +39,8 @@ import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpi
 import { ViaticosComponent } from './viaticos/viaticos.component';
 import { GuiaComponent } from './guia/guia.component';
 import { GuiasComponent } from './guias/guias.component';
+import { OpProductividadComponent } from './op-productividad/op-productividad.component';
+import { DashboardKpimandismecComponent } from './dashboard-kpimandismec/dashboard-kpimandismec.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -67,6 +69,7 @@ const pagesRoutes: Routes = [
             {path: 'viaticos', component: ViaticosComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Viaticos'}},
             {path: 'guia/:id', component: GuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Guía'}},
             {path: 'guias', component: GuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Guías'}},
+            {path: 'productividadop', component: OpProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad Operativa'}},
            
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
@@ -76,6 +79,7 @@ const pagesRoutes: Routes = [
             {path: 'dashboardgeotab', component: DashboardMygeotabComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard MyGeotab Totales'}},     
             {path: 'dashboardgeotab-2', component: MygeotabComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard MyGeotab Por Fechas'}},     
             {path: 'dashboardkpioptracto', component: DashboardKpitractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Desempeño por Tracto'}},     
+            {path: 'dashboardkpimandismec', component: DashboardKpimandismecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Disponibilidad Mecánica'}},     
 
             // Modulos Matenimientos sistema
             {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},

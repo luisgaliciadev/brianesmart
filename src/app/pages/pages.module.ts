@@ -51,6 +51,8 @@ import { DashboardKpitractoComponent } from './dashboard-kpitracto/dashboard-kpi
 import { ViaticosComponent } from './viaticos/viaticos.component';
 import { GuiaComponent } from './guia/guia.component';
 import { GuiasComponent } from './guias/guias.component';
+import { OpProductividadComponent } from './op-productividad/op-productividad.component';
+import { DashboardKpimandismecComponent } from './dashboard-kpimandismec/dashboard-kpimandismec.component';
 
 @NgModule({
     declarations: [
@@ -87,7 +89,9 @@ import { GuiasComponent } from './guias/guias.component';
         DashboardKpitractoComponent,
         ViaticosComponent,
         GuiaComponent,
-        GuiasComponent
+        GuiasComponent,
+        OpProductividadComponent,
+        DashboardKpimandismecComponent
     ],
     exports: [
         // PagesComponent,

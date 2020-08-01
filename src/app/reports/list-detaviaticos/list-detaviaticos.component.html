@@ -1,1 +1,65 @@
-<p>list-detaviaticos works!</p>
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+</div>
+
+
+<div style="margin-left: 20px; margin-top: 20px;" id="report">
+    <h2 align="center" style="text-decoration: underline">Listado detallado de Viaticos</h2>
+
+    <h4>Nro. de semana: {{nroSemana}}</h4>
+    <h4>Fecha Inicio: {{fhDesde}} - Fecha Fin: {{fhHasta}}</h4>
+    <h4>Zona: {{zona}}</h4>
+    <h4>Monto Total (S/): {{montoTotal}}</h4>
+
+    <div class="col-12" *ngIf="idZona == 1">                        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Item</th>
+                    <th style="text-align: center;">Conductor</th>
+                    <th style="text-align: center;">Dia</th>
+                    <th style="text-align: center;">Turno 23-07</th>
+                    <th style="text-align: center;">Turno 07-15</th>
+                    <th style="text-align: center;">Turno 15-23</th>                              
+                    <th style="text-align: center;">Monto Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let detaViatico of detaViaticos; let i = index">
+                    <td align="center">{{detaViatico.ITEMS}}</td>
+                    <td align="center">{{detaViatico.Nombre}}</td>
+                    <td align="center">{{detaViatico.DIA}}</td>
+                    <td align="center">{{detaViatico.MONTO1}}</td>
+                    <td align="center">{{detaViatico.MONTO2}}</td>                                
+                    <td align="center">{{detaViatico.MONTO3}}</td>
+                    <td align="center">{{detaViatico.MONTO_TOTAL}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12" *ngIf="idZona > 1">                        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Conductor</th>
+                    <th style="text-align: center;">Dia</th>
+                    <th style="text-align: center;">Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let detaViatico of detaViaticos; let i = index">
+                    <td align="center">{{detaViatico.Nombre}}</td>
+                    <td align="center">{{detaViatico.DIA}}</td>
+                    <td align="center">{{detaViatico.MONTO1}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+

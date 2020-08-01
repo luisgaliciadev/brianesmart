@@ -301,4 +301,12 @@ export class ViaticosCondComponent implements OnInit {
     this.filtroPagina();
   }
 
+  printer() {
+    this._userService.loadReport();
+    if (this.modificar) {
+      window.open('#/listdetaviaticos/' + this.nroSemana + '/' + this.idZona, '0' , '_blank');
+    }
+  }
+
+
 }

@@ -16,78 +16,34 @@
                         </tr>
                     </tbody>
                 </table>
-
-                    <!-- <tr *ngFor="let menu of _sidebar.menu">                
-                    <td *ngFor="let submenu of _sidebar.menu">
-                        <tr *ngFor="let submenu_sec of _sidebar.menu">
-                            <a *ngIf="!submenu_sec.FG_SUB_MENU && submenu_sec.ID_TYPE_MENU === 3 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu_sec.ID_MODULE_SEC === submenu.ID_MODULE && submenu_sec.URL != ''" [routerLink]="[submenu_sec.URL]"
-                                routerLinkActive="active" [class]="submenu_sec.ICON"> {{submenu_sec.DS_MODULE}}</a>
-                        </tr>
-                    </td>
-                </tr> -->
             </div>
         </div>
     </div>
 </div>
-<!-- 
-<div class="row animated fadeInRight">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">  
-                <h4 class="card-title"> {{graficos.grafico1.leyenda}}</h4>              
-                <app-graphics-doughnut
-                    [Labels] = "graficos.grafico1.labels"
-                    [Data] = "graficos.grafico1.data"
-                    [Type] = "graficos.grafico1.type"
-                    [Leyenda] = "graficos.grafico1.leyenda">
-                </app-graphics-doughnut>                    
-            </div>
-        </div>
-    </div>
 
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title"> {{graficos.grafico2.leyenda}}</h4> 
-                <app-graphics-doughnut
-                    [Labels] = "graficos.grafico2.labels"
-                    [Data] = "graficos.grafico2.data"
-                    [Type] = "graficos.grafico2.type"
-                    [Leyenda] = "graficos.grafico2.leyenda">
-                </app-graphics-doughnut>                   
-            </div>
-        </div>
-    </div>
+<!-- <ul *ngFor="let menu of _sidebar.menu" class="treeview"> -->
 
-</div>
+    <!-- <li *ngIf="!menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" class="list-group-item node-treeview-checkable" data-nodeid="5" style="color:undefined;background-color:undefined;"><span class="icon glyphicon"></span><span class="icon check-icon glyphicon glyphicon-unchecked"></span>{{menu.DS_MODULE}}</li> -->
 
-<div class="row animated fadeInRight">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title"> {{graficos.grafico3.leyenda}}</h4> 
-                <app-graphics-doughnut
-                    [Labels] = "graficos.grafico3.labels"
-                    [Data] = "graficos.grafico3.data"
-                    [Type] = "graficos.grafico3.type"
-                    [Leyenda] = "graficos.grafico3.leyenda">
-                </app-graphics-doughnut>                   
-            </div>
-        </div>
-    </div>
+    <!-- <li class="list-group-item node-treeview12" *ngIf="!menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" [routerLink]="[menu.URL]" routerLinkActive="active"><i [class]="menu.ICON"></i><span class="hide-menu">{{menu.DS_MODULE}}</span></li> -->
 
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title"> {{graficos.grafico4.leyenda}}</h4> 
-                <app-graphics-doughnut
-                    [Labels] = "graficos.grafico4.labels"
-                    [Data] = "graficos.grafico4.data"
-                    [Type] = "graficos.grafico4.type"
-                    [Leyenda] = "graficos.grafico4.leyenda">
-                </app-graphics-doughnut>                    
-            </div>
-        </div>
-    </div>
+    
+    <!-- <li class="list-group-item node-treeview12"  *ngIf="menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1"  aria-expanded="false"><i [class]="menu.ICON"></i><span class="hide-menu"> {{menu.DS_MODULE}} </span></li> -->
 
-</div> -->
+    <!-- <ul aria-expanded="false" class="collapse">
+        <li *ngFor="let submenu of _sidebar.menu">
+            <a  *ngIf="!submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL != ''" [routerLink]="[submenu.URL]" routerLinkActive="active" [class]="submenu.ICON"> {{submenu.DS_MODULE}}</a>
+
+           
+            <a  *ngIf="submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL === ''" class="has-arrow waves-effect waves-dark" aria-expanded="false"><i [class]="submenu.ICON"></i><span class="hide-menu"> {{submenu.DS_MODULE}} </span></a>
+          
+
+            <ul aria-expanded="false" class="collapse">
+                <li *ngFor="let submenu_sec of _sidebar.menu">
+                    <a  *ngIf="!submenu_sec.FG_SUB_MENU && submenu_sec.ID_TYPE_MENU === 3 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu_sec.ID_MODULE_SEC === submenu.ID_MODULE && submenu_sec.URL != ''" [routerLink]="[submenu_sec.URL]"
+                        routerLinkActive="active" [class]="submenu_sec.ICON"> {{submenu_sec.DS_MODULE}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul> -->
+<!-- </ul> -->

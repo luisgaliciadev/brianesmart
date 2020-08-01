@@ -748,6 +748,48 @@ getGuiasExcel(search,desde, hasta) {
 }
 // Fin Metodo para exportar empresas
 
+// Get productividad OP
+getProductividadop(tipo,semana, year, desde, hasta,zona) {
+  // let params = tipo + '/' + semana + '/' + year + '/' + desde + '/' + hasta;
+  let params = semana + '/' + year + '/' + zona;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/diasproductividadop/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de guias.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get productividad OP
+
+// Get years
+getYears() {
+  return this._http.get(this.URL + '/operaciones/years')
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'Error en la petición.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get years
+
+// Get motivo no op
+getMotivoNoOp() {
+  return this._http.get(this.URL + '/operaciones/motivonoop')
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de motivos.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get motivo no op
+ 
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////

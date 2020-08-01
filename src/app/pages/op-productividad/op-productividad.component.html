@@ -1,0 +1,698 @@
+<div class="row animated fadeInRight">  
+    <div class="col-12" > 
+
+        <div class="row" *ngIf="loading">
+            <div class="col-sm-12">
+                <div class="alert alert-warning text-center">
+                    <strong>Cargando...</strong>
+                    <br>
+                    <i class="fa fa-refresh fa-spin fa-2x"></i>
+                    <br>
+                    <span>Por Favor Espere...</span>
+                </div>
+            </div>    
+        </div>   
+
+        <div class="card" *ngIf="!loading">
+            <!-- <h2 class="card-title">Registro de Guía</h2> -->
+            <div class="card-body">
+                <div class="row">
+                    <!-- <div class="col-sm">
+                        <div class="form-group">
+                            <label>Tipo Busqueda:</label>
+                            <div class="input-group">
+                                <select [(ngModel)]="tipoBusqueda" name="tipoBusqueda" class="form-control" required>
+                                    <option value = 1 >Por Semana</option>
+                                    <option value = 2 >Por Fecha</option>
+                                </select>                                            
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label>Año:</label>
+                            <div class="input-group">
+                                <select (change)="anio()" [(ngModel)]="year" name="year" class="form-control" required>
+                                    <option value = "">Seleccione</option>
+                                    <option *ngFor="let year of years" value = "{{year.YEAR}}">{{year.YEAR}}</option>
+                                </select>                                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label>Nro. Semana:</label>
+                            <div class="input-group">
+                                <select [(ngModel)]="nroSemana" name="nroSemana" class="form-control" required>
+                                    <option value = "">Seleccione</option>
+                                    <option *ngFor="let semana of semanas" value = "{{semana}}">{{semana}}</option>
+                                </select>                                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm">
+                        <div class="form-group">
+                            <label for="exampleInputuname">Zona:</label>
+                            <div class="input-group">                   
+                                <select (change) = "getProductividadop()" [(ngModel)]="idZona" name="idZona" class="form-control" required >
+                                    <option value = "">Seleccione</option>
+                                    <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
+                                </select>
+                                <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getProductividadop()">
+                                    <i class="fa fa-search"></i>
+                                    Consultar
+                                </button> 
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-sm" *ngIf="tipoBusqueda == 2">
+                        <div class="form-group">
+                            <label>Desde:</label>
+                            <div class="input-group">                                            
+                                <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-sm" *ngIf="tipoBusqueda == 2">
+                        <div class="form-group">
+                            <label>Hasta:</label>
+                            <div class="input-group">                                            
+                                <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                
+                                <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getProductividadop()">
+                                    <i class="fa fa-search"></i>
+                                    Consultar
+                                </button>
+                            </div>
+                        </div>
+                    </div>     -->
+                </div>
+                
+                <h3>Listado de Registros (<small>{{totalRegistros}}</small>)</h3>
+                <div *ngIf = "idZona == 1"  class="container" style="overflow: auto; height: 500px; font-size: 10px;">
+                    <table class="table table-hover table-bordered table-op"  style="width: 2680px;">
+                        <thead style="color: white;">
+                            <tr style="width: 2900px;">
+                                <th style="text-align: center; width: 50px;">Nro.</th>
+                                <th style="text-align: center; width: 70px;">TRACTO</th>
+                                <th style="text-align: center; width: 250px;">CONDUCTOR</th>
+                                <th style="text-align: center; width: 326px;" *ngFor = "let dia of dias">
+                                    {{dia.NOMBRE_DIA}} {{dia.FECHA}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let productividadOp of productividadOps; index as i" style="width: 2650px;">
+                                <td style="width: 50px; line-height: 60px;" align="center">{{i+1}}</td>
+                                <td style="width: 70px; line-height: 60px;" align="center">{{productividadOp.PLACA_TRACTO}}</td>
+                                <td style="width: 250px; line-height: 60px;" align="center">{{productividadOp.NOMBRE_CONDUCTOR}}</td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia1.turno1 > 0" align="center">{{productividadOp.dia1.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia1.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia1.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia1.turno2 > 0" align="center">{{productividadOp.dia1.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia1.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia1.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia1.turno3 > 0" align="center">{{productividadOp.dia1.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia1.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia1.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class=" table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia2.turno1 > 0" align="center">{{productividadOp.dia2.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia2.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia2.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia2.turno2 > 0" align="center">{{productividadOp.dia2.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia2.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia2.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia2.turno3 > 0" align="center">{{productividadOp.dia2.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia2.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia2.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class=" table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia3.turno1 > 0" align="center">{{productividadOp.dia3.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia3.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia3.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia3.turno2 > 0" align="center">{{productividadOp.dia3.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia3.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia3.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia3.turno3 > 0" align="center">{{productividadOp.dia3.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia3.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia3.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class=" table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia4.turno1 > 0" align="center">{{productividadOp.dia4.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia4.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia4.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia4.turno2 > 0" align="center">{{productividadOp.dia4.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia4.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia4.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia4.turno3 > 0" align="center">{{productividadOp.dia4.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia4.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia4.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class=" table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno1 > 0" align="center">{{productividadOp.dia5.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia5.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno2 > 0" align="center">{{productividadOp.dia5.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia5.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno3 > 0" align="center">{{productividadOp.dia5.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia5.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class=" table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia6.turno1 > 0" align="center">{{productividadOp.dia6.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia6.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia6.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia6.turno2 > 0" align="center">{{productividadOp.dia6.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia6.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia6.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia6.turno3 > 0" align="center">{{productividadOp.dia6.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia6.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia6.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td align="center">
+                                    <table class=" table-turno" style="width: 300px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 100px;">23:00-07:00</th>
+                                                <th style="text-align: center; width: 100px;">07:00-15:00</th>
+                                                <th style="text-align: center; width: 100px;">15:00-23:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 300px;">
+                                            <tr>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia7.turno1 > 0" align="center">{{productividadOp.dia7.turno1}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia7.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia7.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia7.turno2 > 0" align="center">{{productividadOp.dia7.turno2}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia7.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia7.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia7.turno3 > 0" align="center">{{productividadOp.dia7.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia7.turno3 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia7.motivo3" name="motivo3" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>                    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div *ngIf = "idZona == 2"  class="container" style="overflow: auto; height: 500px; font-size: 10px;">
+                    <table class="table table-hover table-bordered table-op"  style="width: 1450px;">
+                        <thead style="color: white;">
+                            <tr>
+                                <th style="text-align: center; width: 50px;">Nro.</th>
+                                <th style="text-align: center; width: 70px;">TRACTO</th>
+                                <th style="text-align: center; width: 250px;">CONDUCTOR</th>
+                                <th style="text-align: center; width: 150px;" *ngFor = "let dia of dias">
+                                    {{dia.NOMBRE_DIA}} {{dia.FECHA}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let productividadOp of productividadOps; index as i" style="width: 1450px;">
+                                <td style="width: 50px; height: 50px; line-height: 25px;" align="center">{{i+1}}</td>
+                                <td style="width: 70px; height: 50px; line-height: 25px" align="center">{{productividadOp.PLACA_TRACTO}}</td>
+                                <td style="width: 250px; height: 50px;" align="center">{{productividadOp.NOMBRE_CONDUCTOR}}</td>
+                                
+                                <td *ngIf = "productividadOp.dia1.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia1.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia1.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia1.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+                                
+                                <td *ngIf = "productividadOp.dia2.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia2.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia2.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia2.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+
+                                <td *ngIf = "productividadOp.dia3.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia3.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia3.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia3.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+
+                                <td *ngIf = "productividadOp.dia4.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia4.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia4.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia4.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+
+                                <td *ngIf = "productividadOp.dia5.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia5.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia5.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia5.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+
+                                <td *ngIf = "productividadOp.dia6.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia6.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia6.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia6.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+
+                                <td *ngIf = "productividadOp.dia7.turno1 > 0" style="width: 150px; height: 50px; line-height: 25px" align="center">                                    
+                                    {{productividadOp.dia7.turno1}}
+                                </td>
+                                <td style="width: 150px; height: 50px;" *ngIf = "productividadOp.dia7.turno1 == 0">
+                                    <select style="margin-top: -7px;" [(ngModel)]="productividadOp.dia7.motivo1" name="motivo2" class="form-control" required>                                       
+                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                    </select>
+                                </td> 
+                                                          
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div *ngIf = "idZona == 3"  class="container" style="overflow: auto; height: 500px; font-size: 10px;">
+                    <table class="table table-hover table-bordered table-op"  style="width: 1770px;">
+                        <thead style="color: white;">
+                            <tr style="width: 2900px;">
+                                <th style="text-align: center; width: 50px;">Nro.</th>
+                                <th style="text-align: center; width: 70px;">TRACTO</th>
+                                <th style="text-align: center; width: 250px;">CONDUCTOR</th>
+                                <th style="text-align: center; width: 196px;" *ngFor = "let dia of dias">
+                                    {{dia.NOMBRE_DIA}} {{dia.FECHA}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let productividadOp of productividadOps; index as i" style="width: 1770px;">
+                                <td style="width: 50px; line-height: 60px;" align="center">{{i+1}}</td>
+                                <td style="width: 70px; line-height: 60px;" align="center">{{productividadOp.PLACA_TRACTO}}</td>
+                                <td style="width: 250px; line-height: 60px;" align="center">{{productividadOp.NOMBRE_CONDUCTOR}}</td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno1 > 0" align="center">{{productividadOp.dia1.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia1.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno2 > 0" align="center">{{productividadOp.dia1.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia1.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno1 > 0" align="center">{{productividadOp.dia2.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia2.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno2 > 0" align="center">{{productividadOp.dia2.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia2.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno1 > 0" align="center">{{productividadOp.dia3.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia3.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno2 > 0" align="center">{{productividadOp.dia3.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia3.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno1 > 0" align="center">{{productividadOp.dia4.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia4.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno2 > 0" align="center">{{productividadOp.dia4.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia4.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno1 > 0" align="center">{{productividadOp.dia5.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia5.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno2 > 0" align="center">{{productividadOp.dia5.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia5.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno1 > 0" align="center">{{productividadOp.dia6.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia6.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno2 > 0" align="center">{{productividadOp.dia6.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia6.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                                <td align="center">
+                                    <table class="table-turno" style="width: 170px; margin-top: -20px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody  style="width: 170px;">
+                                            <tr>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno1 > 0" align="center">{{productividadOp.dia7.turno1}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno1 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia7.motivo1" name="motivo1" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                                
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno2 > 0" align="center">{{productividadOp.dia7.turno2}}</td>
+                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno2 == 0">
+                                                    <select [(ngModel)]="productividadOp.dia7.motivo2" name="motivo2" class="form-control" required>                                       
+                                                        <option *ngFor="let motivos of motivosNoOp" value = "{{motivos.ID_MOTIVO_OP}}">{{motivos.DS_MOTIVO_OP}}</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>                            
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <!-- <td align="center" *ngFor = "let dia of dias; index as i">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center;"> 23:00-07:00</th>
+                                                    <th style="text-align: center;">07:00-15:00</th>
+                                                    <th style="text-align: center;">15:00-23:00</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center">{{productividadOp.dia1.turno1}}</td>
+                                                    <td align="center">{{productividadOp.dia2.turno2}}</td>
+                                                    <td align="center">{{productividadOp.dia3.turno3}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td> -->

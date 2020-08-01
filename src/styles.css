@@ -48,3 +48,76 @@
     display: none;
 }
 
+
+/* 
+.dtHorizontalVerticalExampleWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    }
+    #dtHorizontalVerticalExample th, td {
+    white-space: nowrap;
+    }
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:before {
+    bottom: .5em;
+    } */
+
+   
+    .table-op th {
+        border-collapse: collapse !important;
+        border:#e9ecef 1px solid  !important;
+        background-color: gray;
+    }
+    
+    .table-op thead{
+        overflow: auto;
+        width: 100%;
+    }
+
+    .table-op tbody{
+        height: 500px;
+        overflow: auto;
+        width: 100%;
+    }
+
+    .table-op thead,
+    .table-op tbody,
+    .table-op td,
+    .table-op th{
+      display: block;
+    }
+
+    .table-op td {
+        height: 80px;
+    }
+
+    .table-op tbody td,
+    .table-op thead > tr > th{
+        float: left;
+        border-bottom-width: 0;
+    }
+
+   
+    .table-turno thead {
+        height: 25px;
+        overflow: hidden;
+    }
+
+    .table.table-turno tbody{
+        height: 50px;
+        overflow: hidden;
+    }
+    .table-turno td,
+    .table-turno th {
+        border: transparent 0px solid  !important;
+        background-color: transparent !important;
+        height: 25px;
+    }
