@@ -46,25 +46,25 @@ export class ListDetaviaticosComponent implements OnInit {
   }
 
   getViatico() {
-    this._registerService.getViatico(this.nroSemana, this.idZona).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.fhDesde = response.viatico.FH_DESDE.substring(0, 10);
-        this.fhHasta = response.viatico.FH_HASTA.substring(0, 10);
-        this.montoTotal = response.viatico.MONTO_TOTAL;
-        this.zona = response.viatico.NB_ZONA_COND;
-      }
-    );
+    // this._registerService.getViatico(this.nroSemana, this.idZona).subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //     this.fhDesde = response.viatico.FH_DESDE.substring(0, 10);
+    //     this.fhHasta = response.viatico.FH_HASTA.substring(0, 10);
+    //     this.montoTotal = response.viatico.MONTO_TOTAL;
+    //     this.zona = response.viatico.NB_ZONA_COND;
+    //   }
+    // );
   }
 
   getDetaViaticos() {
-    this._registerService.getDetaViatico(this.nroSemana, this.idZona).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.totalRegistros = response.viaticos.length;
-        this.detaViaticos = response.viaticos;
-      }
-    );
+    // this._registerService.getDetaViatico(this.nroSemana, this.idZona).subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //     this.totalRegistros = response.viaticos.length;
+    //     this.detaViaticos = response.viaticos;
+    //   }
+    // );
   }
 
   activePrinter() {

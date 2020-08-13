@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 
 @Component({
-  selector: 'app-viaticos',
-  templateUrl: './viaticos.component.html',
+  selector: 'app-reportspro-op',
+  templateUrl: './reportspro-op.component.html',
   styles: [
   ]
 })
-export class ViaticosComponent implements OnInit {
-  viaticos = [];
+export class ReportsproOpComponent implements OnInit {
+
+  reportsProOp = [];
   desde = 0;
   hasta = 5;
   loading = true;
@@ -24,13 +25,14 @@ export class ViaticosComponent implements OnInit {
   dataGrafico;
   paginas = 0;
   pagina = 1;
-  viaticosTotal = [];
+  reportTotal = [];
+  reportes = []
 
   constructor(
     public _router: Router,
     private _userService: UserService,
     public _registerService: RegisterService
-  ) { 
+  ) {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -44,66 +46,39 @@ export class ViaticosComponent implements OnInit {
 
     this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
     this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
-  }
+   }
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url); 
-    this.getViaticos();
+    this.getReportsOp();
   }
 
-  getViaticos() {
+  getReportsOp() {
     this.loading = true;
-    this._registerService.getViaticos(this.fhDesde, this.fhHasta, this.search).subscribe(
+    this._registerService.getReportsPro(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
-        this.totalRegistros = response.viaticos.length;
+        this.totalRegistros = response.reportspro.length;
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.viaticosTotal = response.viaticos;
-        this.viaticos = this.viaticosTotal.slice(this.desde, this.hasta);
+        this.reportTotal = response.reportspro;
+        this.reportsProOp = this.reportTotal.slice(this.desde, this.hasta);
         this.loading = false;
         this.activeButton = false;
       }
     );
   }
 
-  deleteViaticos(id) {
-    this._registerService.deleteViaticos(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViaticos();
-        }
-      }
-    );
-  }
+  deleteReportOp(id) {
 
-  aprobarViaticos(id) {
-    this._registerService.aprobarViaticos(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViaticos();
-        }
-      }
-    );
-  }
-
-  generarComprobantes(id) {
-    this.loading = true;
-    this._registerService.generarComprobantes(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViaticos();
-        }
-      }
-    );
   }
 
   filtroPagina () {
-    this.viaticos = this.viaticosTotal.slice(this.desde, this.hasta);
+    this.reportsProOp = this.reportTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
@@ -132,19 +107,20 @@ export class ViaticosComponent implements OnInit {
     this.filtroPagina();
   }
 
+
   printer() {
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listviaticos/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
+      window.open('#/listoreportpro/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
     } else {
-      window.open('#/listviaticos/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
+      window.open('#/listoreportpro/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
   }
 
   // Limpiar busqueda
   clear() {
     this.search = '';
-    this.getViaticos();
+    this.getReportsOp();
     this.pagina = 1;
   }
 
@@ -154,7 +130,8 @@ export class ViaticosComponent implements OnInit {
       this.activeButton = true;
     } else {
       this.activeButton = false;
-      this.getViaticos();
+      this.getReportsOp();
     }
   }
+
 }

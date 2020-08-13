@@ -7,8 +7,7 @@
 
 
 <div style="margin-left: 20px; margin-top: 20px;" id="report">
-    <h2 align="center" style="text-decoration: underline">Listado de Viáticos | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
-
+    <h2 align="center" style="text-decoration: underline">Listado de Reportes de Productividad | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -16,18 +15,16 @@
                 <th>Nro. Semana</th>
                 <th>Zona</th>
                 <th>Fecha Desde</th>
-                <th>Fecha Hasta</th>
-                <th>Monto Total (S/)</th>
+                <th>Fecha Hasta</th>                
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let viatico of viaticos">
-                <td>{{viatico.ITEMS}}</td>
-                <td>{{viatico.NRO_SEMANA}}</td>
-                <td>{{viatico.NB_ZONA_COND}}</td>
-                <td>{{viatico.fhDesde}}</td>
-                <td>{{viatico.fhHasta}}</td>
-                <td>{{viatico.TOTAL_MONTO}}</td>
+            <tr *ngFor="let reportProOp of reportsProOp">
+                <td>{{reportProOp.ITEMS}}</td>
+                <td>{{reportProOp.NRO_SEMANA}}</td>
+                <td>{{reportProOp.NB_ZONA_COND}}</td>
+                <td>{{reportProOp.fhDesde}}</td>
+                <td>{{reportProOp.fhHasta}}</td>
             </tr>
         </tbody>
     </table>

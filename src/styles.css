@@ -88,10 +88,15 @@
         width: 100%;
     }
 
-    .table-op thead,
-    .table-op tbody,
+    /* .table-op tbody,    
     .table-op td,
     .table-op th{
+      display: block;
+    } */
+
+    .table-op-pro tbody,    
+    .table-op-pro td,
+    .table-op-pro th{
       display: block;
     }
 

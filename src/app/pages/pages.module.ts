@@ -53,6 +53,10 @@ import { GuiaComponent } from './guia/guia.component';
 import { GuiasComponent } from './guias/guias.component';
 import { OpProductividadComponent } from './op-productividad/op-productividad.component';
 import { DashboardKpimandismecComponent } from './dashboard-kpimandismec/dashboard-kpimandismec.component';
+import { ViaticoComponent } from './viatico/viatico.component';
+import { ReportsproOpComponent } from './reportspro-op/reportspro-op.component';
+import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estadosp.component';
+import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
 
 @NgModule({
     declarations: [
@@ -91,7 +95,11 @@ import { DashboardKpimandismecComponent } from './dashboard-kpimandismec/dashboa
         GuiaComponent,
         GuiasComponent,
         OpProductividadComponent,
-        DashboardKpimandismecComponent
+        DashboardKpimandismecComponent,
+        ViaticoComponent,
+        ReportsproOpComponent,
+        DashboardEstadospComponent,
+        ViajesCondComponent
     ],
     exports: [
         // PagesComponent,

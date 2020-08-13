@@ -1,0 +1,146 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+
+                    <div class="text-left" >
+                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button> -->
+
+                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button> -->
+                    </div>  
+                    
+
+                    <!-- <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/reportprodop/0">
+                            <i class="fa fa-plus"></i>
+                            Generar Reporte
+                        </button>
+                    </div> -->
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label for="exampleInputuname">Zona:</label>
+                                <div class="input-group">                   
+                                    <select (change)="getVaijesConductor()" [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
+                                    </select>
+                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getVaijesConductor()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <!-- <br/> -->
+
+                    <!-- <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getReportsOp()" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div> -->
+                   
+                    <h3>Listado de Guias (<small>{{totalRegistros}}</small>)</h3>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>ID</th>
+                                <th>Nro. Guia</th>
+                                <th>Fecha/Hora</th>
+                                <th *ngIf="idZona == 3">Fecha/Hora Fin</th>                
+                                <th *ngIf="idZona == 3">Tiempo Viaje</th>                               
+                                <th>Ruta</th>
+                                <th>Orden Servicio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let viaje of viajes">
+                                <td>{{viaje.ITEMS}}</td>
+                                <td>{{viaje.ID_GUIA}}</td>
+                                <td>{{viaje.CORRELATIVO}}</td>
+                                <td>{{viaje.FH_GUIA}}</td>
+                                <td *ngIf="idZona == 3">{{viaje.FECHA_HORA_FIN}}</td>
+                                <td *ngIf="idZona == 3">{{viaje.TIEMPO_VIAJE}}</td>
+                                <td>{{viaje.DS_ORI_DEST}} / {{viaje.DESTINO}}</td>
+                                <td>{{viaje.CORRELATIVO_OS}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table-bordered" style="width: 200px; float: right;">
+                        <thead>
+                            <tr>
+                                <th style="width: 150px;">Total Viajes</th>
+                                <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalRegistros}}</th>
+                            </tr>
+                            <tr *ngIf="idZona == 3">
+                                <th style="width: 150px;">Total Horas</th>
+                                <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalRegistros}}</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <!-- <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                        Siguiente
+                    </button> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

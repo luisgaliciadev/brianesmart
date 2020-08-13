@@ -41,6 +41,10 @@ import { GuiaComponent } from './guia/guia.component';
 import { GuiasComponent } from './guias/guias.component';
 import { OpProductividadComponent } from './op-productividad/op-productividad.component';
 import { DashboardKpimandismecComponent } from './dashboard-kpimandismec/dashboard-kpimandismec.component';
+import { ViaticoComponent } from './viatico/viatico.component';
+import { ReportsproOpComponent } from './reportspro-op/reportspro-op.component';
+import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estadosp.component';
+import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -56,7 +60,7 @@ const pagesRoutes: Routes = [
             // { path: 'companys', component: CompanysComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Empresas'}},
             // { path: 'company/:id', component: AddcompanyComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Empresa'}},
             // { path: 'address/:id', component: UpdateAddressComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal'}},
-            // { path: 'clients', component: ClientsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Clientes'}},
+            // { path: 'clients',reportsprodop component: ClientsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Clientes'}},
             // { path: 'client/:id', component: AddClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registrar Cliente'}},
             // { path: 'addressclient/:id',
             // component: UpdateAddressClientComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Sucursal Cliente'}},
@@ -65,11 +69,13 @@ const pagesRoutes: Routes = [
             {path: 'denuncias', component: DenunciasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncias'}},
             {path: 'denuncia/:id', component: VerdenunciaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncia'}},
             // {path: 'repdenuncia/:id', component: RepDenunciaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Denuncia'}},
-            {path: 'viatico/:semana/:zona', component: ViaticosCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Viaticos'}},
-            {path: 'viaticos', component: ViaticosComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Viaticos'}},
+            {path: 'viatico/:id', component: ViaticoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Viáticos'}},
+            {path: 'viaticos', component: ViaticosComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Viáticos'}},
             {path: 'guia/:id', component: GuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Guía'}},
             {path: 'guias', component: GuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Guías'}},
-            {path: 'productividadop', component: OpProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad Operativa'}},
+            {path: 'reportprodop/:id', component: OpProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Reporte de Productividad Operativa'}},
+            {path: 'reportsprodop', component: ReportsproOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Reportes de Productividad Operativa'}},
+            {path: 'viajesconductor', component: ViajesCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Viajes / Horas'}},
            
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
@@ -80,6 +86,8 @@ const pagesRoutes: Routes = [
             {path: 'dashboardgeotab-2', component: MygeotabComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard MyGeotab Por Fechas'}},     
             {path: 'dashboardkpioptracto', component: DashboardKpitractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Desempeño por Tracto'}},     
             {path: 'dashboardkpimandismec', component: DashboardKpimandismecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Disponibilidad Mecánica'}},     
+            {path: 'dashboardestadopro', component: DashboardEstadospComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Estado de Proyectos'}},     
+
 
             // Modulos Matenimientos sistema
             {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},

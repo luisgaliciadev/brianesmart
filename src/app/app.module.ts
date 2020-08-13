@@ -30,6 +30,7 @@ import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.
 import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
 import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';
 import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
+import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-deta
     ListDenunciasComponent,
     ListGuiasComponent,
     ListViaticosComponent,
-    ListDetaviaticosComponent
+    ListDetaviaticosComponent,
+    ListReportproComponent
   ],
   imports: [
     BrowserModule,

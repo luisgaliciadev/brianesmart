@@ -60,7 +60,7 @@ export class GuiaComponent implements OnInit {
       if (this.guia.ID_GUIA > 0) {
         this.modificar = true;
         this.getGuia();
-        this.getOrdenesServicio();
+        this.getOrdenesServicioAll();
       } else {
         // this.loading = false;
         this.getOrdenesServicio();
@@ -107,7 +107,7 @@ export class GuiaComponent implements OnInit {
         var arrayCorrelativo = this.guia.CORRELATIVO.split('-');
         this.guia.CORRELATIVO = arrayCorrelativo[1];
 
-        console.log(this.guia);
+        // console.log(this.guia);
         if (this.guia.ID_EMPRESA > 0) {
           // console.log('aqui');
           this.tipoEmpresa = true;
@@ -312,6 +312,26 @@ export class GuiaComponent implements OnInit {
   getOrdenesServicio() {
     this.loading = true;
     this._registerService.getOrdenServicio(this._userService.user.ID_USER).subscribe(
+      (response: any) => {         
+        this.ordenes = response.ordenesServicio;      
+        if (this.guia.ID_GUIA > 0) {
+          this.datosOrden(this.guia.ID_ORDEN_SERVICIO);
+          this.getConductor(this.guia.IDEN_CONDUCTOR);
+          this.getVehiculo(this.guia.PLACA_TRACTO,1);
+          this.getVehiculo(this.guia.PLACA_REMOLQUE,2);
+        }
+        this.loading = false;
+      },
+      (error: any) => {
+          this.ordenes = [];
+      }
+    );
+  }
+
+  getOrdenesServicioAll() {
+    // console.log('todas las os');
+    this.loading = true;
+    this._registerService.getOrdenServicioAll(this._userService.user.ID_USER).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;      
         if (this.guia.ID_GUIA > 0) {

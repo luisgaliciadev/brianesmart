@@ -280,7 +280,7 @@ deleteAddressClient(id: number) {
  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
  return this._http.delete(this.URL + '/register/address/' + id, {headers})
  .pipe(map((res: any) => {
-   console.log(res);
+  //  console.log(res);
    Swal.fire('Mensaje', 'Sucursal Eliminada Correctamente.', 'success');
    return true;
  }))
@@ -497,52 +497,35 @@ getTarifasViatico(idZona) {
 // End Get datos semana
 
 // Register Viatico
-registerViatico(viaticos) { 
+registerViatico(viaticos, semana, year, zona, montoTotal) { 
   let json = JSON.stringify(viaticos);  
-  let params = json;  
+  let detaViaticos = json;  
+  let params = semana + '/' + year + '/' + zona + '/' + montoTotal;
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.post(this.URL + '/conductor/viatico', params, {headers})
+  return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
   .pipe(map((res: any) => {
-    Swal.fire('Mensaje', 'Viatico Registrado Correctamente.', 'success');
+    Swal.fire('Mensaje', 'Viaticos Registrado Correctamente.', 'success');
     return res;
   }))
-  .pipe(catchError( (err: any) => {
-    
-    Swal.fire('Mensaje', 'No se pudo registrar el viatico.', 'error');
-    return throwError(err);
-    
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
   }));
 }
 // End Register Viatico
-
-// Get verificar viatico
-getVerificarViatico(idConductor, dia) {
-  var fhDia = dia
-  var arrayFhDia = fhDia.split("/");
-  fhDia = arrayFhDia[2] + '-' + arrayFhDia[1] + '-' + arrayFhDia[0];
-  return this._http.get(this.URL + '/conductor/verificarviatico/' + idConductor + '/' + fhDia)
-  .pipe(map((res: any) => {
-    // console.log(res);
-    if (res.idViatico > 0) {
-      Swal.fire('Mensaje', 'Este registro de viatico ya existe.', 'warning');
-      return false;
-    } else {
-      return true;
-    }
-  }))
-  .pipe(catchError( (err: any) => {
-    Swal.fire('Mensaje', 'No se pudo verificar la informacón.', 'error');
-    return throwError(err);
-  }));
-}
-// End Get verificar viatico
 
 // Get Viaticos
 getViaticos(desde, hasta, search) { 
   if (search === '') {
     search = '0'
   } 
-  return this._http.get(this.URL + '/conductor/viaticos/' + desde + '/' + hasta + '/' + search)
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/viaticos/' + desde + '/' + hasta + '/' + search, {headers})
   .pipe(map((res: any) => {
     // console.log(res); 
     return res;   
@@ -551,38 +534,146 @@ getViaticos(desde, hasta, search) {
 // End Get Viaticos
 
 // Get Viatico
-getViatico(nroSemana, zona) { 
-  return this._http.get(this.URL + '/conductor/viatico/' + nroSemana + '/' + zona)
+getViatico(id) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/viatico/' + id, {headers})
   .pipe(map((res: any) => {
     return res;   
   }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/viaticos']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
 }
 // End Get Viatico
 
-// Get Deta Viatico
-getDetaViatico(nroSemana, zona) { 
-  return this._http.get(this.URL + '/conductor/detaviatico/' + nroSemana + '/' + zona)
+// Get deta viaticos
+getDetaViaticos(semana, year, id, idConductor) {
+  let params = semana + '/' + year + '/' + id + '/' + idConductor;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/detaviaticos/' + params, {headers})
   .pipe(map((res: any) => {
-    return res;   
+    return res;
   }))
+  .pipe(catchError( (err: any) => {  
+    this._router.navigate(['/viaticos']); 
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
 }
-// End Get Deta Viatico
+// End Get deta viticos
 
 // Delete viaticos
-deleteViaticos(nroSemana, zona) { 
+deleteViaticos(id) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.delete(this.URL + '/conductor/viaticos/' + nroSemana + '/' + zona, {headers})
+  return this._http.delete(this.URL + '/conductor/viatico/' + id + '/' + this._userService.user.ID_USER, {headers})
   .pipe(map((res: any) => {
     Swal.fire('Mensaje', 'Viaticos Anulado Correctamente.', 'success');
     return res;   
   }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
 }
 // End Delete Viaticos
 
+// Aprobar viaticos
+aprobarViaticos(id) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/conductor/aprobarviatico/' + id + '/' + this._userService.user.ID_USER, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Viaticos Aprobados Correctamente.', 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo aprobar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Aprobar viaticos
 
+// Generar comprobantes viticos
+generarComprobantes(id) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/pdf/movilidadcond/' + id + '/' + this._userService.user.ID_USER, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', res.message, 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/viaticos']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo generar los comprobantes.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Generar comprobantes viticos
 
+// Get reporte productividad conductor
+getRepProductividadCond(semana, year, zona) {
+  // let params = tipo + '/' + semana + '/' + year + '/' + desde + '/' + hasta;
+  let params = semana + '/' + year + '/' + zona;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/productividad/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get reporte productividad conductor
 
+// Get Viajes/horas
+getViajesHoras(search,desde, hasta, dni, zona) {
+  let params = desde + '/' + hasta + '/' + dni + '/' + search + '/' + zona;
+  console.log(params);
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/viajeshoras/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de viajes.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get Guias
 
+// let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+// return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
 
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -607,7 +698,26 @@ getOrdenServicio(id) {
     }
   }));
 }
-// End Get conductor
+// End Get Orden servicio
+
+// Get Orden servicio all
+getOrdenServicioAll(id) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/osall/' + id, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar las ordenes de servicio.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Orden servicio
 
 // Get Vehiculo
 getVehiculo(placa, tipo) {
@@ -758,8 +868,13 @@ getProductividadop(tipo,semana, year, desde, hasta,zona) {
     return res;
   }))
   .pipe(catchError( (err: any) => {   
-    Swal.fire('Mensaje', 'No se pudo consultar el listado de guias.', 'error');
-    return throwError(err);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
   }));
 }
 // End Get productividad OP
@@ -789,6 +904,105 @@ getMotivoNoOp() {
   }));
 }
 // End Get motivo no op
+
+// Register Report OP
+registerReportPro(diasproductividadop, nroSemana, anio, zona) { 
+  let json = JSON.stringify(diasproductividadop);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/reportop/' + nroSemana + '/' + anio + '/' + zona, params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Report OP
+
+// Update Report OP
+updateReportPro(diasproductividadop, nroSemana, anio, zona) { 
+  let json = JSON.stringify(diasproductividadop);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/reportop/' + nroSemana + '/' + anio + '/' + zona, params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update OP
+
+// Get deta report productividad
+getDetaReportPro(semana, year, id) {
+  let params = semana + '/' + year + '/' + id;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/detareportprodop/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {  
+    this._router.navigate(['/reportsprodop']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get deta viticos
+
+// Get reportes productividad
+getReportsPro(desde, hasta, search) { 
+  if (search === '') {
+    search = '0'
+  } 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/reportspro/' + desde + '/' + hasta + '/' + search, {headers})
+  .pipe(map((res: any) => {
+    // console.log(res); 
+    return res;   
+  }))
+}
+// End Get reportes productividad
+
+// Get reporte op
+getReportPro(id) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/reportprodop/' + id, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/reportsprodop']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get reporte op
  
 
 // OPERACIONES
@@ -814,7 +1028,7 @@ getCliente(ruc) {
     }
   }));
 }
-// End Get cliete
+// End Get cliente
 
 // Administracion
 /////////////////////////////////////////////////////////////////////////////////////////////////

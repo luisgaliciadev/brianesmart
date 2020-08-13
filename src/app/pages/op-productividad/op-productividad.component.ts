@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Params, ActivatedRoute } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
-import { ProductividadOp } from 'src/app/models/productividadop.model';
 
 @Component({
   selector: 'app-op-productividad',
@@ -23,34 +22,33 @@ export class OpProductividadComponent implements OnInit {
   nroSemana: number;
   years = [];
   semanas = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52];
-  // productividadOps = new ProductividadOp('','','','',0,0,'','','','','',0);
   productividadOps;
   totalRegistros = 0;
   dias = [];
   motivosNoOp = [];
   idZona = 1;
   zonasConductor: any[] = [];
+  registrando = false;
+  idReport = 0;
+  modificar = false;
 
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    public _route: ActivatedRoute
   ) {
     this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
-
     let y = new Date()
     this.year = y.getFullYear()
-
     if (this.mes < 10) {
       this.mes = 0 + this.mes.toString(); 
     }
-
     if (this.dia < 10) {
       this.dia = 0 + this.dia.toString(); 
     }
-
     this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
     this.fecha = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
     this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
@@ -62,6 +60,32 @@ export class OpProductividadComponent implements OnInit {
     this.getDatoSemana(this.fecha);
     this.getMotivoNoOp();
     this.getZonasConcutor();
+    this._route.params.forEach((params: Params) => {
+      this.idReport = params.id;
+      if (this.idReport > 0) {
+        this.modificar = true;
+        this.getReportProOp();
+      } else {
+        this.mes = this.date.getMonth() + 1;
+        this.dia = this.date.getDate();
+        let y = new Date()
+        this.year = y.getFullYear()
+        if (this.mes < 10) {
+          this.mes = 0 + this.mes.toString(); 
+        }
+        if (this.dia < 10) {
+          this.dia = 0 + this.dia.toString(); 
+        }
+        this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+        this.fecha = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+        this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia
+        this.getDatoSemana(this.fecha);
+        this.productividadOps = [];
+        this.totalRegistros = 0;
+        this.dias = [];
+        this.modificar = false;
+      }
+    });
   }
 
   getMotivoNoOp() {
@@ -81,7 +105,7 @@ export class OpProductividadComponent implements OnInit {
   }
 
   anio() {
-    console.log(this.year);
+    // console.log(this.year);
   }
 
   getDatoSemana(dia) {
@@ -89,8 +113,42 @@ export class OpProductividadComponent implements OnInit {
       (response: any) => {
         if (response) {
           this.nroSemana = response.datosSemana.NRO_SEMANA;      
-          // console.log('semana:', this.nroSemana); 
         }
+      }
+    );
+  }
+
+  getReportProOp() {
+    this.loading = true;
+    this._registerService.getReportPro(this.idReport).subscribe(
+      (response: any) => {
+        this.year = response.reportProOp.ANIO;
+        this.nroSemana = response.reportProOp.NRO_SEMANA;
+        this.idZona = response.reportProOp.ID_ZONA;
+        this.loading = false;
+        this.getDetaReportProOp();
+      },
+      (error: any) => {
+        this.loading = false;
+      }
+    );
+  }
+
+  getDetaReportProOp() {
+    this.loading = true;
+    this._registerService.getDetaReportPro(this.nroSemana, this.year, this.idReport).subscribe(
+      (response: any) => {
+        console.log(response)
+        this.productividadOps = response.diasProductividad;
+        this.dias = response.dias
+        this.totalRegistros = response.diasProductividad.length
+        this.loading = false;
+      },
+      (error:any) => {
+        this.productividadOps = [];
+        this.totalRegistros = 0;
+        this.dias = [];
+        this.loading = false;
       }
     );
   }
@@ -102,12 +160,15 @@ export class OpProductividadComponent implements OnInit {
     this.loading = true;
     this._registerService.getProductividadop(this.tipoBusqueda, this.nroSemana, this.year, this.fhDesde, this.fhHasta,this.idZona).subscribe(
       (response: any) => {
-        console.log(response)
         this.productividadOps = response.diasProductividad;
-        // console.log(this.productividadOps);
         this.dias = response.dias
-        // console.log( this.dias);
         this.totalRegistros = response.diasProductividad.length
+        this.loading = false;
+      },
+      (error:any) => {
+        this.productividadOps = [];
+        this.totalRegistros = 0;
+        this.dias = [];
         this.loading = false;
       }
     );
@@ -117,6 +178,19 @@ export class OpProductividadComponent implements OnInit {
     this._registerService.getZonaConductor().subscribe(
       (response: any) => {        
         this.zonasConductor = response.zonasConductor
+      }
+    );
+  }
+
+  guardarRepOp() {
+    this.registrando = true;
+    this._registerService.registerReportPro(this.productividadOps, this.nroSemana, this.year, this.idZona).subscribe(
+      (response: any) => {
+        this.registrando = false;
+        this._router.navigate(['/reportsprodop']);
+      },
+      error => {
+        this.registrando = false;
       }
     );
   }

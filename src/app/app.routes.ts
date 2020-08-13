@@ -17,6 +17,7 @@ import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.
 import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
 import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';
 import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
+import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
 
 
 
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
     { path: 'listdenuncias/:search', canActivate: [ReportGuard], component: ListDenunciasComponent, data: {titulo: 'Listado de Denuncias'}},
     { path: 'listguias/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListGuiasComponent, data: {titulo: 'Listado de Guías'}},
     { path: 'listviaticos/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListViaticosComponent, data: {titulo: 'Listado de Viaticos'}},
-    { path: 'listdetaviaticos/:semana/:zona', canActivate: [ReportGuard], component: ListDetaviaticosComponent, data: {titulo: 'Listado de Detalle de Viaticos'}},
+    // { path: 'listdetaviaticos/:semana/:zona', canActivate: [ReportGuard], component: ListDetaviaticosComponent, data: {titulo: 'Listado de Detalle de Viaticos'}},
+    { path: 'listoreportpro/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListReportproComponent, data: {titulo: 'Listado de Reportes de Productividad'}},
 
     {
         path: '',

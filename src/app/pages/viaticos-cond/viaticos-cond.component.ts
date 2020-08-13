@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 export class ViaticosCondComponent implements OnInit {
   idZona = 0 ;
   zonasConductor: any[] = [];
-  viatico: Viatico = new Viatico(0,'',0,'','','',0,0,0,0,0);
+  // viatico: Viatico = new Viatico(0,'',0,'','','',0,0,0,0,0);
   detaViaticos = [];
   nombreConductor = '';
   idConductor = '';
@@ -60,29 +60,29 @@ export class ViaticosCondComponent implements OnInit {
 
   getViatico() {
     this.loading = true;
-    this._registerService.getViatico(this.nroSemana, this.idZona).subscribe(
-      (response: any) => {
-        this.fhDesde = response.viatico.FH_DESDE.substring(0, 10);
-        this.fhHasta = response.viatico.FH_HASTA.substring(0, 10);
-        this.montoTotal = response.viatico.MONTO_TOTAL;
-      }
-    );
+    // this._registerService.getViatico(this.nroSemana, this.idZona).subscribe(
+    //   (response: any) => {
+    //     this.fhDesde = response.viatico.FH_DESDE.substring(0, 10);
+    //     this.fhHasta = response.viatico.FH_HASTA.substring(0, 10);
+    //     this.montoTotal = response.viatico.MONTO_TOTAL;
+    //   }
+    // );
   }
 
   getDetaViaticos() {
     this.loading = true;
-    this._registerService.getDetaViatico(this.nroSemana, this.idZona).subscribe(
-      (response: any) => {
-        this.totalRegistros = response.viaticos.length;
-        this.detaViaticosTotal = response.viaticos;
-        this.detaViaticos = this.detaViaticosTotal.slice(this.desde, this.hasta);
-        this.paginas = Math.ceil(this.totalRegistros / 7);
-        if (this.paginas <= 1) {
-          this.paginas = 1;
-        }
-        this.loading = false;
-      }
-    );
+    // this._registerService.getDetaViatico(this.nroSemana, this.idZona).subscribe(
+    //   (response: any) => {
+    //     this.totalRegistros = response.viaticos.length;
+    //     this.detaViaticosTotal = response.viaticos;
+    //     this.detaViaticos = this.detaViaticosTotal.slice(this.desde, this.hasta);
+    //     this.paginas = Math.ceil(this.totalRegistros / 7);
+    //     if (this.paginas <= 1) {
+    //       this.paginas = 1;
+    //     }
+    //     this.loading = false;
+    //   }
+    // );
   }
 
   getZonasConcutor() {
@@ -158,30 +158,30 @@ export class ViaticosCondComponent implements OnInit {
     }
   }
 
-  getVerificarViatico(i, data, check) {
-    var dia = data.dia;
-    this._registerService.getVerificarViatico(this.dniConductor, dia).subscribe(
-      (response: any) => {
-        if (response) {
-          this.montos(i, data);
-        } else {
-          // console.log('Existe');
-          if (check === 1) {
-            this.viaticoDeta[i].check1 = false;
-          }
+  // getVerificarViatico(i, data, check) {
+  //   var dia = data.dia;
+  //   this._registerService.getVerificarViatico(this.dniConductor, dia).subscribe(
+  //     (response: any) => {
+  //       if (response) {
+  //         this.montos(i, data);
+  //       } else {
+  //         // console.log('Existe');
+  //         if (check === 1) {
+  //           this.viaticoDeta[i].check1 = false;
+  //         }
 
-          if (check === 2) {
-            this.viaticoDeta[i].check2 = false;
-          }
+  //         if (check === 2) {
+  //           this.viaticoDeta[i].check2 = false;
+  //         }
 
-          if (check === 3) {
-            this.viaticoDeta[i].check3 = false;
-          }
+  //         if (check === 3) {
+  //           this.viaticoDeta[i].check3 = false;
+  //         }
           
-        }
-      }
-    );
-  }
+  //       }
+  //     }
+  //   );
+  // }
  
   registerViatico(data) {
     if (this.dniConductor === '') {
@@ -233,14 +233,14 @@ export class ViaticosCondComponent implements OnInit {
       return;
     }
     
-    this._registerService.registerViatico(viaticos).subscribe(
-      (response:any) => {
-        if (response) {
-          this.registrando = false;
-          this.limpiar();
-        }
-      }
-    );
+    // this._registerService.registerViatico(viaticos).subscribe(
+    //   (response:any) => {
+    //     if (response) {
+    //       this.registrando = false;
+    //       this.limpiar();
+    //     }
+    //   }
+    // );
   }
 
   montos(i,data) {

@@ -16,7 +16,6 @@ export class DashboardGuiasComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this._router.url);
     this._userService.permisoModule(this._router.url);
   }
 
