@@ -8,7 +8,15 @@
                 <form ngNativeValidate #formUser="ngForm" (ngSubmit)="saveUser(formUser.value)" class="form p-t-20">
 
                     <div class="form-group">
-                        <label for="exampleInputuname">Nombre de Usuario</label>
+                        <label >Nro. Identificación:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-id-badge"></i></div>
+                            <input [ngModel]="user.IDEN" name="IDEN" type="text" class="form-control" placeholder="Nro. Identificaión" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label >Nombre de Usuario</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-user"></i></div>
                             <input [ngModel]="user.NAME" name="NAME" type="text" class="form-control" placeholder="Nombre del Usuario" required>
@@ -54,7 +62,7 @@
 
 
                     <div class="form-group">
-                        <label for="exampleInputuname">Telefono</label>
+                        <label >Telefono</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-mobile"></i></div>
                             <input [ngModel]="user.PHONE" name="PHONE" type="text" class="form-control" placeholder="Telefono Contacto">

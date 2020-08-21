@@ -9,7 +9,6 @@ import { UserService, RegisterService } from 'src/app/services/service.index';
   ]
 })
 export class ReportsproOpComponent implements OnInit {
-
   reportsProOp = [];
   desde = 0;
   hasta = 5;
@@ -74,7 +73,13 @@ export class ReportsproOpComponent implements OnInit {
   }
 
   deleteReportOp(id) {
-
+    this._registerService.deleteReportOP(id).subscribe(
+      (response: any) => {
+        if(response) {
+          this.getReportsOp();
+        }
+      }
+    );
   }
 
   filtroPagina () {
@@ -106,7 +111,6 @@ export class ReportsproOpComponent implements OnInit {
     }
     this.filtroPagina();
   }
-
 
   printer() {
     this._userService.loadReport();

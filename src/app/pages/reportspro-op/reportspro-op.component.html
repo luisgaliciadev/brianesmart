@@ -72,38 +72,39 @@
                     </div>
                    
                     <h3>Listado de Reportes (<small>{{totalRegistros}}</small>)</h3>
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Nro. Semana</th>
-                                <th>Zona</th>
-                                <th>Fecha Desde</th>
-                                <th>Fecha Hasta</th>                
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let reportProOp of reportsProOp">
-                                <td>{{reportProOp.ITEMS}}</td>
-                                <td>{{reportProOp.NRO_SEMANA}}</td>
-                                <td>{{reportProOp.NB_ZONA_COND}}</td>
-                                <td>{{reportProOp.fhDesde}}</td>
-                                <td>{{reportProOp.fhHasta}}</td>
-                                <td>                                   
-                                    <button [routerLink]="(['/reportprodop',reportProOp.ID_REPORT_PRO_OP])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-
-                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteReportOp(reportProOp.ID_REPORT_PRO_OP)">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                    <div style="overflow: auto">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Nro. Semana</th>
+                                    <th>Zona</th>
+                                    <th>Fecha Desde</th>
+                                    <th>Fecha Hasta</th>                
+                                    <th style="width: 150px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let reportProOp of reportsProOp">
+                                    <td>{{reportProOp.ITEMS}}</td>
+                                    <td>{{reportProOp.NRO_SEMANA}}</td>
+                                    <td>{{reportProOp.NB_ZONA_COND}}</td>
+                                    <td>{{reportProOp.fhDesde}}</td>
+                                    <td>{{reportProOp.fhHasta}}</td>
+                                    <td style="width: 150px;">                                   
+                                        <button [routerLink]="(['/reportprodop',reportProOp.ID_REPORT_PRO_OP])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+    
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteReportOp(reportProOp.ID_REPORT_PRO_OP)">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
                     <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
                         Anterior
                     </button>

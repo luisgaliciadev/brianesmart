@@ -25,9 +25,12 @@ export class ViajesCondComponent implements OnInit {
   dia;
   paginas = 0;
   pagina = 1;
-  dni = '40944237';
+  dni;
   zonasConductor = '';
-  idZona = 1;
+  idZona = 3;
+  totalHoras = 0;
+  tarifaViajes = [];
+  totalComision = 0;
 
   constructor(
     public _router: Router,
@@ -51,6 +54,7 @@ export class ViajesCondComponent implements OnInit {
 
   ngOnInit(): void {
     this.getZonasConcutor();
+    this.dni = this._userService.user.IDEN;
     // this.getVaijesConductor();
   }
 
@@ -63,9 +67,16 @@ export class ViajesCondComponent implements OnInit {
     this.search = '0';
     this._registerService.getViajesHoras(this.search, this.fhDesde, this.fhHasta, this.dni, this.idZona).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.viajes = response.viajes;
+        this.tarifaViajes = response.viajesTarifa;
         this.totalRegistros = response.viajes.length;
+        this.totalComision = response.comisionTotalHoras;
+        // this.totalComision = response.comisionTotalViajes;
+        this.totalHoras = response.horasPagar;
+        this.loading = false;
+      },
+      (error: any) => {
         this.loading = false;
       }
     );

@@ -61,10 +61,10 @@
                         </div>  
                         
                         <div class="col-sm">
-                            <div class="form-group">
-                                <label for="exampleInputuname">Zona:</label>
+                            <div class="form-group row">
+                                <label>Zona:</label>
                                 <div class="input-group">                   
-                                    <select (change)="getVaijesConductor()" [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                    <select (change)="getVaijesConductor()" [(ngModel)]="idZona" name="idZona" class="form-control" required disabled>
                                         <option value = "">Seleccione</option>
                                         <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
                                     </select>
@@ -87,46 +87,56 @@
                     </div> -->
                    
                     <h3>Listado de Guias (<small>{{totalRegistros}}</small>)</h3>
-
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>ID</th>
-                                <th>Nro. Guia</th>
-                                <th>Fecha/Hora</th>
-                                <th *ngIf="idZona == 3">Fecha/Hora Fin</th>                
-                                <th *ngIf="idZona == 3">Tiempo Viaje</th>                               
-                                <th>Ruta</th>
-                                <th>Orden Servicio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let viaje of viajes">
-                                <td>{{viaje.ITEMS}}</td>
-                                <td>{{viaje.ID_GUIA}}</td>
-                                <td>{{viaje.CORRELATIVO}}</td>
-                                <td>{{viaje.FH_GUIA}}</td>
-                                <td *ngIf="idZona == 3">{{viaje.FECHA_HORA_FIN}}</td>
-                                <td *ngIf="idZona == 3">{{viaje.TIEMPO_VIAJE}}</td>
-                                <td>{{viaje.DS_ORI_DEST}} / {{viaje.DESTINO}}</td>
-                                <td>{{viaje.CORRELATIVO_OS}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <table class="table-bordered" style="width: 200px; float: right;">
-                        <thead>
-                            <tr>
-                                <th style="width: 150px;">Total Viajes</th>
-                                <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalRegistros}}</th>
-                            </tr>
-                            <tr *ngIf="idZona == 3">
-                                <th style="width: 150px;">Total Horas</th>
-                                <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalRegistros}}</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div style="overflow: auto">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>ID</th>
+                                    <th>Nro. Guia</th>
+                                    <th>Fecha/Hora</th>
+                                    <!-- <th *ngIf="idZona == 3">Fecha/Hora Fin</th>                 -->
+                                    <!-- <th *ngIf="idZona == 3">Tiempo Viaje</th>                                -->
+                                    <th>Ruta</th>
+                                    <th>Orden Servicio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let viaje of viajes">
+                                    <td>{{viaje.ITEMS}}</td>
+                                    <td>{{viaje.ID_GUIA}}</td>
+                                    <td>{{viaje.CORRELATIVO}}</td>
+                                    <td>{{viaje.FH_GUIA}}</td>
+                                    <!-- <td *ngIf="idZona == 3">{{viaje.FECHA_HORA_FIN}}</td> -->
+                                    <!-- <td *ngIf="idZona == 3">{{viaje.TIEMPO_VIAJE}}</td> -->
+                                    <td>{{viaje.DS_ORI_DEST}} / {{viaje.DESTINO}}</td>
+                                    <td>{{viaje.CORRELATIVO_OS}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+    
+                        <table class="table-bordered" style="width: 200px; float: right;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 150px;">Total Viajes</th>
+                                    <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalRegistros}}</th>
+                                </tr>
+                                <tr *ngIf="idZona == 3">
+                                    <th style="width: 150px;">Horas-Minutos</th>
+                                    <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalHoras}}</th>
+                                </tr>
+                                <tr *ngIf="idZona == 3">
+                                    <th style="width: 150px;">Total Comisión S/</th>
+                                    <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalComision}}</th>
+                                </tr>
+                                <!-- <tr *ngIf="idZona == 3">
+                                    <th style="width: 150px;">Total Horas</th>
+                                    <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalHoras}}</th>
+                                </tr> -->
+                            </thead>
+                        </table>
+                    </div>
+                    
 
                     <!-- <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
                         Anterior

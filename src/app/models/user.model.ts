@@ -19,6 +19,7 @@ export class User {
         public ID_ROLE?: number,
         public GOOGLE?: boolean,
         public PHONE?: string,
+        public IDEN?: string,
         // tslint:disable-next-line: variable-name
         public ID_USER?: number
     ) { }

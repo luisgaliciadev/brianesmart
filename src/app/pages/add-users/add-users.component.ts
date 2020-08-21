@@ -28,7 +28,7 @@ export class AddUsersComponent implements OnInit {
     public _router: Router
 
   ) {
-    this.user = new User('', '', '', '', 0, false, '', 0);
+    this.user = new User('', '', '', '', 0, false, '', '', 0);
   }
 
   ngOnInit() {
@@ -57,8 +57,8 @@ export class AddUsersComponent implements OnInit {
     );
   }
   saveUser(user) {
-    //console.log(user);
-    //return;
+    // console.log(user);
+    // return;
 
     if (user.PASSWORD === user.PASSWORD2) {
       this._userService.userRegister(user).subscribe(
@@ -76,6 +76,7 @@ export class AddUsersComponent implements OnInit {
     this.user.ID_ROLE = user.ID_ROLE;
     this.user.PHONE = user.PHONE;
     this.user.ID_USER = this.ID_USER;
+    this.user.IDEN = user.IDEN;
     // console.log(this.user);
     // return;
     this._userService.updateProfile(this.user).subscribe(

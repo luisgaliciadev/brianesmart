@@ -9,7 +9,6 @@ import { UserService, RegisterService } from 'src/app/services/service.index';
   ]
 })
 export class OpProductividadComponent implements OnInit {
-
   fhDesde;
   fhHasta;
   date = new Date();
@@ -31,6 +30,7 @@ export class OpProductividadComponent implements OnInit {
   registrando = false;
   idReport = 0;
   modificar = false;
+  actualizando = false;
 
   constructor(
     public _router: Router,
@@ -105,7 +105,6 @@ export class OpProductividadComponent implements OnInit {
   }
 
   anio() {
-    // console.log(this.year);
   }
 
   getDatoSemana(dia) {
@@ -138,7 +137,6 @@ export class OpProductividadComponent implements OnInit {
     this.loading = true;
     this._registerService.getDetaReportPro(this.nroSemana, this.year, this.idReport).subscribe(
       (response: any) => {
-        console.log(response)
         this.productividadOps = response.diasProductividad;
         this.dias = response.dias
         this.totalRegistros = response.diasProductividad.length
@@ -191,6 +189,28 @@ export class OpProductividadComponent implements OnInit {
       },
       error => {
         this.registrando = false;
+      }
+    );
+  }
+
+  updateRepOp(i,nroDia) {
+    if (this.idReport == 0) {
+      return;
+    }
+    this.actualizando = true;
+    this._registerService.updateReportPro(this.productividadOps[i], this.nroSemana, this.year, this.idZona, this.idReport,nroDia).subscribe(
+      (response: any) => {
+        this.actualizando = false;
+      }
+    );
+  }
+
+  deleteReportOp() {
+    this._registerService.deleteReportOP(this.idReport).subscribe(
+      (response: any) => {
+        if(response) {
+          this._router.navigate(['/reportsprodop']);
+        }
       }
     );
   }

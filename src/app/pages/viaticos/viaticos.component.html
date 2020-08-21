@@ -72,47 +72,49 @@
                     </div>
                    
                     <h3>Listado de Viáticos (<small>{{totalRegistros}}</small>)</h3>
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nro. Semana</th>
-                                <th>Zona</th>
-                                <th>Fecha Desde</th>
-                                <th>Fecha Hasta</th>
-                                <th>Monto Total (S/)</th>
-                                <th>Estatus</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let viatico of viaticos">
-                                <td>{{viatico.NRO_SEMANA}}</td>
-                                <td>{{viatico.NB_ZONA_COND}}</td>
-                                <td>{{viatico.fhDesde}}</td>
-                                <td>{{viatico.fhHasta}}</td>
-                                <td>{{viatico.TOTAL_MONTO}}</td>
-                                <td>{{viatico.ESTADO}}</td>
-                                <td>                                   
-                                    <button [routerLink]="(['/viatico',viatico.ID_VIATICO])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-
-                                    <button *ngIf="viatico.ESTATUS == 1" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aprobar" (click)="aprobarViaticos(viatico.ID_VIATICO)">
-                                        <i class="fa fa-check"></i>
-                                    </button>
-
-                                    <button *ngIf="viatico.ESTATUS == 2" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generar Comprobantes" (click)="generarComprobantes(viatico.ID_VIATICO)">
-                                        <i class="fa fa-file-pdf-o"></i>
-                                    </button>
-
-                                    <button *ngIf="viatico.ESTATUS == 1" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteViaticos(viatico.ID_VIATICO)">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="overflow: auto">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nro. Semana</th>
+                                    <th>Zona</th>
+                                    <th>Fecha Desde</th>
+                                    <th>Fecha Hasta</th>
+                                    <th>Monto Total (S/)</th>
+                                    <th>Estatus</th>
+                                    <th style="width: 150px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let viatico of viaticos">
+                                    <td>{{viatico.NRO_SEMANA}}</td>
+                                    <td>{{viatico.NB_ZONA_COND}}</td>
+                                    <td>{{viatico.fhDesde}}</td>
+                                    <td>{{viatico.fhHasta}}</td>
+                                    <td>{{viatico.TOTAL_MONTO}}</td>
+                                    <td>{{viatico.ESTADO}}</td>
+                                    <td style="width: 150px;">                                   
+                                        <button [routerLink]="(['/viatico',viatico.ID_VIATICO])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+    
+                                        <button *ngIf="viatico.ESTATUS == 1" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aprobar" (click)="aprobarViaticos(viatico.ID_VIATICO)">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+    
+                                        <button *ngIf="viatico.ESTATUS == 2" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generar Comprobantes" (click)="generarComprobantes(viatico.ID_VIATICO)">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </button>
+    
+                                        <button *ngIf="viatico.ESTATUS == 1" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteViaticos(viatico.ID_VIATICO)">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
 
                     <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
                         Anterior

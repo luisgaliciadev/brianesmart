@@ -54,45 +54,47 @@
                     </div> -->
 
                     <h3>Listado de Usuario (<small>{{totalRegistros}}</small>)</h3>                   
-
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <!-- <th>Auntenticacón</th> -->
-                                <th>Rol</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let user of users">
-                                <td><img [src]="user.IMAGE | image: 'user'" class="img-profile-list"/></td>
-                                <td>{{user.NAME}}</td>
-                                <td>{{user.EMAIL}}</td>
-                                <!-- <td>
-                                    <label *ngIf="user.GOOGLE" class="label label-danger">Google</label>
-                                    <label *ngIf="!user.GOOGLE" class="label label-info">Normal</label>
-                                </td> -->
-                                <td>
-                                    <select [(ngModel)]="user.ID_ROLE" name="ID_ROLE" class="form-control" required>                                       
-                                        <option disabled = "true" *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
-                                    </select>
-                                </td>
-                                <td>
-                                     <button [routerLink]="(['/user',user.ID_USER])" type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar">
-                                        <i class="fa fa-pencil"></i>
-                                    </button>
-
-                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteUser(user.ID_USER)">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="overflow: auto">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <!-- <th>Auntenticacón</th> -->
+                                    <th>Rol</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of users">
+                                    <td><img [src]="user.IMAGE | image: 'user'" class="img-profile-list"/></td>
+                                    <td>{{user.NAME}}</td>
+                                    <td>{{user.EMAIL}}</td>
+                                    <!-- <td>
+                                        <label *ngIf="user.GOOGLE" class="label label-danger">Google</label>
+                                        <label *ngIf="!user.GOOGLE" class="label label-info">Normal</label>
+                                    </td> -->
+                                    <td>
+                                        <select [(ngModel)]="user.ID_ROLE" name="ID_ROLE" class="form-control" required>                                       
+                                            <option disabled = "true" *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                         <button [routerLink]="(['/user',user.ID_USER])" type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+    
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteUser(user.ID_USER)">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
 
                     <button class="btn btn-secondary" (click)="changePage(-5)">
                         Anterior

@@ -120,6 +120,7 @@
         height: 50px;
         overflow: hidden;
     }
+
     .table-turno td,
     .table-turno th {
         border: transparent 0px solid  !important;

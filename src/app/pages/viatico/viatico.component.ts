@@ -4,6 +4,7 @@ import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Viatico } from 'src/app/models/viatico.model';
 import { ViaticoDeta } from 'src/app/models/viaticoDeta.model';
 import { URL_SERVICES } from 'src/app/config/config';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-viatico',
@@ -12,7 +13,6 @@ import { URL_SERVICES } from 'src/app/config/config';
   ]
 })
 export class ViaticoComponent implements OnInit {
-
   fhDesde;
   fhHasta;
   date = new Date();
@@ -39,6 +39,10 @@ export class ViaticoComponent implements OnInit {
   modificar = false;
   estatus = 0;
   URL = URL_SERVICES;
+  actualizando = false;
+  diasFeriado = [];
+  tarifaDomingo = 8;
+  tarifaFeriado = 8;
 
   constructor(
     public _router: Router,
@@ -46,8 +50,6 @@ export class ViaticoComponent implements OnInit {
     public _registerService: RegisterService,
     public _route: ActivatedRoute
   ) {
-
-    // this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -68,11 +70,11 @@ export class ViaticoComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    // this._userService.permisoModule(this._router.url);
     this.getYears();
     this.getDatoSemana(this.fecha);
     this.getMotivoNoOp();
     this.getZonasConcutor();
+    this.getDiasFeriados();
     this._route.params.forEach((params: Params) => {
       this.idViatico = params.id;
       if (this.idViatico > 0) {
@@ -117,8 +119,17 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
+  getDiasFeriados() {
+    this._registerService.getDiasFeriados().subscribe(
+      (response: any) => {
+        this.diasFeriado = response.diasFeriado;
+        // console.log(response);
+      }
+    );
+  }
+
   anio() {
-    // console.log(this.year);
+   
   }
 
   getDatoSemana(dia) {
@@ -140,6 +151,9 @@ export class ViaticoComponent implements OnInit {
         this.year = response.viatico.ANIO;
         this.idZona = response.viatico.ID_ZONA;
         this.getDetaViaticos();
+        if (this.estatus > 1) {
+          this.actualizando = true;
+        }
       },
       (error: any) => {
         this.loading = false;
@@ -151,17 +165,13 @@ export class ViaticoComponent implements OnInit {
     this._registerService.getDetaViaticos(this.nroSemana, this.year, this.idViatico, 0).subscribe(
       (response: any) => {
         this.productividadOps = response.diasViaticos;   
-        console.log(this.productividadOps);  
         this.dias = response.dias;       
         this.totalRegistros = response.diasViaticos.length;
-
         var viaticosTotal = 0;
         this.productividadOps.forEach(function (productividadOp) {
           viaticosTotal = viaticosTotal + productividadOp.TOTAL;
         });
-       
         this.montoTotalViaticos = viaticosTotal;
-      
         this.loading = false;
       },
       (error:any) => {
@@ -183,13 +193,13 @@ export class ViaticoComponent implements OnInit {
   }
 
   aprobarViaticos() {
-    this.loading = true;
+    this.registrando = true;
     this._registerService.aprobarViaticos(this.idViatico).subscribe(
       (response: any) => {
         if(response) {
           // this._router.navigate(['/viaticos']);
           this.getViatico();
-          this.loading = false;
+          this.registrando = false;
         }
       }
     );
@@ -202,12 +212,16 @@ export class ViaticoComponent implements OnInit {
     this.loading = true;
     this._registerService.getRepProductividadCond(this.nroSemana, this.year, this.idZona).subscribe(
       (response: any) => {
-        this.productividadOps = response.diasProductividad;       
+        this.productividadOps = response.diasProductividad;     
+        // console.log(this.productividadOps); 
         this.dias = response.dias;       
         this.totalRegistros = response.diasProductividad.length;
         var j = -1;
         var viaticoTotal = 0;                 
         var productividad = response.diasProductividad;
+        var feriados = this.diasFeriado;
+        var feriadoTarifa = this.tarifaFeriado;
+        var domingoTarifa = this.tarifaDomingo;
         this.productividadOps.forEach(function (productividadOp) { 
           j++;
           viaticoTotal = 0;
@@ -220,7 +234,6 @@ export class ViaticoComponent implements OnInit {
           if (productividadOp.dia1.check3 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
-
           if (productividadOp.dia2.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
@@ -230,7 +243,6 @@ export class ViaticoComponent implements OnInit {
           if (productividadOp.dia2.check3 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
-
           if (productividadOp.dia3.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
@@ -240,7 +252,6 @@ export class ViaticoComponent implements OnInit {
           if (productividadOp.dia3.check3 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
-
           if (productividadOp.dia4.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
@@ -250,7 +261,6 @@ export class ViaticoComponent implements OnInit {
           if (productividadOp.dia4.check3 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
-
           if (productividadOp.dia5.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
@@ -260,7 +270,6 @@ export class ViaticoComponent implements OnInit {
           if (productividadOp.dia5.check3 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
-
           if (productividadOp.dia6.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
@@ -270,7 +279,6 @@ export class ViaticoComponent implements OnInit {
           if (productividadOp.dia6.check3 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
-
           if (productividadOp.dia7.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
@@ -281,7 +289,90 @@ export class ViaticoComponent implements OnInit {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
 
-          productividad[j].TOTAL = viaticoTotal + productividad[j].REINTEGRO;
+          // TARIFA DIAS DOMINGOS
+          var montoDiaDomingo = 0;
+          if (productividadOp.dia7.check2 == 1 && productividadOp.dia7.check3 == 1 && productividadOp.ID_ZONA == 1)  {
+            montoDiaDomingo = domingoTarifa;
+          }
+          // TARIFA DIAS DOMINGOS
+
+           // TARIFA DIAS FERIADOS
+          var montoFeriado = 0         
+          if (productividadOp.ID_ZONA == 1) {
+            if(productividadOp.dia1.check1 == 1 || productividadOp.dia1.check2 == 1 || productividadOp.dia1.check3 == 1) {
+              let arrayFecha = productividadOp.dia1.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );             
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+            if(productividadOp.dia2.check1 == 1 || productividadOp.dia2.check2 == 1 || productividadOp.dia2.check3 == 1) {
+              let arrayFecha = productividadOp.dia2.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );             
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+            if(productividadOp.dia3.check1 == 1 || productividadOp.dia3.check2 == 1 || productividadOp.dia3.check3 == 1) {
+              let arrayFecha = productividadOp.dia3.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );              
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+            if(productividadOp.dia4.check1 == 1 || productividadOp.dia4.check2 == 1 || productividadOp.dia4.check3 == 1) {
+              let arrayFecha = productividadOp.dia4.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );              
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+            if(productividadOp.dia5.check1 == 1 || productividadOp.dia5.check2 == 1 || productividadOp.dia5.check3 == 1) {
+              let arrayFecha = productividadOp.dia5.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );              
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+            if(productividadOp.dia6.check1 == 1 || productividadOp.dia6.check2 == 1 || productividadOp.dia6.check3 == 1) {
+              let arrayFecha = productividadOp.dia6.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );              
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+            if(productividadOp.dia7.check1 == 1 || productividadOp.dia7.check2 == 1 || productividadOp.dia7.check3 == 1) {
+              let arrayFecha = productividadOp.dia7.fecha.split('/');
+              let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+              let resultado = feriados.find( dia => 
+                dia.DIA_FERIADO.substring(0, 10) === fecha
+              );              
+              if(resultado) {
+                montoFeriado = montoFeriado + feriadoTarifa;
+              }
+            }
+          }
+          // FIN TARIFAS DIAS FERIADOS
+      
+          productividad[j].TOTAL = viaticoTotal + productividad[j].REINTEGRO + montoDiaDomingo + montoFeriado;
         });
 
         this.productividadOps = productividad;
@@ -311,10 +402,13 @@ export class ViaticoComponent implements OnInit {
   }
 
   guardarViatico() {  
+    if (this.productividadOps.length == 0) {
+      Swal.fire('Mensaje', 'No existen registros a guardar.', 'warning');
+      return;
+    }
     this.registrando = true;
     this._registerService.registerViatico(this.productividadOps, this.nroSemana, this.year, this.idZona,this.montoTotalViaticos).subscribe(
       (response: any) => {
-        console.log(response);
         if (response) {         
           this._router.navigate(['/viaticos']);
         }
@@ -326,22 +420,37 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  generarComprobantes(id) {
-    this.loading = true;
-    this._registerService.generarComprobantes(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViatico();
-          this.loading = false;
+  updateViatico(i, nroDia) {  
+    this.actualizando = true;
+    this._registerService.updateViatico(this.productividadOps[i], this.nroSemana, this.year, this.idZona,this.montoTotalViaticos,this.idViatico,nroDia).subscribe(
+      (response: any) => {        
+        if (response) {         
+         this.actualizando = false;
         }
+        
       },
-      (error) => {
-        this.loading = false;
+      error => {
+        this.actualizando = false;
       }
     );
   }
 
-  montos(i) {
+  generarComprobantes(id) {
+    this.registrando = true;
+    this._registerService.generarComprobantes(id).subscribe(
+      (response: any) => {
+        if(response) {
+          this.getViatico();
+          this.registrando = false;
+        }
+      },
+      (error) => {
+        this.registrando = false;
+      }
+    );
+  }
+
+  montos(i, nroDia) {
     this.productividadOps[i].TOTAL = 0;
     var viaticoTotal = 0;
     if (this.productividadOps[i].dia1.check1 == 1) {
@@ -388,8 +497,7 @@ export class ViaticoComponent implements OnInit {
     }
     if (this.productividadOps[i].dia5.check3 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
-    }
-    
+    }    
     if (this.productividadOps[i].dia6.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
@@ -408,13 +516,102 @@ export class ViaticoComponent implements OnInit {
     if (this.productividadOps[i].dia7.check3 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
+
+    var montoDiaDomingo = 0;
+    if (this.productividadOps[i].dia7.check2 == 1 && this.productividadOps[i].dia7.check3 == 1 && this.idZona == 1)  {
+      montoDiaDomingo = this.tarifaDomingo;
+    }
+
+    var montoFeriado = 0    
+    if (this.idZona == 1) {
+      if(this.productividadOps[i].dia1.check1 == 1 || this.productividadOps[i].dia1.check2 == 1 || this.productividadOps[i].dia1.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia1.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+
+      if(this.productividadOps[i].dia2.check1 == 1 || this.productividadOps[i].dia2.check2 == 1 || this.productividadOps[i].dia2.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia2.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+
+      if(this.productividadOps[i].dia3.check1 == 1 || this.productividadOps[i].dia3.check2 == 1 || this.productividadOps[i].dia3.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia3.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+
+      if(this.productividadOps[i].dia4.check1 == 1 || this.productividadOps[i].dia4.check2 == 1 || this.productividadOps[i].dia4.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia4.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+
+      if(this.productividadOps[i].dia5.check1 == 1 || this.productividadOps[i].dia5.check2 == 1 || this.productividadOps[i].dia5.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia5.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+
+      if(this.productividadOps[i].dia6.check1 == 1 || this.productividadOps[i].dia6.check2 == 1 || this.productividadOps[i].dia6.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia6.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+
+      if(this.productividadOps[i].dia7.check1 == 1 || this.productividadOps[i].dia7.check2 == 1 || this.productividadOps[i].dia7.check3 == 1) {
+        let arrayFecha = this.productividadOps[i].dia7.fecha.split('/');
+        let fecha = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+        let resultado = this.diasFeriado.find( dia => 
+          dia.DIA_FERIADO.substring(0, 10) === fecha
+        ); 
+        if(resultado) {
+          montoFeriado = montoFeriado + this.tarifaFeriado;
+        }
+      }
+    }
     
-    this.productividadOps[i].TOTAL = viaticoTotal + this.productividadOps[i].REINTEGRO;
+    this.productividadOps[i].TOTAL = viaticoTotal + this.productividadOps[i].REINTEGRO + montoDiaDomingo + montoFeriado;
     var total = 0;
     this.productividadOps.forEach(function (productividadOp) {
       total = total + productividadOp.TOTAL
     });
     this.montoTotalViaticos = total;  
+    if (this.idViatico > 0) {
+      this.updateViatico(i, nroDia);
+    }
+    
   }
 
   descargar(archivo) {   
