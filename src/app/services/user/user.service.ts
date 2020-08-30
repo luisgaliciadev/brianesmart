@@ -811,6 +811,15 @@ export class UserService {
   }
   // Fin Metodo para listar los modulos por rol
 
+  // Metodo para listar todos los modulos por rol
+  getsRolModules(idRole) {
+    return this._http.get(this.URL + '/security/rolmodules/' + idRole)
+    .pipe(map((res: any) => {
+      return res;
+    }));
+  }
+  // Fin Metodo para listar los modulos por rol
+
   // Metodo para buscar un modulo
   getModule(idModule) {
     return this._http.get(this.URL + '/security/module/' + idModule)

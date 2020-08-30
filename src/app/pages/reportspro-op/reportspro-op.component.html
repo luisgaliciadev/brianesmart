@@ -80,7 +80,8 @@
                                     <th>Nro. Semana</th>
                                     <th>Zona</th>
                                     <th>Fecha Desde</th>
-                                    <th>Fecha Hasta</th>                
+                                    <th>Fecha Hasta</th> 
+                                    <th>Estatus</th>               
                                     <th style="width: 150px;"></th>
                                 </tr>
                             </thead>
@@ -91,9 +92,14 @@
                                     <td>{{reportProOp.NB_ZONA_COND}}</td>
                                     <td>{{reportProOp.fhDesde}}</td>
                                     <td>{{reportProOp.fhHasta}}</td>
+                                    <td>{{reportProOp.ESTADO}}</td>
                                     <td style="width: 150px;">                                   
                                         <button [routerLink]="(['/reportprodop',reportProOp.ID_REPORT_PRO_OP])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
                                             <i class="fa fa-search"></i>
+                                        </button>
+
+                                        <button *ngIf="reportProOp.ESTATUS == 1" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aprobar" (click)="aprobarReporte(reportProOp.ID_REPORT_PRO_OP, reportProOp.ID_ZONA)">
+                                            <i class="fa fa-check"></i>
                                         </button>
     
                                         <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteReportOp(reportProOp.ID_REPORT_PRO_OP)">

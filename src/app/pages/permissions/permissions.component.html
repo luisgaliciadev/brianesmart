@@ -1,51 +1,90 @@
-<div class="col-12 animated fadeInRight">      
 
+<div class="col-12 animated fadeInRight">  
     <div class="row">
         <div class="col-7">
             <div class="card" style="overflow: auto">
-                <div class="card-body">                                 
-
+                <div class="card-body">   
+                    
                     <div class="form-group">
-                        <label for="exampleInputuname">Tipo Modulo/Menu</label>
+                        <label>Rol de Usuario</label>
                         <div class="input-group">                   
-                            <select (change)="getsModulesRol(ID_TYPE_MENU, ID_ROLE)" [(ngModel)]="ID_TYPE_MENU" name="ID_TYPE_MENU" class="form-control" required>                                
-                                <option *ngFor="let typeMenu of typeMenus" value = "{{typeMenu.ID_TYPE_MENU}}">{{typeMenu.DS_TYPE_MENU}}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="exampleInputuname">Rol de Usuario</label>
-                        <div class="input-group">                   
-                            <select (change)="getsModulesRol(ID_TYPE_MENU, ID_ROLE)" [(ngModel)]="ID_ROLE" name="ID_ROLE" class="form-control" required>                                
+                            <select (change)="getsRolModules(ID_ROLE)" [(ngModel)]="ID_ROLE" name="ID_ROLE" class="form-control" required>
+                                <option value = "0">Seleccionar</option>                               
                                 <option *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
                             </select>
                         </div>
                     </div>
-                    
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Modulo</th>
-                                <th>Permitido</th>                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let allModule of allModules">                              
-                                <td>{{allModule.DS_MODULE}}</td>
-                                <td>
-                                    <div class="checkbox checkbox-primary p-t-0">
-                                        <input (change)="updateRolesModules(allModule)" [value]="allModule.ACCESS" [(ngModel)]="allModule.ACCESS" name="condiciones" id="{{allModule.ID_MODULE}}" type="checkbox">
-                                        <label for="{{allModule.ID_MODULE}}"></label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table> 
 
+                    <div class="myadmin-dd dd" id="nestable">
+                        <ol class="dd-list">
+                            <ul *ngFor="let menu of allModules" class="dd-item">
+    
+                                <div *ngIf="!menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" class="dd-handle">                               
+                                    <label style="font-weight: bold;">
+                                        {{menu.DS_MODULE}}
+                                        <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                                                   
+                                            <input (change)="updateRolesModules(menu)" [value]="menu.ACCESS" [(ngModel)]="menu.ACCESS" id="{{menu.ID_MODULE}}" type="checkbox">  
+                                            <label style="font-weight: bold;" for="{{menu.ID_MODULE}}"></label>
+                                        </div>
+                                    </label>     
+                                    
+                                </div>
+                                
+                                <div *ngIf="menu.FG_SUB_MENU && menu.ID_TYPE_MENU === 1" class="dd-handle"> 
+                                    <label style="font-weight: bold;">
+                                        {{menu.DS_MODULE}}
+                                        <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                    
+                                            <input (change)="updateRolesModules(menu)" [value]="menu.ACCESS" [(ngModel)]="menu.ACCESS" id="{{menu.ID_MODULE}}" type="checkbox">
+                                            <label style="font-weight: bold;" for="{{menu.ID_MODULE}}"></label>
+                                        </div>
+                                    </label>
+                                </div>
+    
+                                <ol class="dd-list">
+                                    <ul *ngFor="let submenu of allModules" class="dd-list" class="dd-item">
+                                        
+                                        <div *ngIf="!submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL != ''" class="dd-handle"> 
+                                            <label>
+                                                {{submenu.DS_MODULE}}
+                                                <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                            
+                                                    <input (change)="updateRolesModules(menu)" [value]="submenu.ACCESS" [(ngModel)]="submenu.ACCESS" id="{{submenu.ID_MODULE}}" type="checkbox">
+                                                    <label for="{{submenu.ID_MODULE}}"></label>
+                                                </div>
+                                            </label>
+                                        </div>
+    
+                                        <div *ngIf="submenu.FG_SUB_MENU && submenu.ID_TYPE_MENU === 2 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu.URL === ''" class="dd-handle"> 
+                                            <label style="font-weight: bold;">
+                                                {{submenu.DS_MODULE}}
+                                                <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                            
+                                                    <input (change)="updateRolesModules(menu)" [value]="submenu.ACCESS" [(ngModel)]="submenu.ACCESS" id="{{submenu.ID_MODULE}}" type="checkbox">
+                                                    <label style="font-weight: bold;" for="{{submenu.ID_MODULE}}"></label>
+                                                </div>
+                                            </label>
+                                            
+    
+                                            <ol class="dd-list">
+                                                <ul *ngFor="let submenu_sec of allModules" class="dd-list" class="dd-item">
+                                                    <div *ngIf="!submenu_sec.FG_SUB_MENU && submenu_sec.ID_TYPE_MENU === 3 && menu.ID_MODULE === submenu.ID_MODULE_SEC && submenu_sec.ID_MODULE_SEC === submenu.ID_MODULE && submenu_sec.URL != ''" class="dd-handle"> 
+                                                        <label>
+                                                            {{submenu_sec.DS_MODULE}}
+                                                            <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                            
+                                                                <input (change)="updateRolesModules(menu)" [value]="submenu_sec.ACCESS" [(ngModel)]="submenu_sec.ACCESS" id="{{submenu_sec.ID_MODULE}}" type="checkbox">
+                                                                <label for="{{submenu_sec.ID_MODULE}}"></label>
+                                                            </div>
+                                                        </label>                                                        
+                                                    </div>  
+                                                </ul>  
+                                            </ol>
+                                        </div>
+                                    </ul>
+                                </ol>
+                            </ul>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+

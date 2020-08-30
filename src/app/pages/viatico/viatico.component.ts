@@ -165,6 +165,7 @@ export class ViaticoComponent implements OnInit {
     this._registerService.getDetaViaticos(this.nroSemana, this.year, this.idViatico, 0).subscribe(
       (response: any) => {
         this.productividadOps = response.diasViaticos;   
+        // console.log(this.productividadOps);
         this.dias = response.dias;       
         this.totalRegistros = response.diasViaticos.length;
         var viaticosTotal = 0;
@@ -183,37 +184,83 @@ export class ViaticoComponent implements OnInit {
   }
 
   deleteViaticos() { 
-    this._registerService.deleteViaticos(this.idViatico).subscribe(
-      (response: any) => {
-        if(response) {
-          this._router.navigate(['/viaticos']);
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.deleteViaticos(this.idViatico).subscribe(
+          (response: any) => {
+            if(response) {
+              this._router.navigate(['/viaticos']);
+            }
+          }
+        );
+      } 
+    });
   }
 
   aprobarViaticos() {
-    this.registrando = true;
-    this._registerService.aprobarViaticos(this.idViatico).subscribe(
-      (response: any) => {
-        if(response) {
-          // this._router.navigate(['/viaticos']);
-          this.getViatico();
-          this.registrando = false;
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Aprobar Viáticos',
+      text: "¿Desea aprobar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.registrando = true;
+        this._registerService.aprobarViaticos(this.idViatico).subscribe(
+          (response: any) => {
+            if(response) {
+              // this._router.navigate(['/viaticos']);
+              this.getViatico();
+              this.registrando = false;
+            }
+          },
+          error => {
+            if(error) {
+              this.registrando = false;
+            }
+          }
+        );
+      } 
+    });
   }
 
   getProductividadop() {
     if (this.nroSemana == 0 || this.year == 0 || this.idZona == 0) {
       return;
     }
+    this.productividadOps = [];
+    this.totalRegistros = 0;
+    this.dias = [];
     this.loading = true;
     this._registerService.getRepProductividadCond(this.nroSemana, this.year, this.idZona).subscribe(
       (response: any) => {
         this.productividadOps = response.diasProductividad;     
-        // console.log(this.productividadOps); 
+        console.log(this.productividadOps); 
         this.dias = response.dias;       
         this.totalRegistros = response.diasProductividad.length;
         var j = -1;
@@ -221,71 +268,71 @@ export class ViaticoComponent implements OnInit {
         var productividad = response.diasProductividad;
         var feriados = this.diasFeriado;
         var feriadoTarifa = this.tarifaFeriado;
-        var domingoTarifa = this.tarifaDomingo;
+        var domingoTarifa = this.tarifaDomingo;        
         this.productividadOps.forEach(function (productividadOp) { 
           j++;
           viaticoTotal = 0;
           if (productividadOp.dia1.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia1.check2 == 1) {
+          if (productividadOp.dia1.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia1.check3 == 1) {
+          if (productividadOp.dia1.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
           if (productividadOp.dia2.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia2.check2 == 1) {
+          if (productividadOp.dia2.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia2.check3 == 1) {
+          if (productividadOp.dia2.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
           if (productividadOp.dia3.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia3.check2 == 1) {
+          if (productividadOp.dia3.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia3.check3 == 1) {
+          if (productividadOp.dia3.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
           if (productividadOp.dia4.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia4.check2 == 1) {
+          if (productividadOp.dia4.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia4.check3 == 1) {
+          if (productividadOp.dia4.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
           if (productividadOp.dia5.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia5.check2 == 1) {
+          if (productividadOp.dia5.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia5.check3 == 1) {
+          if (productividadOp.dia5.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
           if (productividadOp.dia6.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia6.check2 == 1) {
+          if (productividadOp.dia6.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia6.check3 == 1) {
+          if (productividadOp.dia6.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
           if (productividadOp.dia7.check1 == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno1;
           }
-          if (productividadOp.dia7.check2 == 1) {
+          if (productividadOp.dia7.check2 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno2;
           }
-          if (productividadOp.dia7.check3 == 1) {
+          if (productividadOp.dia7.check3 == 1 && productividadOp.ID_ZONA == 1) {
             viaticoTotal = viaticoTotal + productividadOp.dia1.turno3;
           }
 
@@ -401,7 +448,7 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  guardarViatico() {  
+  guardarViatico() { 
     if (this.productividadOps.length == 0) {
       Swal.fire('Mensaje', 'No existen registros a guardar.', 'warning');
       return;
@@ -436,84 +483,111 @@ export class ViaticoComponent implements OnInit {
   }
 
   generarComprobantes(id) {
-    this.registrando = true;
-    this._registerService.generarComprobantes(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViatico();
-          this.registrando = false;
-        }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
       },
-      (error) => {
-        this.registrando = false;
-      }
-    );
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Generar Comprobantes',
+      text: `¿Desea generar los comprobantes? No podrás revertir esto!`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.registrando = true;
+        this._registerService.generarComprobantes(id).subscribe(
+          (response: any) => {
+            if(response) {
+              this.getViatico();
+              this.registrando = false;
+            }
+          },
+          (error) => {
+            this.registrando = false;
+          }
+        );   
+      } 
+    });
   }
 
+  verResumen(id) {
+    this._userService.loadReport();    
+    window.open('#/listresumenviaticos/' + id, '0', '_blank');
+  }
+
+
   montos(i, nroDia) {
+    // return;
+    // console.log(this.productividadOps[i]);
     this.productividadOps[i].TOTAL = 0;
     var viaticoTotal = 0;
     if (this.productividadOps[i].dia1.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia1.check2 == 1) {
+    if (this.productividadOps[i].dia1.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia1.check3 == 1) {
+    if (this.productividadOps[i].dia1.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
     if (this.productividadOps[i].dia2.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia2.check2 == 1) {
+    if (this.productividadOps[i].dia2.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia2.check3 == 1) {
+    if (this.productividadOps[i].dia2.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
     if (this.productividadOps[i].dia3.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia3.check2 == 1) {
+    if (this.productividadOps[i].dia3.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia3.check3 == 1) {
+    if (this.productividadOps[i].dia3.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
     if (this.productividadOps[i].dia4.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia4.check2 == 1) {
+    if (this.productividadOps[i].dia4.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia4.check3 == 1) {
+    if (this.productividadOps[i].dia4.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
     if (this.productividadOps[i].dia5.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia5.check2 == 1) {
+    if (this.productividadOps[i].dia5.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia5.check3 == 1) {
+    if (this.productividadOps[i].dia5.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }    
     if (this.productividadOps[i].dia6.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia6.check2 == 1) {
+    if (this.productividadOps[i].dia6.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia6.check3 == 1) {
+    if (this.productividadOps[i].dia6.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
     if (this.productividadOps[i].dia7.check1 == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno1;
     }
-    if (this.productividadOps[i].dia7.check2 == 1) {
+    if (this.productividadOps[i].dia7.check2 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno2;
     }
-    if (this.productividadOps[i].dia7.check3 == 1) {
+    if (this.productividadOps[i].dia7.check3 == 1 && this.idZona == 1) {
       viaticoTotal = viaticoTotal + this.productividadOps[i].dia1.turno3;
     }
 
@@ -615,8 +689,13 @@ export class ViaticoComponent implements OnInit {
   }
 
   descargar(archivo) {   
-    window.open(this.URL +'/image/viaticos-conductor/' + archivo);
-   
+    window.open(this.URL +'/image/viaticos-conductor/' + archivo);   
+  }
+
+  limpiar() {
+    this.productividadOps = [];
+    this.totalRegistros = 0;
+    this.dias = [];
   }
 
 }

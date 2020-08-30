@@ -17,6 +17,9 @@ export class UsersComponent implements OnInit {
   public loading = true;
   public search: string;
   public activeButton;
+  totalUsers = [];
+  paginas = 0;
+  pagina = 1;
 
   constructor(
     // tslint:disable-next-line: variable-name
@@ -59,10 +62,19 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this._userService.getUsers(search).subscribe(
       (response: any) => {
+        this.desde = 0;
+        this.hasta = 5;
+        this.pagina = 1;
+        this.totalUsers = response.users;
         this.users = response.users.slice(this.desde, this.hasta);
         // console.log(this.users);
         this.totalRegistros = response.users.length;
+        this.paginas = Math.ceil(this.totalRegistros / 5);
+        if (this.paginas <= 1) {
+          this.paginas = 1;
+        }
         this.loading = false;
+        this.activeButton = false;
       }
     );
   }
@@ -102,10 +114,17 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  filtroPagina () {
+    this.users = this.totalUsers.slice(this.desde, this.hasta);
+    document.getElementById('Anterior').blur();
+    document.getElementById('Siguiente').blur();
+  }
+
   // Cambiar pagina de lista de usuarios
-  changePage(valor: number) {
+  changePage(valor: number, pagina) {
     this.desde = this.desde + valor;
     this.hasta = this.hasta + valor;
+    this.pagina = this.pagina + pagina;
 
     if (this.desde >= this.totalRegistros) {
       this.desde = this.desde - 5;
@@ -120,7 +139,16 @@ export class UsersComponent implements OnInit {
       this.hasta = 5;
     }
 
-    this.getUsers(this.search);
+    if (this.pagina >= this.paginas) {
+      this.pagina = this.paginas;
+    }
+    
+    if (this.pagina <= 0) {
+      this.pagina = 1;
+    }
+
+    // this.getGuias(this.search);
+    this.filtroPagina();
   }
 
   // Limpiar busqueda
@@ -137,7 +165,7 @@ export class UsersComponent implements OnInit {
       this.activeButton = false;
       this.getUsers(this.search);
     }
-    console.log(this.activeButton);
+    // console.log(this.activeButton);
   }
   
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/service.index';
+// import { MdbTreeComponent } from 'ng-uikit-pro-standard';
 // import { runInThisContext } from 'vm';
 
 
@@ -10,7 +11,7 @@ import { UserService } from 'src/app/services/service.index';
 })
 export class PermissionsComponent implements OnInit {
   public ID_TYPE_MENU: number;
-  public ID_ROLE: number;
+  public ID_ROLE = 0;
   public typeMenus;
   public roles;
   public allModules;
@@ -20,13 +21,13 @@ export class PermissionsComponent implements OnInit {
     public _userService: UserService
   ) {
       this.ID_TYPE_MENU = 1;
-      this.ID_ROLE = 2;
+      // this.ID_ROLE = 2;
    }
 
   ngOnInit() {
     this.getTmenu();
     this.getRolesUser();
-    this.getsModulesRol(this.ID_TYPE_MENU, this.ID_ROLE);
+    // this.getsModulesRol(this.ID_TYPE_MENU, this.ID_ROLE);
   }
 
   getTmenu() {
@@ -57,12 +58,24 @@ export class PermissionsComponent implements OnInit {
     );
   }
 
+  getsRolModules(idRole) {
+    this._userService.getsRolModules(idRole).subscribe(
+      (response: any) => {
+        // console.log(response);
+        // this.allModules =  Object.values(response);
+        this.allModules = response.RolModules;
+        // console.log(this.allModules);
+      }
+    );
+  }
+
   updateRolesModules(modules) {
     console.log(modules);
     this._userService.updateRolesModules(modules).subscribe(
       (response: any) => {
-        console.log(response);
-        this.getsModulesRol(this.ID_TYPE_MENU, this.ID_ROLE);
+        // console.log(response);
+        this.getsRolModules(this.ID_ROLE);
+        // this.getsModulesRol(this.ID_TYPE_MENU, this.ID_ROLE);
       }
     );
   }

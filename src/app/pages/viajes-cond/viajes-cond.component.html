@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label>Hasta:</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required disabled>
                                     
                                     
                                 </div>
@@ -118,15 +118,15 @@
                         <table class="table-bordered" style="width: 200px; float: right;">
                             <thead>
                                 <tr>
-                                    <th style="width: 150px;">Total Viajes</th>
+                                    <th style="width: 200px;">Total Viajes</th>
                                     <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalRegistros}}</th>
                                 </tr>
                                 <tr *ngIf="idZona == 3">
-                                    <th style="width: 150px;">Horas-Minutos</th>
+                                    <th style="width: 200px;">Horas-Minutos</th>
                                     <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalHoras}}</th>
                                 </tr>
                                 <tr *ngIf="idZona == 3">
-                                    <th style="width: 150px;">Total Comisión S/</th>
+                                    <th style="width: 200px;">Total Comisión S/</th>
                                     <th style="width: 50px; background-color: gray; color: white; text-align: center;">{{totalComision}}</th>
                                 </tr>
                                 <!-- <tr *ngIf="idZona == 3">

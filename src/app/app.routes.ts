@@ -1,6 +1,5 @@
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 
-
 // Componets
 import { LoginComponent } from './login/login.component';
 import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
@@ -16,11 +15,9 @@ import { DenunciaComponent } from './denuncia/denuncia.component';
 import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.component';
 import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
 import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';
-import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
+// import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
 import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
-
-
-
+import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, data: {titulo: 'Login'}},
@@ -28,8 +25,7 @@ const appRoutes: Routes = [
     { path: 'denuncia', component: DenunciaComponent, data: {titulo: 'Denuncia'}},
 
     // Reportes con pestañas nuevas
-    { path: 'listusers/:search',
-    canActivate: [AdminGuard, ReportGuard], component: ListUsersComponent, data: {titulo: 'Listado de Usuarios'}},
+    { path: 'listusers/:search', canActivate: [AdminGuard, ReportGuard], component: ListUsersComponent, data: {titulo: 'Listado de Usuarios'}},
     { path: 'listcompanys/:search', canActivate: [ReportGuard], component: ListCompanysComponent, data: {titulo: 'Listado de Empresas'}},
     { path: 'listclients/:search', canActivate: [ReportGuard], component: ListClientsComponent, data: {titulo: 'Listado de Clientes'}},
     { path: 'listdenuncias/:search', canActivate: [ReportGuard], component: ListDenunciasComponent, data: {titulo: 'Listado de Denuncias'}},
@@ -37,6 +33,7 @@ const appRoutes: Routes = [
     { path: 'listviaticos/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListViaticosComponent, data: {titulo: 'Listado de Viaticos'}},
     // { path: 'listdetaviaticos/:semana/:zona', canActivate: [ReportGuard], component: ListDetaviaticosComponent, data: {titulo: 'Listado de Detalle de Viaticos'}},
     { path: 'listoreportpro/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListReportproComponent, data: {titulo: 'Listado de Reportes de Productividad'}},
+    { path: 'listresumenviaticos/:id', canActivate: [ReportGuard], component: ListResumenviaticosComponent, data: {titulo: 'Resumen de Viáticos'}},
 
     {
         path: '',

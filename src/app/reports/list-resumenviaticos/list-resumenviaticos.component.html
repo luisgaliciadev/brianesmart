@@ -1,0 +1,47 @@
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+</div>
+
+
+<div style="margin-left: 20px; margin-top: 20px;" id="report">
+    <h2 align="center" style="text-decoration: underline">Listado de Viáticos</h2>
+    <h4>Nro. Semana: {{nroSemana}}</h4>
+    <h4>Periodo: {{periodo}}</h4>
+    <h4>Monto Total (S/): {{totalViaticos}}</h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Conductor</th>
+                <th>Nro. Semana</th>
+                <th>Periodo</th>
+                <th>Fecha Emisión</th>
+                <th>Nro. Recibo</th>
+                <th>Total (S/)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let resumenViatico of resumenViaticos">
+                <td>{{resumenViatico.ITEMS}}</td>
+                <td>{{resumenViatico.NOMBRE_APELLIDO}}</td>
+                <td>{{resumenViatico.NRO_SEMANA}}</td>
+                <td>{{resumenViatico.PERIODO}}</td>
+                <td>{{resumenViatico.FH_EMISION}}</td> 
+                <td>{{resumenViatico.NRO_RECIBO}}</td>                
+                <td>{{resumenViatico.TOTAL}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table-bordered" style="width: 200px; float: right;">
+        <thead>
+            <tr>
+                <th style="width: 200px;">Monto Total (S/):</th>
+                <th style="width: 100px; background-color: gray; color: white; text-align: center;">{{totalViaticos}}</th>
+            </tr>
+        </thead>
+    </table>
+</div>

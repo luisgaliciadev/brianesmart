@@ -82,7 +82,7 @@
                                     <th>Fecha Hasta</th>
                                     <th>Monto Total (S/)</th>
                                     <th>Estatus</th>
-                                    <th style="width: 150px;"></th>
+                                    <th style="width: 190px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,7 +93,7 @@
                                     <td>{{viatico.fhHasta}}</td>
                                     <td>{{viatico.TOTAL_MONTO}}</td>
                                     <td>{{viatico.ESTADO}}</td>
-                                    <td style="width: 150px;">                                   
+                                    <td style="width: 190px;">                                   
                                         <button [routerLink]="(['/viatico',viatico.ID_VIATICO])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
                                             <i class="fa fa-search"></i>
                                         </button>
@@ -105,8 +105,12 @@
                                         <button *ngIf="viatico.ESTATUS == 2" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Generar Comprobantes" (click)="generarComprobantes(viatico.ID_VIATICO)">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </button>
-    
-                                        <button *ngIf="viatico.ESTATUS == 1" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteViaticos(viatico.ID_VIATICO)">
+
+                                        <button *ngIf="viatico.ESTATUS == 3" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Ver Resumen" (click)="verResumen(viatico.ID_VIATICO)">
+                                            <i class="mdi mdi-printer"></i>
+                                        </button>
+
+                                        <button *ngIf="viatico.ESTATUS < 3" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Anular" (click)="deleteViaticos(viatico.ID_VIATICO)">
                                             <i class="fa fa-trash-o"></i>
                                         </button>
                                     </td>

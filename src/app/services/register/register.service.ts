@@ -12,7 +12,7 @@ import { UserService } from '../user/user.service';
 import { AddressClient } from '../../models/addressClient.model';
 import { Denuncia } from 'src/app/models/denuncia.model';
 import { UploadFileService } from '../uploadFile/upload-file.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 
 
 @Injectable({
@@ -603,7 +603,7 @@ deleteViaticos(id) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.delete(this.URL + '/conductor/viatico/' + id + '/' + this._userService.user.ID_USER, {headers})
   .pipe(map((res: any) => {
-    Swal.fire('Mensaje', 'Viaticos Anulado Correctamente.', 'success');
+    Swal.fire('Mensaje', 'Viaticos Anulados Correctamente.', 'success');
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
@@ -694,6 +694,21 @@ getViajesHoras(search,desde, hasta, dni, zona) {
   }));
 }
 // End Get Guias
+
+// Get resumen viaticos
+getResumenViaticos(idViatico) {
+  let params = idViatico;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/resumenviaticos/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el resumen de viáticos.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get resumen viticos
 
 // let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
 // return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
@@ -934,7 +949,7 @@ registerReportPro(diasproductividadop, nroSemana, anio, zona) {
   let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   let parametros = nroSemana + '/' + anio + '/' + zona + '/' + this._userService.user.ID_USER
-  console.log(parametros);
+  // console.log(parametros);
   return this._http.post(this.URL + '/operaciones/reportop/' + parametros, params, {headers})
   .pipe(map((res: any) => {
     Swal.fire('Mensaje', 'Registro realizado Correctamente.', 'success');
@@ -952,7 +967,31 @@ registerReportPro(diasproductividadop, nroSemana, anio, zona) {
 }
 // End Report OP
 
-// Update Report OP
+// Register Report OP nuevos viajes
+registerReportProNuevos(diasproductividadop, nroSemana, anio, zona, idReport) { 
+  let json = JSON.stringify(diasproductividadop);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let parametros = nroSemana + '/' + anio + '/' + zona + '/' + this._userService.user.ID_USER + '/' + idReport;
+  // console.log(parametros);
+  return this._http.post(this.URL + '/operaciones/reportopviajes/' + parametros, params, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Viajes Actualizados Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Report OP nuevos viajes
+
+// Update deta Report OP
 updateReportPro(diasproductividadop, nroSemana, anio, zona, id, nroDia) { 
   let json = JSON.stringify(diasproductividadop);  
   let params = json;  
@@ -973,7 +1012,74 @@ updateReportPro(diasproductividadop, nroSemana, anio, zona, id, nroDia) {
     }
   }));
 }
+// End Update deta Report OP
+
+// Delete deta Report OP
+updateDetaReportPro(diasproductividadop, nroSemana, anio, zona, id, nroDia) { 
+  let json = JSON.stringify(diasproductividadop);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let parametros = nroSemana + '/' + anio + '/' + zona + '/' + id + '/' + nroDia + '/' + this._userService.user.ID_USER;
+  return this._http.put(this.URL + '/operaciones/detareportop/' + parametros, params, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Registro realizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete deta Report OP
+
+
+// Update Report OP viajes nuevos
+updateReportProNuevo(diasproductividadop, nroSemana, anio, zona, id) { 
+  let json = JSON.stringify(diasproductividadop);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let parametros = nroSemana + '/' + anio + '/' + zona + '/' + id + '/' + this._userService.user.ID_USER;
+  return this._http.put(this.URL + '/operaciones/reportopdeta/' + parametros, params, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Registro realizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
 // End Update OP
+
+// Aprobar Reporte productividad
+aprobarReportePro(id, idZona) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/aprobarrepportop/' + id + '/' + this._userService.user.ID_USER + '/' + idZona,{}, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Reporte Aprobado Correctamente.', 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo aprobar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Aprobar Reporte productividad
 
 // Delete Report OP
 deleteReportOP(id) { 

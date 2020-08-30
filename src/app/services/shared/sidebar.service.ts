@@ -19,30 +19,8 @@ export class SidebarService {
     this.menu = [];
   }
 
-  loadMenu() {
+  loadMenu() {   
     this.menu = this._userService.menu;
-    // console.log(this.menu);
-
-    // this.idRole = this._userService.idRole;
-    // console.log(this.idRole);
-
-    // this._userService.getModules(this.idRole).subscribe(
-    //   (response: any) => {
-    //     this.modules = Object.values(response);
-    //     this.modules = this.modules[0];
-    //     console.log(this.modules);
-    //   }
-    // );
-
-    // this._userService.getMenu(this.idRole).subscribe(
-    //   (response: any) => {
-    //     // console.log(response);
-    //     this.menus = Object.values(response);
-    //     this.menus = this.menus[0];
-    //     console.log(this.menus);
-    //   }
-    // );
-
   }
 
 }

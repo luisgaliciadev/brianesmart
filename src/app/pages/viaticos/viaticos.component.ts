@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-viaticos',
@@ -72,34 +73,91 @@ export class ViaticosComponent implements OnInit {
   }
 
   deleteViaticos(id) {
-    this._registerService.deleteViaticos(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViaticos();
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.deleteViaticos(id).subscribe(
+          (response: any) => {
+            if(response) {
+              this.getViaticos();
+            }
+          }
+        );
+      } 
+    });
   }
 
   aprobarViaticos(id) {
-    this._registerService.aprobarViaticos(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViaticos();
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Aprobar Viáticos',
+      text: "¿Desea aprobar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.aprobarViaticos(id).subscribe(
+          (response: any) => {
+            if(response) {
+              this.getViaticos();
+            }
+          }
+        );
+      } 
+    });
   }
 
   generarComprobantes(id) {
-    this.loading = true;
-    this._registerService.generarComprobantes(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getViaticos();
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Generar Comprobantes',
+      text: "¿Desea generar los comprobantes? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        this._registerService.generarComprobantes(id).subscribe(
+          (response: any) => {
+            if(response) {
+              this.getViaticos();
+            }
+          }
+        );
+      } 
+    });
   }
 
   filtroPagina () {
@@ -139,6 +197,11 @@ export class ViaticosComponent implements OnInit {
     } else {
       window.open('#/listviaticos/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
+  }
+
+  verResumen(id) {
+    this._userService.loadReport();    
+    window.open('#/listresumenviaticos/' + id, '0', '_blank');
   }
 
   // Limpiar busqueda

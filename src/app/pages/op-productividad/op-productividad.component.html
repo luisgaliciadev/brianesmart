@@ -1,4 +1,4 @@
-<div class="row animated fadeInRight">  
+<div class="row animated fadeInRight" >  
     <div class="col-12" > 
 
         <div class="row" *ngIf="loading">
@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <label>Nro. Semana:</label>
                             <div class="input-group">
-                                <select [(ngModel)]="nroSemana" name="nroSemana" class="form-control" required [disabled] = "modificar">
+                                <select (change) = "limpiar()" [(ngModel)]="nroSemana" name="nroSemana" class="form-control" required [disabled] = "modificar">
                                     <option value = "">Seleccione</option>
                                     <option *ngFor="let semana of semanas" value = "{{semana}}">{{semana}}</option>
                                 </select>                                          
@@ -105,9 +105,21 @@
                     </div>     -->
                 </div>
                 
-                <h3>Listado de Registros (<small>{{totalRegistros}}</small>)</h3>
-                <div *ngIf = "idZona == 1"  class="container" style="overflow: auto; height: 500px; font-size: 10px;">
-                    <table class="table table-hover table-bordered table-op table-op-pro"  style="width: 2680px;">
+                <div class="text-left" style="float: left;">
+                    <h3 >Listado de Registros (<small>{{totalRegistros}}</small>)</h3>
+                </div>
+
+                <div class="text-right">
+                    <button  *ngIf = "idReport > 0" type="button" class="btn btn-primary waves-effect btn-rounded waves-light m-r-10" (click)="actualiazarViajes()">
+                        <i class="fa fa-refresh"></i>
+                        Actualizar Viajes
+                    </button>
+                </div>
+                    
+               
+                
+                <div *ngIf = "idZona == 1"  class="container" style="overflow: auto; font-size: 10px;">
+                    <table class="table table-hover table-bordered table-op"  style="width: 2750px;">
                         <thead style="color: white;">
                             <tr style="width: 2900px;">
                                 <th style="text-align: center; width: 50px;">Nro.</th>
@@ -122,7 +134,7 @@
                             <tr *ngFor="let productividadOp of productividadOps; index as i" style="width: 2650px;">
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 50px; line-height: 60px;" align="center">{{i+1}}</td>
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 70px; line-height: 60px;" align="center">{{productividadOp.PLACA_TRACTO}}</td>
-                                <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 250px; line-height: 60px;" align="center">{{productividadOp.NOMBRE_CONDUCTOR}}</td>
+                                <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 250px; line-height: 30px;" align="center">{{productividadOp.NOMBRE_CONDUCTOR}}</td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia1.fecha}}" align="center">
                                     <table class="table-turno" style="width: 300px; margin-top: -15px;">
@@ -373,14 +385,19 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </td>                    
+                                </td>  
+                                <!-- <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia7.fecha}}">
+                                    <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click) = "deleteDetaRepOp(6,i)">
+                                        <i style="width: 25PX; height: 25px;" class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>                   -->
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div *ngIf = "idZona == 2"  class="container" style="overflow: auto; height: 500px; font-size: 10px;">
-                    <table class="table table-hover table-bordered table-op table-op-pro"  style="width: 1450px;">
+                <div *ngIf = "idZona == 2"  class="container" style="overflow: auto; font-size: 10px;">
+                    <table class="table table-hover table-bordered table-op"  style="width: 1450px;">
                         <thead style="color: white;">
                             <tr>
                                 <th style="text-align: center; width: 50px;">Nro.</th>
@@ -465,43 +482,43 @@
                     </table>
                 </div>
 
-                <div *ngIf = "idZona == 3"  class="container" style="overflow: auto; height: 500px; font-size: 10px;">
-                    <table class="table table-hover table-bordered table-op table-op-pro"  style="width: 1770px;">
+                <div *ngIf = "idZona == 3"  class="container" style="overflow: auto; font-size: 10px;">
+                    <table class="table table-hover table-bordered table-op"  style="width: 2675px;">
                         <thead style="color: white;">
-                            <tr style="width: 2900px;">
+                            <tr style="width: 2650px;">
                                 <th style="text-align: center; width: 50px;">Nro.</th>
                                 <th style="text-align: center; width: 70px;">TRACTO</th>
                                 <th style="text-align: center; width: 250px;">CONDUCTOR</th>
-                                <th style="text-align: center; width: 196px;" *ngFor = "let dia of dias">
+                                <th style="text-align: center; width: 326px;" *ngFor = "let dia of dias">
                                     {{dia.NOMBRE_DIA}} {{dia.FECHA}}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let productividadOp of productividadOps; index as i" style="width: 1770px;">
+                            <tr *ngFor="let productividadOp of productividadOps; index as i" style="width: 2675px;">
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 50px; line-height: 60px;" align="center">{{i+1}}</td>
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 70px; line-height: 60px;" align="center">{{productividadOp.PLACA_TRACTO}}</td>
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}}" style="width: 250px; line-height: 60px;" align="center">{{productividadOp.NOMBRE_CONDUCTOR}}</td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia1.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno1 > 0" align="center">{{productividadOp.dia1.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia1.turno1 > 0" align="center">{{productividadOp.dia1.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia1.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,0)" [(ngModel)]="productividadOp.dia1.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno2 > 0" align="center">{{productividadOp.dia1.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia1.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia1.turno2 > 0" align="center">{{productividadOp.dia1.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia1.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,0)" [(ngModel)]="productividadOp.dia1.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -512,24 +529,24 @@
                                 </td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia2.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno1 > 0" align="center">{{productividadOp.dia2.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia2.turno1 > 0" align="center">{{productividadOp.dia2.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia2.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,1)" [(ngModel)]="productividadOp.dia2.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno2 > 0" align="center">{{productividadOp.dia2.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia2.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia2.turno2 > 0" align="center">{{productividadOp.dia2.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia2.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,1)" [(ngModel)]="productividadOp.dia2.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -540,24 +557,24 @@
                                 </td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia3.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno1 > 0" align="center">{{productividadOp.dia3.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia3.turno1 > 0" align="center">{{productividadOp.dia3.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia3.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,2)" [(ngModel)]="productividadOp.dia3.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno2 > 0" align="center">{{productividadOp.dia3.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia3.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia3.turno2 > 0" align="center">{{productividadOp.dia3.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia3.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,2)" [(ngModel)]="productividadOp.dia3.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -568,24 +585,24 @@
                                 </td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia4.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno1 > 0" align="center">{{productividadOp.dia4.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia4.turno1 > 0" align="center">{{productividadOp.dia4.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia4.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,3)" [(ngModel)]="productividadOp.dia4.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno2 > 0" align="center">{{productividadOp.dia4.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia4.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia4.turno2 > 0" align="center">{{productividadOp.dia4.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia4.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,3)" [(ngModel)]="productividadOp.dia4.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -596,24 +613,24 @@
                                 </td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia5.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno1 > 0" align="center">{{productividadOp.dia5.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia5.turno1 > 0" align="center">{{productividadOp.dia5.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia5.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,4)" [(ngModel)]="productividadOp.dia5.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno2 > 0" align="center">{{productividadOp.dia5.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia5.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia5.turno2 > 0" align="center">{{productividadOp.dia5.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia5.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,4)" [(ngModel)]="productividadOp.dia5.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -624,24 +641,24 @@
                                 </td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia6.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno1 > 0" align="center">{{productividadOp.dia6.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia6.turno1 > 0" align="center">{{productividadOp.dia6.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia6.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,5)" [(ngModel)]="productividadOp.dia6.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno2 > 0" align="center">{{productividadOp.dia6.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia6.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia6.turno2 > 0" align="center">{{productividadOp.dia6.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia6.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,5)" [(ngModel)]="productividadOp.dia6.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -652,24 +669,24 @@
                                 </td>
 
                                 <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.PLACA_TRACTO}} - {{productividadOp.NOMBRE_CONDUCTOR}} - {{productividadOp.dia7.fecha}}" align="center">
-                                    <table class="table-turno" style="width: 170px; margin-top: -15px;">
+                                    <table class="table-turno" style="width: 300px; margin-top: -15px;">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center; width: 85px;">07:00-19:00</th>
-                                                <th style="text-align: center; width: 85px;">19:00-07:00</th>
+                                                <th style="text-align: center; width: 150px;">07:00-19:00</th>
+                                                <th style="text-align: center; width: 150px;">19:00-07:00</th>
                                             </tr>
                                         </thead>
-                                        <tbody  style="width: 170px;">
+                                        <tbody  style="width: 300px;">
                                             <tr>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno1 > 0" align="center">{{productividadOp.dia7.turno1}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno1 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia7.turno1 > 0" align="center">{{productividadOp.dia7.turno1}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia7.turno1 == 0">
                                                     <select (change) = "updateRepOp(i,6)" [(ngModel)]="productividadOp.dia7.motivo1" name="motivo1" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
                                                 </td>
                                                 
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno2 > 0" align="center">{{productividadOp.dia7.turno2}}</td>
-                                                <td style="width: 85px;" *ngIf = "productividadOp.dia7.turno2 == 0">
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia7.turno2 > 0" align="center">{{productividadOp.dia7.turno2}}</td>
+                                                <td style="width: 150px;" *ngIf = "productividadOp.dia7.turno2 == 0">
                                                     <select (change) = "updateRepOp(i,6)" [(ngModel)]="productividadOp.dia7.motivo2" name="motivo2" class="form-control" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>
@@ -686,6 +703,11 @@
                 <button *ngIf = "idReport == 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="guardarRepOp()">
                     <i class="fa fa-save"></i>
                     Guardar
+                </button>
+
+                <button *ngIf = "idReport > 0 && estatus == 1" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="aprobarReporte(idReport)">
+                    <i class="fa fa-check"></i>
+                    Aprobar
                 </button>
 
                 <button *ngIf = "idReport > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteReportOp()">

@@ -283,14 +283,33 @@ export class GuiaComponent implements OnInit {
   }
 
   deleteGuia() {
-    this._registerService.deleteGuia(this.guia.ID_GUIA).subscribe(
-      (response: any) => {
-        // console.log(response);
-        if(response) {
-         this._router.navigate(['/guias']);
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.deleteGuia(this.guia.ID_GUIA).subscribe(
+          (response: any) => {
+            // console.log(response);
+            if(response) {
+             this._router.navigate(['/guias']);
+            }
+          }
+        );
+      } 
+    });
   }
 
   getCliente(ruc) {

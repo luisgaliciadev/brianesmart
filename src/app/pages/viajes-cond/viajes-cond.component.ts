@@ -50,9 +50,11 @@ export class ViajesCondComponent implements OnInit {
 
     this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
     this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+    this.fhHasta = '2020-08-20';
    }
 
   ngOnInit(): void {
+    this._userService.permisoModule(this._router.url);
     this.getZonasConcutor();
     this.dni = this._userService.user.IDEN;
     // this.getVaijesConductor();

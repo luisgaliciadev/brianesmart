@@ -45,6 +45,7 @@ import { ViaticoComponent } from './viatico/viatico.component';
 import { ReportsproOpComponent } from './reportspro-op/reportspro-op.component';
 import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estadosp.component';
 import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
+import { DashboardIndexpersonalComponent } from './dashboard-indexpersonal/dashboard-indexpersonal.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -87,7 +88,7 @@ const pagesRoutes: Routes = [
             {path: 'dashboardkpioptracto', component: DashboardKpitractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Desempeño por Tracto'}},     
             {path: 'dashboardkpimandismec', component: DashboardKpimandismecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Disponibilidad Mecánica'}},     
             {path: 'dashboardestadopro', component: DashboardEstadospComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Estado de Proyectos'}},     
-
+            {path: 'dashboardindexper', component: DashboardIndexpersonalComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Index de Personal'}},     
 
             // Modulos Matenimientos sistema
             {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},

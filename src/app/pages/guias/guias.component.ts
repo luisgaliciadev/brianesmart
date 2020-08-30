@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import {saveAs} from 'file-saver';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-guias',
@@ -94,14 +95,33 @@ export class GuiasComponent implements OnInit {
   }
 
   deleteGuia(id) {
-    this._registerService.deleteGuia(id).subscribe(
-      (response: any) => {
-        // console.log(response);
-        if(response) {
-          this.getGuias(this.search);
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.deleteGuia(id).subscribe(
+          (response: any) => {
+            // console.log(response);
+            if(response) {
+              this.getGuias(this.search);
+            }
+          }
+        );
+      } 
+    });
   }
 
   filtroPagina () {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reportspro-op',
@@ -56,6 +57,7 @@ export class ReportsproOpComponent implements OnInit {
     this.loading = true;
     this._registerService.getReportsPro(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
+        // console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -72,14 +74,72 @@ export class ReportsproOpComponent implements OnInit {
     );
   }
 
+  aprobarReporte(id, idZona) {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Aprobar Reporte',
+      text: "¿Desea aprobar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.aprobarReportePro(id, idZona).subscribe(
+          (response:any) => {
+            if(response) {
+              this.getReportsOp();
+            }
+          },
+            error => {
+              if(error) {
+                this.loading = false;
+              }
+            }
+        );
+      } 
+    });
+  }
+
   deleteReportOp(id) {
-    this._registerService.deleteReportOP(id).subscribe(
-      (response: any) => {
-        if(response) {
-          this.getReportsOp();
-        }
-      }
-    );
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this._registerService.deleteReportOP(id).subscribe(
+          (response: any) => {
+            if(response) {
+              this.getReportsOp();
+            }
+          },
+          error => {
+            if(error) {
+              this.loading = false;
+            }
+          }
+        );
+      } 
+    });
   }
 
   filtroPagina () {

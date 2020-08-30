@@ -17,20 +17,23 @@ import { APP_ROUTES } from './app.routes';
 // Modules
 // import { PagesModule } from './pages/pages.module';
 
-
 // Servicios
 // import { SettingsService } from './services/service.index';
+
+// Modulos
 import { ServiceModule } from './services/service.module';
 import { SharedModule } from './shared/shaerd.module';
 
+// Reportes
 import { ListUsersComponent } from './reports/list-users/list-users.component';
 import { ListCompanysComponent } from './reports/list-companys/list-companys.component';
 import { ListClientsComponent } from './reports/list-clients/list-clients.component';
 import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.component';
 import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
 import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';
-import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
+// import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
 import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
+import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +48,9 @@ import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.
     ListDenunciasComponent,
     ListGuiasComponent,
     ListViaticosComponent,
-    ListDetaviaticosComponent,
-    ListReportproComponent
+    // ListDetaviaticosComponent,
+    ListReportproComponent,
+    ListResumenviaticosComponent
   ],
   imports: [
     BrowserModule,
