@@ -73,7 +73,7 @@
                 
                 <h3>Listado de Registros (<small>{{totalRegistros}}</small>) | Monto Total de Viaticos s/: <small>{{montoTotalViaticos}}</small></h3>
                 <div style="position:relative;">
-                    <div *ngIf = "idZona == 1"  class=" container" style="position: relative; overflow: auto; font-size: 10px;">
+                    <div *ngIf = "idZona == 1" style="position: relative; overflow: auto; font-size: 10px;">
                         <table class="table table-hover table-bordered table-op"  style="width: 2890px;" disabled="disabled">
                             <thead style="color: white;">
                                 <tr style="width: 2900px;">
@@ -467,6 +467,9 @@
 
                                     <td data-toggle="tooltip" data-placement="top" title="{{productividadOp.NOMBRE_APELLIDO}}" style="height: 50px;"> 
                                         <button style="margin-top: -6px;" *ngIf="estatus == 3" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver Comprobante" (click)="descargar(productividadOp.NRO_DOC)">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                        <button style="margin-top: -6px;" *ngIf="estatus == 3" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Generar Nuevo PDF" (click)="generarNuevoComprobanteConductor(productividadOp.ID_CONDUCTOR)">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </button>
                                     </td>

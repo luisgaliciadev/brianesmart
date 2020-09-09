@@ -1,0 +1,48 @@
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="exportAsPDF()">
+        <i class="fa fa-file-pdf-o"></i>
+        PDF
+</button>
+</div>
+
+<div style="margin-left: 20px; margin-top: 20px; overflow: auto;" id="report">
+    <div style="width: 400px;">
+        <!-- <h2 align="center" style="text-decoration: underline">Listado de Viáticos</h2> -->
+        <h4>Conductor: {{detaViatico[0].NOMBRE_APELLIDO}}</h4>
+        <h4>DNI: {{detaViatico[0].IDENTIFICACION}}</h4>
+        <h4>Nro. Semana: {{detaViatico[0].NRO_SEMANA}}</h4>
+        <h4>Periodo: {{detaViatico[0].MES}}-{{detaViatico[0].ANIO}}</h4>
+        <h4>Nro. Recibo: {{detaViatico[0].NRO_RECIBO}}</h4>
+        <h4>Fecha Emisión: {{detaViatico[0].FH_EMISION}}</h4>
+        <!-- <div style="width: 400px;"> -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Fecha</th>
+                        <th>Total S/</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let detalle of detaViatico">
+                        <td *ngIf="detalle.TOTAL > 0">{{detalle.ITEMS}}</td>
+                        <td *ngIf="detalle.TOTAL > 0">{{detalle.FECHA}}</td>
+                        <td *ngIf="detalle.TOTAL > 0">{{detalle.TOTAL}}</td>
+                    </tr>
+                </tbody>
+            </table>    
+            <table class="table-bordered" style="width: 200px; float: right;">
+                <thead>
+                    <tr>
+                        <th style="width: 200px;">Monto Total (S/):</th>
+                        <th style="width: 100px; background-color: gray; color: white; text-align: center;">{{totalViaticos}}</th>
+                    </tr>
+                </thead>
+            </table>
+        <!-- </div>     -->
+    </div>
+</div>

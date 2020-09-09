@@ -58,6 +58,7 @@ import { ReportsproOpComponent } from './reportspro-op/reportspro-op.component';
 import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estadosp.component';
 import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
 import { DashboardIndexpersonalComponent } from './dashboard-indexpersonal/dashboard-indexpersonal.component';
+import { ConsultaViaticoComponent } from './consulta-viatico/consulta-viatico.component';
 
 @NgModule({
     declarations: [
@@ -101,7 +102,8 @@ import { DashboardIndexpersonalComponent } from './dashboard-indexpersonal/dashb
         ReportsproOpComponent,
         DashboardEstadospComponent,
         ViajesCondComponent,
-        DashboardIndexpersonalComponent
+        DashboardIndexpersonalComponent,
+        ConsultaViaticoComponent
     ],
     exports: [
         // PagesComponent,

@@ -154,6 +154,9 @@ export class ViaticosComponent implements OnInit {
             if(response) {
               this.getViaticos();
             }
+          }, 
+          error => {
+            this.loading = false;
           }
         );
       } 

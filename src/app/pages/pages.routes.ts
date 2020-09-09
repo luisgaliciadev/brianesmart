@@ -46,6 +46,7 @@ import { ReportsproOpComponent } from './reportspro-op/reportspro-op.component';
 import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estadosp.component';
 import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
 import { DashboardIndexpersonalComponent } from './dashboard-indexpersonal/dashboard-indexpersonal.component';
+import { ConsultaViaticoComponent } from './consulta-viatico/consulta-viatico.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -77,6 +78,7 @@ const pagesRoutes: Routes = [
             {path: 'reportprodop/:id', component: OpProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Reporte de Productividad Operativa'}},
             {path: 'reportsprodop', component: ReportsproOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Reportes de Productividad Operativa'}},
             {path: 'viajesconductor', component: ViajesCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Viajes / Horas'}},
+            {path: 'viaticosconductor', component: ConsultaViaticoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de viáticos'}},
            
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

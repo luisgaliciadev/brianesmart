@@ -34,6 +34,7 @@ import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.com
 // import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
 import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
 import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
+import { DetaViaticoComponent } from './reports/deta-viatico/deta-viatico.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/lis
     ListViaticosComponent,
     // ListDetaviaticosComponent,
     ListReportproComponent,
-    ListResumenviaticosComponent
+    ListResumenviaticosComponent,
+    DetaViaticoComponent
   ],
   imports: [
     BrowserModule,

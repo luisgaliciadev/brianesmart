@@ -50,7 +50,7 @@ export class ViajesCondComponent implements OnInit {
 
     this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
     this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
-    this.fhHasta = '2020-08-20';
+    // this.fhHasta = '2020-08-20';
    }
 
   ngOnInit(): void {
@@ -73,8 +73,8 @@ export class ViajesCondComponent implements OnInit {
         this.viajes = response.viajes;
         this.tarifaViajes = response.viajesTarifa;
         this.totalRegistros = response.viajes.length;
-        this.totalComision = response.comisionTotalHoras;
-        // this.totalComision = response.comisionTotalViajes;
+        // this.totalComision = response.comisionTotalHoras;
+        this.totalComision = response.comisionTotalViajes;
         this.totalHoras = response.horasPagar;
         this.loading = false;
       },

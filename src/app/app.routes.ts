@@ -18,6 +18,7 @@ import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.com
 // import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
 import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
 import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
+import { DetaViaticoComponent } from './reports/deta-viatico/deta-viatico.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, data: {titulo: 'Login'}},
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
     // { path: 'listdetaviaticos/:semana/:zona', canActivate: [ReportGuard], component: ListDetaviaticosComponent, data: {titulo: 'Listado de Detalle de Viaticos'}},
     { path: 'listoreportpro/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListReportproComponent, data: {titulo: 'Listado de Reportes de Productividad'}},
     { path: 'listresumenviaticos/:id', canActivate: [ReportGuard], component: ListResumenviaticosComponent, data: {titulo: 'Resumen de Viáticos'}},
+    { path: 'detaviatico/:id/:idConductor', canActivate: [ReportGuard], component: DetaViaticoComponent, data: {titulo: 'Detalle de Viáticos'}},
 
     {
         path: '',

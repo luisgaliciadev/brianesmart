@@ -81,7 +81,8 @@
                                     <th>Zona</th>
                                     <th>Fecha Desde</th>
                                     <th>Fecha Hasta</th> 
-                                    <th>Estatus</th>               
+                                    <th>Estatus</th>  
+                                    <th>Usuario</th>              
                                     <th style="width: 150px;"></th>
                                 </tr>
                             </thead>
@@ -93,6 +94,7 @@
                                     <td>{{reportProOp.fhDesde}}</td>
                                     <td>{{reportProOp.fhHasta}}</td>
                                     <td>{{reportProOp.ESTADO}}</td>
+                                    <td>{{reportProOp.USUARIO}}</td>
                                     <td style="width: 150px;">                                   
                                         <button [routerLink]="(['/reportprodop',reportProOp.ID_REPORT_PRO_OP])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
                                             <i class="fa fa-search"></i>

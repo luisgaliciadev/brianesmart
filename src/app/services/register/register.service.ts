@@ -647,17 +647,61 @@ generarComprobantes(id) {
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
-    this._router.navigate(['/viaticos']);
+    
     if (err.status === 400) {
       Swal.fire('Mensaje', err.error.message, 'error');
+      this._router.navigate(['/viaticos']);
       return throwError(err);
     } else {
       Swal.fire('Mensaje', 'No se pudo generar los comprobantes.', 'error');
+      this._router.navigate(['/viaticos']);
       return throwError(err);
     }
   }));
 }
 // End Generar comprobantes viticos
+
+// Generar detalle comprobantes viticos por conductor
+generarComprobanteConductor(idViatico, idConductor) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/pdf/pdfdetaviatico/' + idViatico + '/' + idConductor, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', res.message, 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    // this._router.navigate(['/viaticos']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo generar el comprobante.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Generar comprobantes viticos
+
+// Generar nuevo comprobante viticos por conductor
+generarNuevoComprobanteConductor(idViatico, idConductor) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/pdf/renewpdfviatico/' + idViatico + '/' + idConductor, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', res.message, 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    // this._router.navigate(['/viaticos']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo generar el comprobante.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Generar nuevo comprobante viticos por conductor
 
 // Get reporte productividad conductor
 getRepProductividadCond(semana, year, zona) {
@@ -709,6 +753,36 @@ getResumenViaticos(idViatico) {
   }));
 }
 // End Get resumen viticos
+
+// Get resumen viaticos por conductor
+getResumenViaticosPorConductor(idConductor, desde, hasta) {
+  let params = idConductor + '/' + desde + '/' + hasta;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/resumenviaticosporconductor/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el resumen de viáticos.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get resumen viticos
+
+// Get detalle viaticos por conductor
+getDetaViaticoPorConductor(idViatico, idConductor) {
+  let params = idViatico + '/' + idConductor;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/detaviaticoporconductor/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el detalle de viáticos.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get detalle viticos
 
 // let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
 // return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})

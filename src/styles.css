@@ -71,12 +71,7 @@
       display: block;
     }
 
-    /* .table-op-pro tbody,    
-    .table-op-pro td,
-    .table-op-pro th{
-      display: block;
-    }  */
-
+    
     .table-op td {
         height: 80px;
     }
@@ -84,7 +79,6 @@
     .table-op tbody td,
     .table-op thead > tr > th{
         float: left;
-        /* border-bottom-width: 0; */
     }
 
    
@@ -104,6 +98,12 @@
         background-color: transparent !important;
         height: 25px;
     }
+
+    /* .table-op-pro tbody,    
+    .table-op-pro td,
+    .table-op-pro th{
+      display: block;
+    }  */
 
 
 

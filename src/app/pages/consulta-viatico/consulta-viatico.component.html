@@ -1,0 +1,94 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getViaticos()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div> 
+
+                    <!-- <br/> -->
+
+                    <h3>Listado de Viáticos (<small>{{totalRegistros}}</small>)</h3>
+                    <div style="overflow: auto">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Nro. Semana</th>
+                                    <th>Periodo</th>
+                                    <th>Fecha Emisión</th>
+                                    <th>Nro. Recibo</th>
+                                    <th>Total (S/)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let resumenViatico of resumenViaticos">
+                                    <td>{{resumenViatico.ITEMS}}</td>
+                                    <td>{{resumenViatico.NRO_SEMANA}}</td>
+                                    <td>{{resumenViatico.PERIODO}}</td>
+                                    <td>{{resumenViatico.FH_EMISION}}</td> 
+                                    <td>{{resumenViatico.NRO_RECIBO}}</td>                
+                                    <td>{{resumenViatico.TOTAL}}</td>
+                                    <td>                                  
+                                        <button class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Ver Detalle" (click)="generarComprobanteConductor(resumenViatico.ID_VIATICO, resumenViatico.ID_CONDUCTOR)">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </button> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+
+                    <!-- <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                        Siguiente
+                    </button> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

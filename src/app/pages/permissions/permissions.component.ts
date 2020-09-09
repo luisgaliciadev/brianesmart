@@ -70,7 +70,7 @@ export class PermissionsComponent implements OnInit {
   }
 
   updateRolesModules(modules) {
-    console.log(modules);
+    // console.log(modules);
     this._userService.updateRolesModules(modules).subscribe(
       (response: any) => {
         // console.log(response);

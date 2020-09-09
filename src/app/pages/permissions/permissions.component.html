@@ -47,7 +47,7 @@
                                             <label>
                                                 {{submenu.DS_MODULE}}
                                                 <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                            
-                                                    <input (change)="updateRolesModules(menu)" [value]="submenu.ACCESS" [(ngModel)]="submenu.ACCESS" id="{{submenu.ID_MODULE}}" type="checkbox">
+                                                    <input (change)="updateRolesModules(submenu)" [value]="submenu.ACCESS" [(ngModel)]="submenu.ACCESS" id="{{submenu.ID_MODULE}}" type="checkbox">
                                                     <label for="{{submenu.ID_MODULE}}"></label>
                                                 </div>
                                             </label>
@@ -57,7 +57,7 @@
                                             <label style="font-weight: bold;">
                                                 {{submenu.DS_MODULE}}
                                                 <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                            
-                                                    <input (change)="updateRolesModules(menu)" [value]="submenu.ACCESS" [(ngModel)]="submenu.ACCESS" id="{{submenu.ID_MODULE}}" type="checkbox">
+                                                    <input (change)="updateRolesModules(submenu)" [value]="submenu.ACCESS" [(ngModel)]="submenu.ACCESS" id="{{submenu.ID_MODULE}}" type="checkbox">
                                                     <label style="font-weight: bold;" for="{{submenu.ID_MODULE}}"></label>
                                                 </div>
                                             </label>
@@ -69,7 +69,7 @@
                                                         <label>
                                                             {{submenu_sec.DS_MODULE}}
                                                             <div class="checkbox checkbox-primary p-t-0" style="float: right; margin-left: 5px;">                                            
-                                                                <input (change)="updateRolesModules(menu)" [value]="submenu_sec.ACCESS" [(ngModel)]="submenu_sec.ACCESS" id="{{submenu_sec.ID_MODULE}}" type="checkbox">
+                                                                <input (change)="updateRolesModules(submenu_sec)" [value]="submenu_sec.ACCESS" [(ngModel)]="submenu_sec.ACCESS" id="{{submenu_sec.ID_MODULE}}" type="checkbox">
                                                                 <label for="{{submenu_sec.ID_MODULE}}"></label>
                                                             </div>
                                                         </label>                                                        

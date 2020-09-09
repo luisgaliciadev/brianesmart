@@ -260,7 +260,7 @@ export class ViaticoComponent implements OnInit {
     this._registerService.getRepProductividadCond(this.nroSemana, this.year, this.idZona).subscribe(
       (response: any) => {
         this.productividadOps = response.diasProductividad;     
-        console.log(this.productividadOps); 
+        // console.log(this.productividadOps); 
         this.dias = response.dias;       
         this.totalRegistros = response.diasProductividad.length;
         var j = -1;
@@ -686,6 +686,22 @@ export class ViaticoComponent implements OnInit {
       this.updateViatico(i, nroDia);
     }
     
+  }
+
+  generarNuevoComprobanteConductor(idConductor) {
+    // console.log(idConductor);
+    this.loading = true;
+    this._registerService.generarNuevoComprobanteConductor(this.idViatico,idConductor).subscribe(
+      (response: any) => {
+        if(response) {
+          this.descargar(response.nombreDoc);
+          this.loading = false;
+        }
+      },
+      error => {
+        this.loading = false;
+      }
+    );
   }
 
   descargar(archivo) {   

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { ActivatedRoute, Params } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 declare function init_plugins();
 
@@ -17,7 +16,6 @@ export class ListResumenviaticosComponent implements OnInit {
   nroSemana = 0;
   periodo = '';
   totalViaticos = 0;
-
 
   constructor(
     public _userService: UserService,
