@@ -59,6 +59,10 @@ import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estad
 import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
 import { DashboardIndexpersonalComponent } from './dashboard-indexpersonal/dashboard-indexpersonal.component';
 import { ConsultaViaticoComponent } from './consulta-viatico/consulta-viatico.component';
+import { ConsultaGuiasComponent } from './consulta-guias/consulta-guias.component';
+import { ConsultaGuiaComponent } from './consulta-guia/consulta-guia.component';
+import { PeajeComponent } from './peaje/peaje.component';
+import { PeajesComponent } from './peajes/peajes.component';
 
 @NgModule({
     declarations: [
@@ -103,7 +107,11 @@ import { ConsultaViaticoComponent } from './consulta-viatico/consulta-viatico.co
         DashboardEstadospComponent,
         ViajesCondComponent,
         DashboardIndexpersonalComponent,
-        ConsultaViaticoComponent
+        ConsultaViaticoComponent,
+        ConsultaGuiasComponent,
+        ConsultaGuiaComponent,
+        PeajeComponent,
+        PeajesComponent
     ],
     exports: [
         // PagesComponent,

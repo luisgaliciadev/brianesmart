@@ -374,8 +374,8 @@
                                                     </select>
                                                 </td>
 
-                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno3 > 0 && productividadOp.dia5.motivo3 == 0" align="center">{{productividadOp.dia5.turno3}}</td>
-                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno3 == 0">
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno3 > 0" align="center">{{productividadOp.dia5.turno3}}</td>
+                                                <td style="width: 100px;" *ngIf = "productividadOp.dia5.turno3 == 0 && productividadOp.dia5.motivo3 == 0">
                                                     <select (change) = "updateRepOp(i,4)" [(ngModel)]="productividadOp.dia5.motivo3" name="motivo3" class="form-control bg-danger text-white" required [disabled]="actualizando">                                       
                                                         <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
                                                     </select>

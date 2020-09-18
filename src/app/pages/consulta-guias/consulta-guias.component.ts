@@ -5,12 +5,12 @@ import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-guias',
-  templateUrl: './guias.component.html',
+  selector: 'app-consulta-guias',
+  templateUrl: './consulta-guias.component.html',
   styles: [
   ]
 })
-export class GuiasComponent implements OnInit {
+export class ConsultaGuiasComponent implements OnInit {
 
   guias = [];
   desde = 0;
@@ -60,7 +60,7 @@ export class GuiasComponent implements OnInit {
     if (search === '') {
       search = '0';
     }
-    this._registerService.getGuias(search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
+    this._registerService.getGuias(search, this.fhDesde, this.fhHasta, 0).subscribe(
       (response: any) => {
         this.desde = 0;
         this.hasta = 5;
@@ -80,7 +80,7 @@ export class GuiasComponent implements OnInit {
 
    // Exportar a excel listado de usuarios
    getGuiasExcel() {
-    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
+    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, 0).subscribe(
       (response: any) => {
         // tslint:disable-next-line: prefer-const
         let fileBlob = response;
@@ -165,9 +165,9 @@ export class GuiasComponent implements OnInit {
   printer() {
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/' + this._userService.user.ID_USER, '0', '_blank');
+      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
     } else {
-      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/' + this._userService.user.ID_USER, '0' , '_blank');
+      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
     }
   }
 

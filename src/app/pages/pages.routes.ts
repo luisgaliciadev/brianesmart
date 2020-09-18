@@ -47,6 +47,10 @@ import { DashboardEstadospComponent } from './dashboard-estadosp/dashboard-estad
 import { ViajesCondComponent } from './viajes-cond/viajes-cond.component';
 import { DashboardIndexpersonalComponent } from './dashboard-indexpersonal/dashboard-indexpersonal.component';
 import { ConsultaViaticoComponent } from './consulta-viatico/consulta-viatico.component';
+import { ConsultaGuiasComponent } from './consulta-guias/consulta-guias.component';
+import { ConsultaGuiaComponent } from './consulta-guia/consulta-guia.component';
+import { PeajeComponent } from './peaje/peaje.component';
+import { PeajesComponent } from './peajes/peajes.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -79,7 +83,11 @@ const pagesRoutes: Routes = [
             {path: 'reportsprodop', component: ReportsproOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Reportes de Productividad Operativa'}},
             {path: 'viajesconductor', component: ViajesCondComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Viajes / Horas'}},
             {path: 'viaticosconductor', component: ConsultaViaticoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de viáticos'}},
-           
+            {path: 'consultaguias', component: ConsultaGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guías'}},
+            {path: 'consultaguia/:id', component: ConsultaGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guía'}},
+            {path: 'peaje/:id', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Peajes'}},
+            {path: 'peajes', component: PeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes'}},
+          
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},

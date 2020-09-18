@@ -1,0 +1,143 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="text-left" >
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>  
+                    
+                    <!-- <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/guia/0">
+                            <i class="fa fa-plus"></i>
+                            Registrar Guia
+                        </button>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div> 
+
+                    <!-- <br/> -->
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getGuias(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3>
+                    <div style="overflow: auto">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nro. Guia Transporte</th>
+                                    <th>Nro. Guia Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Conductor</th>
+                                    <th>Tracto</th>
+                                    <th>Remolque</th>
+                                    <th>Peso Bruto</th>
+                                    <th>Peso Tara</th>
+                                    <th>Peso Neto</th>
+                                    <th>Orden Servicio</th>
+                                    <th>Servicio</th>
+                                    <th>Origen</th>
+                                    <th>Destino</th>
+                                    <th>Coordinador</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let guia of guias">
+                                    <td>{{guia.ID_GUIA}}</td>
+                                    <td>{{guia.CORRELATIVO}}</td>
+                                    <td>{{guia.NRO_GUIA_CLIENTE}}</td>
+                                    <td>{{guia.FH_GUIA}}</td>
+                                    <td>{{guia.NOMBRE_CONDUCTOR}}</td>
+                                    <td>{{guia.PLACA_TRACTO}}</td>
+                                    <td>{{guia.PLACA_REMOLQUE}}</td>
+                                    <td>{{guia.PESO_BRUTO}}</td>
+                                    <td>{{guia.PESO_TARA}}</td>
+                                    <td>{{guia.PESO_NETO}}</td>
+                                    <td>{{guia.CORRELATIVO_OS}}</td>
+                                    <td>{{guia.DS_TIPO_SERVICIO}}</td>
+                                    <td>{{guia.DS_ORI_DEST}}</td>
+                                    <td>{{guia.DESTINO}}</td>
+                                    <td>{{guia.USUARIO_BS}}</td>
+                                   
+                                    <td>
+                                        <button [routerLink]="(['/consultaguia',guia.ID_GUIA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
+                                            <i class="fa fa-search"></i>                                            
+                                        </button>
+
+                                        <!-- <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteGuia(guia.ID_GUIA)">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button> -->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            
+                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

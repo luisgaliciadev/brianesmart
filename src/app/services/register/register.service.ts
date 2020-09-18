@@ -784,6 +784,49 @@ getDetaViaticoPorConductor(idViatico, idConductor) {
 }
 // End Get detalle viticos
 
+
+// Register Peaje
+registerPeaje(peajes) { 
+  let json = JSON.stringify(peajes);  
+  let DataPeajes = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/peaje', DataPeajes, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Peajes Registrado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register Peaje
+
+// Get Peajes
+getPeajes(search, desde, hasta) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/peajes/' + desde + '/' + hasta + '/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Peajes
+
 // let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
 // return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
 
@@ -918,8 +961,8 @@ updateGuia(guia) {
 // End Update Guia
 
 // Get Guias
-getGuias(search,desde, hasta) {
-  let params = this._userService.user.ID_USER + '/' + search + '/' + desde + '/' + hasta;
+getGuias(search,desde, hasta, idUser) {
+  let params = idUser + '/' + search + '/' + desde + '/' + hasta;
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/operaciones/guias/' + params, {headers})
   .pipe(map((res: any) => {
@@ -931,6 +974,22 @@ getGuias(search,desde, hasta) {
   }));
 }
 // End Get Guias
+
+// // Consulta Get Guias
+// consultaGetGuias(search,desde, hasta) {
+//   let params = this._userService.user.ID_USER + '/' + search + '/' + desde + '/' + hasta;
+//   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+//   return this._http.get(this.URL + '/operaciones/consultaguias/' + params, {headers})
+//   .pipe(map((res: any) => {
+//     return res;
+//   }))
+//   .pipe(catchError( (err: any) => {   
+//     Swal.fire('Mensaje', 'No se pudo consultar el listado de guias.', 'error');
+//     return throwError(err);
+//   }));
+// }
+// // End Get Guias
+
 
 // Delete Guia
 deleteGuia(id) {
@@ -953,12 +1012,12 @@ deleteGuia(id) {
 // End Get Guia
 
 // Metodo para exportar a excel listado de guias
-getGuiasExcel(search,desde, hasta) {
+getGuiasExcel(search,desde, hasta, idUser) {
   if (search === '') {
     search = '0';
   }    
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  let params = this._userService.user.ID_USER + '/' + search + '/' + desde + '/' + hasta;
+  let params = idUser + '/' + search + '/' + desde + '/' + hasta;
   return this._http.get(this.URL + '/excel/guias/' + params, {responseType: 'blob'})
   .pipe(map((res: any) => {     
     return res;

@@ -16,6 +16,7 @@ export class ListGuiasComponent implements OnInit {
   search = '';
   fhDesde = '';
   fhHasta = '';
+  idUser = 0;
 
   constructor(
     public _userService: UserService,
@@ -29,7 +30,8 @@ export class ListGuiasComponent implements OnInit {
     this._route.params.forEach((params: Params) => {
       this.search = params.search;
       this.fhDesde = params.desde;
-      this.fhHasta = params.hasta
+      this.fhHasta = params.hasta;
+      this.idUser = params.idUser;
       if (this.search === '') {
         this.search = '0';
       }
@@ -43,7 +45,7 @@ export class ListGuiasComponent implements OnInit {
   }
 
   getGuias() {
-    this._registerServices.getGuias(this.search, this.fhDesde, this.fhHasta).subscribe(
+    this._registerServices.getGuias(this.search, this.fhDesde, this.fhHasta,  this.idUser).subscribe(
       (response: any) => {
         this.guias = response.guias;
       }

@@ -5,14 +5,14 @@ import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-guias',
-  templateUrl: './guias.component.html',
+  selector: 'app-peajes',
+  templateUrl: './peajes.component.html',
   styles: [
   ]
 })
-export class GuiasComponent implements OnInit {
+export class PeajesComponent implements OnInit {
 
-  guias = [];
+  peajes = [];
   desde = 0;
   hasta = 5;
   loading = true;
@@ -26,7 +26,7 @@ export class GuiasComponent implements OnInit {
   dia;
   paginas = 0;
   pagina = 1;
-  guiasTotal = [];
+  peajesTotal = [];
 
   constructor(
     public _router: Router,
@@ -60,14 +60,15 @@ export class GuiasComponent implements OnInit {
     if (search === '') {
       search = '0';
     }
-    this._registerService.getGuias(search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
+    this._registerService.getPeajes(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
+        console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
-        this.totalRegistros = response.guias.length;
-        this.guiasTotal = response.guias;
-        this.guias = this.guiasTotal.slice(this.desde, this.hasta);
+        this.totalRegistros = response.peajes.length;
+        this.peajesTotal = response.peajes;
+        this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
@@ -78,23 +79,23 @@ export class GuiasComponent implements OnInit {
     );
   }
 
-   // Exportar a excel listado de usuarios
-   getGuiasExcel() {
-    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
-      (response: any) => {
-        // tslint:disable-next-line: prefer-const
-        let fileBlob = response;
-        // tslint:disable-next-line: prefer-const
-        let blob = new Blob([fileBlob], {
-          type: "application/vnd.ms-excel"
-        });
-        // use file saver npm package for saving blob to file
-        saveAs(blob, `ListadoGuias.xlsx`);
-      }
-    );
-  }
+  // // Exportar a excel listado de usuarios
+  // getGuiasExcel() {
+  //   this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
+  //     (response: any) => {
+  //       // tslint:disable-next-line: prefer-const
+  //       let fileBlob = response;
+  //       // tslint:disable-next-line: prefer-const
+  //       let blob = new Blob([fileBlob], {
+  //         type: "application/vnd.ms-excel"
+  //       });
+  //       // use file saver npm package for saving blob to file
+  //       saveAs(blob, `ListadoGuias.xlsx`);
+  //     }
+  //   );
+  // }
 
-  deleteGuia(id) {
+  deletePeaje(id) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -125,7 +126,7 @@ export class GuiasComponent implements OnInit {
   }
 
   filtroPagina () {
-    this.guias = this.guiasTotal.slice(this.desde, this.hasta);
+    this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
