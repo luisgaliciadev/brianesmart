@@ -369,12 +369,19 @@ export class GuiaComponent implements OnInit {
 
   datosOrden(idOden) {
     const orden = this.ordenes.find( orden => orden.ID_ORDEN_SERVICIO == idOden );
-    this.tipoServicio = orden.DS_TIPO_SERVICIO;
-    this.producto = orden.DS_PRODUCTO;
-    this.cliente = orden.RAZON_SOCIAL;
-    this.origen = orden.DS_ORI_DEST;
-    this.destino = orden.DESTINO;
-    this.guia.SERIAL = orden.SERIAL_GUIAS;
+    if (orden) {
+      this.tipoServicio = orden.DS_TIPO_SERVICIO;
+      this.producto = orden.DS_PRODUCTO;
+      this.cliente = orden.RAZON_SOCIAL;
+      this.origen = orden.DS_ORI_DEST;
+      this.destino = orden.DESTINO;
+      if (!this.modificar) {
+        this.guia.SERIAL = orden.SERIAL_GUIAS;
+      }    
+    } else {
+      this.guia.ID_ORDEN_SERVICIO = '';
+    }
+    
   }
 
   getConductor(id) {

@@ -12,6 +12,7 @@ import { UserService } from '../user/user.service';
 import { AddressClient } from '../../models/addressClient.model';
 import { Denuncia } from 'src/app/models/denuncia.model';
 import { UploadFileService } from '../uploadFile/upload-file.service';
+import { partitionArray } from '@angular/compiler/src/util';
 
 
 
@@ -784,7 +785,6 @@ getDetaViaticoPorConductor(idViatico, idConductor) {
 }
 // End Get detalle viticos
 
-
 // Register Peaje
 registerPeaje(peajes) { 
   let json = JSON.stringify(peajes);  
@@ -807,6 +807,28 @@ registerPeaje(peajes) {
 }
 // End Register Peaje
 
+// Register deta Peaje
+registerDetaPeaje(peajes) { 
+  let json = JSON.stringify(peajes);  
+  let DataPeajes = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/detapeaje', DataPeajes, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Peajes Registrado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register deta Peaje
+
 // Get Peajes
 getPeajes(search, desde, hasta) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
@@ -826,6 +848,250 @@ getPeajes(search, desde, hasta) {
   }));
 }
 // End Get Peajes
+
+// Get Peajes
+getPeaje(idPeaje) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/peaje/' + idPeaje, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Peajes
+
+// Update Peaje
+updatePeaje(peajes) { 
+  let json = JSON.stringify(peajes);  
+  let DataPeajes = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/conductor/peaje', DataPeajes, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Peajes Actualizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update Peaje
+
+// Delete detalle Peaje
+deleteDetaPeaje(idPeaje, idDeta) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let parametros = idPeaje + '/' + idDeta + '/' + this._userService.user.ID_USER;
+  return this._http.delete(this.URL + '/conductor/detapeajes/' + parametros, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    // this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se eliminar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+
+// Delete Peaje
+deletePeaje(idPeaje) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let parametros = idPeaje + '/' + this._userService.user.ID_USER;
+  return this._http.delete(this.URL + '/conductor/peaje/' + parametros, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Peajes Anulados Correctamente.', 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    // this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se eliminar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete Peaje
+
+// Register Peaje factura
+registePeajeFact(factura) { 
+  let json = JSON.stringify(factura);  
+  let dataFactura = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/peajefact', dataFactura, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Factura Registrada Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register Peaje factura
+
+// Get Peajes facturas
+getPeajeFacturas(idDeta) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/peajefact/' + idDeta, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Peajes facturas
+
+// Get Peajes facturas
+getVerificarNroGuia(correlativo) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/nroguia/' + correlativo, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Peajes facturas
+
+// Delete Peaje factura
+deletePeajeFact(id) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let parametros = id + '/' + this._userService.user.ID_USER;
+  return this._http.delete(this.URL + '/conductor/peajefact/' + parametros, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Factura eliminada Correctamente.', 'success');
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    // this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo eliminar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete Peaje
+
+
+// Get documentos peajes
+getDocPeajes() { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/peajes/documentos', {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get documentos peajes
+
+// Update deta Peaje
+updateDetaPeaje(idDeta,valor) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = idDeta + '/' + valor + '/' + this._userService.user.ID_USER;
+  return this._http.put(this.URL + '/conductor/detapeaje/' + params,{}, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Peajes Actualizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update deta Peaje
+
+// Update all deta Peaje
+updateAllDetaPeaje(idPeaje,valor) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = idPeaje + '/' + valor + '/' + this._userService.user.ID_USER;
+  return this._http.put(this.URL + '/conductor/alldetapeaje/' + params,{}, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Peajes Actualizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update deta Peaje
+
+// Get excel deta peaje telecredito
+getExcelPeajeTelecredito(idPeaje){
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/detapeajetelecredito/' + idPeaje, {responseType: 'blob' , headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// End Get excel deta peaje telecredito
 
 // let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
 // return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
@@ -964,7 +1230,7 @@ updateGuia(guia) {
 getGuias(search,desde, hasta, idUser) {
   let params = idUser + '/' + search + '/' + desde + '/' + hasta;
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.get(this.URL + '/operaciones/guias/' + params, {headers})
+  return this._http.get(this.URL + '/operaciones/guias/' + params,{headers})
   .pipe(map((res: any) => {
     return res;
   }))

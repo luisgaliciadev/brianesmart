@@ -31,9 +31,9 @@
                     
 
                     <div class="text-right">
-                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0/0">
                             <i class="fa fa-plus"></i>
-                            Registrar Guia
+                            Registrar
                         </button>
                     </div>
 
@@ -53,7 +53,7 @@
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
                                     
-                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
+                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getPeajes(search)">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
@@ -66,7 +66,7 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getGuias(search)" (keyup)="activeButtons()">                        
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getPeajes(search)" (keyup)="activeButtons()">                        
                             <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
                         </div>
                     </div>
@@ -96,11 +96,18 @@
                                     <td>{{peaje.ESTADO}}</td>
                                     <td>{{peaje.USUARIO}}</td>                                   
                                     <td>
-                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
-                                            <i class="fa fa-pencil">
-                                            </i>
-                                            
+                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE,'0'])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
+                                            <i class="fa fa-pencil"></i>  
                                         </button>
+
+                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE,'2'])" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Procesar">
+                                            <i class="fa fa-check-square"></i>  
+                                        </button>
+
+                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE,'1'])" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Registrar Facturas">
+                                            <i class="mdi mdi-library-books"></i>  
+                                        </button>
+
                                         <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deletePeaje(peaje.ID_PEAJE)">
                                             <i class="fa fa-trash-o"></i>
                                         </button>

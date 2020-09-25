@@ -51,11 +51,10 @@ export class PeajesComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getGuias(this.search);
+    this.getPeajes(this.search);
   }
 
-  getGuias(search) {
-
+  getPeajes(search) {
     this.loading = true;
     if (search === '') {
       search = '0';
@@ -113,12 +112,9 @@ export class PeajesComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this._registerService.deleteGuia(id).subscribe(
+        this._registerService.deletePeaje(id).subscribe(
           (response: any) => {
-            // console.log(response);
-            if(response) {
-              this.getGuias(this.search);
-            }
+            this.getPeajes(this.search);
           }
         );
       } 
@@ -175,7 +171,7 @@ export class PeajesComponent implements OnInit {
   // Limpiar busqueda
   clear() {
     this.search = '';
-     this.getGuias(this.search);
+     this.getPeajes(this.search);
   }
 
   // Activar o desactivar botones de reportes
@@ -184,7 +180,7 @@ export class PeajesComponent implements OnInit {
       this.activeButton = true;
     } else {
       this.activeButton = false;
-      this.getGuias(this.search);
+      this.getPeajes(this.search);
     }
   }
 

@@ -85,7 +85,7 @@ const pagesRoutes: Routes = [
             {path: 'viaticosconductor', component: ConsultaViaticoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de viáticos'}},
             {path: 'consultaguias', component: ConsultaGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guías'}},
             {path: 'consultaguia/:id', component: ConsultaGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guía'}},
-            {path: 'peaje/:id', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Peajes'}},
+            {path: 'peaje/:id/:fact', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Peajes'}},
             {path: 'peajes', component: PeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes'}},
           
             // Dashboard

@@ -105,7 +105,7 @@ export class ConsultaGuiaComponent implements OnInit {
         this.horaFin = arrayHoraFin[0];
         this.minFin = arrayHoraFin[1];
         }
-
+        console.log(this.guia.CORRELATIVO);
         var arrayCorrelativo = this.guia.CORRELATIVO.split('-');
         this.guia.CORRELATIVO = arrayCorrelativo[1];
 
@@ -372,12 +372,17 @@ export class ConsultaGuiaComponent implements OnInit {
 
   datosOrden(idOden) {
     const orden = this.ordenes.find( orden => orden.ID_ORDEN_SERVICIO == idOden );
-    this.tipoServicio = orden.DS_TIPO_SERVICIO;
-    this.producto = orden.DS_PRODUCTO;
-    this.cliente = orden.RAZON_SOCIAL;
-    this.origen = orden.DS_ORI_DEST;
-    this.destino = orden.DESTINO;
-    this.guia.SERIAL = orden.SERIAL_GUIAS;
+    if (orden) {
+      this.tipoServicio = orden.DS_TIPO_SERVICIO;
+      this.producto = orden.DS_PRODUCTO;
+      this.cliente = orden.RAZON_SOCIAL;
+      this.origen = orden.DS_ORI_DEST;
+      this.destino = orden.DESTINO;
+      // this.guia.SERIAL = orden.SERIAL_GUIAS;
+    } else {
+      this.guia.ID_ORDEN_SERVICIO = '';
+    }
+    
   }
 
   getConductor(id) {
