@@ -729,7 +729,7 @@ getRepProductividadCond(semana, year, zona) {
 getViajesHoras(search,desde, hasta, dni, zona) {
   let params = desde + '/' + hasta + '/' + dni + '/' + search + '/' + zona;
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.get(this.URL + '/conductor/viajeshoras/' + params, {headers})
+  return this._http.get(this.URL + '/conductor/viajeshorascomision/' + params, {headers})
   .pipe(map((res: any) => {
     return res;
   }))
@@ -975,7 +975,7 @@ getPeajeFacturas(idDeta) {
 }
 // End Get Peajes facturas
 
-// Get Peajes facturas
+// Get verificar guia
 getVerificarNroGuia(correlativo) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/operaciones/nroguia/' + correlativo, {headers})
@@ -992,7 +992,7 @@ getVerificarNroGuia(correlativo) {
     }
   }));
 }
-// End Get Peajes facturas
+// End Get verificar guia
 
 // Delete Peaje factura
 deletePeajeFact(id) { 
@@ -1092,6 +1092,27 @@ getExcelPeajeTelecredito(idPeaje){
   }));
 }
 // End Get excel deta peaje telecredito
+
+// Update all deta Peaje
+procesarPeaje(idPeaje) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = idPeaje + '/' + this._userService.user.ID_USER;
+  return this._http.put(this.URL + '/conductor/procesarpeaje/' + params,{}, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Solicitud procesada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo procesar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update deta Peaje
 
 // let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
 // return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})

@@ -27,7 +27,7 @@ export class ViajesCondComponent implements OnInit {
   pagina = 1;
   dni;
   zonasConductor = '';
-  idZona = 3;
+  idZona = 0;
   totalHoras = 0;
   tarifaViajes = [];
   totalComision = 0;
@@ -62,9 +62,9 @@ export class ViajesCondComponent implements OnInit {
 
   getVaijesConductor() {
    
-    if (this.idZona == 0) {
-      return;
-    }
+    // if (this.idZona == 0) {
+    //   return;
+    // }
     this.loading = true;
     this.search = '0';
     this._registerService.getViajesHoras(this.search, this.fhDesde, this.fhHasta, this.dni, this.idZona).subscribe(

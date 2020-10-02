@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../services/service.index'
 import { User } from '../models/user.model';
-
+import { URL_SERVICES } from '../config/config';
 
 declare function init_plugins();
 
@@ -18,6 +18,7 @@ declare const gapi: any;
 })
 export class LoginComponent implements OnInit {
 
+  URL = URL_SERVICES;
   public remenberme: boolean;
   public user: User;
   public email: string;
@@ -97,6 +98,11 @@ export class LoginComponent implements OnInit {
       );
       // console.log(token);
     });
+  }
+
+  descargarApp() {
+    window.open(this.URL +'/image/app/brianeApp.apk');
+    // console.log(URL);
   }
 
 }

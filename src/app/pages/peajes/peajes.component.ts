@@ -61,7 +61,7 @@ export class PeajesComponent implements OnInit {
     }
     this._registerService.getPeajes(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;

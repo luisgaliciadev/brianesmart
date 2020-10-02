@@ -36,6 +36,7 @@ import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.
 import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
 import { DetaViaticoComponent } from './reports/deta-viatico/deta-viatico.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

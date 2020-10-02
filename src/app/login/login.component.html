@@ -2,7 +2,7 @@
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
 <section id="wrapper" class="login-register login-sidebar" style="background-image:url(assets/images/background/login-register.jpg);">
-    <div class="login-box card">
+    <div class="login-box card" style="width: 350px !important;">
         <div class="card-body">
             <form ngNativeValidate #formLogin="ngForm" class="form-horizontal form-material" (ngSubmit)="login(formLogin)">
                 <a href="javascript:void(0)" class="text-center db"><img src="assets/images/logo-icon.png" alt="Home" /><br/><img src="assets/images/logo-text.png" alt="Home" /></a>
@@ -22,28 +22,41 @@
                             <input [(ngModel)]="remenberme" name="remenberme" id="checkbox-signup" type="checkbox" class="filled-in chk-col-light-blue">
                             <label for="checkbox-signup"> Recordarme </label>
                         </div>
-                        <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> ¿Olvido su Password?</a> </div>
+                        <!-- <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> ¿Olvido su Password?</a>  -->
+                    </div>
                 </div>
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
                         <button routerLink="/login" class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="submit">Ingresar</button>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
                         <div class="social">
-                            <!-- <a href="javascript:void(0)" class="btn  btn-facebook" data-toggle="tooltip" title="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook"></i> </a> -->
-                            <!-- <button type="button" href="#" id="btnGoogle" class="btn btn-googleplus" data-toggle="tooltip" title="Ingresar con Google"> <i aria-hidden="true" class="fa fa-google"></i> </button>  -->
-                            <!-- <a href="#" id="btnGoogle" data-toggle="tooltip" title="Ingresar con Google">
+                            <a href="javascript:void(0)" class="btn  btn-facebook" data-toggle="tooltip" title="Login with Facebook"> <i aria-hidden="true" class="fa fa-facebook"></i> </a>
+                            <button type="button" href="#" id="btnGoogle" class="btn btn-googleplus" data-toggle="tooltip" title="Ingresar con Google"> <i aria-hidden="true" class="fa fa-google"></i> </button> 
+                            <a href="#" id="btnGoogle" data-toggle="tooltip" title="Ingresar con Google">
                                 <img style="height: 35px; width: 35px;" src="assets/images/background/google.jpg">
-                            </a> -->
+                            </a>
                         </div>
 
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group m-b-0">
                     <div class="col-sm-12 text-center">
                         ¿No tiene una Cuenta? <a routerLink="/register" class="text-primary m-l-5"><b>Registrarse</b></a>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center" style="font-weight: bold;">                        
+                        <a class="pointer" data-toggle="tooltip" data-placement="top" title="Descargar"  (click)="descargarApp()"><i class="mdi mdi-tablet-android pointer"></i>BrianeApp beta</a>
+                    </div>
+                </div>
+
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">                        
+                        <a class="pointer" data-toggle="tooltip" data-placement="top" title="Email Contacto/Soporte"><i class="mdi mdi-email pointer"></i>briane.smart@supervan.pe</a>
                     </div>
                 </div>
             </form>

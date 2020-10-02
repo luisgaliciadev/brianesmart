@@ -6,12 +6,14 @@ import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component
 import { RegisterComponent } from './register/register.component';
 import { PagesComponent } from './pages/pages.component';
 import { LoginGuardGuard } from './services/guards/login-guard.guard';
-import { ListUsersComponent } from './reports/list-users/list-users.component';
-import { ListCompanysComponent } from './reports/list-companys/list-companys.component';
 import { AdminGuard } from './services/guards/admin.guard';
 import { ReportGuard } from './services/guards/report.guard';
-import { ListClientsComponent } from './reports/list-clients/list-clients.component';
 import { DenunciaComponent } from './denuncia/denuncia.component';
+
+// Reportes
+import { ListUsersComponent } from './reports/list-users/list-users.component';
+import { ListCompanysComponent } from './reports/list-companys/list-companys.component';
+import { ListClientsComponent } from './reports/list-clients/list-clients.component';
 import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.component';
 import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
 import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';

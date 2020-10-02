@@ -49,6 +49,7 @@ export class PeajeComponent implements OnInit {
   documentosPeaje = [];
   idTipoDocPeaje = 0;
   idAccion = 0;
+  depositado;
 
   constructor(
     public _registerService: RegisterService,
@@ -99,10 +100,12 @@ export class PeajeComponent implements OnInit {
   getPeaje() {
     this._registerService.getPeaje(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
+        // console.log(response);
         this.peaje.MONTO_TOTAL = response.peaje.MONTO_TOTAL;
         this.peaje.CANT_REGISTROS = response.peaje.CANT_REGISTROS;
         this.peaje.ID_ORDEN_SERVICIO = response.peaje.ID_ORDEN_SERVICIO;
         this.peaje.OBSERVACION = response.peaje.OBSERVACION;
+        this.peaje.ESTATUS = response.peaje.ESTATUS;
         var detaPeajes = [];
         response.detaPeajes.forEach(function (detalle) { 
             let fecha = detalle.FECHA.toString();
@@ -131,7 +134,7 @@ export class PeajeComponent implements OnInit {
     this._registerService.getDocPeajes().subscribe(
       (response: any) => {       
         this.documentosPeaje = response.documentosPeaje;
-        console.log(this.documentosPeaje);
+        // console.log(this.documentosPeaje);
       }
     );
   }
@@ -227,7 +230,7 @@ export class PeajeComponent implements OnInit {
     this._registerService.getOrdenServicioAll(this._userService.user.ID_USER).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;  
-        console.log(this.ordenes); 
+        // console.log(this.ordenes); 
         if (this.peaje.ID_PEAJE > 0) {
            this.datosOrden(this.peaje.ID_ORDEN_SERVICIO);   
         }
@@ -465,7 +468,7 @@ export class PeajeComponent implements OnInit {
     this.conductor = '';
     this._registerService.getPeajeFacturas(idDeta).subscribe(
       (response: any) => {
-        console.log(response);
+        this.getPeaje();
         this.peajeFacturas = response.peajesFacturas;
         this.conductor = dni + ' - ' + conductor;
       }
@@ -558,4 +561,34 @@ export class PeajeComponent implements OnInit {
     );
   }
 
+  procesarSolicitud() {
+    var fgDepositado;
+    this.conductores.forEach(function (detalle) { 
+        if (detalle.depositado) {
+          fgDepositado = detalle.depositado;
+        }
+    });   
+
+    if (!fgDepositado) {
+      Swal.fire('Mensaje', 'Debe marcar los peajes depositados.', 'warning');
+      return;
+    }
+  
+    this.registrando = true;
+    this._registerService.procesarPeaje(this.peaje.ID_PEAJE).subscribe(
+      (response: any) => {
+        if (response) {
+          this.getPeaje();
+          this.registrando = false;
+        }
+      },
+      (error: any) => {
+        this.registrando = false;
+      }
+    );
+  }
+
 }
+
+
+       

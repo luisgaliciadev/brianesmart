@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
     init_plugins();
 
     this.forma = new FormGroup({
+      dni: new FormControl(null, Validators.required),
       name: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, Validators.required),
@@ -65,16 +66,21 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    if (!this.forma.value.condiciones) {
+    // if (!this.forma.value.condiciones) {
 
-      Swal.fire('Importante', 'Debe aceptar los Terminos.', 'warning');
-      return;
+    //   Swal.fire('Importante', 'Debe aceptar los Terminos.', 'warning');
+    //   return;
 
-    }
+    // }
     this.user = new User(
       this.forma.value.name,
       this.forma.value.email,
-      this.forma.value.password
+      this.forma.value.password,
+      '',
+      0,
+      false,
+      '',
+      this.forma.value.dni
     );
     
     // console.log(this.forma.value.password.length);

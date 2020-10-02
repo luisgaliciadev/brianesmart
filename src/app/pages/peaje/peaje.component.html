@@ -204,6 +204,7 @@
                                     <th style="text-align: center;">Monto S/</th>
                                     <!-- <th style="text-align: center;">Peaje</th> -->
                                     <th style="text-align: center;">Fecha</th>
+                                    <th style="text-align: center;">Depositado</th>
                                     <th style="text-align: center;">Abono S/</th>
                                     <th style="text-align: center;">Saldo S/</th>
                                     <th style="text-align: center;"></th>
@@ -216,11 +217,17 @@
                                     <td align="center">{{conductor.dni}}</td>
                                     <td align="center">{{conductor.monto}}</td>
                                     <td align="center">{{conductor.fecha}}</td> 
+                                    <td align="center">
+                                        <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
+                                            <input class="chk-col-blue" [value]="conductor.depositado" [(ngModel)]="conductor.depositado" name="check-{{i}}" id="check-{{i}}" type="checkbox" disabled>
+                                            <label for="check-{{i}}"></label>
+                                        </div>
+                                    </td>        
                                     <td align="center">{{conductor.montoAbono}}</td> 
                                     <td align="center">{{conductor.montoSustentar}}</td>                        
                                     <td align="center">                               
-                                        <a *ngIf="conductor.montoSustentar > 0" data-toggle="tooltip" data-placement="top" title="Registrar Factura" data-toggle="modal" data-target="#facturas" (click)="limpiarModal()" (click)="valorIdDeta(conductor.ID_DETA)"><i class="mdi mdi-beaker text-success pointer m-r-10"></i></a>
-                                        <a data-toggle="tooltip" data-placement="top" title="Ver Facturas" data-toggle="modal" data-target="#peajeFacturas" (click)="limpiarModal()" (click)="getPeajesFacturas(conductor.ID_DETA,conductor.dni,conductor.nombre)"> <i class="fa fa-search text-info pointer"></i></a>
+                                        <a *ngIf="conductor.montoSustentar > 0 && conductor.depositado" data-toggle="tooltip" data-placement="top" title="Registrar Factura" data-toggle="modal" data-target="#facturas" (click)="limpiarModal()" (click)="valorIdDeta(conductor.ID_DETA)" disabled><i class="mdi mdi-beaker text-success pointer m-r-10"></i></a>
+                                        <a *ngIf="conductor.depositado" data-toggle="tooltip" data-placement="top" title="Ver Facturas" data-toggle="modal" data-target="#peajeFacturas" (click)="limpiarModal()" (click)="getPeajesFacturas(conductor.ID_DETA,conductor.dni,conductor.nombre)"> <i class="fa fa-search text-info pointer"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -250,6 +257,11 @@
                     <button *ngIf="peaje.ID_PEAJE > 0 && !facturas" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deletePeaje()">
                         <i class="fa fa-trash-o"></i>
                         Anular
+                    </button>
+                    
+                    <button *ngIf="idAccion == 2 && peaje.ESTATUS == 1" type="button" class="btn btn-primary waves-effect waves-light m-r-10" (click)="procesarSolicitud()">
+                        <i class="mdi mdi-email"></i>
+                        Procesar y Enviar Notificación
                     </button>
 
                     <button *ngIf="idAccion == 2" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getExcelPeajeTelecredito()">
