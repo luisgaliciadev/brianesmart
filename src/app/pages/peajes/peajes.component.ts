@@ -162,9 +162,9 @@ export class PeajesComponent implements OnInit {
   printer() {
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/' + this._userService.user.ID_USER, '0', '_blank');
+      window.open('#/listpeajes/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
     } else {
-      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/' + this._userService.user.ID_USER, '0' , '_blank');
+      window.open('#/listpeajes/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
   }
 

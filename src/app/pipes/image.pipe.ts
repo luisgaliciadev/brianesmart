@@ -8,8 +8,9 @@ export class ImagePipe implements PipeTransform {
 
   transform(img: string, type: string): any {
 
-    // tslint:disable-next-line: no-shadowed-variable
+    
     let url = URL_SERVICES + '/image';
+    // console.log('url:', url);
     // console.log(type);
     // console.log(img);
     if (!img) {

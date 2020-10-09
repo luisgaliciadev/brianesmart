@@ -588,6 +588,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
+  printer() {
+    this._userService.loadReport();
+    window.open('#/resumenpeaje/' + this.peaje.ID_PEAJE, '0' , '_blank');
+  }
+
 }
 
 

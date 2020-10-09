@@ -1,0 +1,133 @@
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+</div>
+
+<div style="margin-left: 20px; margin-top: 20px;" id="report" class="col-10">
+    <form ngNativeValidate #form="ngForm" class="form p-t-20">
+        <div class="row">       
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Nr. Orden Servicio:</label>
+                    <div class="input-group">   
+                        {{correlativo}}                                         
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Tipo Servicio:</label>
+                    <div class="input-group">        
+                        {{tipoServicio}}                                    
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Producto:</label>
+                    <div class="input-group">  
+                        {{producto}}                                           
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Cliente:</label>
+                    <div class="input-group">   
+                        {{cliente}}                                  
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">       
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Origen:</label>
+                    <div class="input-group">                                            
+                        {{origen}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Destino:</label>
+                    <div class="input-group"> 
+                        {{destino}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Nro. Solicitud Peaje:</label>
+                    <div class="input-group">    
+                        {{peaje.ID_PEAJE}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm">
+                <div class="form-group">
+                    <label>Monto Total (S/):</label>
+                    <div class="input-group">    
+                        {{peaje.MONTO_TOTAL}}                                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h3>Detalles de la Solicitud</h3>
+        <hr>
+         <h3>Listado de Conductores (<small>{{conductores.length}}</small>)</h3>                   
+        <div style="overflow: auto">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">ITEM</th>
+                        <th style="text-align: center;">Nombre</th>
+                        <th style="text-align: center;">DNI</th>
+                        <th style="text-align: center;">Monto S/</th>
+                        <!-- <th style="text-align: center;">Peaje</th> -->
+                        <th style="text-align: center;">Fecha</th>
+                        <th style="text-align: center;">Depositado</th>
+                        <th style="text-align: center;">Abono S/</th>
+                        <th style="text-align: center;">Saldo S/</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let conductor of conductores; index as i ">
+                        <td align="center">{{i+1}}</td>
+                        <td align="center">{{conductor.nombre}}</td>
+                        <td align="center">{{conductor.dni}}</td>
+                        <td align="center">{{conductor.monto}}</td>
+                        <td align="center">{{conductor.fecha}}</td> 
+                        <td *ngIf="conductor.depositado"align="center">
+                           SI
+                        </td> 
+                        <td *ngIf="!conductor.depositado"align="center">
+                            SI
+                         </td>        
+                        <td align="center">{{conductor.montoAbono}}</td> 
+                        <td align="center">{{conductor.montoSustentar}}</td>                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label>Observación:</label>
+                <div class="input-group">       
+                    {{peaje.OBSERVACION}}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

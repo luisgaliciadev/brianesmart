@@ -73,6 +73,7 @@ export class ProfileComponent implements OnInit {
       }
 
       this.imageUpload = file;
+      console.log(this.imageUpload);
 
       // tslint:disable-next-line: prefer-const
       let reader = new FileReader();

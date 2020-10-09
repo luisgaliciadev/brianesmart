@@ -103,7 +103,7 @@
 
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Monto Total:</label>
+                                <label>Monto Total (S/):</label>
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="peaje.MONTO_TOTAL" name="MONTO_TOTAL" type="text" class="form-control" disabled = "true" required>
                                 </div>
@@ -269,6 +269,11 @@
                         Exportar
                     </button>
 
+                    <button *ngIf="peaje.ID_PEAJE > 0" type="button" class="btn btn-default waves-effect waves-light m-r-10" (click)="printer()">
+                        <i class="mdi mdi-printer"></i>
+                        Imprimir
+                    </button>
+
                     <button routerLink="/peajes" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
                         <i class="fa fa-arrow-circle-right"></i>
                         Volver
@@ -278,7 +283,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Modal Registro Facturas-->
 <div class="modal fade" id="facturas" tabindex="-1" role="dialog" aria-hidden="true">
@@ -304,7 +308,7 @@
                 </div>
             </div>
 
-            <div *ngIf="idTipoDocPeaje == 1" class="form-group row">
+            <div *ngIf="idTipoDocPeaje === 1" class="form-group row">
                 <label class="col-5 col-form-label">Nro Guia:</label>                                
                 <div class="input-group col-7">   
                     <input (focusout) = "getVerificarNroGuia(nroGuia)" [(ngModel)]="nroGuia" name="nroGuia" type="text" class="form-control" placeholder="0001-00000001" required>

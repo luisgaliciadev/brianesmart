@@ -29,8 +29,8 @@ export class SidebarComponent implements OnInit {
     // console.log('sidebar componente');
     // init_plugins();
     this.user = this._userService.user;
+    // this._sidebar.loadMenu();
     this._sidebar.loadMenu();
-
   }
 
   idModule(idModule) {
@@ -42,7 +42,5 @@ export class SidebarComponent implements OnInit {
     // console.log('valor sidebar' + idModule);
     // console.log('_userService' + this._userService.ID_MODULE);
   }
-
-
 
 }

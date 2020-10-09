@@ -299,7 +299,7 @@ export class UserService {
      localStorage.removeItem('email');
    }
    return this._http.post(this.URL + '/login', user)
-     .pipe(map( (res: any) => {
+     .pipe(map((res: any) => {
        // console.log(res);
        this.saveLocalStorage(res.id, res.token, res.user, res.menu);
        localStorage.setItem('idModule', this.ID_MODULE.toString());

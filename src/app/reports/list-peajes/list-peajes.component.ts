@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, RegisterService } from 'src/app/services/service.index';
 import { ActivatedRoute, Params } from '@angular/router';
+import { RegisterService, UserService } from 'src/app/services/service.index';
 
 declare function init_plugins();
 
 @Component({
-  selector: 'app-list-viaticos',
-  templateUrl: './list-viaticos.component.html',
+  selector: 'app-list-peajes',
+  templateUrl: './list-peajes.component.html',
   styles: [
   ]
 })
-export class ListViaticosComponent implements OnInit {
+export class ListPeajesComponent implements OnInit {
 
-  viaticos = [];
+  peajes = [];
   search = '';
   fhDesde = '';
   fhHasta = '';
@@ -35,13 +35,14 @@ export class ListViaticosComponent implements OnInit {
       }
     });
 
-    this.getViaticos();
+    this.getPeajes();
   }
 
-  getViaticos() {
-    this._registerService.getViaticos(this.fhDesde, this.fhHasta, this.search).subscribe(
+  getPeajes() {
+    this._registerService.getPeajes(this.search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        this.viaticos = response.viaticos;
+        // console.log(response);
+        this.peajes = response.peajes;
       }
     );
   }

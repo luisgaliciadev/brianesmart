@@ -63,6 +63,7 @@ import { ConsultaGuiasComponent } from './consulta-guias/consulta-guias.componen
 import { ConsultaGuiaComponent } from './consulta-guia/consulta-guia.component';
 import { PeajeComponent } from './peaje/peaje.component';
 import { PeajesComponent } from './peajes/peajes.component';
+import { AgendaTelefonicaComponent } from './agenda-telefonica/agenda-telefonica.component';
 
 @NgModule({
     declarations: [
@@ -111,7 +112,8 @@ import { PeajesComponent } from './peajes/peajes.component';
         ConsultaGuiasComponent,
         ConsultaGuiaComponent,
         PeajeComponent,
-        PeajesComponent
+        PeajesComponent,
+        AgendaTelefonicaComponent
     ],
     exports: [
         // PagesComponent,

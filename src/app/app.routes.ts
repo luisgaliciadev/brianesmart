@@ -21,6 +21,8 @@ import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.com
 import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
 import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
 import { DetaViaticoComponent } from './reports/deta-viatico/deta-viatico.component';
+import { ListPeajesComponent } from './reports/list-peajes/list-peajes.component';
+import { ResumenPeajeComponent } from './reports/resumen-peaje/resumen-peaje.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, data: {titulo: 'Login'}},
@@ -38,6 +40,8 @@ const appRoutes: Routes = [
     { path: 'listoreportpro/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListReportproComponent, data: {titulo: 'Listado de Reportes de Productividad'}},
     { path: 'listresumenviaticos/:id', canActivate: [ReportGuard], component: ListResumenviaticosComponent, data: {titulo: 'Resumen de Viáticos'}},
     { path: 'detaviatico/:id/:idConductor', canActivate: [ReportGuard], component: DetaViaticoComponent, data: {titulo: 'Detalle de Viáticos'}},
+    { path: 'listpeajes/:search/:desde/:hasta', canActivate: [ReportGuard], component: ListPeajesComponent, data: {titulo: 'Listado de Peajes'}},
+    { path: 'resumenpeaje/:id', canActivate: [ReportGuard], component: ResumenPeajeComponent, data: {titulo: 'Resumen de Peaje'}},
 
     {
         path: '',

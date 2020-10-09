@@ -52,9 +52,7 @@ export class LoginComponent implements OnInit {
     if (forma.invalid) {
       return;
     }
-
     this.user = new User(null, forma.value.email, forma.value.password);
-
     this._userService.login(this.user, forma.value.remenberme).subscribe(
       response => {
         // console.log(response);
@@ -101,7 +99,8 @@ export class LoginComponent implements OnInit {
   }
 
   descargarApp() {
-    window.open(this.URL +'/image/app/brianeApp.apk');
+    // window.open(this.URL +'/image/app/brianeApp.apk');
+    window.open('https://drive.google.com/u/4/uc?id=1zJgo-eFZd3YUZ7OMjXXMdGYO977GeGmP&export=download');
     // console.log(URL);
   }
 
