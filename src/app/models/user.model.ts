@@ -21,7 +21,8 @@ export class User {
         public PHONE?: string,
         public IDEN?: string,
         // tslint:disable-next-line: variable-name
-        public ID_USER?: number
+        public ID_USER?: number,
+        public PASSWORD_NEW?: String
     ) { }
 
 // tslint:disable-next-line: eofline

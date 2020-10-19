@@ -51,6 +51,7 @@ import { ConsultaGuiasComponent } from './consulta-guias/consulta-guias.componen
 import { ConsultaGuiaComponent } from './consulta-guia/consulta-guia.component';
 import { PeajeComponent } from './peaje/peaje.component';
 import { PeajesComponent } from './peajes/peajes.component';
+import { SaldosPeajesComponent } from './saldos-peajes/saldos-peajes.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -87,7 +88,8 @@ const pagesRoutes: Routes = [
             {path: 'consultaguia/:id', component: ConsultaGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guía'}},
             {path: 'peaje/:id/:fact', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Peajes'}},
             {path: 'peajes', component: PeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes'}},
-          
+            {path: 'saldos-peaje', component: SaldosPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes - Saldos de conductores'}},
+        
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},

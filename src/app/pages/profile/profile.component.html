@@ -68,18 +68,26 @@
                 <form ngNativeValidate #formPassword="ngForm" (ngSubmit)="updatePassword(formPassword.value)" class="form p-t-20">
                     
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Password</label>
+                        <label for="exampleInputEmail1">Contraseña Actual</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-key"></i></div>
-                            <input [(ngModel)]="passReset" name="passReset" type="password"  class="form-control" placeholder="Password" required>
+                            <input [(ngModel)]="passActual" name="passActual" type="password"  class="form-control" placeholder="Contraseña actual" required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Confirmar Password</label>
+                        <label for="exampleInputEmail1">Contraseña</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-key"></i></div>
-                            <input [(ngModel)]="passReset2" name="passReset2" type="password" class="form-control" placeholder="Confirmar Password" required>
+                            <input [(ngModel)]="passReset" name="passReset" type="password"  class="form-control" placeholder="Contraseña" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Confirmar Contraseña</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="ti-key"></i></div>
+                            <input [(ngModel)]="passReset2" name="passReset2" type="password" class="form-control" placeholder="Confirmar Contraseña" required>
                         </div>
                     </div>
 
@@ -89,7 +97,7 @@
                         </p>
                     </div>
 
-                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">
                         <i class="fa fa-save"></i>
                         Actualizar
                     </button>                

@@ -20,10 +20,8 @@ export class ProfileComponent implements OnInit {
   public passReset = '';
   public passReset2 = '';
   public ID_USER = 0;
+  public passActual = '';
   
-
-
-
   constructor(
     // tslint:disable-next-line: variable-name
     public _userService: UserService,
@@ -96,12 +94,14 @@ export class ProfileComponent implements OnInit {
       if (user.passReset.length < 6) {
         Swal.fire('Mensaje', 'La constraseña debe tener al menos 6 caracteres.', 'warning');
       } else {
-        this.user.PASSWORD = user.passReset;
+        this.user.PASSWORD = user.passActual;
+        this.user.PASSWORD_NEW = user.passReset;
         this.user.ID_USER = this.ID_USER;
         // console.log(this.user);
         // return;
         this._userService.updatePassword(this.user).subscribe(
           (response: any) => {
+            this.passActual = '';
             this.passReset = '';
             this.passReset2 = '';
             this._router.navigate(['/profile']);

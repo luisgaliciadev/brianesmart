@@ -1,0 +1,44 @@
+<div>    
+    <button type="button" class="btn waves-effect waves-light btn-rounded btn-default"  (click)="toPrint()">
+            <i class="mdi mdi-printer"></i>
+            Imprimir
+    </button>
+</div>
+
+
+<div style="margin-left: 20px; margin-top: 20px;" id="report">
+    <h2 align="center" style="text-decoration: underline">Listado de Saldos de Conductores - (Peajes)  | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
+
+    <div style="overflow: auto;">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ITEMS</th>
+                    <th>Nro. Solicitud</th>
+                    <th>Fecha Solicitud</th>
+                    <th>Nro. Orden Servicio</th>                                    
+                    <th>DNI</th>
+                    <th>Conductor</th>
+                    <th>Fecha Peaje</th>                                   
+                    <th>Monto (S/)</th>
+                    <th>Abono (S/)</th>
+                    <th>Saldo (S/)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let peaje of peajes">
+                    <td>{{peaje.ITEMS}}</td>
+                    <td>{{peaje.ID_PEAJE}}</td>
+                    <td>{{peaje.FH_SOLICITUD}}</td>
+                    <td>{{peaje.CORRELATIVO}}</td>
+                    <td>{{peaje.IDENTIFICACION}}</td>
+                    <td>{{peaje.NOMBRE_APELLIDO}}</td>                                    
+                    <td>{{peaje.FH_PEAJE}}</td>
+                    <td>{{peaje.MONTO}}</td>
+                    <td>{{peaje.ABONO}}</td>
+                    <td>{{peaje.TOTAL_SUSTENTAR}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

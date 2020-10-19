@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Guia } from 'src/app/models/guia.model';
+// import { Guia } from 'src/app/models/guia.model';
 import Swal from 'sweetalert2';
 import { Peaje } from 'src/app/models/peaje.model';
-import { DetaPeaje } from 'src/app/models/detaPeaje.model';
+// import { DetaPeaje } from 'src/app/models/detaPeaje.model';
 import {saveAs} from 'file-saver';
 
 
@@ -15,7 +15,6 @@ import {saveAs} from 'file-saver';
   ]
 })
 export class PeajeComponent implements OnInit {
-
   peaje: Peaje = new Peaje(0,0,0,0,'');
   idOrderSevicio = 0;
   idPeaje = 0;
@@ -50,6 +49,7 @@ export class PeajeComponent implements OnInit {
   idTipoDocPeaje = 0;
   idAccion = 0;
   depositado;
+  valorI;
 
   constructor(
     public _registerService: RegisterService,
@@ -58,7 +58,6 @@ export class PeajeComponent implements OnInit {
     public _route: ActivatedRoute
   ) 
   { 
-    
   }
 
   ngOnInit(): void {
@@ -100,7 +99,6 @@ export class PeajeComponent implements OnInit {
   getPeaje() {
     this._registerService.getPeaje(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
-        // console.log(response);
         this.peaje.MONTO_TOTAL = response.peaje.MONTO_TOTAL;
         this.peaje.CANT_REGISTROS = response.peaje.CANT_REGISTROS;
         this.peaje.ID_ORDEN_SERVICIO = response.peaje.ID_ORDEN_SERVICIO;
@@ -134,7 +132,6 @@ export class PeajeComponent implements OnInit {
     this._registerService.getDocPeajes().subscribe(
       (response: any) => {       
         this.documentosPeaje = response.documentosPeaje;
-        // console.log(this.documentosPeaje);
       }
     );
   }
@@ -152,7 +149,6 @@ export class PeajeComponent implements OnInit {
     };
     this._registerService.registerPeaje(peajes).subscribe(
       (response: any) => {
-        console.log(response);
         this.registrando = false;
         this._router.navigate(['/peajes']);
       },
@@ -261,7 +257,7 @@ export class PeajeComponent implements OnInit {
     }
     this._registerService.getConductor(id).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.dniConductor = response.conductor.ID_Chofer;
         this.nombreConductor = response.conductor.Nombre;
         this.idConductor = response.conductor.ID_CONDUCTOR;
@@ -393,7 +389,7 @@ export class PeajeComponent implements OnInit {
         if (idDeta > 0) {
           this._registerService.deleteDetaPeaje(this.peaje.ID_PEAJE, idDeta).subscribe(
             (response: any) => {
-              console.log(response);
+              // console.log(response);
               this.conductores.splice(i, 1);
               var montoTotal = 0;
               this.conductores.forEach(function (peaje) { 
@@ -451,8 +447,9 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  valorIdDeta (idDetalle) {
+  valorIdDeta (idDetalle, i) {
     this.idDeta = idDetalle;
+    this.valorI = i;
   }
 
   limpiarModal() {
@@ -479,10 +476,10 @@ export class PeajeComponent implements OnInit {
     if (correlativo === '') {
       return;
     }
-
-    this._registerService.getVerificarNroGuia(correlativo).subscribe(
+   
+    this._registerService.getVerificarNroGuia(correlativo, this.conductores[this.valorI].dni).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.idGuia = response.guia.ID_GUIA
       },
       (error: any) => {
@@ -512,14 +509,12 @@ export class PeajeComponent implements OnInit {
         if (id > 0) {
           this._registerService.deletePeajeFact(id).subscribe(
             (response: any) => {
-              console.log(response);
+              // console.log(response);
               this.getPeajesFacturas(idDeta, dni, conductor);
               this.getPeaje();
             }
           );
-        } else {
-          
-        } 
+        }
       } 
     });
   }
@@ -531,7 +526,7 @@ export class PeajeComponent implements OnInit {
     }
     this._registerService.updateDetaPeaje(idDeta, valor).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
       },
       error => {
         this.conductores[i].depositado = false;
@@ -542,7 +537,7 @@ export class PeajeComponent implements OnInit {
   updateAllDetaPeaje(valor) {
     this._registerService.updateAllDetaPeaje(this.peaje.ID_PEAJE, valor).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.getPeaje();
       }
     );
@@ -556,7 +551,7 @@ export class PeajeComponent implements OnInit {
           type: "application/vnd.ms-excel"
         });
         // use file saver npm package for saving blob to file
-        saveAs(blob, `${this.peaje.ID_PEAJE}-peajeTelecredito.xlsx`);
+        saveAs(blob, `${this.peaje.ID_PEAJE}-solicitudPeajes.xlsx`);
       }
     );
   }
@@ -573,19 +568,84 @@ export class PeajeComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe marcar los peajes depositados.', 'warning');
       return;
     }
-  
-    this.registrando = true;
-    this._registerService.procesarPeaje(this.peaje.ID_PEAJE).subscribe(
-      (response: any) => {
-        if (response) {
-          this.getPeaje();
-          this.registrando = false;
-        }
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
       },
-      (error: any) => {
-        this.registrando = false;
-      }
-    );
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Procesar Registro',
+      text: "¿Desea procesar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.registrando = true;
+        this._registerService.procesarPeaje(this.peaje.ID_PEAJE).subscribe(
+          (response: any) => {
+            if (response) {
+              this.getPeaje();
+              this.registrando = false;
+            }
+          },
+          (error: any) => {
+            this.registrando = false;
+          }
+        );
+      } 
+    });
+  }
+
+  liquidarSolicitud() {
+    // var fgDepositado;
+    // this.conductores.forEach(function (detalle) { 
+    //     if (detalle.depositado) {
+    //       fgDepositado = detalle.depositado;
+    //     }
+    // });   
+
+    // if (!fgDepositado) {
+    //   Swal.fire('Mensaje', 'Debe marcar los peajes depositados.', 'warning');
+    //   return;
+    // }
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Liquidar Registro',
+      text: "¿Desea liquidar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.registrando = true;
+        this._registerService.liquidarPeaje(this.peaje.ID_PEAJE).subscribe(
+          (response: any) => {
+            if (response) {
+              this.getPeaje();
+              this.registrando = false;
+            }
+          },
+          (error: any) => {
+            this.registrando = false;
+          }
+        );
+      } 
+    });
   }
 
   printer() {

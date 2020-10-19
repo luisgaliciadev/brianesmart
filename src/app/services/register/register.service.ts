@@ -54,11 +54,9 @@ getTypeClient() {
 
 // Register Client
 registerClient(client: Client) {
-  // tslint:disable-next-line: prefer-const
-  let json = JSON.stringify(client);
-   // tslint:disable-next-line: prefer-const
-  let params = json;
-   // tslint:disable-next-line: prefer-const
+ 
+  let json = JSON.stringify(client);  
+  let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.post(this.URL + '/register/client', params, {headers})
   .pipe(map((res: any) => {
@@ -78,12 +76,9 @@ registerClient(client: Client) {
 // End Register Client
 
 // Update Client
-updateClient(client: Client) {
-  // tslint:disable-next-line: prefer-const
-  let json = JSON.stringify(client);
-   // tslint:disable-next-line: prefer-const
-  let params = json;
-   // tslint:disable-next-line: prefer-const
+updateClient(client: Client) { 
+  let json = JSON.stringify(client);  
+  let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.put(this.URL + '/register/client', params, {headers})
   .pipe(map((res: any) => {
@@ -175,18 +170,12 @@ getClient(idClient) {
 // End Get Client
 
  // Register Address Client
- registerAddress(addressClient: AddressClient, principal: boolean) {
-
-  // tslint:disable-next-line: prefer-const
-  let json = JSON.stringify(addressClient);
-   // tslint:disable-next-line: prefer-const
-  let params = json;
-  // console.log('parametros:' + params);
-   // tslint:disable-next-line: prefer-const
+ registerAddress(addressClient: AddressClient, principal: boolean) { 
+  let json = JSON.stringify(addressClient);  
+  let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.post(this.URL + '/register/address', params, {headers})
   .pipe(map((res: any) => {
-    // console.log(res);
     if (!principal) {
       Swal.fire('Mensaje', 'Sucursal registrada correctamente.', 'success');
     }
@@ -206,15 +195,11 @@ getClient(idClient) {
 
  // Update Address Client
  UpdateAddress(addressClient: AddressClient, idAddress: number) {
-  // tslint:disable-next-line: prefer-const
   let json = JSON.stringify(addressClient);
-   // tslint:disable-next-line: prefer-const
   let params = json;
-   // tslint:disable-next-line: prefer-const
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.put(this.URL + '/register/addressupdate/' + idAddress, params, {headers})
   .pipe(map((res: any) => {
-    // console.log(res);
     Swal.fire('Mensaje', 'Sucursal Actualizada correctamente.', 'success');
     return res.address;
   }))
@@ -255,13 +240,8 @@ getAddressClients(idClient) {
 
 // Establecer direccion principal de cliente
 defaultAddressClient(addressClient: AddressClient, idAddress: number) {
-
-  // tslint:disable-next-line: prefer-const
   let json = JSON.stringify(addressClient);
-   // tslint:disable-next-line: prefer-const
   let params = json;
-
-  // tslint:disable-next-line: prefer-const
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.put(this.URL + '/register/defaultaddress/' + idAddress, params, {headers})
   .pipe(map((res: any) => {
@@ -278,11 +258,9 @@ defaultAddressClient(addressClient: AddressClient, idAddress: number) {
 
 // Delete Address Client
 deleteAddressClient(id: number) {
-  // tslint:disable-next-line: prefer-const
  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
  return this._http.delete(this.URL + '/register/address/' + id, {headers})
  .pipe(map((res: any) => {
-  //  console.log(res);
    Swal.fire('Mensaje', 'Sucursal Eliminada Correctamente.', 'success');
    return true;
  }))
@@ -340,7 +318,6 @@ getDenuncias(search) {
 getDenuncia(idDenuncia) {
   return this._http.get(this.URL + '/register/verdenuncia/' + idDenuncia)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -395,10 +372,6 @@ getDenunciasExcel(search) {
 
  // Cambiar imagen de empresa
  uploadFileDenuncia(file: File, id: number, numArchivo: number) {
-  // console.log('ID_USER:'+ this.user.ID_USER);
-  // console.log('file:', file);
-  // console.log('id:', id);
-  // return;
   this._uploadFileService.uploadFile(file, 'denuncia', id, numArchivo)
       .then( (resp: any) => {
         // Swal.fire('Mensaje', 'Imagen Actualizada Correctamente', 'success');
@@ -442,7 +415,6 @@ getDenunciasExcel(search) {
 getZonaConductor() {
   return this._http.get(this.URL + '/conductor/zonas')
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }))
 }
@@ -452,7 +424,6 @@ getZonaConductor() {
 getConductor(idConductor) {
   return this._http.get(this.URL + '/conductor/' + idConductor)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -471,7 +442,6 @@ getConductor(idConductor) {
 getDatoSemana(dia) {
   return this._http.get(this.URL + '/conductor/datosemana/' + dia)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }));
 }
@@ -481,18 +451,15 @@ getDatoSemana(dia) {
 getDiasSemana(desde, hasta) {
   return this._http.get(this.URL + '/conductor/diasemana/' + desde + '/' + hasta)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }));
 }
 // End Get datos semana
 
-
 // Get tarifas viaticos
 getTarifasViatico(idZona) {
   return this._http.get(this.URL + '/conductor/tarifasviatico/' + idZona)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }));
 }
@@ -529,7 +496,6 @@ updateViatico(viaticos, semana, year, zona, montoTotal, id, nroDia) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.put(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
   .pipe(map((res: any) => {
-    // Swal.fire('Mensaje', 'Viaticos Registrado Correctamente.', 'success');
     return res;
   }))
   .pipe(catchError( (err: any) => {   
@@ -552,7 +518,6 @@ getViaticos(desde, hasta, search) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/conductor/viaticos/' + desde + '/' + hasta + '/' + search, {headers})
   .pipe(map((res: any) => {
-    // console.log(res); 
     return res;   
   }))
 }
@@ -648,7 +613,6 @@ generarComprobantes(id) {
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
-    
     if (err.status === 400) {
       Swal.fire('Mensaje', err.error.message, 'error');
       this._router.navigate(['/viaticos']);
@@ -849,7 +813,27 @@ getPeajes(search, desde, hasta) {
 }
 // End Get Peajes
 
-// Get Peajes
+// Get Peajes saldos
+getPeajeSaldos(search, desde, hasta) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/peajesaldos/' + desde + '/' + hasta + '/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Peajes saldos
+
+// Get Peaje
 getPeaje(idPeaje) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/conductor/peaje/' + idPeaje, {headers})
@@ -867,7 +851,7 @@ getPeaje(idPeaje) {
     }
   }));
 }
-// End Get Peajes
+// End Get Peaje
 
 // Update Peaje
 updatePeaje(peajes) { 
@@ -976,9 +960,10 @@ getPeajeFacturas(idDeta) {
 // End Get Peajes facturas
 
 // Get verificar guia
-getVerificarNroGuia(correlativo) { 
+getVerificarNroGuia(correlativo, DNI) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.get(this.URL + '/operaciones/nroguia/' + correlativo, {headers})
+  // console.log('dni', DNI);
+  return this._http.get(this.URL + '/operaciones/nroguiacond/' + correlativo + '/' + DNI, {headers})
   .pipe(map((res: any) => {
     return res;   
   }))
@@ -1015,7 +1000,6 @@ deletePeajeFact(id) {
   }));
 }
 // End Delete Peaje
-
 
 // Get documentos peajes
 getDocPeajes() { 
@@ -1093,7 +1077,7 @@ getExcelPeajeTelecredito(idPeaje){
 }
 // End Get excel deta peaje telecredito
 
-// Update all deta Peaje
+// Procesar Peaje
 procesarPeaje(idPeaje) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   let params = idPeaje + '/' + this._userService.user.ID_USER;
@@ -1112,10 +1096,46 @@ procesarPeaje(idPeaje) {
     }
   }));
 }
-// End Update deta Peaje
+// End Procesar Peaje
 
-// let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-// return this._http.post(this.URL + '/conductor/viatico/' + params , detaViaticos, {headers})
+// Liquidar Peaje
+liquidarPeaje(idPeaje) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = idPeaje + '/' + this._userService.user.ID_USER;
+  return this._http.put(this.URL + '/conductor/liquidarpeaje/' + params,{}, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Solicitud liquidada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo liquidar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Liquidar Peaje
+
+// Metodo para exportar a excel listado de denuncias
+getExcelSaldosPeaje(desde, hasta, search) {
+  if (search === '') {
+    search = '0';
+  }    
+  let params = desde + '/' + hasta + '/' + search;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/saldospeaje/' + params, {responseType: 'blob', headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// Fin Metodo para exportar empresas
 
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1163,7 +1183,6 @@ getOrdenServicioAll(id) {
 
 // Get Vehiculo
 getVehiculo(placa, tipo) {
-  
   return this._http.get(this.URL + '/operaciones/vehiculo/' + placa + '/' + tipo)
   .pipe(map((res: any) => {
     return res;

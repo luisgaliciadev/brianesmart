@@ -37,6 +37,7 @@ import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/lis
 import { DetaViaticoComponent } from './reports/deta-viatico/deta-viatico.component';
 import { ListPeajesComponent } from './reports/list-peajes/list-peajes.component';
 import { ResumenPeajeComponent } from './reports/resumen-peaje/resumen-peaje.component';
+import { ListSaldospeajeComponent } from './reports/list-saldospeaje/list-saldospeaje.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { ResumenPeajeComponent } from './reports/resumen-peaje/resumen-peaje.com
     ListResumenviaticosComponent,
     DetaViaticoComponent,
     ListPeajesComponent,
-    ResumenPeajeComponent
+    ResumenPeajeComponent,
+    ListSaldospeajeComponent
   ],
   imports: [
     BrowserModule,

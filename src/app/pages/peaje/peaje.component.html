@@ -226,7 +226,7 @@
                                     <td align="center">{{conductor.montoAbono}}</td> 
                                     <td align="center">{{conductor.montoSustentar}}</td>                        
                                     <td align="center">                               
-                                        <a *ngIf="conductor.montoSustentar > 0 && conductor.depositado" data-toggle="tooltip" data-placement="top" title="Registrar Factura" data-toggle="modal" data-target="#facturas" (click)="limpiarModal()" (click)="valorIdDeta(conductor.ID_DETA)" disabled><i class="mdi mdi-beaker text-success pointer m-r-10"></i></a>
+                                        <a *ngIf="conductor.montoSustentar > 0 && conductor.depositado" data-toggle="tooltip" data-placement="top" title="Registrar Factura" data-toggle="modal" data-target="#facturas" (click)="limpiarModal()" (click)="valorIdDeta(conductor.ID_DETA, i)" disabled><i class="mdi mdi-beaker text-success pointer m-r-10"></i></a>
                                         <a *ngIf="conductor.depositado" data-toggle="tooltip" data-placement="top" title="Ver Facturas" data-toggle="modal" data-target="#peajeFacturas" (click)="limpiarModal()" (click)="getPeajesFacturas(conductor.ID_DETA,conductor.dni,conductor.nombre)"> <i class="fa fa-search text-info pointer"></i></a>
                                     </td>
                                 </tr>
@@ -269,6 +269,11 @@
                         Exportar
                     </button>
 
+                    <button *ngIf="idAccion == 1 && peaje.ESTATUS == 2" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="liquidarSolicitud()">
+                        <i class="mdi mdi-playlist-check"></i>
+                        Liquidar Solicitud
+                    </button>
+
                     <button *ngIf="peaje.ID_PEAJE > 0" type="button" class="btn btn-default waves-effect waves-light m-r-10" (click)="printer()">
                         <i class="mdi mdi-printer"></i>
                         Imprimir
@@ -308,7 +313,7 @@
                 </div>
             </div>
 
-            <div *ngIf="idTipoDocPeaje === 1" class="form-group row">
+            <div *ngIf="idTipoDocPeaje == 1" class="form-group row">
                 <label class="col-5 col-form-label">Nro Guia:</label>                                
                 <div class="input-group col-7">   
                     <input (focusout) = "getVerificarNroGuia(nroGuia)" [(ngModel)]="nroGuia" name="nroGuia" type="text" class="form-control" placeholder="0001-00000001" required>
