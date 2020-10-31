@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICES } from '../../config/config';
+import { API_KEY_QWANTEC, URL_SERVICES } from '../../config/config';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { throwError, Observable } from 'rxjs';
@@ -21,6 +21,7 @@ import { partitionArray } from '@angular/compiler/src/util';
 })
 export class RegisterService {
   public URL: string;
+  public apiKeyQwantec: string;
 
   constructor(
     public _userService: UserService,
@@ -29,6 +30,7 @@ export class RegisterService {
     public _uploadFileService: UploadFileService
   ) {
     this.URL = URL_SERVICES;
+    this.apiKeyQwantec = API_KEY_QWANTEC;
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1137,6 +1139,28 @@ getExcelSaldosPeaje(desde, hasta, search) {
 }
 // Fin Metodo para exportar empresas
 
+// Notificar saldos peaje
+notificarSaldos(saldos) { 
+  let json = JSON.stringify(saldos);  
+  let saldoPeajes = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/notificarsaldos/' + this._userService.user.ID_USER, saldoPeajes, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Notificacion enviada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register deta Peaje
+
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1476,7 +1500,6 @@ updateDetaReportPro(diasproductividadop, nroSemana, anio, zona, id, nroDia) {
 }
 // End Delete deta Report OP
 
-
 // Update Report OP viajes nuevos
 updateReportProNuevo(diasproductividadop, nroSemana, anio, zona, id) { 
   let json = JSON.stringify(diasproductividadop);  
@@ -1594,6 +1617,44 @@ getReportPro(id) {
   }));
 }
 // End Get reporte op
+
+// Update fecha guia control
+updateFechaGuiaControl(dataGuia) { 
+  let json = JSON.stringify(dataGuia);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/fechacontrolguia', params, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Guia Actualizada Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update fecha guia control
+
+// Get Guias control viaje
+getGuiasControlViaje(search,desde, hasta, idUser,idZona) {
+  let params = idUser + '/' + search + '/' + desde + '/' + hasta + '/' + idZona;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/guiascontrolviajes/' + params,{headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de guias.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get Guias
+
  
 
 // OPERACIONES
@@ -1634,6 +1695,77 @@ getDiasFeriados() {
 }
 // End Get dias feriados
 
+// Get agenda telefonica
+getAgendaTelefonica(search) {
+  if (search === '') {
+    search = '0';
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/user/agendatelefonica/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get agenda telefonica
+
+
 // Administracion
 /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// APIS EXTERNAS
+
+// Get marcajes sistema Qwantec
+marcajes() {
+  var inicio = '2020-08-01T00:00:00';
+  var termina = '2020-08-31T23:59:59'
+  var indentificador = [];
+  
+  let data = {
+    apiKey: this.apiKeyQwantec,
+    inicio: inicio,
+    termino: termina,
+    identificador: indentificador
+  }; 
+  
+  let json = JSON.stringify(data);  
+  let params = json;  
+  console.log(params);
+  let headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this._http.post('https://app.relojcontrol.com/api/consultaMarcaciones/consulta',params, {headers})
+  .pipe(map((res: any) => {
+    console.log(res);
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get marcajes sistema Qwantec
+
+// marcajes
+prueba() {
+  
+  let headers = new HttpHeaders({'Content-Type': 'application/json'});
+  return this._http.get('https://jsonplaceholder.typicode.com/todos', {headers})
+  .pipe(map((res: any) => {
+    console.log(res);
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin post marcajes
+
+// APIS EXTERNAS
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 }

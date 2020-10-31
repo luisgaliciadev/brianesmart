@@ -73,7 +73,7 @@
                                     <option value = "">Seleccione</option>
                                     <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
                                 </select>
-                                <button *ngIf = "idReport == 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getProductividadop()">
+                                <button style="margin-left: 3px;" *ngIf = "idReport == 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getProductividadop()">
                                     <i class="fa fa-search"></i>
                                     Consultar
                                 </button> 
@@ -105,17 +105,18 @@
                     </div>     -->
                 </div>
                 
-            
-                <div class="text-left">
-                    <h3 >Listado de Registros (<small>{{totalRegistros}}</small>)</h3>             
-                    <div style="float: right; margin-top: -45px;">
+                <div class="row">
+                    <div class="col-sm">
+                        <h3>Listado de Registros (<small>{{totalRegistros}}</small>)</h3>
+                    </div>
+                    <div class="col-sm text-right">
                         <button  *ngIf = "idReport > 0" type="button" class="btn btn-primary waves-effect btn-rounded waves-light m-r-10" (click)="actualiazarViajes()">
                             <i class="fa fa-refresh"></i>
                             Actualizar Viajes
                         </button>
-                    </div>  
+                    </div>
                 </div>
-                    
+        
                 <div *ngIf = "idZona == 1" style="overflow: auto; font-size: 10px;">
                     <table class="table table-hover table-bordered table-op"  style="width: 2800px;">
                         <thead style="color: white;">

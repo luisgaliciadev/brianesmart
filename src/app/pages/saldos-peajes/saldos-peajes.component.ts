@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import {saveAs} from 'file-saver';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-saldos-peajes',
@@ -59,7 +60,7 @@ export class SaldosPeajesComponent implements OnInit {
     }
     this._registerService.getPeajeSaldos(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -150,6 +151,66 @@ export class SaldosPeajesComponent implements OnInit {
       this.activeButton = false;
       this.getPeajeSaldos(this.search);
     }
+  }
+
+  seleccionarTodo() {
+    console.log(this.peajesTotal);
+    var i;
+    for (i = 0; i < this.peajesTotal.length; i++) {
+      if (this.peajesTotal[i].FG_NOTIFICADO_AUX == 0) {
+        this.peajesTotal[i].FG_NOTIFICADO = 1;
+      }
+    }
+    console.log(this.peajesTotal);
+  }
+
+  quitarSeleccion() {
+    var i;
+    for (i = 0; i < this.peajesTotal.length; i++) {
+      if (this.peajesTotal[i].FG_NOTIFICADO_AUX == 0) {
+        this.peajesTotal[i].FG_NOTIFICADO = 0;
+      }
+    }
+  }
+
+  notificarSaldos() {     
+    var saldos = [];
+    this.peajesTotal.forEach(function (saldo) {
+      if (saldo.FG_NOTIFICADO && saldo.FG_NOTIFICADO_AUX == 0) {
+        saldos.push({
+          nroSolicitudPeaje: saldo.ID_PEAJE,
+          fechaSolicitudPeaje: saldo.FH_SOLICITUD,
+          nroOrdenServicio: saldo.CORRELATIVO,
+          cliente: saldo.RAZON_SOCIAL,
+          ruta: saldo.ORIGEN + '-' + saldo.DESTINO,
+          idDetaPeaje: saldo.ID_DETA_PEAJE,
+          dni: saldo.IDENTIFICACION,
+          conductor: saldo.NOMBRE_APELLIDO,
+          fechaPeaje: saldo.FH_PEAJE,
+          montoPeaje: saldo.MONTO,
+          abono: saldo.ABONO,
+          saldo: saldo.TOTAL_SUSTENTAR       
+        });
+      }
+    });
+    if (saldos.length == 0) {
+      Swal.fire('Mensaje', 'Debe seleccionar al menos un registro para enviar la notificación', 'warning');
+      return;
+    }
+    this.loading = true;
+
+    this._registerService.notificarSaldos(saldos).subscribe(
+      (response: any) => {
+        // console.log(response);
+        this.getPeajeSaldos(this.search);
+        this.loading = false;
+      },
+      (error: any) => {
+        this.loading = false;
+      }
+    );
+
+    console.log('saldos:',saldos);
   }
 
 }

@@ -1,0 +1,236 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- <div class="text-left" >
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>   -->
+                    
+                    <!-- <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/guia/0">
+                            <i class="fa fa-plus"></i>
+                            Registrar Guia
+                        </button>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <!-- <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>    
+                        
+                         <div class="col-sm">
+                            <div class="form-group row">
+                                <label>Zona:</label>
+                                <div class="input-group">                   
+                                    <select (change)="getGuias(search)" [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                        <option value = "0">Seleccione</option>
+                                        <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
+                                    </select>
+                                     <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <!-- <br/> -->
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getGuias(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3>
+                    <div class="table-container">
+                        <table  class="tabla-control-guia fz-10px">
+                            <thead>
+                                <tr>                                  
+                                    <th class="sticky">Guia Transporte</th>                                    
+                                    <th class="sticky-2">Fecha</th>
+                                    <th class="sticky-3">Conductor</th>
+                                    <th class="sticky-4">Tracto</th>
+                                    <th class="sticky-5">Remolque</th>                                   
+                                    <th class="sticky-6">Orden Servicio</th>                                   
+                                    <th class="sticky-7">Ruta</th>
+                                    <th>Inicio Viaje</th>
+                                    <th>Ingreso P. Carga</th>
+                                    <th>Salida P. Carga</th>
+                                    <th>Ingreso P. Descarga</th>
+                                    <th>Salida P. Descarga</th>
+                                    <th>Fin Viaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let guia of guias, index as i">
+                                    <td class="sticky" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.CORRELATIVO}}</td>                                    
+                                    <td class="sticky-2" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.FH_GUIA}}</td>
+                                    <td class="sticky-3" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.NOMBRE_CONDUCTOR}}</td>
+                                    <td class="sticky-4" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_TRACTO}}</td>
+                                    <td class="sticky-5" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_REMOLQUE}}</td>                                   
+                                    <td class="sticky-6" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.CORRELATIVO_OS}}</td>
+                                    <td class="sticky-7" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.DS_ORI_DEST}} - {{guia.DESTINO}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                            <div >   
+                                                <input style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" placeholder = "99/99/9999" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INICIO_VIAJE" name="HORA_INICIO_VIAJE" type="text" class="form-control fz-10px hora-min-input" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (focusout) = "actualizarFechaHora(i,1)" (keyup.enter)="actualizarFechaHora(i,1)" [(ngModel)]="guia.MIN_INICIO_VIAJE" name="MIN_INICIO_VIAJE" type="text" class="form-control fz-10px" required maxlength="2" pattern="[0-9]{2}$">
+                                            </div>                                            
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_INGRESO_PC" name="FECHA_INGRESO_PC" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INGRESO_PC" name="HORA_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (focusout) = "actualizarFechaHora(i,2)" (keyup.enter)="actualizarFechaHora(i,2)" [(ngModel)]="guia.MIN_INGRESO_PC" name="MIN_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>                                            
+                                        </div>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_SALIDA_PC" name="FECHA_SALIDA_PC" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_SALIDA_PC" name="HORA_SALIDA_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (focusout) = "actualizarFechaHora(i,3)" (keyup.enter)="actualizarFechaHora(i,2)" [(ngModel)]="guia.MIN_SALIDA_PC" name="MIN_SALIDA_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>                                            
+                                        </div>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px;" [(ngModel)]="guia.FECHA_INGRESO_PD" name="FECHA_INGRESO_PD" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INGRESO_PD" name="HORA_INGRESO_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (focusout) = "actualizarFechaHora(i,4)" (keyup.enter)="actualizarFechaHora(i,3)" [(ngModel)]="guia.MIN_INGRESO_PD" name="MIN_INGRESO_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>                                            
+                                        </div>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px;" [(ngModel)]="guia.FECHA_SALIDA_PD" name="FECHA_SALIDA_PD" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_SALIDA_PD" name="HORA_SALIDA_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (focusout) = "actualizarFechaHora(i,5)" (keyup.enter)="actualizarFechaHora(i,4)" [(ngModel)]="guia.MIN_SALIDA_PD" name="MIN_SALIDA_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                         
+                                            </div>                                            
+                                        </div>
+                                    </td>
+                                   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px;" [(ngModel)]="guia.FECHA_FIN_VIAJE" name="FECHA_FIN_VIAJE" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_FIN_VIAJE" name="HORA_FIN_VIAJE" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (focusout) = "actualizarFechaHora(i,6)" (keyup.enter)="actualizarFechaHora(i,6)" [(ngModel)]="guia.MIN_FIN_VIAJE" name="MIN_FIN_VIAJE" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>                                            
+                                        </div>
+                                    </td>
+                                    <!-- <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                                
+                                        <div class="input-group">
+                                            <div class="input-group" style="width: 130px;">   
+                                                <input [(ngModel)]="guia.FECHA_INGRESO_PC" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
+                                            </div>
+                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
+                                                <input [(ngModel)]="guia.HORA_INGRESO_PC" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input (focusout) = "actualizarFechaHora(i,2)" (keyup.enter)="actualizarFechaHora(i,2)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_INGRESO_PC" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                         
+                                        <div class="input-group">
+                                            <div class="input-group" style="width: 130px;">   
+                                                <input [(ngModel)]="guia.FECHA_SALIDA_PC" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
+                                            </div>
+                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
+                                                <input [(ngModel)]="guia.HORA_SALIDA_PC" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input (focusout) = "actualizarFechaHora(i,3)" (keyup.enter)="actualizarFechaHora(i,3)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_SALIDA_PC" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                               
+                                        <div class="input-group">
+                                            <div class="input-group" style="width: 130px;">   
+                                                <input [(ngModel)]="guia.FECHA_INGRESO_PD" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
+                                            </div>
+                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
+                                                <input [(ngModel)]="guia.HORA_INGRESO_PD" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input (focusout) = "actualizarFechaHora(i,4)" (keyup.enter)="actualizarFechaHora(i,4)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_INGRESO_PD" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                                 
+                                        <div class="input-group">
+                                            <div class="input-group" style="width: 130px;">   
+                                                <input [(ngModel)]="guia.FECHA_SALIDA_PD" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
+                                            </div>
+                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
+                                                <input [(ngModel)]="guia.HORA_SALIDA_PD" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input (focusout) = "actualizarFechaHora(i,5)" (keyup.enter)="actualizarFechaHora(i,5)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_SALIDA_PD" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>
+                                        </div>                                       
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            
+                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-8, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+8, +1)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

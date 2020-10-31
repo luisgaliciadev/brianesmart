@@ -68,7 +68,7 @@ export class UserService {
 
   // Renovar token
   renewToken() {
-    // tslint:disable-next-line: prefer-const
+   
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.get(this.URL + '/login/renewtoken', {headers})
               .pipe(map( (res: any) => {
@@ -126,12 +126,12 @@ export class UserService {
 
   // Actualizar perfil de usuario
   updateProfile(user: User) {
-   // tslint:disable-next-line: prefer-const
+  
    let json = JSON.stringify(user);
-    // tslint:disable-next-line: prefer-const
+   
    let params = json;
    // console.log('parametros:' + params);
-    // tslint:disable-next-line: prefer-const
+   
    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
    // console.log(headers);
    return this._http.put(this.URL + '/user/' + user.ID_USER, params, {headers})
@@ -158,12 +158,12 @@ export class UserService {
 
   // Actualizar constraseña de usuario
   updatePassword(user: User) {
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(user);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log('parametros:' + params);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     // console.log(headers);
     return this._http.put(this.URL + '/user/password/' + user.ID_USER, params, {headers})
@@ -256,7 +256,7 @@ export class UserService {
   // Borrar Usuario
   deleteUser(id: number) {
 
-   // tslint:disable-next-line: prefer-const
+  
    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
    return this._http.delete(this.URL + '/user/' + id, {headers})
    .pipe(map((res: any) => {
@@ -447,11 +447,11 @@ export class UserService {
   // Registrar empresa
   registerCompany(company: CompanyUser) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(company);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.post(this.URL + '/user/company', params, {headers})
     .pipe(map((res: any) => {
@@ -473,12 +473,12 @@ export class UserService {
   // Actualizar empresa
   updateCompany(company: CompanyUser) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(company);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log('parametros:' + params);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/user/company/' + company.ID_COMPANY_USER + '/' + this.user.ID_USER, params, {headers})
 
@@ -500,7 +500,7 @@ export class UserService {
 
   // Borrar Empresa
    deleteCompany(id: number) {
-    // tslint:disable-next-line: prefer-const
+   
    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
    return this._http.delete(this.URL + '/user/company/' + id, {headers})
    .pipe(map((res: any) => {
@@ -544,7 +544,7 @@ export class UserService {
     if (search === '') {
       search = '0';
     }
-    // tslint:disable-next-line: prefer-const
+   
     let params = {'search': search};
     // console.log(params);
     return this._http.post(this.URL + '/user/companys/' + ID_USER, params)
@@ -559,7 +559,7 @@ export class UserService {
   //   if (search === '') {
   //     search = '0';
   //   }
-  //   // tslint:disable-next-line: prefer-const
+  //  
   //   let params = {'search': search};
   //   // console.log(params);     
   //   const companys = await this._http.post(this.URL + '/user/companys/' + ID_USER, params);
@@ -608,12 +608,12 @@ export class UserService {
   // Registrar Sucursal
   registerAddress(addressCompany: AddressCompany, principal: boolean) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(addressCompany);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log('parametros:' + params);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.post(this.URL + '/address', params, {headers})
     .pipe(map((res: any) => {
@@ -662,13 +662,13 @@ export class UserService {
   // Actualizar Sucursal
   UpdateAddress(addressCompany: AddressCompany, idAddress: number) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(addressCompany);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log('idAddress:' + idAddress);
     // console.log('idCompanyUser:' + idCompanyUser);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/address/update/' + idAddress, params, {headers})
     .pipe(map((res: any) => {
@@ -691,12 +691,12 @@ export class UserService {
   // Establecer direccion principal de empresa
   defaultAddressCompany(addressCompany: AddressCompany, idAddress: number) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(addressCompany);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
 
-    // tslint:disable-next-line: prefer-const
+   
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/address/defaultaddress/' + idAddress, params, {headers})
     .pipe(map((res: any) => {
@@ -713,7 +713,7 @@ export class UserService {
 
   // Borrar sucursal
   deleteAddress(id: number) {
-    // tslint:disable-next-line: prefer-const
+   
    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
    return this._http.delete(this.URL + '/address/' + id, {headers})
    .pipe(map((res: any) => {
@@ -741,12 +741,12 @@ export class UserService {
   // Registrar Modulos
   registerModule(modules: Module) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(modules);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log('parametros:' + params);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.post(this.URL + '/security/module', params, {headers})
     .pipe(map((res: any) => {
@@ -832,7 +832,7 @@ export class UserService {
   // Metodo eliminar un modulo
   deleteModule(idModule) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.delete(this.URL + '/security/module/' + idModule, {headers})
     .pipe(map((res: any) => {
@@ -849,11 +849,11 @@ export class UserService {
   // Metodo para mover un modulo
   moveModule(module: Module, move: number) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(module);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/security/movemodule/' + move, params, {headers})
     .pipe(map((res: any) => {
@@ -871,11 +871,11 @@ export class UserService {
   // Metodo actualizar modulo
   updateModule(module: Module) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(module);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/security/module/' + module.ID_MODULE, params, {headers})
     .pipe(map((res: any) => {
@@ -892,11 +892,11 @@ export class UserService {
 
   // Metodo actualizar roels module
   updateRolesModules(modules) {
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(modules);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/security/rolesuser', params, {headers})
     .pipe(map((res: any) => {
@@ -919,12 +919,12 @@ export class UserService {
    // Metodo registrar rol de usuario
    registerRole(dsRole) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(dsRole);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log(dsRole);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.post(this.URL + '/security/role', params, {headers})
     .pipe(map((res: any) => {
@@ -944,8 +944,8 @@ export class UserService {
   }
   // Fin Metodo registrar rol de usuario
 
-   // Metodo para listar roles de usuario
-   getRoles() {
+  // Metodo para listar roles de usuario
+  getRoles() {
     return this._http.get(this.URL + '/security/roles')
     .pipe(map((res: any) => {
       return res.roles;
@@ -965,12 +965,12 @@ export class UserService {
   // Metodo actualizar rol de usuario
   updateRole(role) {
 
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(role);
-     // tslint:disable-next-line: prefer-const
+    
     let params = json;
     // console.log(dsRole);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.put(this.URL + '/security/role', params, {headers})
     .pipe(map((res: any) => {
@@ -992,12 +992,12 @@ export class UserService {
 
    // Metodo eliminar rol de usuario
    deleteRole(role) {
-    // tslint:disable-next-line: prefer-const
+   
     let json = JSON.stringify(role);
-     // tslint:disable-next-line: prefer-const
+    
     // let params = json;
     // console.log(dsRole);
-     // tslint:disable-next-line: prefer-const
+    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.delete(this.URL + '/security/role/' + role.ID_ROLE, {headers})
     .pipe(map((res: any) => {

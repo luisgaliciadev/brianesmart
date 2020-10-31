@@ -55,7 +55,6 @@ export class ConsultaGuiasComponent implements OnInit {
   }
 
   getGuias(search) {
-
     this.loading = true;
     if (search === '') {
       search = '0';

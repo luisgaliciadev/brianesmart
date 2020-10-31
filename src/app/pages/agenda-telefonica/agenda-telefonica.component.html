@@ -1,1 +1,103 @@
-<p>agenda-telefonica works!</p>
+<title>Briane Smart</title>
+<div class="col-lg-12 animated fadeInRight">
+    <!-- <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">BRIANE Smart</h2> -->
+
+            <div class="form-group">
+                <div class="input-group">
+                    <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getAgendaTelefonica()">                        
+                    <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getAgendaTelefonica()"></i></div>
+                    <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="marcaje()"></i></div>
+                    <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="prueba()"></i></div> -->
+
+                </div>
+            </div>
+
+            <div class="row" *ngIf="loading">
+                <div class="col-sm-12">
+                    <div class="alert alert-warning text-center">
+                        <strong>Cargando...</strong>
+                        <br>
+                        <i class="fa fa-refresh fa-spin fa-2x"></i>
+                        <br>
+                        <span>Por Favor Espere...</span>
+                    </div>
+                </div>    
+            </div>
+
+            
+            <div class="row">
+
+                <div  class="col-md-6 col-lg-6 col-xlg-4" *ngFor="let agenda of agendas">
+                    <div *ngIf = "!loading" class="card card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 text-center">
+                                <a href="app-contact-detail.html"><img src="../assets/images/users/user.jpg" alt="user" class="img-circle img-responsive"></a>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <h3 class="box-title m-b-0">{{agenda.nombre}}</h3>
+                                <address>
+                                    <label>Área: {{agenda.Area}}</label>
+                                    <br>
+                                    <label>Cargo: {{agenda.TipoCargo}} {{agenda.Cargo}}</label> 
+                                    <br>
+                                    <label>Nro. Telefóno: {{agenda.DomicilioReferencia}}</label> 
+                                    <br>
+                                    <label>Correo: {{agenda.DomicilioReferencia}}</label> 
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- <div class="row">
+
+                <div class="col-md-6 col-lg-6 col-xlg-4">
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 text-center">
+                                <a href="app-contact-detail.html"><img src="../assets/images/users/1.jpg" alt="user" class="img-circle img-responsive"></a>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <h3 class="box-title m-b-0">luis</h3> <small>SIG</small>
+                                <address>
+                                    ANALISTA - PROGRAMADOR
+                                    <br>
+                                    <br>
+                                    <abbr title="Phone">Nro Telefono:</abbr> 545121-5515
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-xlg-4">
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 text-center">
+                                <a href="app-contact-detail.html"><img src="../assets/images/users/1.jpg" alt="user" class="img-circle img-responsive"></a>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <h3 class="box-title m-b-0">luis</h3> <small>SIG</small>
+                                <address>
+                                    ANALISTA - PROGRAMADOR
+                                    <br>
+                                    <br>
+                                    <abbr title="Phone">Nro Telefono:</abbr> 545121-5515
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div> -->
+        <!-- </div>
+    </div> -->
+</div>
+
+
+

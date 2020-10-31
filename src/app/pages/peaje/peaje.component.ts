@@ -7,7 +7,6 @@ import { Peaje } from 'src/app/models/peaje.model';
 // import { DetaPeaje } from 'src/app/models/detaPeaje.model';
 import {saveAs} from 'file-saver';
 
-
 @Component({
   selector: 'app-peaje',
   templateUrl: './peaje.component.html',
@@ -110,18 +109,18 @@ export class PeajeComponent implements OnInit {
             let arrayFecha = fecha.split('-');
             fecha = arrayFecha[0] + '-' + arrayFecha[1] + '-' + arrayFecha[2].substring(0, 2);
             detaPeajes.push({
-            idConductor: detalle.ID_CONDCUTOR,
-            nombre: detalle.NOMBRE_APELLIDO,
-            dni: detalle.IDENTIFICACION,
-            monto: detalle.MONTO,
-            fecha: fecha,
-            peaje: '',
-            idOrderSevicio: detalle.ID_ORDEN_SERVICIO,
-            ID_DETA: detalle.ID_DETA_PEAJE,
-            montoAbono: detalle.ABONO,
-            montoSustentar: detalle.TOTAL_SUSTENTAR,
-            depositado: detalle.FG_DEPOSITADO
-          });
+              idConductor: detalle.ID_CONDCUTOR,
+              nombre: detalle.NOMBRE_APELLIDO,
+              dni: detalle.IDENTIFICACION,
+              monto: detalle.MONTO,
+              fecha: fecha,
+              peaje: '',
+              idOrderSevicio: detalle.ID_ORDEN_SERVICIO,
+              ID_DETA: detalle.ID_DETA_PEAJE,
+              montoAbono: detalle.ABONO,
+              montoSustentar: detalle.TOTAL_SUSTENTAR,
+              depositado: detalle.FG_DEPOSITADO
+            });
         });
         this.conductores = detaPeajes;
       }
@@ -187,6 +186,7 @@ export class PeajeComponent implements OnInit {
         };
         this._registerService.updatePeaje(peajes).subscribe(
           (response: any) => {
+            console.log(response);
             this.getPeaje();
           }
         );
@@ -223,7 +223,7 @@ export class PeajeComponent implements OnInit {
 
   getOrdenesServicioAll() {
     this.loading = true;
-    this._registerService.getOrdenServicioAll(this._userService.user.ID_USER).subscribe(
+    this._registerService.getOrdenServicioAll(0).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;  
         // console.log(this.ordenes); 
@@ -285,9 +285,9 @@ export class PeajeComponent implements OnInit {
       return;
     }
 
-    const resultado = this.conductores.find( iden => iden.dni === this.idConductor );
+    const resultado = this.conductores.find( iden => iden.idConductor === this.idConductor);
     if(resultado) {
-      Swal.fire('Mensaje', 'El conducto ya esta agregado en la lista', 'warning');
+      Swal.fire('Mensaje', 'El conductor ya esta agregado en la lista', 'warning');
       return;
     }
 
@@ -295,7 +295,7 @@ export class PeajeComponent implements OnInit {
 
     if (parseInt(arrayFecha[0]) < 2000) {
       Swal.fire('Mensaje', 'Fecha incorrecta.', 'warning');
-      return
+      return;
     }
 
     if (this.peaje.ID_PEAJE == 0) {
@@ -336,6 +336,7 @@ export class PeajeComponent implements OnInit {
 
       this._registerService.registerDetaPeaje(detaPeaje).subscribe(
         (response: any) => {
+          console.log(response);
           var idDetaPeaje = response.detaPeaje.ID_DETA_PEAJE;
           this.conductores.push({
             idConductor: this.idConductor,
@@ -509,7 +510,7 @@ export class PeajeComponent implements OnInit {
         if (id > 0) {
           this._registerService.deletePeajeFact(id).subscribe(
             (response: any) => {
-              // console.log(response);
+              console.log(response);
               this.getPeajesFacturas(idDeta, dni, conductor);
               this.getPeaje();
             }
@@ -526,7 +527,7 @@ export class PeajeComponent implements OnInit {
     }
     this._registerService.updateDetaPeaje(idDeta, valor).subscribe(
       (response: any) => {
-        // console.log(response);
+        console.log(response);
       },
       error => {
         this.conductores[i].depositado = false;
@@ -537,7 +538,7 @@ export class PeajeComponent implements OnInit {
   updateAllDetaPeaje(valor) {
     this._registerService.updateAllDetaPeaje(this.peaje.ID_PEAJE, valor).subscribe(
       (response: any) => {
-        // console.log(response);
+        console.log(response);
         this.getPeaje();
       }
     );

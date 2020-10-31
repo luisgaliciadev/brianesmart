@@ -52,6 +52,10 @@ import { ConsultaGuiaComponent } from './consulta-guia/consulta-guia.component';
 import { PeajeComponent } from './peaje/peaje.component';
 import { PeajesComponent } from './peajes/peajes.component';
 import { SaldosPeajesComponent } from './saldos-peajes/saldos-peajes.component';
+import { AgendaTelefonicaComponent } from './agenda-telefonica/agenda-telefonica.component';
+import { AyudaContactoComponent } from './ayuda-contacto/ayuda-contacto.component';
+import { NoticiasComponent } from './noticias/noticias.component';
+import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -89,6 +93,10 @@ const pagesRoutes: Routes = [
             {path: 'peaje/:id/:fact', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Peajes'}},
             {path: 'peajes', component: PeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes'}},
             {path: 'saldos-peaje', component: SaldosPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes - Saldos de conductores'}},
+            {path: 'directorio-telefonico', component: AgendaTelefonicaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Directorio Telefónico'}},
+            {path: 'ayuda-contacto', component: AyudaContactoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Ayuda/Contacto BRIANE Smart'}},
+            {path: 'noticias', component: NoticiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Noticias y Comunicaciones BRIANE'}},
+            {path: 'control-viajes', component: PanelcontrolViajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Panel de Control de Viajes'}},
         
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

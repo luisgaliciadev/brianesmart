@@ -13,11 +13,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
-  ngAfterViewInit() {
-    console.log('ya todo el home');
-  }
-
-
+ 
 }
 
 

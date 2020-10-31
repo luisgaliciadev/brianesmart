@@ -29,6 +29,7 @@
                         </button>
                     </div>  
                     
+                    <br>
 
                     <!-- <div class="text-right">
                         <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0/0">
@@ -51,9 +52,8 @@
                             <div class="form-group">
                                 <label>Hasta:</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
-                                    
-                                    <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getPeajeSaldos(search)">
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getPeajeSaldos(search)">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
@@ -71,7 +71,20 @@
                         </div>
                     </div>
                    
-                    <h3>Listado de Saldos de conductores(<small>{{totalRegistros}}</small>)</h3>
+                    <div class="row">
+                        <div class="col-sm">
+                            <h3>Listado de Saldos de conductores(<small>{{totalRegistros}}</small>)</h3>
+                        </div>
+
+                        <div class="col-sm text-right">
+                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" (click)="notificarSaldos()">
+                                <i class="mdi mdi-email"></i>
+                                Notificar Saldos
+                            </button>
+                        </div>
+                    </div>
+                    
+                     
                     <div style="overflow: auto">
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -86,10 +99,20 @@
                                     <th>Monto (S/)</th>
                                     <th>Abono (S/)</th>
                                     <th>Saldo (S/)</th>
+                                    <th>Estatus</th>
+                                    <th>
+                                        Notificación
+                                        <button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Marcar Todo" (click)="seleccionarTodo()">
+                                            <i class="fa fa-check-square"></i>  
+                                        </button>
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Desmarcar Todo" (click)="quitarSeleccion()">
+                                            <i class="fa fa-window-close"></i>  
+                                        </button>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let peaje of peajes">
+                                <tr *ngFor="let peaje of peajes; index as i">
                                     <td>{{peaje.ITEMS}}</td>
                                     <td>{{peaje.ID_PEAJE}}</td>
                                     <td>{{peaje.FH_SOLICITUD}}</td>
@@ -100,6 +123,13 @@
                                     <td>{{peaje.MONTO}}</td>
                                     <td>{{peaje.ABONO}}</td>
                                     <td>{{peaje.TOTAL_SUSTENTAR}}</td>
+                                    <td>{{peaje.NOTIFICACION}}</td>
+                                    <td>
+                                        <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
+                                            <input class="chk-col-blue" [value]="peaje.FG_NOTIFICADO" [(ngModel)]="peaje.FG_NOTIFICADO" name="check-{{i}}" id="check-{{i}}" type="checkbox" [disabled]="peaje.FG_NOTIFICADO_AUX">
+                                            <label for="check-{{i}}"></label>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

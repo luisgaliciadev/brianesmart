@@ -65,6 +65,10 @@ import { PeajeComponent } from './peaje/peaje.component';
 import { PeajesComponent } from './peajes/peajes.component';
 import { AgendaTelefonicaComponent } from './agenda-telefonica/agenda-telefonica.component';
 import { SaldosPeajesComponent } from './saldos-peajes/saldos-peajes.component';
+import { AyudaContactoComponent } from './ayuda-contacto/ayuda-contacto.component';
+import { NoticiasComponent } from './noticias/noticias.component';
+import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.component';
+import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
 
 @NgModule({
     declarations: [
@@ -115,7 +119,11 @@ import { SaldosPeajesComponent } from './saldos-peajes/saldos-peajes.component';
         PeajeComponent,
         PeajesComponent,
         AgendaTelefonicaComponent,
-        SaldosPeajesComponent
+        SaldosPeajesComponent,
+        AyudaContactoComponent,
+        NoticiasComponent,
+        DescuentoPeajesComponent,
+        PanelcontrolViajesComponent
     ],
     exports: [
         // PagesComponent,

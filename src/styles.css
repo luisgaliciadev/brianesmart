@@ -81,7 +81,6 @@
         float: left;
     }
 
-   
     .table-turno thead {
         height: 25px;
         overflow: hidden;
@@ -105,4 +104,130 @@
       display: block;
     }  */
 
+    .fz-10px {
+        font-size: 10px;
+    }
+
+    .table-container {
+        max-width: 100%;
+        overflow-x: scroll;
+        border-left: solid 1px #ccc;
+        border-right: solid 1px #ccc;
+    }
+
+    .tabla-control-guia {
+        border-top: solid 1px #ccc;
+        /* border-spacing: 0; */
+    }
+
+    .tabla-control-guia thead th{
+        background: gray;
+        color: white;
+        text-align: center;
+        font-size: 14px !important;
+    }
+
+    .tabla-control-guia th,
+    .tabla-control-guia td {
+        border-right: solid 1px #ccc;
+        min-width: 100px;
+        /* padding: 0.1rem !important; */
+    }
+
+    .tabla-control-guia thead th {       
+        padding: 0.5rem !important;
+    }
+
+    .tabla-control-guia th {     
+        text-align: center;
+    }
+
+    .tabla-control-guia th:last-child,
+    .tabla-control-guia td:last-child {       
+        border-right: 0;
+    }
+
+    .tabla-control-guia td {
+        border-bottom: solid 1px #ccc;
+    }
+
+    .tabla-control-guia,
+    .tabla-control-guia thead,
+    .tabla-control-guia tbody td {        
+        white-space: nowrap;
+    }
+
+    .tabla-control-guia tbody td {
+        line-height: 45px;  
+        padding-left: 2px;      
+    }
+
+    .tabla-control-guia .sticky {
+        min-width: 130px !important;
+        position: sticky;
+        left: 0;
+    }
+
+    .tabla-control-guia .sticky-2 {
+        min-width: 60px !important;
+        position: sticky;
+        left: 130px;
+    }
+
+    .tabla-control-guia .sticky-3 {
+        min-width: 250px !important;
+        position: sticky;
+        left: 190px;
+    }
+
+    .tabla-control-guia .sticky-4 {
+        min-width: 60px !important;
+        position: sticky;
+        left: 440px;
+    }
+
+    .tabla-control-guia .sticky-4 {
+        min-width: 60px !important;
+    }
+
+    .tabla-control-guia .sticky-5 {
+        min-width: 60px !important;
+    }
+
+    .tabla-control-guia .sticky-6 {
+        min-width: 60px !important;
+    }
+
+    .tabla-control-guia .sticky-7 {
+        min-width: 60px !important;
+    }
+
+    /* .hora-min-input {
+        width: 20px !important; 
+        height: 20px !important;
+        margin-left: 2px;
+        text-align: center;
+    } */
+
+    
+    .tabla-control-guia tbody tr .sticky {
+        background: white;
+    }
+
+    .tabla-control-guia tbody tr .sticky-2 {
+        background: white;
+    }
+
+    .tabla-control-guia tbody tr .sticky-3 {
+        background: white;
+    }
+
+    .tabla-control-guia tbody tr .sticky-4 {
+        background: white;
+    }
+    
+    /* .tabla-control-guia thead th {
+        background: gray;
+        color: white;
+    } */
     
