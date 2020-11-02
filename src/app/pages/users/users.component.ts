@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit {
   public desde: number;
   public hasta: number;
   public totalRegistros = 0;
-  public loading = true;
+  public loading = false;
   public search: string;
   public activeButton;
   totalUsers = [];
@@ -34,12 +34,12 @@ export class UsersComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.getUsers(this.search);
+    // this.getUsers(this.search);
     this.getRoles();
     this._modalUploadService.notificacion.subscribe(
       response => {
         this.getRoles();
-        this.getUsers(this.search);
+        // this.getUsers(this.search);
       },
     );
   }
@@ -91,6 +91,9 @@ export class UsersComponent implements OnInit {
 
   // Exportar a excel listado de usuarios
   getUsersExcel() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.getUsersExcel(this.search).subscribe(
       (response: any) => {
         // tslint:disable-next-line: prefer-const
@@ -106,6 +109,9 @@ export class UsersComponent implements OnInit {
   }
 
   printer() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listusers/' + '0', '0' , '_blank');

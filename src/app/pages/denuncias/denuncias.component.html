@@ -34,7 +34,7 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar Usuario" (keyup.enter)="getDenuncias(search)" (keyup)="activeButtons()">                        
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getDenuncias(search)" (keyup)="activeButtons()">                        
                             <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ export class SaldosPeajesComponent implements OnInit {
   peajes = [];
   desde = 0;
   hasta = 5;
-  loading = true;
+  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -50,7 +50,7 @@ export class SaldosPeajesComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getPeajeSaldos(this.search);
+    // this.getPeajeSaldos(this.search);
   }
 
   getPeajeSaldos(search) {
@@ -78,6 +78,9 @@ export class SaldosPeajesComponent implements OnInit {
   }
 
   getExcelSaldos() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._registerService.getExcelSaldosPeaje(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -129,6 +132,9 @@ export class SaldosPeajesComponent implements OnInit {
 
 
   printer() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listsaldospeaje/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
@@ -157,7 +163,7 @@ export class SaldosPeajesComponent implements OnInit {
     // console.log(this.peajesTotal);
     var i;
     for (i = 0; i < this.peajesTotal.length; i++) {
-      if (this.peajesTotal[i].FG_NOTIFICADO_AUX == 0) {
+      if (this.peajesTotal[i].FG_NOTIFICADO_AUX === 0) {
         this.peajesTotal[i].FG_NOTIFICADO = 1;
       }
     }
@@ -167,7 +173,7 @@ export class SaldosPeajesComponent implements OnInit {
   quitarSeleccion() {
     var i;
     for (i = 0; i < this.peajesTotal.length; i++) {
-      if (this.peajesTotal[i].FG_NOTIFICADO_AUX == 0) {
+      if (this.peajesTotal[i].FG_NOTIFICADO_AUX === 0) {
         this.peajesTotal[i].FG_NOTIFICADO = 0;
       }
     }
@@ -176,7 +182,7 @@ export class SaldosPeajesComponent implements OnInit {
   notificarSaldos() {     
     var saldos = [];
     this.peajesTotal.forEach(function (saldo) {
-      if (saldo.FG_NOTIFICADO && saldo.FG_NOTIFICADO_AUX == 0) {
+      if (saldo.FG_NOTIFICADO && saldo.FG_NOTIFICADO_AUX === 0) {
         saldos.push({
           nroSolicitudPeaje: saldo.ID_PEAJE,
           fechaSolicitudPeaje: saldo.FH_SOLICITUD,
@@ -193,7 +199,7 @@ export class SaldosPeajesComponent implements OnInit {
         });
       }
     });
-    if (saldos.length == 0) {
+    if (saldos.length === 0) {
       Swal.fire('Mensaje', 'Debe seleccionar al menos un registro para enviar la notificación', 'warning');
       return;
     }

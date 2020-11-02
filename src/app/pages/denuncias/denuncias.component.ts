@@ -14,7 +14,7 @@ export class DenunciasComponent implements OnInit {
   public denuncias = [];
   public desde: number;
   public hasta: number;
-  public loading = true;
+  public loading = false;
   public totalRegistros = 0;
   
   public search: string;
@@ -33,7 +33,7 @@ export class DenunciasComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getDenuncias(this.search);
+    // this.getDenuncias(this.search);
   }
 
   // Listar denuncias
@@ -66,6 +66,12 @@ export class DenunciasComponent implements OnInit {
 
   // Exportar a excel listado de empresas
   getDenunciasExcel() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._registerService.getDenunciasExcel(this.search).subscribe(
       (response: any) => {
        
@@ -82,7 +88,6 @@ export class DenunciasComponent implements OnInit {
 
   // Cambiar pagina de lista de empresas
   changePage(valor: number) {
-
     this.desde = this.desde + valor;
     this.hasta = this.hasta + valor;
 
@@ -103,6 +108,9 @@ export class DenunciasComponent implements OnInit {
   }
 
   printer() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listdenuncias/' + '0', '0' , '_blank');

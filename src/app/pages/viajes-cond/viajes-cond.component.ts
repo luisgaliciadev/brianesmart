@@ -61,7 +61,6 @@ export class ViajesCondComponent implements OnInit {
   }
 
   getVaijesConductor() {
-   
     // if (this.idZona == 0) {
     //   return;
     // }
@@ -85,6 +84,9 @@ export class ViajesCondComponent implements OnInit {
   }
 
   printer() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listoreportpro/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');

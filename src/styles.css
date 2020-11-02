@@ -108,6 +108,10 @@
         font-size: 10px;
     }
 
+    .fz-12px {
+        font-size: 12px;
+    }
+
     .table-container {
         max-width: 100%;
         overflow-x: scroll;

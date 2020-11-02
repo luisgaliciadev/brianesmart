@@ -15,7 +15,7 @@ export class PeajesComponent implements OnInit {
   peajes = [];
   desde = 0;
   hasta = 5;
-  loading = true;
+  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -51,7 +51,7 @@ export class PeajesComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getPeajes(this.search);
+    // this.getPeajes(this.search);
   }
 
   getPeajes(search) {
@@ -160,6 +160,9 @@ export class PeajesComponent implements OnInit {
 
 
   printer() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listpeajes/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');

@@ -1,1 +1,152 @@
-<p>descuento-peajes works!</p>
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="text-left" >
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button>
+
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getExcelDescuentoPeaje()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>  
+                    
+                    <br>
+
+                    <!-- <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0/0">
+                            <i class="fa fa-plus"></i>
+                            Registrar
+                        </button>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getPeajeDescuentos(search)">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div> 
+
+                    <!-- <br/> -->
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getPeajeDescuentos(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-sm">
+                            <h3>Listado de Saldos de conductores(<small>{{totalRegistros}}</small>)</h3>
+                        </div>
+
+                        <div class="col-sm text-right">
+                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" (click)="descontarSaldos()">
+                                <i class="mdi mdi-minus-box"></i>
+                                Descontar Saldos
+                            </button>
+                        </div>
+                    </div>
+                     
+                    <div style="overflow: auto">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ITEMS</th>
+                                    <th>Nro. Solicitud</th>
+                                    <th>Fecha Solicitud</th>
+                                    <th>Nro. Orden Servicio</th>                                    
+                                    <th>DNI</th>
+                                    <th>Conductor</th>
+                                    <th>Fecha Peaje</th>                                   
+                                    <th>Monto (S/)</th>
+                                    <th>Abono (S/)</th>
+                                    <th>Saldo (S/)</th>
+                                    <th>Estatus</th>
+                                    <th>
+                                        Descontar
+                                        <button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Marcar Todo" (click)="seleccionarTodo()">
+                                            <i class="fa fa-check-square"></i>  
+                                        </button>
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Desmarcar Todo" (click)="quitarSeleccion()">
+                                            <i class="fa fa-window-close"></i>  
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let peaje of peajes; index as i">
+                                    <td>{{peaje.ITEMS}}</td>
+                                    <td>{{peaje.ID_PEAJE}}</td>
+                                    <td>{{peaje.FH_SOLICITUD}}</td>
+                                    <td>{{peaje.CORRELATIVO}}</td>
+                                    <td>{{peaje.IDENTIFICACION}}</td>
+                                    <td>{{peaje.NOMBRE_APELLIDO}}</td>                                    
+                                    <td>{{peaje.FH_PEAJE}}</td>
+                                    <td>{{peaje.MONTO}}</td>
+                                    <td>{{peaje.ABONO}}</td>
+                                    <td>{{peaje.TOTAL_SUSTENTAR}}</td>
+                                    <td>{{peaje.DESCUENTO}}</td>
+                                    <td>
+                                        <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
+                                            <input class="chk-col-blue" [value]="peaje.FG_DESCONTADO" [(ngModel)]="peaje.FG_DESCONTADO" name="check-{{i}}" id="check-{{i}}" type="checkbox" [disabled]="peaje.FG_DESCONTADO_AUX">
+                                            <label for="check-{{i}}"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            
+                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

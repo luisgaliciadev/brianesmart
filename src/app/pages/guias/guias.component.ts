@@ -15,7 +15,7 @@ export class GuiasComponent implements OnInit {
   guias = [];
   desde = 0;
   hasta = 5;
-  loading = true;
+  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -51,7 +51,7 @@ export class GuiasComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getGuias(this.search);
+    // this.getGuias(this.search);
   }
 
   getGuias(search) {
@@ -80,6 +80,9 @@ export class GuiasComponent implements OnInit {
 
    // Exportar a excel listado de usuarios
    getGuiasExcel() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
       (response: any) => {
         // tslint:disable-next-line: prefer-const
@@ -161,8 +164,10 @@ export class GuiasComponent implements OnInit {
     this.filtroPagina();
   }
 
-
   printer() {
+    if(this.totalRegistros === 0) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/' + this._userService.user.ID_USER, '0', '_blank');

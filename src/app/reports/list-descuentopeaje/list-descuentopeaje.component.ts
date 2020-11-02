@@ -5,12 +5,12 @@ import { RegisterService, UserService } from 'src/app/services/service.index';
 declare function init_plugins();
 
 @Component({
-  selector: 'app-list-saldospeaje',
-  templateUrl: './list-saldospeaje.component.html',
+  selector: 'app-list-descuentopeaje',
+  templateUrl: './list-descuentopeaje.component.html',
   styles: [
   ]
 })
-export class ListSaldospeajeComponent implements OnInit {
+export class ListDescuentopeajeComponent implements OnInit {
 
   peajes = [];
   search = '';
@@ -35,13 +35,13 @@ export class ListSaldospeajeComponent implements OnInit {
       }
     });
 
-    this.getPeajeSaldos();
+    this.getPeajeDescuentos();
   }
 
-  getPeajeSaldos() {
-    this._registerService.getPeajeSaldos(this.search, this.fhDesde, this.fhHasta).subscribe(
+  getPeajeDescuentos() {
+    this._registerService.getPeajeDescuentos(this.search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        this.peajes = response.peajeSaldos;
+        this.peajes = response.peajeDescuentos;
       }
     );
   }

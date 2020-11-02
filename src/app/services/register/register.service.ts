@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { API_KEY_QWANTEC, URL_SERVICES } from '../../config/config';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { throwError, Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 
 // Others
 import Swal from 'sweetalert2';
@@ -12,9 +12,6 @@ import { UserService } from '../user/user.service';
 import { AddressClient } from '../../models/addressClient.model';
 import { Denuncia } from 'src/app/models/denuncia.model';
 import { UploadFileService } from '../uploadFile/upload-file.service';
-import { partitionArray } from '@angular/compiler/src/util';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -803,7 +800,7 @@ getPeajes(search, desde, hasta) {
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
-    this._router.navigate(['/peajes']);
+    // this._router.navigate(['/peajes']);
     if (err.status === 400) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
@@ -823,7 +820,7 @@ getPeajeSaldos(search, desde, hasta) {
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
-    this._router.navigate(['/peajes']);
+    // this._router.navigate(['/peajes']);
     if (err.status === 400) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
@@ -834,6 +831,26 @@ getPeajeSaldos(search, desde, hasta) {
   }));
 }
 // End Get Peajes saldos
+
+// Get Peajes descuentos
+getPeajeDescuentos(search, desde, hasta) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/peajesdescuentos/' + desde + '/' + hasta + '/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;   
+  }))
+  .pipe(catchError( (err: any) => {   
+    // this._router.navigate(['/peajes']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la informacion.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Peajes descuentos
 
 // Get Peaje
 getPeaje(idPeaje) { 
@@ -949,7 +966,7 @@ getPeajeFacturas(idDeta) {
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
-    this._router.navigate(['/peajes']);
+    // this._router.navigate(['/peajes']);
     if (err.status === 400) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
@@ -1011,7 +1028,7 @@ getDocPeajes() {
     return res;   
   }))
   .pipe(catchError( (err: any) => {   
-    this._router.navigate(['/peajes']);
+    // this._router.navigate(['/peajes']);
     if (err.status === 400) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
@@ -1121,7 +1138,7 @@ liquidarPeaje(idPeaje) {
 }
 // End Liquidar Peaje
 
-// Metodo para exportar a excel listado de denuncias
+// Metodo para exportar a excel saldo de peajes de conductores
 getExcelSaldosPeaje(desde, hasta, search) {
   if (search === '') {
     search = '0';
@@ -1137,7 +1154,7 @@ getExcelSaldosPeaje(desde, hasta, search) {
       return throwError(err);
   }));
 }
-// Fin Metodo para exportar empresas
+// Fin Metodo para exportar a excel saldo de peajes de conductores
 
 // Notificar saldos peaje
 notificarSaldos(saldos) { 
@@ -1159,7 +1176,47 @@ notificarSaldos(saldos) {
     }
   }));
 }
-// End Register deta Peaje
+// End Notificar saldos peaje
+
+// Descontar saldos peaje
+descontarSaldosPeaje(saldos) { 
+  let json = JSON.stringify(saldos);  
+  let saldoPeajes = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/descontarsaldospeajes/' + this._userService.user.ID_USER, saldoPeajes, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Notificacion enviada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Descontar saldos peaje
+
+// Metodo para exportar a excel descuento de peajes de conductores
+getExcelDescuentoPeaje(desde, hasta, search) {
+  if (search === '') {
+    search = '0';
+  }    
+  let params = desde + '/' + hasta + '/' + search;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/descuentopeaje/' + params, {responseType: 'blob', headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// Fin Metodo para exportar a excel descuento de peajes de conductores
 
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////

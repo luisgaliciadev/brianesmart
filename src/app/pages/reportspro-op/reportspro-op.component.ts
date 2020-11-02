@@ -13,7 +13,7 @@ export class ReportsproOpComponent implements OnInit {
   reportsProOp = [];
   desde = 0;
   hasta = 5;
-  loading = true;
+  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -50,7 +50,7 @@ export class ReportsproOpComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url); 
-    this.getReportsOp();
+    // this.getReportsOp();
   }
 
   getReportsOp() {

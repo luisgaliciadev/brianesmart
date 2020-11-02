@@ -46,7 +46,7 @@ export class ConsultaViaticoComponent implements OnInit {
     this._userService.permisoModule(this._router.url); 
     this.idConductor = this._userService.user.IDEN;
     // this.idConductor = '41228287';
-    this.getViaticos();
+    // this.getViaticos();
   }
 
   getViaticos() {

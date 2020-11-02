@@ -7,7 +7,7 @@
 
 
 <div style="margin-left: 20px; margin-top: 20px;" id="report">
-    <h2 align="center" style="text-decoration: underline">Listado de Saldos de Conductores - (Peajes)  | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
+    <h2 align="center" style="text-decoration: underline">Listado de Descuento de Peajes  | Desde: {{fhDesde}} / Hasta: {{fhHasta}}</h2>
 
     <div style="overflow: auto;">
         <table class="table table-striped table-bordered fz-12px">
@@ -23,7 +23,7 @@
                     <th>Monto (S/)</th>
                     <th>Abono (S/)</th>
                     <th>Saldo (S/)</th>
-                    <th>Estatus</th>
+                    <th>Estatus (S/)</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +38,7 @@
                     <td>{{peaje.MONTO}}</td>
                     <td>{{peaje.ABONO}}</td>
                     <td>{{peaje.TOTAL_SUSTENTAR}}</td>
-                    <td>{{peaje.NOTIFICACION}}</td>
+                    <td>{{peaje.DESCUENTO}}</td>
                 </tr>
             </tbody>
         </table>
