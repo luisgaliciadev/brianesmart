@@ -186,7 +186,7 @@ export class PeajeComponent implements OnInit {
         };
         this._registerService.updatePeaje(peajes).subscribe(
           (response: any) => {
-            console.log(response);
+            // console.log(response);
             this.getPeaje();
           }
         );
@@ -336,7 +336,7 @@ export class PeajeComponent implements OnInit {
 
       this._registerService.registerDetaPeaje(detaPeaje).subscribe(
         (response: any) => {
-          console.log(response);
+          // console.log(response);
           var idDetaPeaje = response.detaPeaje.ID_DETA_PEAJE;
           this.conductores.push({
             idConductor: this.idConductor,
@@ -510,7 +510,7 @@ export class PeajeComponent implements OnInit {
         if (id > 0) {
           this._registerService.deletePeajeFact(id).subscribe(
             (response: any) => {
-              console.log(response);
+              // console.log(response);
               this.getPeajesFacturas(idDeta, dni, conductor);
               this.getPeaje();
             }
@@ -527,10 +527,14 @@ export class PeajeComponent implements OnInit {
     }
     this._registerService.updateDetaPeaje(idDeta, valor).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
       },
       error => {
-        this.conductores[i].depositado = false;
+        if (valor = 1) {
+          this.conductores[i].depositado = true;
+        } else {
+          this.conductores[i].depositado = false;
+        }
       }
     );
   }
@@ -538,7 +542,7 @@ export class PeajeComponent implements OnInit {
   updateAllDetaPeaje(valor) {
     this._registerService.updateAllDetaPeaje(this.peaje.ID_PEAJE, valor).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.getPeaje();
       }
     );

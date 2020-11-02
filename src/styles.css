@@ -134,9 +134,9 @@
         /* padding: 0.1rem !important; */
     }
 
-    .tabla-control-guia thead th {       
+    /* .tabla-control-guia thead th {       
         padding: 0.5rem !important;
-    }
+    } */
 
     .tabla-control-guia th {     
         text-align: center;
@@ -158,7 +158,7 @@
     }
 
     .tabla-control-guia tbody td {
-        line-height: 45px;  
+        /* 11wline-height: 45px;   */
         padding-left: 2px;      
     }
 
@@ -169,7 +169,7 @@
     }
 
     .tabla-control-guia .sticky-2 {
-        min-width: 60px !important;
+        min-width: 55px !important;
         position: sticky;
         left: 130px;
     }
@@ -177,29 +177,37 @@
     .tabla-control-guia .sticky-3 {
         min-width: 250px !important;
         position: sticky;
-        left: 190px;
+        left: 185px;
     }
 
     .tabla-control-guia .sticky-4 {
-        min-width: 60px !important;
+        min-width: 55px !important;
         position: sticky;
-        left: 440px;
+        left: 435px;
     }
 
     .tabla-control-guia .sticky-4 {
-        min-width: 60px !important;
+        min-width: 55px !important;
     }
 
     .tabla-control-guia .sticky-5 {
-        min-width: 60px !important;
+        min-width: 55px !important;
     }
 
     .tabla-control-guia .sticky-6 {
-        min-width: 60px !important;
+        min-width: 55px !important;
     }
 
     .tabla-control-guia .sticky-7 {
-        min-width: 60px !important;
+        min-width: 55px !important;
+    }
+
+    .tabla-control-guia .sticky-8 {
+        min-width: 55px !important;
+    }
+
+    .tabla-control-guia .sticky-9 {
+        min-width: 55px !important;
     }
 
     /* .hora-min-input {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import {saveAs} from 'file-saver';
+import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-panelcontrol-viajes',
@@ -28,12 +29,17 @@ export class PanelcontrolViajesComponent implements OnInit {
   guiasTotal = [];
   zonasConductor = [];
   idZona = 0;
-
-
+  motivosNoOp = [];
+  idMotivoNoOp = 0;
+  closeResult: string;
+  iGuias = -1;
+  nroFecha = 0;
+  
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private _ngbModal: NgbModal
   ) {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -53,6 +59,7 @@ export class PanelcontrolViajesComponent implements OnInit {
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
     this.getZonasConcutor();
+    this.getMotivoNoOp();
     // this.getGuias(this.search);    
   }
 
@@ -60,6 +67,15 @@ export class PanelcontrolViajesComponent implements OnInit {
     this._registerService.getZonaConductor().subscribe(
       (response: any) => {        
         this.zonasConductor = response.zonasConductor
+      }
+    );
+  }
+
+  getMotivoNoOp() {
+    this._registerService.getMotivoNoOp().subscribe(
+      (response: any) => {
+        this.motivosNoOp = response.motivos;
+        // console.log(this.motivosNoOp);
       }
     );
   }
@@ -82,7 +98,7 @@ export class PanelcontrolViajesComponent implements OnInit {
         this.guiasTotal = response.guias;
         this.guias = this.guiasTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 8);
-        console.log(this.paginas);
+        // console.log(this.paginas);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
@@ -141,8 +157,8 @@ export class PanelcontrolViajesComponent implements OnInit {
   }
 
   actualizarFechaHora(i, nroFecha) {
+    // console.log(this.guias[i].ID_MOTIVO_OP);
     var dataGuia;
-
     if (nroFecha == 1) {     
       if (!this.guias[i].FECHA_INICIO_VIAJE || !this.guias[i].HORA_INICIO_VIAJE || !this.guias[i].MIN_INICIO_VIAJE) {
         return;
@@ -159,11 +175,16 @@ export class PanelcontrolViajesComponent implements OnInit {
         Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
         return;
       }
+      if(this.guias[i].ID_MOTIVO_OP == 0) {
+        Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
+        return;
+      }
       dataGuia = {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_INICIO_VIAJE + ' ' + this.guias[i].HORA_INICIO_VIAJE + ':' + this.guias[i].MIN_INICIO_VIAJE,
         idUser: this._userService.user.ID_USER,
-        nroFecha
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
       };
     }
 
@@ -187,7 +208,8 @@ export class PanelcontrolViajesComponent implements OnInit {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_INGRESO_PC + ' ' + this.guias[i].HORA_INGRESO_PC + ':' + this.guias[i].MIN_INGRESO_PC,
         idUser: this._userService.user.ID_USER,
-        nroFecha
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
       };
     }
 
@@ -211,7 +233,8 @@ export class PanelcontrolViajesComponent implements OnInit {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_SALIDA_PC + ' ' + this.guias[i].HORA_SALIDA_PC + ':' + this.guias[i].MIN_SALIDA_PC,
         idUser: this._userService.user.ID_USER,
-        nroFecha
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
       };
     }
 
@@ -235,7 +258,8 @@ export class PanelcontrolViajesComponent implements OnInit {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_INGRESO_PD + ' ' + this.guias[i].HORA_INGRESO_PD + ':' + this.guias[i].MIN_INGRESO_PD,
         idUser: this._userService.user.ID_USER,
-        nroFecha
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
       };
     }
 
@@ -259,7 +283,8 @@ export class PanelcontrolViajesComponent implements OnInit {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_SALIDA_PD + ' ' + this.guias[i].HORA_SALIDA_PD + ':' + this.guias[i].MIN_SALIDA_PD,
         idUser: this._userService.user.ID_USER,
-        nroFecha
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
       };
     }
 
@@ -283,7 +308,8 @@ export class PanelcontrolViajesComponent implements OnInit {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_FIN_VIAJE + ' ' + this.guias[i].HORA_FIN_VIAJE + ':' + this.guias[i].MIN_FIN_VIAJE,
         idUser: this._userService.user.ID_USER,
-        nroFecha
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
       };
     }
 
@@ -295,7 +321,6 @@ export class PanelcontrolViajesComponent implements OnInit {
     );
   }
 
-  
   filtroPagina () {
     this.guias = this.guiasTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
@@ -328,11 +353,9 @@ export class PanelcontrolViajesComponent implements OnInit {
     if (this.pagina <= 0) {
       this.pagina = 1;
     }
-
     // this.getGuias(this.search);
     this.filtroPagina();
   }
-
 
   printer() {
     this._userService.loadReport();
@@ -358,5 +381,57 @@ export class PanelcontrolViajesComponent implements OnInit {
       this.getGuias(this.search);
     }
   }
+
+  motivosModal(i, modal) { 
+    this.iGuias = i;
+    if (this.guias[i].ID_MOTIVO_OP == 0) {     
+      this._ngbModal.open(modal);
+    }
+  }
+
+  motivosModalDbclick(i, modal) { 
+    this.iGuias = i;
+    this.idMotivoNoOp = this.guias[i].ID_MOTIVO_OP;
+    this._ngbModal.open(modal);
+  }
+
+  actualizarMotivo(modal) {
+    if(this.idMotivoNoOp == 0) {
+      Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
+      return;
+    }
+    // console.log(this.guiasTotal);
+    this.guias[this.iGuias].ID_MOTIVO_OP = this.idMotivoNoOp;
+    this.iGuias = -1;
+    this.nroFecha = 0;
+    this.idMotivoNoOp = 0;
+    this._ngbModal.dismissAll(modal);
+    // console.log(this.guiasTotal);
+  }
+
+  cerrarModalMotivos(modal) {
+    this.iGuias = -1;
+    this.nroFecha = 0;
+    this.idMotivoNoOp = 0;
+    this._ngbModal.dismissAll(modal);
+  }
+
+  // open(content) {
+  //   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+  //     this.closeResult = `Closed with: ${result}`;
+  //   }, (reason) => {
+  //     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  //   });
+  // }
+
+  // private getDismissReason(reason: any): string {
+  //   if (reason === ModalDismissReasons.ESC) {
+  //     return 'by pressing ESC';
+  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+  //     return 'by clicking on a backdrop';
+  //   } else {
+  //     return  `with: ${reason}`;
+  //   }
+  // }
 
 }

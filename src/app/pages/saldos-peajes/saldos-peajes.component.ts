@@ -154,14 +154,14 @@ export class SaldosPeajesComponent implements OnInit {
   }
 
   seleccionarTodo() {
-    console.log(this.peajesTotal);
+    // console.log(this.peajesTotal);
     var i;
     for (i = 0; i < this.peajesTotal.length; i++) {
       if (this.peajesTotal[i].FG_NOTIFICADO_AUX == 0) {
         this.peajesTotal[i].FG_NOTIFICADO = 1;
       }
     }
-    console.log(this.peajesTotal);
+    // console.log(this.peajesTotal);
   }
 
   quitarSeleccion() {
@@ -209,8 +209,7 @@ export class SaldosPeajesComponent implements OnInit {
         this.loading = false;
       }
     );
-
-    console.log('saldos:',saldos);
+    // console.log('saldos:',saldos);
   }
 
 }
