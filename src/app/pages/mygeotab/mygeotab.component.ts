@@ -20,7 +20,7 @@ export class MygeotabComponent implements OnInit {
   horasMotor;
   dataHorasMotor; 
   results: any = {};
-  loading = true; 
+  loading = false; 
   desde;
   hasta;
   date = new Date();
@@ -42,6 +42,7 @@ export class MygeotabComponent implements OnInit {
     {'mes':'Diciembre'},
     {'mes':'Todos'}
   ];
+  grafico = false;
 
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -83,11 +84,12 @@ export class MygeotabComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getOdometer(this.desde, this.hasta);
+    // this.getOdometer(this.desde, this.hasta);
   }
 
   getOdometer(desde, hasta) {    
     this.loading = true; 
+    this.grafico = false;
     let data: any = [];   
     let labels: any = [];
     let options: any = {
@@ -138,6 +140,10 @@ export class MygeotabComponent implements OnInit {
           type,
           leyenda
         };
+      }, 
+      (error: any) => {
+        this.loading = false;
+        this.grafico = false;
       }
     );
   }
@@ -196,12 +202,17 @@ export class MygeotabComponent implements OnInit {
           leyenda
         };
         // this.loading = false;
+      },
+      (error: any) => {
+        this.loading = false;
+        this.grafico = false;
       }
     );
   }
 
   getHorasMotor(desde, hasta) {    
     this.loading = true; 
+    this.grafico = true;
     let data: any = [];   
     let labels: any = [];
     let options: any = {
@@ -259,6 +270,11 @@ export class MygeotabComponent implements OnInit {
         }
         // console.log(this.dataGrafico);
         this.loading = false;
+        this.grafico = true;
+      },
+      (error: any) => {
+        this.loading = false;
+        this.grafico = false;
       }
     );
   }

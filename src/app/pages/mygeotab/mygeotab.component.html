@@ -53,7 +53,7 @@
                             <div class="input-group">                                            
                                 <input [(ngModel)]="hasta" name="hasta" type="date" class="form-control" required>
                                 
-                                <button type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getOdometer(desde,hasta)">
+                                <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getOdometer(desde,hasta)">
                                     <i class="fa fa-search"></i>
                                     Consultar
                                 </button>
@@ -76,7 +76,7 @@
                 </div>    
             </div>
     
-            <div *ngIf ="!loading">
+            <div *ngIf ="!loading && grafico">
 
                 <!-- <div class="card">
                     <div class="card-body">      
@@ -91,9 +91,9 @@
                             [Leyenda] = "odometer.leyenda">
                         </app-graphics-barchart>
                     </div>
-                </div> -->
+                </div>
 
-                <!-- <div class="card">
+                <div class="card">
                     <div class="card-body">         
                         <h4 class="card-title"> {{fuelConsume.leyenda}}</h4>              
                         <app-graphics-barchart
@@ -106,9 +106,9 @@
                             [Leyenda] = "fuelConsume.leyenda">
                         </app-graphics-barchart>
                     </div>
-                </div> -->
+                </div>
 
-                <!-- <div class="card">
+                <div class="card">
                     <div class="card-body">         
                         <h4 class="card-title"> {{horasMotor.leyenda}}</h4>              
                         <app-graphics-barchart
@@ -122,8 +122,6 @@
                         </app-graphics-barchart>
                     </div>
                 </div> -->
-
-               
                 <div class="card">
                     <div class="card-body">         
                         <h4 class="card-title"> {{dataGrafico.leyenda}}</h4>              
@@ -138,8 +136,6 @@
                         </app-graphics-barchart>
                     </div>
                 </div>
-              
-                
             </div>
         </div> 
     </div>

@@ -27,6 +27,10 @@ getDivices() {
   return this._http.get(this.URL + '/mygeotab/divices')
   .pipe(map((res: any) => {
     return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
   }));
 }
 // End Get Divices
@@ -36,6 +40,10 @@ getTotalHoursEngine() {
   return this._http.get(this.URL + '/mygeotab/totalhoursengine')
   .pipe(map((res: any) => {
     return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
   }));
 }
 // End Get totalhoursengine
@@ -45,6 +53,10 @@ getHoursEngine(desde, hasta) {
   return this._http.get(this.URL + '/mygeotab/hoursengine/' + desde + '/' + hasta)
   .pipe(map((res: any) => {
     return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
   }));
 }
 // End Get hoursEngine
@@ -54,6 +66,10 @@ getOdometer(desde, hasta) {
   return this._http.get(this.URL + '/mygeotab/odometer/' + desde + '/' + hasta)
   .pipe(map((res: any) => {
     return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
   }));
 }
 // End Get odometer
@@ -63,6 +79,10 @@ getFuelConsume(desde, hasta) {
   return this._http.get(this.URL + '/mygeotab/fuelconsume/' + desde + '/' + hasta)
   .pipe(map((res: any) => {
     return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
   }));
 }
 // End Get fuelconsume
