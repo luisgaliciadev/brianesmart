@@ -91,6 +91,7 @@ export class PanelcontrolViajesComponent implements OnInit {
     this.loading = true;
     this._registerService.getGuiasControlViaje(search, this.fhDesde, this.fhHasta, 0, this.idZona).subscribe(
       (response: any) => {
+        // console.log(response);
         this.desde = 0;
         this.hasta = 8;
         this.pagina = 1;
@@ -159,7 +160,7 @@ export class PanelcontrolViajesComponent implements OnInit {
   actualizarFechaHora(i, nroFecha) {
     // console.log(this.guias[i].ID_MOTIVO_OP);
     var dataGuia;
-    if (nroFecha == 1) {     
+    if (nroFecha === 1) {     
       if (!this.guias[i].FECHA_INICIO_VIAJE || !this.guias[i].HORA_INICIO_VIAJE || !this.guias[i].MIN_INICIO_VIAJE) {
         return;
       }
@@ -188,7 +189,34 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha == 2) {
+    if (nroFecha === 2) {
+     
+      if (!this.guias[i].FECHA_LLEGADA_PC  || !this.guias[i].HORA_LLEGADA_PC || !this.guias[i].MIN_LLEGADA_PC) {
+        return;
+      }
+      // console.log(this.guias[i].FECHA_LLEGADA_PC);
+      let hora = this.guias[i].HORA_LLEGADA_PC;
+      let minutos = this.guias[i].MIN_LLEGADA_PC;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      dataGuia = {
+        idGuia: this.guias[i].ID_GUIA,
+        fecha: this.guias[i].FECHA_LLEGADA_PC + ' ' + this.guias[i].HORA_LLEGADA_PC + ':' + this.guias[i].MIN_LLEGADA_PC,
+        idUser: this._userService.user.ID_USER,
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
+      };
+    }
+
+    if (nroFecha === 3) {
       if (!this.guias[i].FECHA_INGRESO_PC  || !this.guias[i].HORA_INGRESO_PC || !this.guias[i].MIN_INGRESO_PC) {
         return;
       }
@@ -213,7 +241,7 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha == 3) {
+    if (nroFecha === 4) {
       if (!this.guias[i].FECHA_SALIDA_PC || !this.guias[i].HORA_SALIDA_PC || !this.guias[i].MIN_SALIDA_PC) {
         return;
       }
@@ -238,7 +266,32 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha == 4) {     
+    if (nroFecha === 5) {
+      if (!this.guias[i].FECHA_LLEGADA_PD || !this.guias[i].HORA_LLEGADA_PD || !this.guias[i].MIN_LLEGADA_PD) {
+        return;
+      }
+      let hora = this.guias[i].HORA_LLEGADA_PD;
+      let minutos = this.guias[i].MIN_LLEGADA_PD;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      dataGuia = {
+        idGuia: this.guias[i].ID_GUIA,
+        fecha: this.guias[i].FECHA_LLEGADA_PD + ' ' + this.guias[i].HORA_LLEGADA_PD + ':' + this.guias[i].MIN_LLEGADA_PD,
+        idUser: this._userService.user.ID_USER,
+        nroFecha,
+        idMotivo: this.guias[i].ID_MOTIVO_OP
+      };
+    }
+
+    if (nroFecha === 6) {     
       if (!this.guias[i].FECHA_INGRESO_PD || !this.guias[i].HORA_INGRESO_PD || !this.guias[i].MIN_INGRESO_PD) {
         return;
       }
@@ -263,7 +316,7 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha == 5) {      
+    if (nroFecha === 7) {      
       if (!this.guias[i].FECHA_SALIDA_PD || !this.guias[i].HORA_SALIDA_PD || !this.guias[i].MIN_SALIDA_PD) {
         return;
       }
@@ -288,7 +341,7 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha == 6) {      
+    if (nroFecha === 8) {      
       if (!this.guias[i].FECHA_FIN_VIAJE || !this.guias[i].HORA_FIN_VIAJE || !this.guias[i].MIN_FIN_VIAJE) {
         return;
       }

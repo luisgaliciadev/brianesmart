@@ -91,19 +91,21 @@
                     <div class="table-container">
                         <table  class="tabla-control-guia fz-10px">
                             <thead>
-                                <tr>                                  
-                                    <th class="sticky">Guia Transporte</th>                                    
-                                    <th class="sticky-2">Fecha</th>
-                                    <th class="sticky-3">Conductor</th>
-                                    <th class="sticky-4">Tracto</th>
-                                    <th class="sticky-5">Remolque</th>                                   
-                                    <th class="sticky-6">Orden Servicio</th>                                   
+                                <tr>          
+                                    <th class="sticky">Orden Servicio</th>                                                             
+                                    <th class="sticky-2">Guia Trans.</th>                                    
+                                    <th class="sticky-3">Fecha</th>
+                                    <th class="sticky-4">Conductor</th>
+                                    <th class="sticky-5">Tracto</th>
+                                    <th class="sticky-6">Remolque</th>                                                    
                                     <th class="sticky-7">Ruta</th>
                                     <th class="sticky-8">Tiempo</th>
                                     <th class="sticky-9">Estado</th>
                                     <th>Inicio Viaje</th>
+                                    <th>Llegada Punto Carga</th>                                    
                                     <th>Ingreso Punto Carga</th>
                                     <th>Salida Punto Carga</th>
+                                    <th>Llegada Punto Descarga</th>
                                     <th>Ingreso Punto Descarga</th>
                                     <th>Salida Punto Descarga</th>
                                     <th>Fin Viaje</th>
@@ -111,15 +113,17 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let guia of guias, index as i">
-                                    <td class="sticky" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.CORRELATIVO}}</td>                                    
-                                    <td class="sticky-2" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.FH_GUIA}}</td>
-                                    <td class="sticky-3" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.NOMBRE_CONDUCTOR}}</td>
-                                    <td class="sticky-4" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_TRACTO}}</td>
-                                    <td class="sticky-5" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_REMOLQUE}}</td>                                   
-                                    <td class="sticky-6" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.CORRELATIVO_OS}}</td>
+                                    <td class="sticky" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.CORRELATIVO_OS}}</td>
+                                    <td class="sticky-2" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.CORRELATIVO}}</td>                                    
+                                    <td class="sticky-3" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.FH_GUIA}}</td>
+                                    <td class="sticky-4" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.NOMBRE_CONDUCTOR}}</td>
+                                    <td class="sticky-5" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_TRACTO}}</td>
+                                    <td class="sticky-6" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_REMOLQUE}}</td>                                   
                                     <td class="sticky-7" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.DS_ORI_DEST}} - {{guia.DESTINO}}</td>
                                     <td class="sticky-8" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.TIEMPO_PLANIFICACION_VIAJE}}</td>
                                     <td class="sticky-9" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.ESTATUS_PLANICACION}}</td>
+                                    
+                                    <!-- Inicio de viaje -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div >   
                                             <input (click)="motivosModal(i,modalMotivos)" (dblclick)="motivosModalDbclick(i,modalMotivos)" style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" class="form-control fz-10px" required>
@@ -128,50 +132,81 @@
                                             <input style="width: 40px; margin-left: 2px;"  (keyup.enter)="actualizarFechaHora(i,1)" [(ngModel)]="guia.MIN_INICIO_VIAJE" name="MIN_INICIO_VIAJE" type="text" class="form-control fz-10px" required maxlength="2" pattern="[0-9]{2}$">
                                         </div>                                               
                                     </td>
+
+                                    <!-- Llegada Punto Carga-->
+                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_LLEGADA_PC" name="FECHA_LLEGADA_PC" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_LLEGADA_PC" name="HORA_LLEGADA_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,2)" [(ngModel)]="guia.MIN_LLEGADA_PC" name="MIN_LLEGADA_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>                                            
+                                        </div>
+                                    </td>
+
+                                    <!-- Ingreso Punto Carga -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div>
                                             <div >   
                                                 <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_INGRESO_PC" name="FECHA_INGRESO_PC" type="date" class="form-control fz-10px" required>
                                                 <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INGRESO_PC" name="HORA_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,2)" [(ngModel)]="guia.MIN_INGRESO_PC" name="MIN_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,3)" [(ngModel)]="guia.MIN_INGRESO_PC" name="MIN_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
                                             </div>                                            
                                         </div>
                                     </td>
+
+                                    <!-- Salida Punto Carga -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div>
                                             <div >   
                                                 <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_SALIDA_PC" name="FECHA_SALIDA_PC" type="date" class="form-control fz-10px" required>
                                                 <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_SALIDA_PC" name="HORA_SALIDA_PC" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,3)" [(ngModel)]="guia.MIN_SALIDA_PC" name="MIN_SALIDA_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,4)" [(ngModel)]="guia.MIN_SALIDA_PC" name="MIN_SALIDA_PC" type="text" class="form-control fz-10px" required maxlength="2">
                                             </div>                                            
                                         </div>
                                     </td>
+                                   
+                                     <!-- LLegada Punto Descarga -->
+                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
+                                        <div>
+                                            <div >   
+                                                <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_LLEGADA_PD" name="FECHA_LLEGADA_PD" type="date" class="form-control fz-10px" required>
+                                                <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_LLEGADA_PD" name="HORA_LLEGADA_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,5)" [(ngModel)]="guia.MIN_LLEGADA_PD" name="MIN_LLEGADA_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                            </div>                                            
+                                        </div>
+                                    </td>
+
+                                    <!-- Ingreso Punto Descarga -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div>
                                             <div >   
                                                 <input style="width: 126px;" [(ngModel)]="guia.FECHA_INGRESO_PD" name="FECHA_INGRESO_PD" type="date" class="form-control fz-10px" required>
                                                 <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INGRESO_PD" name="HORA_INGRESO_PD" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,4)" [(ngModel)]="guia.MIN_INGRESO_PD" name="MIN_INGRESO_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,6)" [(ngModel)]="guia.MIN_INGRESO_PD" name="MIN_INGRESO_PD" type="text" class="form-control fz-10px" required maxlength="2">
                                             </div>                                            
                                         </div>
                                     </td>
+                                    
+                                    <!-- Salida Punto Descarga -->                          
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div>
                                             <div >   
                                                 <input style="width: 126px;" [(ngModel)]="guia.FECHA_SALIDA_PD" name="FECHA_SALIDA_PD" type="date" class="form-control fz-10px" required>
                                                 <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_SALIDA_PD" name="HORA_SALIDA_PD" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,5)" [(ngModel)]="guia.MIN_SALIDA_PD" name="MIN_SALIDA_PD" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,7)" [(ngModel)]="guia.MIN_SALIDA_PD" name="MIN_SALIDA_PD" type="text" class="form-control fz-10px" required maxlength="2">
                                          
                                             </div>                                            
                                         </div>
                                     </td>
-                                   
+
+                                    <!-- Fin viaje -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div>
                                             <div >   
                                                 <input style="width: 126px;" [(ngModel)]="guia.FECHA_FIN_VIAJE" name="FECHA_FIN_VIAJE" type="date" class="form-control fz-10px" required>
                                                 <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_FIN_VIAJE" name="HORA_FIN_VIAJE" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,6)" [(ngModel)]="guia.MIN_FIN_VIAJE" name="MIN_FIN_VIAJE" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,8)" [(ngModel)]="guia.MIN_FIN_VIAJE" name="MIN_FIN_VIAJE" type="text" class="form-control fz-10px" required maxlength="2">
                                             </div>                                            
                                         </div>
                                     </td>
