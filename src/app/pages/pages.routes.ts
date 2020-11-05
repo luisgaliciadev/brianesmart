@@ -57,6 +57,7 @@ import { AyudaContactoComponent } from './ayuda-contacto/ayuda-contacto.componen
 import { NoticiasComponent } from './noticias/noticias.component';
 import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
 import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.component';
+import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -99,6 +100,7 @@ const pagesRoutes: Routes = [
             {path: 'noticias', component: NoticiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Noticias y Comunicaciones BRIANE'}},
             {path: 'control-viajes', component: PanelcontrolViajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Panel de Control de Viajes'}},
             {path: 'descuento-peaje', component: DescuentoPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Descuento de Peajes'}},
+            {path: 'repositorio-docs', component: RepositorioDocsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Repositorio de Documentos BRIANE'}},
         
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

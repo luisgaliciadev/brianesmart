@@ -1697,6 +1697,50 @@ updateFechaGuiaControl(dataGuia) {
 }
 // End Update fecha guia control
 
+// Update linea fecha guia control
+updateLineaFechaGuiaControl(dataGuia) { 
+  let json = JSON.stringify(dataGuia);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/lineafechacontrolguia', params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro Actualizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update linea fecha guia control
+
+// Update fechas guia control
+updateFechasGuiaControl(dataGuia) { 
+  let json = JSON.stringify(dataGuia);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/fechascontrolguia', params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro Actualizado Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update fechas guia control
+
 // Get Guias control viaje
 getGuiasControlViaje(search,desde, hasta, idUser,idZona) {
   let params = idUser + '/' + search + '/' + desde + '/' + hasta + '/' + idZona;

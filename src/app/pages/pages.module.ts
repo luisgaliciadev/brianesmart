@@ -12,6 +12,9 @@ import { PAGES_ROUTES } from './pages.routes';
 // MODULO DE GRAFICAS
 import { ChartsModule } from 'ng2-charts';
 
+// PDF view
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 
 // Pipe Module
 import { PipesModule } from '../pipes/pipes.module';
@@ -69,6 +72,7 @@ import { AyudaContactoComponent } from './ayuda-contacto/ayuda-contacto.componen
 import { NoticiasComponent } from './noticias/noticias.component';
 import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.component';
 import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
+import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.component';
 
 @NgModule({
     declarations: [
@@ -123,7 +127,8 @@ import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-
         AyudaContactoComponent,
         NoticiasComponent,
         DescuentoPeajesComponent,
-        PanelcontrolViajesComponent
+        PanelcontrolViajesComponent,
+        RepositorioDocsComponent
     ],
     exports: [
         // PagesComponent,
@@ -138,7 +143,8 @@ import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-
         FormsModule,
         ChartsModule,
         PipesModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        PdfViewerModule
     ],
     providers: [],
     bootstrap: []

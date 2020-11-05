@@ -87,7 +87,21 @@
                         </div>
                     </div>
                    
-                    <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3>
+                    <!-- <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3> -->
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3>
+                        </div>
+                        <!-- <div class="col-sm text-right">
+                            <button type="button" class="btn btn-primary waves-effect btn-rounded waves-light m-r-10" (click)="actualizarFechas()">
+                                <i class="fa fa-save"></i>
+                                Guardar Todo
+                            </button>
+                        </div> -->
+                    </div>
+
+
                     <div class="table-container">
                         <table  class="tabla-control-guia fz-10px">
                             <thead>
@@ -109,6 +123,7 @@
                                     <th>Ingreso Punto Descarga</th>
                                     <th>Salida Punto Descarga</th>
                                     <th>Fin Viaje</th>
+                                    <th class="sticky-10"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -129,7 +144,7 @@
                                             <input (click)="motivosModal(i,modalMotivos)" (dblclick)="motivosModalDbclick(i,modalMotivos)" style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" class="form-control fz-10px" required>
                                             <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INICIO_VIAJE" name="HORA_INICIO_VIAJE" type="text" class="form-control fz-10px hora-min-input" required maxlength="2">
                                             <!-- (focusout) = "actualizarFechaHora(i,1)" -->
-                                            <input style="width: 40px; margin-left: 2px;"  (keyup.enter)="actualizarFechaHora(i,1)" [(ngModel)]="guia.MIN_INICIO_VIAJE" name="MIN_INICIO_VIAJE" type="text" class="form-control fz-10px" required maxlength="2" pattern="[0-9]{2}$">
+                                            <input style="width: 40px; margin-left: 2px;" (focusout)="actualizarFechaHora(i,1)" (keyup.enter)="actualizarFechaHora(i,1)" [(ngModel)]="guia.MIN_INICIO_VIAJE" name="MIN_INICIO_VIAJE" type="text" class="form-control fz-10px" required maxlength="2" pattern="[0-9]{2}$">
                                         </div>                                               
                                     </td>
 
@@ -150,7 +165,7 @@
                                             <div >   
                                                 <input style="width: 126px; height: 10px;" [(ngModel)]="guia.FECHA_INGRESO_PC" name="FECHA_INGRESO_PC" type="date" class="form-control fz-10px" required>
                                                 <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INGRESO_PC" name="HORA_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,3)" [(ngModel)]="guia.MIN_INGRESO_PC" name="MIN_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
+                                                <input style="width: 40px; margin-left: 2px;"  (keyup.enter)="actualizarFechaHora(i,3)" [(ngModel)]="guia.MIN_INGRESO_PC" name="MIN_INGRESO_PC" type="text" class="form-control fz-10px" required maxlength="2">
                                             </div>                                            
                                         </div>
                                     </td>
@@ -209,6 +224,10 @@
                                                 <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,8)" [(ngModel)]="guia.MIN_FIN_VIAJE" name="MIN_FIN_VIAJE" type="text" class="form-control fz-10px" required maxlength="2">
                                             </div>                                            
                                         </div>
+                                    </td>
+
+                                    <td class="sticky-10">
+                                        <a data-toggle="tooltip" data-placement="top" title="Guardar" (click)="actualizarLinea(i)"> <i class="fa fa-floppy-o text-success m-r-10 pointer"></i> </a>
                                     </td>
                                     <!-- <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                                
                                         <div class="input-group">

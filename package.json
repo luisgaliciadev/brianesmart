@@ -31,6 +31,7 @@
     "mdbootstrap": "^4.19.1",
     "ng2-charts": "^2.3.3",
     "ng2-charts-extended": "0.0.3",
+    "ng2-pdf-viewer": "^6.3.2",
     "request": "^2.88.2",
     "rxjs": "^6.6.2",
     "sweetalert": "^2.1.2",

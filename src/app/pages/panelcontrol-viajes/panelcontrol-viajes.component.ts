@@ -75,7 +75,6 @@ export class PanelcontrolViajesComponent implements OnInit {
     this._registerService.getMotivoNoOp().subscribe(
       (response: any) => {
         this.motivosNoOp = response.motivos;
-        // console.log(this.motivosNoOp);
       }
     );
   }
@@ -91,7 +90,6 @@ export class PanelcontrolViajesComponent implements OnInit {
     this.loading = true;
     this._registerService.getGuiasControlViaje(search, this.fhDesde, this.fhHasta, 0, this.idZona).subscribe(
       (response: any) => {
-        // console.log(response);
         this.desde = 0;
         this.hasta = 8;
         this.pagina = 1;
@@ -99,7 +97,6 @@ export class PanelcontrolViajesComponent implements OnInit {
         this.guiasTotal = response.guias;
         this.guias = this.guiasTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 8);
-        // console.log(this.paginas);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
@@ -147,7 +144,6 @@ export class PanelcontrolViajesComponent implements OnInit {
       if (result.value) {
         this._registerService.deleteGuia(id).subscribe(
           (response: any) => {
-            // console.log(response);
             if(response) {
               this.getGuias(this.search);
             }
@@ -158,7 +154,6 @@ export class PanelcontrolViajesComponent implements OnInit {
   }
 
   actualizarFechaHora(i, nroFecha) {
-    // console.log(this.guias[i].ID_MOTIVO_OP);
     var dataGuia;
     if (nroFecha === 1) {     
       if (!this.guias[i].FECHA_INICIO_VIAJE || !this.guias[i].HORA_INICIO_VIAJE || !this.guias[i].MIN_INICIO_VIAJE) {
@@ -194,7 +189,7 @@ export class PanelcontrolViajesComponent implements OnInit {
       if (!this.guias[i].FECHA_LLEGADA_PC  || !this.guias[i].HORA_LLEGADA_PC || !this.guias[i].MIN_LLEGADA_PC) {
         return;
       }
-      // console.log(this.guias[i].FECHA_LLEGADA_PC);
+    
       let hora = this.guias[i].HORA_LLEGADA_PC;
       let minutos = this.guias[i].MIN_LLEGADA_PC;
       hora = parseInt(hora);
@@ -453,13 +448,11 @@ export class PanelcontrolViajesComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
       return;
     }
-    // console.log(this.guiasTotal);
     this.guias[this.iGuias].ID_MOTIVO_OP = this.idMotivoNoOp;
     this.iGuias = -1;
     this.nroFecha = 0;
     this.idMotivoNoOp = 0;
     this._ngbModal.dismissAll(modal);
-    // console.log(this.guiasTotal);
   }
 
   cerrarModalMotivos(modal) {
@@ -469,22 +462,366 @@ export class PanelcontrolViajesComponent implements OnInit {
     this._ngbModal.dismissAll(modal);
   }
 
-  // open(content) {
-  //   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-  //     this.closeResult = `Closed with: ${result}`;
-  //   }, (reason) => {
-  //     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  //   });
-  // }
+  actualizarLinea(i) {
+    let dataGuia;
+    let fhInicioViaje = null;
+    let fhLlegadaPc = null;
+    let fhIngresoPc = null;
+    let fhSalidaPc = null;
+    let fhLlegadaPd = null;
+    let fhIngresoPd = null;
+    let fhSalidaPd = null;
+    let fhFinViaje = null;
+    let idMotivo = 0;
 
-  // private getDismissReason(reason: any): string {
-  //   if (reason === ModalDismissReasons.ESC) {
-  //     return 'by pressing ESC';
-  //   } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-  //     return 'by clicking on a backdrop';
-  //   } else {
-  //     return  `with: ${reason}`;
-  //   }
-  // }
+    if (this.guias[i].FECHA_INICIO_VIAJE && this.guias[i].HORA_INICIO_VIAJE && this.guias[i].MIN_INICIO_VIAJE) {
+      let hora = this.guias[i].HORA_INICIO_VIAJE;
+      let minutos = this.guias[i].MIN_INICIO_VIAJE;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      if(this.guias[i].ID_MOTIVO_OP == 0) {
+        Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
+        return;
+      }
+      fhInicioViaje = this.guias[i].FECHA_INICIO_VIAJE + ' ' + this.guias[i].HORA_INICIO_VIAJE + ':' + this.guias[i].MIN_INICIO_VIAJE;
+      idMotivo = this.guias[i].ID_MOTIVO_OP;
+    }
+
+    if (this.guias[i].FECHA_LLEGADA_PC && this.guias[i].HORA_LLEGADA_PC && this.guias[i].MIN_LLEGADA_PC) {
+      let hora = this.guias[i].HORA_LLEGADA_PC;
+      let minutos = this.guias[i].MIN_LLEGADA_PC;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhLlegadaPc = this.guias[i].FECHA_LLEGADA_PC + ' ' + this.guias[i].HORA_LLEGADA_PC + ':' + this.guias[i].MIN_LLEGADA_PC;
+    }
+
+    if (this.guias[i].FECHA_INGRESO_PC && this.guias[i].HORA_INGRESO_PC && this.guias[i].MIN_INGRESO_PC) {
+      let hora = this.guias[i].HORA_INGRESO_PC;
+      let minutos = this.guias[i].MIN_INGRESO_PC;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhIngresoPc = this.guias[i].FECHA_INGRESO_PC + ' ' + this.guias[i].HORA_INGRESO_PC + ':' + this.guias[i].MIN_INGRESO_PC;
+    }
+
+    if (this.guias[i].FECHA_SALIDA_PC && this.guias[i].HORA_SALIDA_PC && this.guias[i].MIN_SALIDA_PC) {
+      let hora = this.guias[i].HORA_SALIDA_PC;
+      let minutos = this.guias[i].MIN_SALIDA_PC;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhSalidaPc = this.guias[i].FECHA_SALIDA_PC + ' ' + this.guias[i].HORA_SALIDA_PC + ':' + this.guias[i].MIN_SALIDA_PC;
+    }
+
+    if (this.guias[i].FECHA_LLEGADA_PD && this.guias[i].HORA_LLEGADA_PD && this.guias[i].MIN_LLEGADA_PD) {
+      let hora = this.guias[i].HORA_LLEGADA_PD;
+      let minutos = this.guias[i].MIN_LLEGADA_PD;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhLlegadaPd = this.guias[i].FECHA_LLEGADA_PD + ' ' + this.guias[i].HORA_LLEGADA_PD + ':' + this.guias[i].MIN_LLEGADA_PD;
+    }
+
+    if (this.guias[i].FECHA_INGRESO_PD && this.guias[i].HORA_INGRESO_PD && this.guias[i].MIN_INGRESO_PD) {
+      let hora = this.guias[i].HORA_INGRESO_PD;
+      let minutos = this.guias[i].MIN_INGRESO_PD;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhIngresoPd = this.guias[i].FECHA_INGRESO_PD + ' ' + this.guias[i].HORA_INGRESO_PD + ':' + this.guias[i].MIN_INGRESO_PD;
+    }
+
+    if (this.guias[i].FECHA_SALIDA_PD && this.guias[i].HORA_SALIDA_PD && this.guias[i].MIN_SALIDA_PD) {
+      let hora = this.guias[i].HORA_SALIDA_PD;
+      let minutos = this.guias[i].MIN_SALIDA_PD;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhSalidaPd = this.guias[i].FECHA_SALIDA_PD + ' ' + this.guias[i].HORA_SALIDA_PD + ':' + this.guias[i].MIN_SALIDA_PD;
+    }
+
+    if (this.guias[i].FECHA_FIN_VIAJE && this.guias[i].HORA_FIN_VIAJE && this.guias[i].MIN_FIN_VIAJE) {
+      let hora = this.guias[i].HORA_FIN_VIAJE;
+      let minutos = this.guias[i].MIN_FIN_VIAJE;
+      hora = parseInt(hora);
+      minutos = parseInt(minutos);
+      if (hora < 0 || hora > 23) {
+        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        return;
+      }
+      if (minutos < 0 || minutos > 59) {
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        return;
+      }
+      fhFinViaje = this.guias[i].FECHA_FIN_VIAJE + ' ' + this.guias[i].HORA_FIN_VIAJE + ':' + this.guias[i].MIN_FIN_VIAJE;
+    }
+
+    dataGuia = {
+      idGuia: this.guias[i].ID_GUIA,
+      fhInicioViaje,
+      fhLlegadaPc,
+      fhIngresoPc,
+      fhSalidaPc,
+      fhLlegadaPd,
+      fhIngresoPd,
+      fhSalidaPd,
+      fhFinViaje,
+      idUser: this._userService.user.ID_USER,
+      idMotivo
+    };
+   
+    this._registerService.updateLineaFechaGuiaControl(dataGuia).subscribe(
+      (response: any) => {
+        // console.log(response);
+      }
+    );
+  }
+
+  actualizarFechas() {
+    let dataGuia = [];
+    let fhInicioViaje = '';
+    let fhLlegadaPc = '';
+    let fhIngresoPc = '';
+    let fhSalidaPc = '';
+    let fhLlegadaPd = '';
+    let fhIngresoPd = '';
+    let fhSalidaPd = '';
+    let fhFinViaje = '';
+    let idMotivo = 0;
+    let idUser = this._userService.user.ID_USER
+
+    this.guiasTotal.forEach(function (guias) { 
+      if (guias.FECHA_INICIO_VIAJE && guias.HORA_INICIO_VIAJE && guias.MIN_INICIO_VIAJE) {
+        let hora = guias.HORA_INICIO_VIAJE;
+        let minutos = guias.MIN_INICIO_VIAJE;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhInicioViaje = guias.FECHA_INICIO_VIAJE + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_LLEGADA_PC && guias.HORA_LLEGADA_PC && guias.MIN_LLEGADA_PC) {
+        let hora = guias.HORA_LLEGADA_PC;
+        let minutos = guias.MIN_LLEGADA_PC;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhLlegadaPc = guias.FECHA_LLEGADA_PC + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_INGRESO_PC && guias.HORA_INGRESO_PC && guias.MIN_INGRESO_PC) {
+        let hora = guias.HORA_INGRESO_PC;
+        let minutos = guias.MIN_INGRESO_PC;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhIngresoPc = guias.FECHA_INGRESO_PC + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_SALIDA_PC && guias.HORA_SALIDA_PC && guias.MIN_SALIDA_PC) {
+        let hora = guias.HORA_SALIDA_PC;
+        let minutos = guias.MIN_SALIDA_PC;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhSalidaPc = guias.FECHA_SALIDA_PC + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_LLEGADA_PD && guias.HORA_LLEGADA_PD && guias.MIN_LLEGADA_PD) {
+        let hora = guias.HORA_LLEGADA_PD;
+        let minutos = guias.MIN_LLEGADA_PD;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhLlegadaPd = guias.FECHA_LLEGADA_PD + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_INGRESO_PD && guias.HORA_INGRESO_PD && guias.MIN_INGRESO_PD) {
+        let hora = guias.HORA_INGRESO_PD;
+        let minutos = guias.MIN_INGRESO_PD;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhIngresoPd = guias.FECHA_INGRESO_PD + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_SALIDA_PD && guias.HORA_SALIDA_PD && guias.MIN_SALIDA_PD) {
+        let hora = guias.HORA_SALIDA_PD;
+        let minutos = guias.MIN_SALIDA_PD;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhSalidaPd = guias.FECHA_SALIDA_PD + ' ' + hora + ':' + minutos;
+      }
+
+      if (guias.FECHA_FIN_VIAJE && guias.HORA_FIN_VIAJE && guias.MIN_FIN_VIAJE) {
+        let hora = guias.HORA_FIN_VIAJE;
+        let minutos = guias.MIN_FIN_VIAJE;
+        hora = parseInt(hora);
+        minutos = parseInt(minutos);
+        if (hora < 0) {
+         hora = '00';
+        }
+        if (hora > 23) {
+          hora = '23';
+        }
+        if (minutos < 0) {
+         minutos = '00'
+        }
+        if (minutos > 59) {
+          minutos = '59';
+        }
+        fhFinViaje = guias.FECHA_FIN_VIAJE + ' ' + hora + ':' + minutos;
+      }
+      idMotivo = guias.ID_MOTIVO_OP;
+      dataGuia.push({
+        idGuia: guias.ID_GUIA,
+        fhInicioViaje,
+        fhLlegadaPc,
+        fhIngresoPc,
+        fhSalidaPc,
+        fhLlegadaPd,
+        fhIngresoPd,
+        fhSalidaPd,
+        fhFinViaje,
+        idUser,
+        idMotivo
+      })
+  
+    });
+    this._registerService.updateFechasGuiaControl(dataGuia).subscribe(
+      (response: any) => {
+        // console.log(response);
+      }
+    );
+  }
 
 }
