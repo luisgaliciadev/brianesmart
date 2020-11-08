@@ -263,3 +263,12 @@
         color: white;
     } */
     
+    
+    .viewPdf {
+        display: block;
+        background: #ccc; 
+        border: solid 1px #ccc;
+        height: 800px;
+        /* overflow-y: scroll; */
+        overflow: auto;
+    }

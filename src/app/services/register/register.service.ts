@@ -1756,8 +1756,6 @@ getGuiasControlViaje(search,desde, hasta, idUser,idZona) {
 }
 // End Get Guias
 
- 
-
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1813,6 +1811,63 @@ getAgendaTelefonica(search) {
 }
 // Fin Get agenda telefonica
 
+// Get clasificacion documentos
+getClasificacionDocBriane() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/clasificaciondocbriane', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get clasificacion documentos
+
+// Get categoria documentos
+getCategoriaDocBriane(idClasificacion) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/categoriadocbriane/' + idClasificacion, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get categoria documentos
+
+// Get areas documentos
+getAreasBriane() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/areasbriane', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get areas documentos
+
+// Get documentos BRIANE
+getDocumentosBriane(idClasificacion, idCategoria, idArea) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = idClasificacion + '/' + idCategoria + '/' + idArea;
+  return this._http.get(this.URL + '/register/documentosbriane/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos BRIANE
+
 
 // Administracion
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1836,11 +1891,11 @@ marcajes() {
   
   let json = JSON.stringify(data);  
   let params = json;  
-  console.log(params);
+  // console.log(params);
   let headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this._http.post('https://app.relojcontrol.com/api/consultaMarcaciones/consulta',params, {headers})
   .pipe(map((res: any) => {
-    console.log(res);
+    // console.log(res);
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -1856,7 +1911,7 @@ prueba() {
   let headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this._http.get('https://jsonplaceholder.typicode.com/todos', {headers})
   .pipe(map((res: any) => {
-    console.log(res);
+    // console.log(res);
     return res;
   }))
   .pipe(catchError( (err: any) => {

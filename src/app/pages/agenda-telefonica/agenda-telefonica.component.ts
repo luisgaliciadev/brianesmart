@@ -21,7 +21,7 @@ export class AgendaTelefonicaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('this._router.url:', this._router.url);
+    // console.log('this._router.url:', this._router.url);
     this._userService.permisoModule(this._router.url);
   }
 
@@ -32,7 +32,7 @@ export class AgendaTelefonicaComponent implements OnInit {
     this.loading = true;
     this._registerService.getAgendaTelefonica(this.search).subscribe(
       (response: any) => {
-        console.log('response:', response);
+        // console.log('response:', response);
         this.agendas = response.agendas;
         this.loading = false;
       },
@@ -46,7 +46,7 @@ export class AgendaTelefonicaComponent implements OnInit {
   
     this._registerService.marcajes().subscribe(
       (response: any) => {
-        console.log('response:', response);
+        // console.log('response:', response);
       }
     );
   }
@@ -55,7 +55,7 @@ export class AgendaTelefonicaComponent implements OnInit {
   
     this._registerService.prueba().subscribe(
       (response: any) => {
-        console.log('response:', response);
+        // console.log('response:', response);
       }
     );
   }

@@ -163,6 +163,12 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_INICIO_VIAJE;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_INICIO_VIAJE.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -184,16 +190,20 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha === 2) {
-     
+    if (nroFecha === 2) {     
       if (!this.guias[i].FECHA_LLEGADA_PC  || !this.guias[i].HORA_LLEGADA_PC || !this.guias[i].MIN_LLEGADA_PC) {
         return;
-      }
-    
+      }    
       let hora = this.guias[i].HORA_LLEGADA_PC;
       let minutos = this.guias[i].MIN_LLEGADA_PC;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_LLEGADA_PC.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -215,10 +225,16 @@ export class PanelcontrolViajesComponent implements OnInit {
       if (!this.guias[i].FECHA_INGRESO_PC  || !this.guias[i].HORA_INGRESO_PC || !this.guias[i].MIN_INGRESO_PC) {
         return;
       }
-      let hora = this.guias[i].HORA_INICIO_VIAJE;
-      let minutos = this.guias[i].MIN_INICIO_VIAJE;
+      let hora = this.guias[i].HORA_INGRESO_PC;
+      let minutos = this.guias[i].MIN_INGRESO_PC;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_INGRESO_PC.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -240,10 +256,16 @@ export class PanelcontrolViajesComponent implements OnInit {
       if (!this.guias[i].FECHA_SALIDA_PC || !this.guias[i].HORA_SALIDA_PC || !this.guias[i].MIN_SALIDA_PC) {
         return;
       }
-      let hora = this.guias[i].HORA_INICIO_VIAJE;
-      let minutos = this.guias[i].MIN_INICIO_VIAJE;
+      let hora = this.guias[i].HORA_SALIDA_PC;
+      let minutos = this.guias[i].MIN_SALIDA_PC;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_SALIDA_PC.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -269,6 +291,12 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_LLEGADA_PD;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_LLEGADA_PD.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -290,10 +318,16 @@ export class PanelcontrolViajesComponent implements OnInit {
       if (!this.guias[i].FECHA_INGRESO_PD || !this.guias[i].HORA_INGRESO_PD || !this.guias[i].MIN_INGRESO_PD) {
         return;
       }
-      let hora = this.guias[i].HORA_INICIO_VIAJE;
-      let minutos = this.guias[i].MIN_INICIO_VIAJE;
+      let hora = this.guias[i].HORA_INGRESO_PD;
+      let minutos = this.guias[i].MIN_INGRESO_PD;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_INGRESO_PD.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -315,10 +349,16 @@ export class PanelcontrolViajesComponent implements OnInit {
       if (!this.guias[i].FECHA_SALIDA_PD || !this.guias[i].HORA_SALIDA_PD || !this.guias[i].MIN_SALIDA_PD) {
         return;
       }
-      let hora = this.guias[i].HORA_INICIO_VIAJE;
-      let minutos = this.guias[i].MIN_INICIO_VIAJE;
+      let hora = this.guias[i].HORA_SALIDA_PD;
+      let minutos = this.guias[i].MIN_SALIDA_PD;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_SALIDA_PD.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
         Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
         return;
@@ -342,6 +382,12 @@ export class PanelcontrolViajesComponent implements OnInit {
       }
       let hora = this.guias[i].HORA_FIN_VIAJE;
       let minutos = this.guias[i].MIN_FIN_VIAJE;
+      let arrayFecha = this.guias[i].FECHA_FIN_VIAJE.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto.', 'warning');
+        return;
+      }
       hora = parseInt(hora);
       minutos = parseInt(minutos);
       if (hora < 0 || hora > 23) {
@@ -479,12 +525,19 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_INICIO_VIAJE;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_INICIO_VIAJE.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de inicio de viaje.', 'warning');
+        return;
+      }
+      
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de inicio de viaje.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de inicio de viaje.', 'warning');
         return;
       }
       if(this.guias[i].ID_MOTIVO_OP == 0) {
@@ -500,12 +553,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_LLEGADA_PC;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_LLEGADA_PC.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de llegada a punto de carga.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de llegada a punto de carga.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de llegada a punto de carga.', 'warning');
         return;
       }
       fhLlegadaPc = this.guias[i].FECHA_LLEGADA_PC + ' ' + this.guias[i].HORA_LLEGADA_PC + ':' + this.guias[i].MIN_LLEGADA_PC;
@@ -516,12 +575,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_INGRESO_PC;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_INGRESO_PC.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de ingreso a punto de carga.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de ingreso a punto de carga.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de ingreso a punto de carga.', 'warning');
         return;
       }
       fhIngresoPc = this.guias[i].FECHA_INGRESO_PC + ' ' + this.guias[i].HORA_INGRESO_PC + ':' + this.guias[i].MIN_INGRESO_PC;
@@ -532,12 +597,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_SALIDA_PC;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_SALIDA_PC.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de salida de punto de carga.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de salida de punto de carga.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de salida de punto de carga.', 'warning');
         return;
       }
       fhSalidaPc = this.guias[i].FECHA_SALIDA_PC + ' ' + this.guias[i].HORA_SALIDA_PC + ':' + this.guias[i].MIN_SALIDA_PC;
@@ -548,12 +619,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_LLEGADA_PD;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_LLEGADA_PD.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de llegada a punto de descarga.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de llegada a punto de descarga.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de llegada a punto de descarga.', 'warning');
         return;
       }
       fhLlegadaPd = this.guias[i].FECHA_LLEGADA_PD + ' ' + this.guias[i].HORA_LLEGADA_PD + ':' + this.guias[i].MIN_LLEGADA_PD;
@@ -564,12 +641,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_INGRESO_PD;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_INGRESO_PD.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de ingreso a punto de descarga.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de ingreso a punto de descarga.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de ingreso a punto de descarga.', 'warning');
         return;
       }
       fhIngresoPd = this.guias[i].FECHA_INGRESO_PD + ' ' + this.guias[i].HORA_INGRESO_PD + ':' + this.guias[i].MIN_INGRESO_PD;
@@ -580,12 +663,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_SALIDA_PD;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_SALIDA_PD.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de salida de punto de descarga.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de salida de punto de descarga.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de salida de punto de descarga.', 'warning');
         return;
       }
       fhSalidaPd = this.guias[i].FECHA_SALIDA_PD + ' ' + this.guias[i].HORA_SALIDA_PD + ':' + this.guias[i].MIN_SALIDA_PD;
@@ -596,12 +685,18 @@ export class PanelcontrolViajesComponent implements OnInit {
       let minutos = this.guias[i].MIN_FIN_VIAJE;
       hora = parseInt(hora);
       minutos = parseInt(minutos);
+      let arrayFecha = this.guias[i].FECHA_FIN_VIAJE.split('-');
+      let anio = arrayFecha[0];
+      if (anio.length > 4) {
+        Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de fin de viaje.', 'warning');
+        return;
+      }
       if (hora < 0 || hora > 23) {
-        Swal.fire('Mensaje', 'Formato de hora incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de hora incorrecto en fecha de fin de viaje.', 'warning');
         return;
       }
       if (minutos < 0 || minutos > 59) {
-        Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
+        Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de fin de viaje.', 'warning');
         return;
       }
       fhFinViaje = this.guias[i].FECHA_FIN_VIAJE + ' ' + this.guias[i].HORA_FIN_VIAJE + ':' + this.guias[i].MIN_FIN_VIAJE;
@@ -647,6 +742,13 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_INICIO_VIAJE;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_INICIO_VIAJE.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de inicio de viaje.', 'warning');
+          return;
+        }
+        
         if (hora < 0) {
          hora = '00';
         }
@@ -667,6 +769,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_LLEGADA_PC;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_LLEGADA_PC.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de llegada en punto de carga.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -687,6 +795,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_INGRESO_PC;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_INGRESO_PC.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de ingreso a punto de carga.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -707,6 +821,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_SALIDA_PC;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_SALIDA_PC.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de salida de punto de carga.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -727,6 +847,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_LLEGADA_PD;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_LLEGADA_PD.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de llegada a punto de descarga.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -747,6 +873,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_INGRESO_PD;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_INGRESO_PD.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de ingreso a punto de descarga.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -767,6 +899,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_SALIDA_PD;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_SALIDA_PD.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de salida de punto de descarga.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -787,6 +925,12 @@ export class PanelcontrolViajesComponent implements OnInit {
         let minutos = guias.MIN_FIN_VIAJE;
         hora = parseInt(hora);
         minutos = parseInt(minutos);
+        let arrayFecha = this.guias.FECHA_FIN_VIAJE.split('-');
+        let anio = arrayFecha[0];
+        if (anio.length > 4) {
+          Swal.fire('Mensaje', 'Formato de año incorrecto en fecha de fin de viaje.', 'warning');
+          return;
+        }
         if (hora < 0) {
          hora = '00';
         }
@@ -823,5 +967,25 @@ export class PanelcontrolViajesComponent implements OnInit {
       }
     );
   }
+
+  // nextFocus() {
+  //   var directive = {
+  //     restrict: 'A',
+  //     link: function(scope, elem, attrs) {
+  //       elem.bind('keydown', function(e) {
+  //         var partsId = attrs.id.match(/field(\d{1})/);
+  //         var currentId = parseInt(partsId[1]);
+
+  //         var code = e.keyCode || e.which;
+  //         if (code === 13) {
+  //           e.preventDefault();
+  //           document.querySelector('#field' + (currentId + 1)).focus();
+  //         }
+  //       });
+  //     }
+  //   };
+  //   return directive;
+
+  // }
 
 }

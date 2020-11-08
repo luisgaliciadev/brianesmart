@@ -100,7 +100,7 @@ const pagesRoutes: Routes = [
             {path: 'noticias', component: NoticiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Noticias y Comunicaciones BRIANE'}},
             {path: 'control-viajes', component: PanelcontrolViajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Panel de Control de Viajes'}},
             {path: 'descuento-peaje', component: DescuentoPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Descuento de Peajes'}},
-            {path: 'repositorio-docs', component: RepositorioDocsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Repositorio de Documentos BRIANE'}},
+            {path: 'repositorio-docs', component: RepositorioDocsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos BRIANE'}},
         
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

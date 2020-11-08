@@ -1,11 +1,104 @@
-<p>repositorio-docs works!</p>
+<div class="col-12 animated fadeInRight">
+    <div class="row" *ngIf="loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+                    <div class="alert alert-warning text-center">
+                        <strong>Cargando...</strong>
+                        <br>
+                        <i class="fa fa-refresh fa-spin fa-2x"></i>
+                        <br>
+                        <span>Por Favor Espere...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div>
-    <button type="button" (click)="verPdf()">ver pdf</button>
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card" style="overflow: auto">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Clasificación de Documento:</label>
+                                <div class="input-group">
+                                    <select (change) = "getCategoriaDocBriane()" [(ngModel)]="idClasificacionDoc" name="idClasificacionDoc" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let clasificacion of clasificacionDoc" value = "{{clasificacion.ID_CLASIFICACION}}">{{clasificacion.DS_CLASIFICACION}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Categoría de Documento:</label>
+                                <div class="input-group">
+                                    <select (change) = "getCategoriaDocBriane()" [(ngModel)]="idCategoriaDoc" name="idCategoriaDoc" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let categoria of categoriasDoc" value = "{{categoria.ID_CATEGORIA}}">{{categoria.DS_CATEGORIA}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Aréa:</label>
+                                <div class="input-group">
+                                    <select (change) = "getDocumentosBriane()" [(ngModel)]="idArea" name="idArea" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let areas of areasBriane" value = "{{areas.ID_AREA}}">{{areas.DS_AREA}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Documento - Disponibles ({{totalDocumentos}}):</label>
+                        <div class="input-group">
+                            <select (change) = "verPdf(idDocumento)" [(ngModel)]="idDocumento" name="idDocumento" class="form-control" required>
+                                <option value = "">Seleccione</option>
+                                <option *ngFor="let documento of documentos" value = "{{documento.ID_DOCUMENTO}}">{{documento.DS_DOCUMENTO}}</option>
+                            </select>                                            
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row" *ngIf="loadingDoc">
+                        <div class="col-sm-12">
+                            <div class="alert alert-primary text-center">
+                                <strong>Cargado Documento</strong>
+                                <br>
+                                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                                <br>
+                                <span>Por Favor Espere...</span>
+                            </div>
+                        </div>    
+                    </div>
+
+                    <div class="row" *ngIf="pdfSrc.length === 0">
+                        <div class="col-sm-12">
+                            <div class="alert alert-primary text-center">
+                                <strong>Ningún Documento Disponible</strong>
+                            </div>
+                        </div>    
+                    </div>
+                                   
+                    <pdf-viewer class="viewPdf" *ngIf="!loadingDoc && pdfSrc.length > 0" [src]="pdfSrc" 
+                            [render-text]="false"
+                    ></pdf-viewer>                        
+
+                    <!-- <ngx-extended-pdf-viewer [src]="'assets/example.pdf'" useBrowserLocale="true" height="80vh">
+                    </ngx-extended-pdf-viewer> -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<pdf-viewer [src]="pdfSrc" 
-              [render-text]="true"
-              style="display: block;"
-  ></pdf-viewer>
 

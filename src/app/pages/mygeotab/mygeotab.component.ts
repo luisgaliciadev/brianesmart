@@ -218,7 +218,12 @@ export class MygeotabComponent implements OnInit {
     let options: any = {
       responsive: true,
       // We use these empty structures as placeholders for dynamic theming.
-      scales: { xAxes: [{}], yAxes: [{}] },
+      scales: { xAxes: [{
+        display : true , 
+          ticks : { 
+            fontSize : 8 
+          } 
+      }], yAxes: [{}] },
       plugins: {
         datalabels: {
           anchor: 'end',
@@ -266,7 +271,7 @@ export class MygeotabComponent implements OnInit {
           plugins,
           legends,
           type,
-          leyenda: 'Valores Acomulados por Vehiculo'
+          leyenda: 'Valores Acomulados por Vehículo'
         }
         // console.log(this.dataGrafico);
         this.loading = false;
