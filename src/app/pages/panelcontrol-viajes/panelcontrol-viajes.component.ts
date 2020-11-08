@@ -34,6 +34,8 @@ export class PanelcontrolViajesComponent implements OnInit {
   closeResult: string;
   iGuias = -1;
   nroFecha = 0;
+  fd;
+  fh;
   
   constructor(
     public _router: Router,
@@ -44,11 +46,11 @@ export class PanelcontrolViajesComponent implements OnInit {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
-    if (this.mes < 8) {
+    if (this.mes < 10) {
       this.mes = 0 + this.mes.toString(); 
     }
 
-    if (this.dia < 8) {
+    if (this.dia < 10) {
       this.dia = 0 + this.dia.toString(); 
     }
 
