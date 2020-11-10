@@ -49,13 +49,17 @@ export class ConsultaViaticoComponent implements OnInit {
     // this.getViaticos();
   }
 
-  getViaticos() {
+  async getViaticos() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loading = true;
     this._registerService.getResumenViaticosPorConductor(this.idConductor, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         
         this.resumenViaticos = response.viaticosResumen;
-        console.log(this.resumenViaticos);
+        // console.log(this.resumenViaticos);
         this.totalRegistros = this.resumenViaticos.length;
         this.loading = false;
       },
@@ -80,7 +84,11 @@ export class ConsultaViaticoComponent implements OnInit {
     );
   }
 
-  descargar(archivo) {   
+  async descargar(archivo) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }   
     window.open(this.URL +'/image/viaticos-conductor/' + archivo);   
   }
 

@@ -25,7 +25,11 @@ export class AgendaTelefonicaComponent implements OnInit {
     this._userService.permisoModule(this._router.url);
   }
 
-  getAgendaTelefonica() {
+  async getAgendaTelefonica() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.search === '') {
       return;
     }

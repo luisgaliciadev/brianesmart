@@ -55,7 +55,11 @@ export class VerdenunciaComponent implements OnInit {
     this._router.navigate(['/denuncias']);
   }
 
-  descargar(archivo) {
+  async descargar(archivo) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     window.open(this.URL +'/image/denuncia/' + archivo);
     // console.log(URL);
   }

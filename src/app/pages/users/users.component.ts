@@ -55,7 +55,11 @@ export class UsersComponent implements OnInit {
   }
 
   // Listar usuarios
-  getUsers(search) {
+  async getUsers(search) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.activeButton = false;
     this.search = search;
     // tslint:disable-next-line: prefer-const
@@ -80,7 +84,11 @@ export class UsersComponent implements OnInit {
   }
 
   // Borra Usuario
-  deleteUser(idUser) {
+ async deleteUser(idUser) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.deleteUser(idUser).subscribe(
       () => {
         this.getUsers(this.search);
@@ -90,7 +98,11 @@ export class UsersComponent implements OnInit {
   }
 
   // Exportar a excel listado de usuarios
-  getUsersExcel() {
+  async getUsersExcel() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }
@@ -108,7 +120,11 @@ export class UsersComponent implements OnInit {
     );
   }
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }

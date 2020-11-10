@@ -34,11 +34,19 @@ export class RolesUserComponent implements OnInit {
     );
   }
 
-  saveRole(dsRole) {
+  async saveRole(dsRole) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.registerRole(dsRole).subscribe( () => { this.getRoles(); });
   }
 
-  updateRole(role) {
+  async updateRole(role) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (role.DS_ROLE === '') {
       Swal.fire('Mensaje', 'Debe indicar una descripcion para el rol de usuario.', 'warning');
       return;
@@ -47,7 +55,11 @@ export class RolesUserComponent implements OnInit {
     }
   }
 
-  deleteRole(role) {
+  async deleteRole(role) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.deleteRole(role).subscribe( () => { this.getRoles(); });
   }
 

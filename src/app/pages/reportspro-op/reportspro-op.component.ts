@@ -53,7 +53,11 @@ export class ReportsproOpComponent implements OnInit {
     // this.getReportsOp();
   }
 
-  getReportsOp() {
+  async getReportsOp() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loading = true;
     this._registerService.getReportsPro(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
@@ -74,7 +78,11 @@ export class ReportsproOpComponent implements OnInit {
     );
   }
 
-  aprobarReporte(id, idZona) {
+  async aprobarReporte(id, idZona) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -108,7 +116,11 @@ export class ReportsproOpComponent implements OnInit {
     });
   }
 
-  deleteReportOp(id) {
+  async deleteReportOp(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -172,7 +184,11 @@ export class ReportsproOpComponent implements OnInit {
     this.filtroPagina();
   }
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.loadReport();
     if (this.search.length === 0) {
       window.open('#/listoreportpro/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');

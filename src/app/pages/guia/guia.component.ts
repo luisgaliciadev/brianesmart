@@ -117,7 +117,11 @@ export class GuiaComponent implements OnInit {
     );
   }
 
-  registerGuia(data) {    
+  async registerGuia(data) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    } 
     // console.log(data);
     // return;
     this.registrando = true;
@@ -217,7 +221,11 @@ export class GuiaComponent implements OnInit {
     );
   }
 
-  updateGuia(data) {      
+  async updateGuia(data) {  
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }    
     this.registrando = true;
     this.guia.FECHA = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
     // this.guia.FH_TRASLADO = data.fhTraslado + ' ' + data.horaTraslado + ':' + data.minTraslado;
@@ -282,7 +290,11 @@ export class GuiaComponent implements OnInit {
     );
   }
 
-  deleteGuia() {
+  async deleteGuia() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',

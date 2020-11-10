@@ -73,6 +73,7 @@ import { NoticiasComponent } from './noticias/noticias.component';
 import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.component';
 import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
 import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.component';
+import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-qwantec.component';
 
 @NgModule({
     declarations: [
@@ -128,7 +129,8 @@ import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.co
         NoticiasComponent,
         DescuentoPeajesComponent,
         PanelcontrolViajesComponent,
-        RepositorioDocsComponent
+        RepositorioDocsComponent,
+        IntegracionQwantecComponent
     ],
     exports: [
         // PagesComponent,

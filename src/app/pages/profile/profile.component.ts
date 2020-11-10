@@ -37,7 +37,11 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  saveProfile(user: User) {
+  async saveProfile(user: User) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     //console.log(user);
     //return;
     this.user.NAME = user.NAME;
@@ -83,11 +87,19 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  changeImage() {
+  async changeImage() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.changeImage(this.imageUpload, this.user.ID_USER);
   }
 
-  updatePassword(user) {
+  async updatePassword(user) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
 
     if (user.passReset === user.passReset2) {
       

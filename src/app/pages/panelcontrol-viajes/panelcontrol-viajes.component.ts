@@ -81,7 +81,11 @@ export class PanelcontrolViajesComponent implements OnInit {
     );
   }
 
-  getGuias(search) {
+  async getGuias(search) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.idZona == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar una zona.', 'warning');
       return;
@@ -113,49 +117,54 @@ export class PanelcontrolViajesComponent implements OnInit {
   }
 
    // Exportar a excel listado de usuarios
-   getGuiasExcel() {
-    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, 0).subscribe(
-      (response: any) => {
-        let fileBlob = response;
-        let blob = new Blob([fileBlob], {
-          type: "application/vnd.ms-excel"
-        });
-        // use file saver npm package for saving blob to file
-        saveAs(blob, `ListadoGuias.xlsx`);
-      }
-    );
-  }
+  //  getGuiasExcel() {
+  //   this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, 0).subscribe(
+  //     (response: any) => {
+  //       let fileBlob = response;
+  //       let blob = new Blob([fileBlob], {
+  //         type: "application/vnd.ms-excel"
+  //       });
+  //       // use file saver npm package for saving blob to file
+  //       saveAs(blob, `ListadoGuias.xlsx`);
+  //     }
+  //   );
+  // }
 
-  deleteGuia(id) {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    })    
-    swalWithBootstrapButtons.fire({
-      title: 'Anular Registro',
-      text: "¿Desea anular este registro? No podrás revertir esto!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this._registerService.deleteGuia(id).subscribe(
-          (response: any) => {
-            if(response) {
-              this.getGuias(this.search);
-            }
-          }
-        );
-      } 
-    });
-  }
+  // deleteGuia(id) {
+  //   const swalWithBootstrapButtons = Swal.mixin({
+  //     customClass: {
+  //       confirmButton: 'btn btn-success',
+  //       cancelButton: 'btn btn-danger'
+  //     },
+  //     buttonsStyling: false
+  //   })    
+  //   swalWithBootstrapButtons.fire({
+  //     title: 'Anular Registro',
+  //     text: "¿Desea anular este registro? No podrás revertir esto!",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonText: 'Si',
+  //     cancelButtonText: 'No',
+  //     reverseButtons: true
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       this._registerService.deleteGuia(id).subscribe(
+  //         (response: any) => {
+  //           if(response) {
+  //             this.getGuias(this.search);
+  //           }
+  //         }
+  //       );
+  //     } 
+  //   });
+  // }
 
-  actualizarFechaHora(i, nroFecha) {
+   async actualizarFechaHora(i, nroFecha) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+
     var dataGuia;
     if (nroFecha === 1) {     
       if (!this.guias[i].FECHA_INICIO_VIAJE || !this.guias[i].HORA_INICIO_VIAJE || !this.guias[i].MIN_INICIO_VIAJE) {
@@ -411,6 +420,7 @@ export class PanelcontrolViajesComponent implements OnInit {
 
     this._registerService.updateFechaGuiaControl(dataGuia).subscribe(
       (response: any) => {
+        console.log(response);
       },
       (error: any) => {
       }
@@ -453,14 +463,14 @@ export class PanelcontrolViajesComponent implements OnInit {
     this.filtroPagina();
   }
 
-  printer() {
-    this._userService.loadReport();
-    if (this.search.length === 0) {
-      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
-    } else {
-      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
-    }
-  }
+  // printer() {
+  //   this._userService.loadReport();
+  //   if (this.search.length === 0) {
+  //     window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
+  //   } else {
+  //     window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
+  //   }
+  // }
 
   // Limpiar busqueda
   clear() {
@@ -510,7 +520,11 @@ export class PanelcontrolViajesComponent implements OnInit {
     this._ngbModal.dismissAll(modal);
   }
 
-  actualizarLinea(i) {
+  async actualizarLinea(i) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     let dataGuia;
     let fhInicioViaje = null;
     let fhLlegadaPc = null;
@@ -725,7 +739,11 @@ export class PanelcontrolViajesComponent implements OnInit {
     );
   }
 
-  actualizarFechas() {
+  async actualizarFechas() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     let dataGuia = [];
     let fhInicioViaje = '';
     let fhLlegadaPc = '';

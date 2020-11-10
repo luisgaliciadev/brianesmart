@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../models/user.model';
 import { URL_SERVICES } from '../../config/config';
 import { map, catchError } from 'rxjs/operators';
@@ -8,11 +8,10 @@ import { UploadFileService } from '../uploadFile/upload-file.service';
 import { CompanyUser } from '../../models/companyUser.model';
 import { AddressCompany } from '../../models/addressCompany.model';
 import { Module } from '../../models/module.model';
-import { throwError, Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 
 // Others
 import Swal from 'sweetalert2';
-
 
 @Injectable({
   providedIn: 'root'
@@ -29,11 +28,9 @@ export class UserService {
   public report;
 
   constructor(
-    // tslint:disable-next-line: variable-name
-    public _http: HttpClient,
-    // tslint:disable-next-line: variable-name
-    public _router: Router,
-    // tslint:disable-next-line: variable-name
+    
+    public _http: HttpClient,    
+    public _router: Router,    
     public _uploadFileService: UploadFileService
   ) {
       this.URL = URL_SERVICES;
@@ -66,9 +63,54 @@ export class UserService {
     }
   }
 
+
+  //Validar token
+  validarToken() {
+    let token = this.token;   
+    let payload = JSON.parse( atob(token.split('.')[1]));
+    let expired = this.veryfyTokenVen(payload.exp);
+    if (expired) {
+      Swal.fire('Mensaje', 'La sesión ha caducado.', 'warning');
+      this.logout();
+      return false;
+    }
+    return this.veryfyTokenRenew(payload.exp);
+  }
+  
+  // Verificar fecha de vencimiento de token
+  veryfyTokenVen(dateTokenExp: number) {
+    let timeNow = new Date().getTime() / 1000;
+    if (dateTokenExp < timeNow) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // Verificar si hay que renovar token
+  veryfyTokenRenew(dateTokenExp: number): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      let tokenExp = new Date( dateTokenExp * 1000);
+      let nowDate = new Date();
+      nowDate.setTime(nowDate.getTime() + (1 * 60 * 60 * 1000));
+      if ( tokenExp.getTime() > nowDate.getTime() ) {
+        resolve(true);
+        // console.log('no va a vencer');
+      } else {
+        this.renewToken().subscribe(
+          () => {
+            resolve(true);
+          }, () => {
+            this.logout();
+            reject(false);
+          }
+        );
+      }
+    });
+  }
+
   // Renovar token
-  renewToken() {
-   
+  renewToken() {   
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
     return this._http.get(this.URL + '/login/renewtoken', {headers})
               .pipe(map( (res: any) => {
@@ -84,6 +126,8 @@ export class UserService {
                }));
   }
   // Fin de Renovar token
+
+
 
   
   //Permiso a modulo

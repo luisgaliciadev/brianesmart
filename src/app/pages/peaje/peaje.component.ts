@@ -135,7 +135,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  registerPeaje() {  
+  async registerPeaje() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if ( this.peaje.ID_ORDEN_SERVICIO == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar una orden de servicio', 'warning');
       return;
@@ -157,7 +161,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  updatePeaje() { 
+  async updatePeaje() { 
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if ( this.peaje.ID_ORDEN_SERVICIO == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar una orden de servicio', 'warning');
       return;
@@ -194,7 +202,11 @@ export class PeajeComponent implements OnInit {
     });
   }
 
-  deletePeaje() {
+  async deletePeaje() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -269,7 +281,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  agregarConductor() {
+  async agregarConductor() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if ( this.peaje.ID_ORDEN_SERVICIO == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar una orden de servicio', 'warning');
       return;
@@ -369,7 +385,11 @@ export class PeajeComponent implements OnInit {
     }
   }
 
-  eliminarConductor(i, idDeta) {
+  async eliminarConductor(i, idDeta) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -407,7 +427,11 @@ export class PeajeComponent implements OnInit {
     });
   }
 
-  registrarFact() {
+  async registrarFact() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.idTipoDocPeaje == 0) {
       alert('1');
       return;
@@ -423,7 +447,6 @@ export class PeajeComponent implements OnInit {
       return;
     }
 
-    
     // this.registrando = true;
     let factura = {
       idPeaje: this.peaje.ID_PEAJE,
@@ -489,7 +512,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  deletePeajeFact(id, idDeta, dni, conductor) {
+  async deletePeajeFact(id, idDeta, dni, conductor) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -520,7 +547,11 @@ export class PeajeComponent implements OnInit {
     });
   }
 
-  updateDetaPeaje(idDeta,i) {
+  async updateDetaPeaje(idDeta,i) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     var valor = 0;
     if (this.conductores[i].depositado) {
       valor = 1;
@@ -539,7 +570,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  updateAllDetaPeaje(valor) {
+  async updateAllDetaPeaje(valor) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._registerService.updateAllDetaPeaje(this.peaje.ID_PEAJE, valor).subscribe(
       (response: any) => {
         // console.log(response);
@@ -548,7 +583,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  getExcelPeajeTelecredito() {
+  async getExcelPeajeTelecredito() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._registerService.getExcelPeajeTelecredito(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -561,7 +600,11 @@ export class PeajeComponent implements OnInit {
     );
   }
 
-  procesarSolicitud() {
+  async procesarSolicitud() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     var fgDepositado;
     this.conductores.forEach(function (detalle) { 
         if (detalle.depositado) {
@@ -607,7 +650,11 @@ export class PeajeComponent implements OnInit {
     });
   }
 
-  liquidarSolicitud() {
+  async liquidarSolicitud() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     // var fgDepositado;
     // this.conductores.forEach(function (detalle) { 
     //     if (detalle.depositado) {
@@ -653,7 +700,11 @@ export class PeajeComponent implements OnInit {
     });
   }
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.loadReport();
     window.open('#/resumenpeaje/' + this.peaje.ID_PEAJE, '0' , '_blank');
   }

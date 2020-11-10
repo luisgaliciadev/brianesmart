@@ -60,7 +60,11 @@ export class ViajesCondComponent implements OnInit {
     // this.getVaijesConductor();
   }
 
-  getVaijesConductor() {
+  async getVaijesConductor() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     // if (this.idZona == 0) {
     //   return;
     // }
@@ -83,7 +87,11 @@ export class ViajesCondComponent implements OnInit {
     );
   }
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }

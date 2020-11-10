@@ -53,7 +53,11 @@ export class DescuentoPeajesComponent implements OnInit {
     // this.getPeajeSaldos(this.search);
   }
 
-  getPeajeDescuentos(search) {
+  async getPeajeDescuentos(search) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loading = true;
     if (search === '') {
       search = '0';
@@ -77,7 +81,11 @@ export class DescuentoPeajesComponent implements OnInit {
     );
   }
 
-  getExcelDescuentoPeaje() {
+  async getExcelDescuentoPeaje() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }
@@ -131,7 +139,11 @@ export class DescuentoPeajesComponent implements OnInit {
   }
 
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }
@@ -179,7 +191,11 @@ export class DescuentoPeajesComponent implements OnInit {
     }
   }
 
-  descontarSaldos() {     
+  async descontarSaldos() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }     
     var saldos = [];    
     this.peajesTotal.forEach(function (saldo) {
       if (saldo.FG_DESCONTADO && saldo.FG_DESCONTADO_AUX === 0) {

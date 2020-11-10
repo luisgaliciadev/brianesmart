@@ -58,7 +58,11 @@ export class PermissionsComponent implements OnInit {
     );
   }
 
-  getsRolModules(idRole) {
+  async getsRolModules(idRole) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.getsRolModules(idRole).subscribe(
       (response: any) => {
         // console.log(response);
@@ -69,7 +73,11 @@ export class PermissionsComponent implements OnInit {
     );
   }
 
-  updateRolesModules(modules) {
+  async updateRolesModules(modules) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     // console.log(modules);
     this._userService.updateRolesModules(modules).subscribe(
       (response: any) => {

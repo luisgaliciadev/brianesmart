@@ -54,7 +54,11 @@ export class PeajesComponent implements OnInit {
     // this.getPeajes(this.search);
   }
 
-  getPeajes(search) {
+  async getPeajes(search) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loading = true;
     if (search === '') {
       search = '0';
@@ -94,7 +98,11 @@ export class PeajesComponent implements OnInit {
   //   );
   // }
 
-  deletePeaje(id) {
+  async deletePeaje(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -159,7 +167,11 @@ export class PeajesComponent implements OnInit {
   }
 
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }

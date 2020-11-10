@@ -69,7 +69,11 @@ export class RepositorioDocsComponent implements OnInit {
     );
   }
 
-  getCategoriaDocBriane() {
+  async getCategoriaDocBriane() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.idClasificacionDoc === '') {
       this.idCategoriaDoc = '';
       this.idArea = '';
@@ -97,7 +101,11 @@ export class RepositorioDocsComponent implements OnInit {
     );
   }
 
-  getDocumentosBriane() {
+  async getDocumentosBriane() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.idCategoriaDoc === '' || this.idArea === '') {
       this.idDocumento = '';
       this.pdfSrc = '';
@@ -120,7 +128,11 @@ export class RepositorioDocsComponent implements OnInit {
     );
   }
 
-  verPdf(idDocumento) {
+  async verPdf(idDocumento) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loadingDoc = true;
     const documento = this.documentos.find( documento => documento.ID_DOCUMENTO == idDocumento );
     if (documento) {

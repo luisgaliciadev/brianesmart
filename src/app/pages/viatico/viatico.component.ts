@@ -183,7 +183,11 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  deleteViaticos() { 
+  async deleteViaticos() { 
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -212,7 +216,11 @@ export class ViaticoComponent implements OnInit {
     });
   }
 
-  aprobarViaticos() {
+  async aprobarViaticos() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -249,7 +257,11 @@ export class ViaticoComponent implements OnInit {
     });
   }
 
-  getProductividadop() {
+  async getProductividadop() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.nroSemana == 0 || this.year == 0 || this.idZona == 0) {
       return;
     }
@@ -448,7 +460,11 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  guardarViatico() { 
+  async guardarViatico() { 
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.productividadOps.length == 0) {
       Swal.fire('Mensaje', 'No existen registros a guardar.', 'warning');
       return;
@@ -467,7 +483,11 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  updateViatico(i, nroDia) {  
+  async updateViatico(i, nroDia) {  
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.actualizando = true;
     this._registerService.updateViatico(this.productividadOps[i], this.nroSemana, this.year, this.idZona,this.montoTotalViaticos,this.idViatico,nroDia).subscribe(
       (response: any) => {        
@@ -482,7 +502,11 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  generarComprobantes(id) {
+  async generarComprobantes(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -516,7 +540,11 @@ export class ViaticoComponent implements OnInit {
     });
   }
 
-  verResumen(id) {
+  async verResumen(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.loadReport();    
     window.open('#/listresumenviaticos/' + id, '0', '_blank');
   }
@@ -688,7 +716,11 @@ export class ViaticoComponent implements OnInit {
     
   }
 
-  generarNuevoComprobanteConductor(idConductor) {
+  async generarNuevoComprobanteConductor(idConductor) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     // console.log(idConductor);
     this.loading = true;
     this._registerService.generarNuevoComprobanteConductor(this.idViatico,idConductor).subscribe(
@@ -704,7 +736,11 @@ export class ViaticoComponent implements OnInit {
     );
   }
 
-  descargar(archivo) {   
+  async descargar(archivo) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }  
     window.open(this.URL +'/image/viaticos-conductor/' + archivo);   
   }
 

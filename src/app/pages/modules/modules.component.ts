@@ -82,7 +82,11 @@ export class ModulesComponent implements OnInit {
     );
   }
 
-  saveModule(datos) {
+  async saveModule(datos) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.modules = datos;
     // console.log(this.modules);
     this._userService.registerModule(datos).subscribe(
@@ -94,7 +98,11 @@ export class ModulesComponent implements OnInit {
     );
   }
 
-  deleteModule(idModule) {
+  async deleteModule(idModule) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.deleteModule(idModule).subscribe(
       (response: any) => {
         this.getTmenu();
@@ -105,7 +113,11 @@ export class ModulesComponent implements OnInit {
     );
   }
 
-  moveModule(module: Module, move) {
+  async moveModule(module: Module, move) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.modules = module;
     // console.log(this.modules);
     // return;

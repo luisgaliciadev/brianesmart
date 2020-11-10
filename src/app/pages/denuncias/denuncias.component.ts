@@ -37,7 +37,11 @@ export class DenunciasComponent implements OnInit {
   }
 
   // Listar denuncias
-  getDenuncias(search) {
+  async getDenuncias(search) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.activeButton = false;
     this.search = search;
 
@@ -55,7 +59,11 @@ export class DenunciasComponent implements OnInit {
   }
 
   // Borrar denuncia
-  deleteDenuncia(id) {
+  async deleteDenuncia(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._registerService.deleteDenuncia(id).subscribe(
       (response: any) => {
         // console.log(response);
@@ -65,7 +73,11 @@ export class DenunciasComponent implements OnInit {
   }
 
   // Exportar a excel listado de empresas
-  getDenunciasExcel() {
+  async getDenunciasExcel() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }
@@ -107,7 +119,11 @@ export class DenunciasComponent implements OnInit {
     this.getDenuncias(this.search);
   }
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }

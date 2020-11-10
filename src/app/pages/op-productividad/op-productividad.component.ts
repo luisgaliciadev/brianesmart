@@ -157,7 +157,11 @@ export class OpProductividadComponent implements OnInit {
     );
   }
 
-  getProductividadop() {
+  async getProductividadop() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.nroSemana == 0 || this.year == 0 || this.idZona == 0) {
       return;
     }
@@ -178,7 +182,11 @@ export class OpProductividadComponent implements OnInit {
     );
   }
 
-  actualiazarViajes() {
+  async actualiazarViajes() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.nroSemana == 0 || this.year == 0 || this.idZona == 0) {
       return;
     }
@@ -348,7 +356,11 @@ export class OpProductividadComponent implements OnInit {
     );
   }
 
-  guardarRepOp() {
+  async guardarRepOp() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.productividadOps.length == 0) {
       Swal.fire('Mensaje', 'No existen registros a guardar.', 'warning');
       return;
@@ -386,7 +398,11 @@ export class OpProductividadComponent implements OnInit {
     );
   }
 
-  updateRepOp(i,nroDia) {
+  async updateRepOp(i,nroDia) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.idReport == 0) {
       return;
     }
@@ -401,7 +417,11 @@ export class OpProductividadComponent implements OnInit {
     );
   }
 
-  deleteDetaRepOp(i,nroDia) {
+  async deleteDetaRepOp(i,nroDia) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (this.idReport == 0) {
       return;
     }
@@ -430,7 +450,11 @@ export class OpProductividadComponent implements OnInit {
     );
   }
 
-  aprobarReporte(id) {
+  async aprobarReporte(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -466,7 +490,11 @@ export class OpProductividadComponent implements OnInit {
     });
   }
 
-  deleteReportOp() {
+  async deleteReportOp() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',

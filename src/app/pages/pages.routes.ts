@@ -58,6 +58,7 @@ import { NoticiasComponent } from './noticias/noticias.component';
 import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
 import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.component';
 import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.component';
+import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-qwantec.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -101,6 +102,7 @@ const pagesRoutes: Routes = [
             {path: 'control-viajes', component: PanelcontrolViajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Panel de Control de Viajes'}},
             {path: 'descuento-peaje', component: DescuentoPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Descuento de Peajes'}},
             {path: 'repositorio-docs', component: RepositorioDocsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos BRIANE'}},
+            {path: 'integracion-qwantec', component: IntegracionQwantecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Integraciones con Sistema Qwantec'}},
         
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

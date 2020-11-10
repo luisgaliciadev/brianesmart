@@ -54,7 +54,11 @@ export class ConsultaGuiasComponent implements OnInit {
     // this.getGuias(this.search);
   }
 
-  getGuias(search) {
+  async getGuias(search) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loading = true;
     if (search === '') {
       search = '0';
@@ -78,7 +82,11 @@ export class ConsultaGuiasComponent implements OnInit {
   }
 
    // Exportar a excel listado de usuarios
-   getGuiasExcel() {
+   async getGuiasExcel() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }
@@ -164,7 +172,11 @@ export class ConsultaGuiasComponent implements OnInit {
   }
 
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }

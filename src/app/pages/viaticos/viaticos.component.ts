@@ -52,7 +52,11 @@ export class ViaticosComponent implements OnInit {
     // this.getViaticos();
   }
 
-  getViaticos() {
+  async getViaticos() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.loading = true;
     this._registerService.getViaticos(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
@@ -72,7 +76,11 @@ export class ViaticosComponent implements OnInit {
     );
   }
 
-  deleteViaticos(id) {
+  async deleteViaticos(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -101,7 +109,11 @@ export class ViaticosComponent implements OnInit {
     });
   }
 
-  aprobarViaticos(id) {
+  async aprobarViaticos(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -130,7 +142,11 @@ export class ViaticosComponent implements OnInit {
     });
   }
 
-  generarComprobantes(id) {
+  async generarComprobantes(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -193,7 +209,11 @@ export class ViaticosComponent implements OnInit {
     this.filtroPagina();
   }
 
-  printer() {
+  async printer() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if(this.totalRegistros === 0) {
       return;
     }
@@ -205,7 +225,11 @@ export class ViaticosComponent implements OnInit {
     }
   }
 
-  verResumen(id) {
+  async verResumen(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this._userService.loadReport();    
     window.open('#/listresumenviaticos/' + id, '0', '_blank');
   }
