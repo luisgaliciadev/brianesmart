@@ -14,7 +14,7 @@ import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class PanelcontrolViajesComponent implements OnInit {
   guias = [];
   desde = 0;
-  hasta = 8;
+  hasta = 10;
   loading = false;
   totalRegistros = 0;
   search = '';
@@ -97,12 +97,12 @@ export class PanelcontrolViajesComponent implements OnInit {
     this._registerService.getGuiasControlViaje(search, this.fhDesde, this.fhHasta, 0, this.idZona).subscribe(
       (response: any) => {
         this.desde = 0;
-        this.hasta = 8;
+        this.hasta = 10;
         this.pagina = 1;
         this.totalRegistros = response.guias.length;
         this.guiasTotal = response.guias;
         this.guias = this.guiasTotal.slice(this.desde, this.hasta);
-        this.paginas = Math.ceil(this.totalRegistros / 8);
+        this.paginas = Math.ceil(this.totalRegistros / 10);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
@@ -159,12 +159,12 @@ export class PanelcontrolViajesComponent implements OnInit {
   //   });
   // }
 
-   async actualizarFechaHora(i, nroFecha) {
+
+  async actualizarFechaHora(i, nroFecha) {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
     }
-
     var dataGuia;
     if (nroFecha === 1) {     
       if (!this.guias[i].FECHA_INICIO_VIAJE || !this.guias[i].HORA_INICIO_VIAJE || !this.guias[i].MIN_INICIO_VIAJE) {
@@ -188,10 +188,15 @@ export class PanelcontrolViajesComponent implements OnInit {
         Swal.fire('Mensaje', 'Formato de minutos incorrecto.', 'warning');
         return;
       }
-      if(this.guias[i].ID_MOTIVO_OP == 0) {
+      
+      let fechaInicio = this.guias[i].FECHA_INICIO_VIAJE + ' ' + this.guias[i].HORA_INICIO_VIAJE + ':' + this.guias[i].MIN_INICIO_VIAJE;
+      let tiempoTardanza = await this._registerService.tiempoTardanzaControlViajes(fechaInicio,this.guias[i].ID_TRACTO);
+      
+      if(this.guias[i].ID_MOTIVO_OP == 0 && tiempoTardanza > 2) {
         Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
         return;
       }
+
       dataGuia = {
         idGuia: this.guias[i].ID_GUIA,
         fecha: this.guias[i].FECHA_INICIO_VIAJE + ' ' + this.guias[i].HORA_INICIO_VIAJE + ':' + this.guias[i].MIN_INICIO_VIAJE,
@@ -199,6 +204,9 @@ export class PanelcontrolViajesComponent implements OnInit {
         nroFecha,
         idMotivo: this.guias[i].ID_MOTIVO_OP
       };
+
+      // console.log('dataGuia:', dataGuia);
+      // return;
     }
 
     if (nroFecha === 2) {     
@@ -387,7 +395,7 @@ export class PanelcontrolViajesComponent implements OnInit {
       };
     }
 
-    if (nroFecha === 8) {      
+    if (nroFecha === 10) {      
       if (!this.guias[i].FECHA_FIN_VIAJE || !this.guias[i].HORA_FIN_VIAJE || !this.guias[i].MIN_FIN_VIAJE) {
         return;
       }
@@ -420,7 +428,7 @@ export class PanelcontrolViajesComponent implements OnInit {
 
     this._registerService.updateFechaGuiaControl(dataGuia).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
       },
       (error: any) => {
       }
@@ -440,16 +448,16 @@ export class PanelcontrolViajesComponent implements OnInit {
     this.pagina = this.pagina + pagina;
 
     if (this.desde >= this.totalRegistros) {
-      this.desde = this.desde - 8;
-      this.hasta = this.desde + 8;
+      this.desde = this.desde - 10;
+      this.hasta = this.desde + 10;
     }
 
     if (this.desde <= 0) {
       this.desde = 0;
     }
 
-    if (this.hasta <= 8) {
-      this.hasta = 8;
+    if (this.hasta <= 10) {
+      this.hasta = 10;
     }
 
     if (this.pagina >= this.paginas) {
@@ -488,24 +496,28 @@ export class PanelcontrolViajesComponent implements OnInit {
     }
   }
 
-  motivosModal(i, modal) { 
+  motivosModal(i, modal, event) {
     this.iGuias = i;
-    if (this.guias[i].ID_MOTIVO_OP == 0) {     
+    if (this.guias[i].ID_MOTIVO_OP == 0) {   
+      event.srcElement.blur (); 
+      event.preventDefault ();   
       this._ngbModal.open(modal);
     }
   }
 
-  motivosModalDbclick(i, modal) { 
+  motivosModalDbclick(i, modal, event) { 
     this.iGuias = i;
     this.idMotivoNoOp = this.guias[i].ID_MOTIVO_OP;
+    event.srcElement.blur (); 
+    event.preventDefault ();  
     this._ngbModal.open(modal);
   }
 
   actualizarMotivo(modal) {
-    if(this.idMotivoNoOp == 0) {
-      Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
-      return;
-    }
+    // if(this.idMotivoNoOp == 0) {
+    //   Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
+    //   return;
+    // }
     this.guias[this.iGuias].ID_MOTIVO_OP = this.idMotivoNoOp;
     this.iGuias = -1;
     this.nroFecha = 0;
@@ -556,12 +568,18 @@ export class PanelcontrolViajesComponent implements OnInit {
         Swal.fire('Mensaje', 'Formato de minutos incorrecto en fecha de inicio de viaje.', 'warning');
         return;
       }
-      if(this.guias[i].ID_MOTIVO_OP == 0) {
+      
+      fhInicioViaje = this.guias[i].FECHA_INICIO_VIAJE + ' ' + this.guias[i].HORA_INICIO_VIAJE + ':' + this.guias[i].MIN_INICIO_VIAJE;
+      idMotivo = this.guias[i].ID_MOTIVO_OP;
+      
+      let tiempoTardanza = await this._registerService.tiempoTardanzaControlViajes(fhInicioViaje,this.guias[i].ID_TRACTO);
+      if(idMotivo == 0 && tiempoTardanza > 2) {
         Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
         return;
       }
-      fhInicioViaje = this.guias[i].FECHA_INICIO_VIAJE + ' ' + this.guias[i].HORA_INICIO_VIAJE + ':' + this.guias[i].MIN_INICIO_VIAJE;
-      idMotivo = this.guias[i].ID_MOTIVO_OP;
+
+      // console.log('fhInicioViaje', fhInicioViaje);
+      // return;
     }
 
     if (this.guias[i].FECHA_LLEGADA_PC && this.guias[i].HORA_LLEGADA_PC && this.guias[i].MIN_LLEGADA_PC) {

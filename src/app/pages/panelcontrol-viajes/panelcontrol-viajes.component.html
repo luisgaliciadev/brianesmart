@@ -97,7 +97,9 @@
                     </div>
 
                     <div class="table-container">
-                        <table  class="tabla-control-guia fz-10px">
+                        
+                        <table class="tabla-control-guia fz-10px">
+                        <!-- <table class="tabla-control-guia fz-10px" style="width: 2890px;"> -->
                             <thead>
                                 <tr>          
                                     <th class="sticky">Orden Servicio</th>                                                             
@@ -129,15 +131,14 @@
                                     <td class="sticky-5" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_TRACTO}}</td>
                                     <td class="sticky-6" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.PLACA_REMOLQUE}}</td>                                   
                                     <td class="sticky-7" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.DS_ORI_DEST}} - {{guia.DESTINO}}</td>
-                                    <td class="sticky-8" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.TIEMPO_PLANIFICACION_VIAJE}}</td>
+                                    <td class="sticky-8 {{guia.COLOR_ESTATUS}}" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.TIEMPO_PLANIFICACION_VIAJE}}</td>
                                     <td class="sticky-9" data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">{{guia.ESTATUS_PLANICACION}}</td>
                                     
                                     <!-- Inicio de viaje -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div >   
-                                            <input (click)="motivosModal(i,modalMotivos)" (dblclick)="motivosModalDbclick(i,modalMotivos)" style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" class="form-control fz-10px" required>
+                                            <input (dblclick)="motivosModalDbclick(i,modalMotivos, $event)" style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" class="form-control fz-10px" required>
                                             <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INICIO_VIAJE" name="HORA_INICIO_VIAJE" type="text" class="form-control fz-10px hora-min-input" required maxlength="2">
-                                            <!-- (focusout) = "actualizarFechaHora(i,1)" -->
                                             <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,1)" [(ngModel)]="guia.MIN_INICIO_VIAJE" name="MIN_INICIO_VIAJE" type="text" class="form-control fz-10px" required maxlength="2" pattern="[0-9]{2}$">
                                         </div>                                               
                                     </td>
@@ -222,66 +223,21 @@
 
                                     <td class="sticky-10">
                                         <a data-toggle="tooltip" data-placement="top" title="Guardar" (click)="actualizarLinea(i)"> <i class="fa fa-floppy-o text-success m-r-10 pointer"></i> </a>
-                                    </td>
-                                    <!-- <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                                
-                                        <div class="input-group">
-                                            <div class="input-group" style="width: 130px;">   
-                                                <input [(ngModel)]="guia.FECHA_INGRESO_PC" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
-                                            </div>
-                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
-                                                <input [(ngModel)]="guia.HORA_INGRESO_PC" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input (focusout) = "actualizarFechaHora(i,2)" (keyup.enter)="actualizarFechaHora(i,2)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_INGRESO_PC" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                         
-                                        <div class="input-group">
-                                            <div class="input-group" style="width: 130px;">   
-                                                <input [(ngModel)]="guia.FECHA_SALIDA_PC" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
-                                            </div>
-                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
-                                                <input [(ngModel)]="guia.HORA_SALIDA_PC" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input (focusout) = "actualizarFechaHora(i,3)" (keyup.enter)="actualizarFechaHora(i,3)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_SALIDA_PC" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                               
-                                        <div class="input-group">
-                                            <div class="input-group" style="width: 130px;">   
-                                                <input [(ngModel)]="guia.FECHA_INGRESO_PD" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
-                                            </div>
-                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
-                                                <input [(ngModel)]="guia.HORA_INGRESO_PD" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input (focusout) = "actualizarFechaHora(i,4)" (keyup.enter)="actualizarFechaHora(i,4)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_INGRESO_PD" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">                                                                                 
-                                        <div class="input-group">
-                                            <div class="input-group" style="width: 130px;">   
-                                                <input [(ngModel)]="guia.FECHA_SALIDA_PD" name="fhEmision" id = "fhEmision" type="date" class="form-control fz-10px" required>
-                                            </div>
-                                            <div class="input-group" style="margin-left: 5px; width: 85PX;">
-                                                <input [(ngModel)]="guia.HORA_SALIDA_PD" name="horaEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                                <input (focusout) = "actualizarFechaHora(i,5)" (keyup.enter)="actualizarFechaHora(i,5)" style="margin-left: 5px;" [(ngModel)]="guia.MIN_SALIDA_PD" name="minEmision" type="text" class="form-control fz-10px" required maxlength="2">
-                                            </div>
-                                        </div>                                       
-                                    </td> -->
+                                    </td>  
                                 </tr>
                             </tbody>
                         </table>
                     </div>
             
-                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-8, -1)">
+                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-10, -1)">
                         Anterior
                     </button>
             
                     <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
 
-                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+8, +1)">
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+10, +1)">
                         Siguiente
-                    </button>
-
+                    </button>  
                 </div>
             </div>
         </div>
@@ -318,39 +274,4 @@
                 </div>     
             </div>      
 </ng-template>
-
-<!-- Modal Motivos no operatividad-->
-<!-- <ng-template #modalMotivos let-modal>
-    <div class="modal fade" id="motivos" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Motivo Tardanza</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form ngNativeValidate #formMotivos="ngForm" class="form p-t-20"> 
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-5 col-form-label">Motivo:</label>
-                            <div class="input-group col-7">
-                                <select [(ngModel)]="idMotivoNoOp" name="idMotivoNoOp" class="form-control" required>                          
-                                    <option *ngFor="let motivos of motivosNoOp" value = {{motivos.ID_MOTIVO_OP}}>{{motivos.DS_MOTIVO_OP}}</option>
-                                </select>                                            
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cancelar</button>
-                            <button [disabled]="!formMotivos.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateMotivo()">Guardar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</ng-template> -->
-
-
-   
 

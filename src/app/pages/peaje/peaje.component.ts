@@ -144,6 +144,11 @@ export class PeajeComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe seleccionar una orden de servicio', 'warning');
       return;
     }
+
+    if (this.conductores.length === 0) {
+      Swal.fire('Mensaje', 'Debe ingresar al menos un conductor.', 'warning');
+      return;
+    }
     this.registrando = true;
     this.peaje.ID_USUARIO_BS = this._userService.user.ID_USER;
     let peajes = {

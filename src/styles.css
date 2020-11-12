@@ -17,7 +17,6 @@
     border-radius: 100px !important;
 }
 
-
 .img-profile-list{
     width: 50px !important;
     height: 50px !important;
@@ -28,7 +27,6 @@
     width: 100px;
     height: 100px;
 }
-
 
 .w70 {
     width: 70px;
@@ -48,227 +46,186 @@
     display: none;
 }
    
-    .table-op th {
-        border-collapse: collapse !important;
-        border:#e9ecef 1px solid  !important;
-        background-color: gray;
-    }
-    
-    .table-op thead{
-        overflow: auto;
-        width: 100%;
-    }
+.table-op th {
+    border-collapse: collapse !important;
+    border:#e9ecef 1px solid  !important;
+    background-color: gray;
+}
 
-    .table-op tbody{
-        height: 350px;
-        overflow: auto;
-        width: 100%;
-    }
- 
-    .table-op tbody,    
-    .table-op td,
-    .table-op th{
-      display: block;
-    }
+.table-op thead{
+    overflow: auto;
+    width: 100%;
+}
 
-    
-    .table-op td {
-        height: 80px;
-    }
+.table-op tbody{
+    height: 350px;
+    overflow: auto;
+    width: 100%;
+}
 
-    .table-op tbody td,
-    .table-op thead > tr > th{
-        float: left;
-    }
+.table-op tbody,    
+.table-op td,
+.table-op th{
+  display: block;
+}
 
-    .table-turno thead {
-        height: 25px;
-        overflow: hidden;
-    }
+.table-op td {
+    height: 80px;
+}
 
-    .table.table-turno tbody{
-        height: 50px;
-        overflow: hidden;
-    }
+.table-op tbody td,
+.table-op thead > tr > th{
+    float: left;
+}
 
-    .table-turno td,
-    .table-turno th {
-        border: transparent 0px solid  !important;
-        background-color: transparent !important;
-        height: 25px;
-    }
+.table-turno thead {
+    height: 25px;
+    overflow: hidden;
+}
 
-    /* .table-op-pro tbody,    
-    .table-op-pro td,
-    .table-op-pro th{
-      display: block;
-    }  */
+.table .table-turno tbody{
+    height: 50px;
+    overflow: hidden;
+}
 
-    .fz-10px {
-        font-size: 10px;
-    }
+.table-turno td,
+.table-turno th {
+    border: transparent 0px solid  !important;
+    background-color: transparent !important;
+    height: 25px;
+}
 
-    .fz-12px {
-        font-size: 12px;
-    }
+.fz-10px {
+    font-size: 10px;
+}
 
-    .table-container {
-        max-width: 100%;
-        overflow-x: scroll;
-        border-left: solid 1px #ccc;
-        border-right: solid 1px #ccc;
-    }
+.fz-12px {
+    font-size: 12px;
+}
 
-    .tabla-control-guia {
-        border-top: solid 1px #ccc;
-        /* border-collapse: collapse; */
-        position: static;
-        /* border-spacing: 0; */
-    }
+.table-container {
+    max-width: 100%;
+    overflow-x: scroll;
+    border-left: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+}
 
-    .tabla-control-guia thead th{
-        background: gray;
-        color: white;
-        text-align: center;
-        font-size: 14px !important;
-    }
+.tabla-control-guia {
+    border-top: solid 1px #ccc;
+    position: static;
+}
 
-    .tabla-control-guia th,
-    .tabla-control-guia td {
-        border-right: solid 1px #ccc;
-        min-width: 100px;
-        /* padding: 0.1rem !important; */
-    }
+.tabla-control-guia thead th{
+    background: gray;
+    color: white;
+    text-align: center;
+    font-size: 14px !important;
+}
 
-    /* .tabla-control-guia thead th {       
-        padding: 0.5rem !important;
-    } */
+.tabla-control-guia th,
+.tabla-control-guia td {
+    border-right: solid 1px #ccc;
+    min-width: 100px;
+}
 
-    .tabla-control-guia th {     
-        text-align: center;
-    }
+.tabla-control-guia th {     
+    text-align: center;
+}
 
-    .tabla-control-guia th:last-child,
-    .tabla-control-guia td:last-child {       
-        border-right: 0;
-    }
+.tabla-control-guia th:last-child,
+.tabla-control-guia td:last-child {       
+    border-right: 0;
+}
 
-    .tabla-control-guia td {
-        border-bottom: solid 1px #ccc;
-    }
+.tabla-control-guia td {
+    border-bottom: solid 1px #ccc;
+}
 
-    .tabla-control-guia,
-    .tabla-control-guia thead,
-    .tabla-control-guia tbody td {        
-        white-space: nowrap;
-    }
+.tabla-control-guia,
+.tabla-control-guia thead,
+.tabla-control-guia tbody td {        
+    white-space: nowrap;
+}
 
-    .tabla-control-guia tbody td {
-        /* 11wline-height: 45px;   */
-        padding-left: 2px;      
-    }
+.tabla-control-guia tbody td {
+    padding-left: 2px;      
+}
 
-    .tabla-control-guia .sticky {
-        min-width: 55px !important;
-    }
+.tabla-control-guia .sticky {
+    min-width: 55px !important;
+}
 
-    .tabla-control-guia .sticky-2 {
-        min-width: 85px !important;
-        position: sticky;
-        left: 0;
-    }
+.tabla-control-guia .sticky-2 {
+    min-width: 85px !important;
+    position: sticky;
+    left: 0;
+}
 
-    .tabla-control-guia .sticky-3 {
-        min-width: 55px !important;
-        position: sticky;
-        left: 85px;
-    }
+.tabla-control-guia .sticky-3 {
+    min-width: 55px !important;
+    position: sticky;
+    left: 85px;
+}
 
-    .tabla-control-guia .sticky-4 {
-        min-width: 200px !important;
-        position: sticky;
-        left: 140px;
-    }
+.tabla-control-guia .sticky-4 {
+    min-width: 200px !important;
+    position: sticky;
+    left: 140px;
+}
 
-    .tabla-control-guia .sticky-5 {
-        min-width: 55px !important;
-        position: sticky;
-        left: 340px;
-    }
+.tabla-control-guia .sticky-5 {
+    min-width: 55px !important;
+    position: sticky;
+    left: 340px;
+}
 
-    .tabla-control-guia .sticky-6 {
-        min-width: 55px !important;
-    }
+.tabla-control-guia .sticky-6 {
+    min-width: 55px !important;
+}
 
-    .tabla-control-guia .sticky-7 {
-        min-width: 55px !important;
-    }
+.tabla-control-guia .sticky-7 {
+    min-width: 55px !important;
+}
 
-    .tabla-control-guia .sticky-8 {
-        min-width: 55px !important;
-        position: sticky;
-        left: 395px;
-    }
+.tabla-control-guia .sticky-8 {
+    min-width: 55px !important;
+    position: sticky;
+    left: 395px;
+    text-align: center;
+}
 
-    .tabla-control-guia .sticky-9 {
-        min-width: 55px !important;
-    }
+.tabla-control-guia .sticky-9 {
+    min-width: 55px !important;
+}
 
-    .tabla-control-guia .sticky-10 {
-        min-width: 15px !important;
-        font-size: 20px !important;
-        text-align: center !important;
-    }
+.tabla-control-guia .sticky-10 {
+    min-width: 15px !important;
+    font-size: 20px !important;
+    text-align: center !important;
+}
 
-    /* .tabla-control-guia .sticky-9 {
-        min-width: 55px !important;
-    } */
+.tabla-control-guia tbody tr .sticky,
+.sticky-2,
+.sticky-3,
+.sticky-4,
+.sticky-5,
+.sticky-6,
+.sticky-7,
+.sticky-8,
+.sticky-9 {
+    background: white;
+}
 
-    /* .hora-min-input {
-        width: 20px !important; 
-        height: 20px !important;
-        margin-left: 2px;
-        text-align: center;
-    } */
+.viewPdf {
+    display: block;
+    background: #ccc; 
+    border: solid 1px #ccc;
+    height: 800px;
+    overflow: auto;
+}
 
-    
-    .tabla-control-guia tbody tr .sticky,
-    .sticky-2,
-    .sticky-3,
-    .sticky-4,
-    .sticky-5,
-    .sticky-6,
-    .sticky-7,
-    .sticky-8,
-    .sticky-9
-     {
-        background: white;
-    }
+.control-guia-text-white {
+    color: white;
+}
 
-    /* .tabla-control-guia tbody tr .sticky-2 {
-        background: white;
-    }
-
-    .tabla-control-guia tbody tr .sticky-3 {
-        background: white;
-    }
-
-    .tabla-control-guia tbody tr .sticky-4 {
-        background: white;
-    } */
-
-    
-    /* .tabla-control-guia thead th {
-        background: gray;
-        color: white;
-    } */
-    
-    
-    .viewPdf {
-        display: block;
-        background: #ccc; 
-        border: solid 1px #ccc;
-        height: 800px;
-        /* overflow-y: scroll; */
-        overflow: auto;
-    }
+   

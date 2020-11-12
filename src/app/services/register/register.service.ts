@@ -1756,6 +1756,36 @@ getGuiasControlViaje(search,desde, hasta, idUser,idZona) {
 }
 // End Get Guias
 
+
+// Get tiempo tardanza control viajes
+getTiempoTardanzaControlViajes(fhInicioViahe,idTracto) {
+  let params = fhInicioViahe + '/' + idTracto;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/tiempotardanzaviaje/' + params,{headers})
+  .pipe(map((res: any) => {
+    return res.datosTiempo.TIEMPO_TARDANZA;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'Error en la petición al servidor.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get tiempo tardanza control viajes
+
+// Tiempo tardanza contro viajes
+tiempoTardanzaControlViajes(fhInicioViahe,idTracto): Promise<any> {
+  return new Promise((resolve, reject) => {
+      this.getTiempoTardanzaControlViajes(fhInicioViahe,idTracto).subscribe(
+        (response) => {
+          resolve(response);
+        }, () => {
+          reject(0);
+        }
+      );    
+  });
+}
+// Tiempo tardanza contro viajes
+
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
