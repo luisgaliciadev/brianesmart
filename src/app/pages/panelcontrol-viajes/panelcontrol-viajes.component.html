@@ -137,7 +137,7 @@
                                     <!-- Inicio de viaje -->
                                     <td data-toggle="tooltip" data-placement="top" title="{{guia.CORRELATIVO}} | {{guia.FH_GUIA}} | {{guia.NOMBRE_CONDUCTOR}} | {{guia.PLACA_TRACTO}}">
                                         <div >   
-                                            <input (dblclick)="motivosModalDbclick(i,modalMotivos, $event)" style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" class="form-control fz-10px" required>
+                                            <input (click)="motivosModal(i,modalMotivos, $event)" (dblclick)="motivosModalDbclick(i,modalMotivos, $event)" style="width: 126px;" [(ngModel)]="guia.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE" type="date" class="form-control fz-10px" required>
                                             <input style="width: 40px; margin-left: 2px;" [(ngModel)]="guia.HORA_INICIO_VIAJE" name="HORA_INICIO_VIAJE" type="text" class="form-control fz-10px hora-min-input" required maxlength="2">
                                             <input style="width: 40px; margin-left: 2px;" (keyup.enter)="actualizarFechaHora(i,1)" [(ngModel)]="guia.MIN_INICIO_VIAJE" name="MIN_INICIO_VIAJE" type="text" class="form-control fz-10px" required maxlength="2" pattern="[0-9]{2}$">
                                         </div>                                               

@@ -1786,6 +1786,171 @@ tiempoTardanzaControlViajes(fhInicioViahe,idTracto): Promise<any> {
 }
 // Tiempo tardanza contro viajes
 
+// Get origenes-destinos
+getOrigenesDestinos(fgDestino) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/origenesdestinos/' + fgDestino, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get origenes-destinos
+
+// Get tipo cargas
+getTipoCargas() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/tipocargas', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get tipo cargas
+
+// Get productos
+getProductos() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/productos', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get productos
+
+// Register ruta
+registerRuta(ruta) { 
+  let json = JSON.stringify(ruta);  
+  let dataRuta = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/ruta', dataRuta, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Ruta registrada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register Ruta
+
+// Get ruta
+getRuta(idRuta) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/ruta/' + idRuta, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    this._router.navigate(['/rutas']);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// Fin Get ruta
+
+// Get rutas
+getRutas(search) {
+  console.log(search);
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/rutas/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get productos
+
+// Update ruta
+updateRuta(ruta) { 
+  let json = JSON.stringify(ruta);  
+  let dataRuta = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/register/ruta', dataRuta, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Ruta actualizada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End update Ruta
+
+// Delete ruta
+deleteRuta(ruta) { 
+  let params = ruta.ID_RUTA + '/' + ruta.ID_USUARIO 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/ruta/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Ruta anulada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End delete Ruta
+
+// Delete ruta
+aprobarRuta(ruta) { 
+  let params = ruta.ID_RUTA + '/' + ruta.ID_USUARIO 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/register/ruta/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Ruta aprobada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo aprobar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End delete Ruta
+
+
+
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1898,6 +2063,77 @@ getDocumentosBriane(idClasificacion, idCategoria, idArea) {
 }
 // Fin Get documentos BRIANE
 
+// Get empleados rrhh genesys
+getEmpleadosRhhGenesys(fechaContrato) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = fechaContrato;
+  return this._http.get(this.URL + '/register/empleadosrrhhgenesys/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get empleados rrhh genesys
+
+// Get empleados rrhh genesys bajas
+getEmpleadosRhhGenesysBajas(fechaFinContrato) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = fechaFinContrato;
+  return this._http.get(this.URL + '/register/empleadosrrhhgenesysbajas/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get empleados rrhh genesys bajas
+
+// Get clientes-proveedores
+getClientes() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/clientes', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get clientes-proveedores
+
+// Get monedas
+getMonedas() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/monedas', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get monedas
+
+// Get tipo cobros ordenes servicios
+getTipoCobrosOs() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/tipocobrosos', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get tipo cobros ordenes servicios
 
 // Administracion
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1907,21 +2143,10 @@ getDocumentosBriane(idClasificacion, idCategoria, idArea) {
 // APIS EXTERNAS
 
 // Get marcajes sistema Qwantec
-marcajes() {
-  var inicio = '2020-08-01T00:00:00';
-  var termina = '2020-08-31T23:59:59'
-  var indentificador = [];
-  
-  let data = {
-    apiKey: this.apiKeyQwantec,
-    inicio: inicio,
-    termino: termina,
-    identificador: indentificador
-  }; 
-  
+marcajesQwantec(data) {
   let json = JSON.stringify(data);  
   let params = json;  
-  // console.log(params);
+  console.log(params);
   let headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this._http.post('https://app.relojcontrol.com/api/consultaMarcaciones/consulta',params, {headers})
   .pipe(map((res: any) => {
@@ -1935,13 +2160,14 @@ marcajes() {
 }
 // Fin Get marcajes sistema Qwantec
 
-// marcajes
-prueba() {
-  
+// Altas, bajas y actualizacion de empleados 
+sincronizarEmpleadosQwantec(data) {
+  let json = JSON.stringify(data);  
+  let params = json;  
+  // console.log('params:', params);
   let headers = new HttpHeaders({'Content-Type': 'application/json'});
-  return this._http.get('https://jsonplaceholder.typicode.com/todos', {headers})
+  return this._http.post('https://app.relojcontrol.com/api/actualizarEmpleados/importar',params, {headers})
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -1949,7 +2175,25 @@ prueba() {
     return throwError(err);
   }));
 }
-// Fin post marcajes
+// Altas, bajas y actualizacion de empleados 
+
+
+
+// // marcajes
+// prueba() {
+  
+//   let headers = new HttpHeaders({'Content-Type': 'application/json'});
+//   return this._http.get('https://jsonplaceholder.typicode.com/todos', {headers})
+//   .pipe(map((res: any) => {
+//     // console.log(res);
+//     return res;
+//   }))
+//   .pipe(catchError( (err: any) => {
+//     Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+//     return throwError(err);
+//   }));
+// }
+// // Fin post marcajes
 
 // APIS EXTERNAS
 ///////////////////////////////////////////////////////////////////////////////////////////////

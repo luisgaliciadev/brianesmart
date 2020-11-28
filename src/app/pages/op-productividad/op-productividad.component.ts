@@ -168,6 +168,7 @@ export class OpProductividadComponent implements OnInit {
     this.loading = true;
     this._registerService.getProductividadop(this.tipoBusqueda, this.nroSemana, this.year, this.fhDesde, this.fhHasta,this.idZona).subscribe(
       (response: any) => {
+        console.log('response:', response)
         this.productividadOps = response.diasProductividad;
         this.dias = response.dias
         this.totalRegistros = response.diasProductividad.length

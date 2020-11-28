@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <label for="exampleInputuname">Zona:</label>
                             <div class="input-group">                   
-                                <select (change) = "getProductividadop()" [(ngModel)]="idZona" name="idZona" class="form-control" required [disabled] = "modificar">
+                                <select [(ngModel)]="idZona" name="idZona" class="form-control" required [disabled] = "modificar">
                                     <option value = "">Seleccione</option>
                                     <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
                                 </select>

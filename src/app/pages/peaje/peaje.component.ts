@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-// import { Guia } from 'src/app/models/guia.model';
 import Swal from 'sweetalert2';
 import { Peaje } from 'src/app/models/peaje.model';
-// import { DetaPeaje } from 'src/app/models/detaPeaje.model';
 import {saveAs} from 'file-saver';
 
 @Component({
@@ -149,6 +147,7 @@ export class PeajeComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe ingresar al menos un conductor.', 'warning');
       return;
     }
+
     this.registrando = true;
     this.peaje.ID_USUARIO_BS = this._userService.user.ID_USER;
     let peajes = {

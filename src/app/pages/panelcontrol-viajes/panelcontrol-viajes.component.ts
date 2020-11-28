@@ -514,10 +514,10 @@ export class PanelcontrolViajesComponent implements OnInit {
   }
 
   actualizarMotivo(modal) {
-    // if(this.idMotivoNoOp == 0) {
-    //   Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
-    //   return;
-    // }
+    if(this.idMotivoNoOp == 0) {
+      Swal.fire('Mensaje', 'Debe indicar un motivo.', 'warning');
+      return;
+    }
     this.guias[this.iGuias].ID_MOTIVO_OP = this.idMotivoNoOp;
     this.iGuias = -1;
     this.nroFecha = 0;

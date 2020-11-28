@@ -74,6 +74,8 @@ import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.co
 import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-viajes.component';
 import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.component';
 import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-qwantec.component';
+import { RutasComponent } from './rutas/rutas.component';
+import { RutaComponent } from './ruta/ruta.component';
 
 @NgModule({
     declarations: [
@@ -130,7 +132,9 @@ import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-q
         DescuentoPeajesComponent,
         PanelcontrolViajesComponent,
         RepositorioDocsComponent,
-        IntegracionQwantecComponent
+        IntegracionQwantecComponent,
+        RutasComponent,
+        RutaComponent
     ],
     exports: [
         // PagesComponent,

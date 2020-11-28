@@ -46,22 +46,6 @@ export class AgendaTelefonicaComponent implements OnInit {
     );
   }
 
-  marcaje() {
-  
-    this._registerService.marcajes().subscribe(
-      (response: any) => {
-        // console.log('response:', response);
-      }
-    );
-  }
-
-  prueba() {
-  
-    this._registerService.prueba().subscribe(
-      (response: any) => {
-        // console.log('response:', response);
-      }
-    );
-  }
+ 
 
 }

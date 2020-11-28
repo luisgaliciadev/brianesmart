@@ -1,22 +1,109 @@
 <title>Briane Smart</title>
-<div class="col-lg-12">
-    <!-- <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">BRIANE Smart</h2> -->
-            <div class="row">
-                <div class="col-md-6 col-lg-6 col-xlg-4">
-                    <div class="card card-body">
-                        <div class="row">
-                            <div>
-                                <button style="width: 120px;" type="button" class="btn btn-w-m btn-success"><i class="mdi mdi-account-card-details fa-5x"></i></button>
-                                <span class="pointer"> Creación y actualización de empleados</span>
-                            </div>
-                        </div>
+<div class="col-lg-12">    
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>   
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-md-6 col-lg-6 col-xlg-4">
+            <div class="card card-body">
+                <div class="row">
+                    <div (click)="tipoAccion(1)" data-toggle="modal" data-target="#registroEmpleados">
+                        <button style="width: 120px;" type="button" class="btn btn-w-m btn-success"><i class="mdi mdi-account-plus fa-5x"></i></button>
+                        <span class="pointer"> Registro de empleados</span>
                     </div>
                 </div>
             </div>
-        <!-- </div>
-    </div> -->
+        </div>
+        <div class="col-md-6 col-lg-6 col-xlg-4">
+            <div class="card card-body">
+                <div class="row">
+                    <div data-toggle="modal" data-target="#bajasEmpleados">
+                        <button style="width: 120px;" type="button" class="btn btn-w-m btn-danger"><i class="mdi mdi-account-minus fa-5x"></i></button>
+                        <span class="pointer"> Bajas de empleados</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xlg-4">
+            <div class="card card-body">
+                <div class="row">
+                    <div (click)="tipoAccion(2)" data-toggle="modal" data-target="#registroEmpleados">
+                        <button style="width: 120px;" type="button" class="btn btn-w-m btn-info"><i class="mdi mdi-account-edit fa-5x"></i></button>
+                        <span class="pointer"> Actualización empleados</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Creacion/Actualizacion-->
+<div class="modal fade" id="registroEmpleados" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registro de Empleados</h5>
+                <button click="limpiarModal()"  type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form ngNativeValidate #formRegistro="ngForm" class="form p-t-20"> 
+                <div class="modal-body">           
+                    <div class="form-group row" >
+                    <label class="col-5 col-form-label">Fecha Contrato:</label>                                
+                    <div class="input-group col-7">   
+                        <input [(ngModel)]="fechaContrato" name="fechaContrato" type="date" class="form-control" required>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cancelar</button>
+                    <button [disabled]="!formRegistro.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="registroActEmpleados(fechaContrato)">Guardar</button>
+                </div>
+            </form>  
+        </div>
+    </div>
+</div>
+
+<!-- Modal bajas-->
+<div class="modal fade" id="bajasEmpleados" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Baja de Empleados</h5>
+                <button click="limpiarModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form ngNativeValidate #formBajas="ngForm" class="form p-t-20"> 
+                <div class="modal-body">           
+                    <div class="form-group row" >
+                    <label class="col-5 col-form-label">Fecha Fin Contrato:</label>                                
+                    <div class="input-group col-7">   
+                        <input [(ngModel)]="fechaContrato" name="fechaContrato" type="date" class="form-control" required>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cancelar</button>
+                    <button [disabled]="!formBajas.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="bajaEmpleados(fechaContrato)">Guardar</button>
+                </div>
+            </form>  
+        </div>
+    </div>
 </div>
 
 

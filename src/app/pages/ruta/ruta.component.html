@@ -1,0 +1,185 @@
+<div class="row animated fadeInRight">    
+    <div class="col-12">     
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" *ngIf="loading">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center">
+                            <strong>Cargando...</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>   
+                </div>
+
+                <div class="row" *ngIf="registrando">
+                    <div class="col-sm-12">
+                        <div class="alert alert-primary text-center">
+                            <strong>Guardando datos</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>    
+                </div>
+
+                <form *ngIf="!loading  && !registrando" ngNativeValidate #form="ngForm"  (ngSubmit)="registerRuta()" class="form p-t-20">
+                    <div class="row">  
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>RUC:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="RUC" name="RUC" type="text" class="form-control" placeholder="RUC">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-9">                            
+                            <div class="form-group">
+                                <label>Cliente:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_CLIENTE" name="ID_CLIENTE" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let cliente of clientes" value = {{cliente.ID_CLIENTE}}>{{cliente.RAZON_SOCIAL}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>Descripción:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.DS_RUTA" name="DS_RUTA" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">                            
+                            <div class="form-group">
+                                <label>Moneda:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_MONEDA" name="ID_MONEDA" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let moneda of monedas" value = {{moneda.ID_MONEDA}}>{{moneda.DS_MONEDA}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>Tarifa:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.TARIFA" name="TARIFA" type="number" step="0.01" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">                            
+                            <div class="form-group">
+                                <label>Tipo Cobro:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_TIPO_COBRO_OS" name="ID_TIPO_COBRO_OS" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let tipoCobro of tipoCobrosOs" value = {{tipoCobro.ID_TIPO_COBRO_OS}}>{{tipoCobro.DS_TIPO_COBRO_OS}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row"> 
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Origen:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_ORIGEN" name="ID_ORIGEN" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let origen of origenes" value = {{origen.ID_ORI_DETS}}>{{origen.DS_ORI_DEST}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Destino:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_DESTINO" name="ID_DESTINO" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let destino of destinos" value = {{destino.ID_ORI_DETS}}>{{destino.DS_ORI_DEST}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row"> 
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Tipo Carga:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_TIPO_CARGA" name="ID_TIPO_CARGA" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let tipoCarga of tipoCargas" value = {{tipoCarga.ID_TIPO_CARGA}}>{{tipoCarga.DS_TIPO_CARGA}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Producto:</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="ruta.ID_PRODUCTO" name="ID_PRODUCTO" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let producto of productos" value = "{{producto.ID_PRODUCTO}}">{{producto.DS_PRODUCTO}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Observación:</label>
+                        <div class="input-group">                                            
+                            <textarea [(ngModel)]="ruta.OBSERVACION" name = "OBSERVACION" class="form-control" rows="2" maxlength="250"></textarea>
+                        </div>
+                    </div>
+
+                    <button *ngIf="ruta.ID_RUTA === 0" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button>
+
+                    <button *ngIf="ruta.ID_RUTA > 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateRuta()">
+                        <i class="fa fa-save"></i>
+                        Moificar
+                    </button>
+
+                    <button *ngIf="ruta.ID_RUTA > 0 && ruta.ESTADO === 1" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="aprobarRuta()">
+                        <i class="mdi mdi-checkbox-marked"></i>
+                        Aprobar
+                    </button>
+
+                    <button *ngIf="ruta.ID_RUTA > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteRuta()">
+                        <i class="fa fa-trash-o"></i>
+                        Anular
+                    </button>
+
+                    <button routerLink="/rutas" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
+                        <i class="fa fa-arrow-circle-right"></i>
+                        Volver
+                    </button>   
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

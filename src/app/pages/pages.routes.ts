@@ -59,6 +59,8 @@ import { PanelcontrolViajesComponent } from './panelcontrol-viajes/panelcontrol-
 import { DescuentoPeajesComponent } from './descuento-peajes/descuento-peajes.component';
 import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.component';
 import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-qwantec.component';
+import { RutasComponent } from './rutas/rutas.component';
+import { RutaComponent } from './ruta/ruta.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -103,6 +105,8 @@ const pagesRoutes: Routes = [
             {path: 'descuento-peaje', component: DescuentoPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Descuento de Peajes'}},
             {path: 'repositorio-docs', component: RepositorioDocsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos BRIANE'}},
             {path: 'integracion-qwantec', component: IntegracionQwantecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Integraciones con Sistema Qwantec'}},
+            {path: 'rutas', component: RutasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Rutas'}},
+            {path: 'ruta/:id', component: RutaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Ruta'}},
         
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
