@@ -201,18 +201,12 @@ export class UserService {
   // Fin Actualizar perfil de usuario
 
   // Actualizar constraseña de usuario
-  updatePassword(user: User) {
-   
-    let json = JSON.stringify(user);
-    
+  updatePassword(user: User) {   
+    let json = JSON.stringify(user);    
     let params = json;
-    // console.log('parametros:' + params);
-    
     let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
-    // console.log(headers);
     return this._http.put(this.URL + '/user/password/' + user.ID_USER, params, {headers})
     .pipe(map((res: any) => {
-      // console.log(res);
       if (user.ID_USER === this.user.ID_USER) {
         this.saveLocalStorage(res.user.ID_USER, this.token, res.user, this.menu);
       }
@@ -220,7 +214,6 @@ export class UserService {
       return true;
     }))
     .pipe(catchError( (err: any) => {
-      // console.log(err.error.message);
       if (err.status === 400) {
         Swal.fire('Mensaje', err.error.message, 'error');
         return throwError(err);
@@ -231,6 +224,31 @@ export class UserService {
     }));
    }
    // Fin Actualizar constraseña de usuario
+
+   // Actualizar constraseña de usuario con admin
+  updatePasswordAdmin(user: User) {   
+    let json = JSON.stringify(user);   
+    let params = json;
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
+    return this._http.put(this.URL + '/user/updatepassword/' + user.ID_USER, params, {headers})
+    .pipe(map((res: any) => {
+      if (user.ID_USER === this.user.ID_USER) {
+        this.saveLocalStorage(res.user.ID_USER, this.token, res.user, this.menu);
+      }
+      Swal.fire('Mensaje', 'Contraseña Actualizada Correctamente', 'success');
+      return true;
+    }))
+    .pipe(catchError( (err: any) => {
+      if (err.status === 400) {
+        Swal.fire('Mensaje', err.error.message, 'error');
+        return throwError(err);
+      } else {
+        Swal.fire('Mensaje', 'No se pudo actualizar la consatraseña', 'error');
+        return throwError(err);
+      }
+    }));
+   }
+   // Fin Actualizar constraseña de usuario con admin
 
   // Cambiar imagen de perfil de usuario
   changeImage(file: File, id: number) {

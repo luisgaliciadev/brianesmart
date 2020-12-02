@@ -23,6 +23,8 @@ export class RutaComponent implements OnInit {
   productos = [];
   monedas = [];
   tipoCobrosOs = [];
+  detaProductos = [];
+  detaTipoCargas = [];
 
   constructor(
     public _registerService: RegisterService,
@@ -355,6 +357,34 @@ export class RutaComponent implements OnInit {
         );
       } 
     });
+  }
+
+  async agregarProducto() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+  }
+
+  async eliminarProducto(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+  }
+
+  async agregarTipoCarga() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+  }
+
+  async eliminarTipoCarga(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
   }
 
 }

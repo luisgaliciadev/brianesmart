@@ -77,31 +77,26 @@ export class AddUsersComponent implements OnInit {
     this.user.PHONE = user.PHONE;
     this.user.ID_USER = this.ID_USER;
     this.user.IDEN = user.IDEN;
-    // console.log(this.user);
-    // return;
+    this.user.EMAIL = user.EMAIL;
     this._userService.updateProfile(this.user).subscribe(
       (response: any) => {
-        this._router.navigate(['/users']);
+        // this._router.navigate(['/users']);
       }
     );
   }
 
   updatePassword(user) {
-
     if (user.passReset === user.passReset2) {
       this.user.PASSWORD = user.passReset;
-      this.user.ID_USER = this.ID_USER;
-      // console.log(this.user);
-      // return;
-      this._userService.updatePassword(this.user).subscribe(
+      this.user.ID_USER = this.ID_USER;    
+      this._userService.updatePasswordAdmin(this.user).subscribe(
         (response: any) => {
-          this._router.navigate(['/users']);
+          // this._router.navigate(['/users']);
         }
       );
     } else {
       Swal.fire('Mensaje', 'Las constraseñas no son iguales.', 'warning');
     }
-
   }
 
   deleteUser(idUser: number) {

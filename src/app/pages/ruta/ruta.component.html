@@ -129,8 +129,32 @@
                                     <select [(ngModel)]="ruta.ID_TIPO_CARGA" name="ID_TIPO_CARGA" class="form-control" required>
                                         <option value = 0>Seleccione</option>
                                         <option *ngFor="let tipoCarga of tipoCargas" value = {{tipoCarga.ID_TIPO_CARGA}}>{{tipoCarga.DS_TIPO_CARGA}}</option>
-                                    </select>                                            
+                                    </select>   
+                                    <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="agregarTipoCarga()"></i></div>                                         
                                 </div>
+                            </div>
+
+                            <div style="overflow: auto">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">ITEM</th>
+                                            <th style="text-align: center;">ID</th>
+                                            <th style="text-align: center;">Tipo Carga</th>                                          
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let detaTipoCarga of detaTipoCargas; index as i ">
+                                            <td align="center">{{i+1}}</td>
+                                            <td align="center">{{detaTipoCarga.ID_TIPO_CARGA}}</td>
+                                            <td align="center">{{detaTipoCarga.DS_TIPO_CARGA}}</td>                                              
+                                            <td align="center">                                      
+                                                <a data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarTipoCarga(detaTipoCarga.ID_TIPO_CARGA)"></i> </a>
+                                            </td>                                    
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -141,8 +165,32 @@
                                     <select [(ngModel)]="ruta.ID_PRODUCTO" name="ID_PRODUCTO" class="form-control" required>
                                         <option value = 0>Seleccione</option>
                                         <option *ngFor="let producto of productos" value = "{{producto.ID_PRODUCTO}}">{{producto.DS_PRODUCTO}}</option>
-                                    </select>                                            
+                                    </select>    
+                                    <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="agregarProducto()"></i></div>                                        
                                 </div>
+                            </div>
+                            
+                            <div style="overflow: auto">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">ITEM</th>
+                                            <th style="text-align: center;">ID</th>
+                                            <th style="text-align: center;">Producto</th>                                          
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let detaProducto of detaProductos; index as i ">
+                                            <td align="center">{{i+1}}</td>
+                                            <td align="center">{{detaProducto.ID_PRODUCTO}}</td>
+                                            <td align="center">{{detaProducto.DS_PRODUCTO}}</td>                                              
+                                            <td align="center">                                      
+                                                <a data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarProducto(detaProducto.ID_PRODUCTO)"></i> </a>
+                                            </td>                                    
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
