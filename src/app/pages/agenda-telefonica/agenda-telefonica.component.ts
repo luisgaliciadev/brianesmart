@@ -35,9 +35,9 @@ export class AgendaTelefonicaComponent implements OnInit {
     }
     this.loading = true;
     this._registerService.getAgendaTelefonica(this.search).subscribe(
-      (response: any) => {
-        // console.log('response:', response);
-        this.agendas = response.agendas;
+      (response: any) => {  
+        // console.log(response);      
+        this.agendas = response.agendas;       
         this.loading = false;
       },
       (error: any) => {
@@ -46,6 +46,5 @@ export class AgendaTelefonicaComponent implements OnInit {
     );
   }
 
- 
 
 }

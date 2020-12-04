@@ -46,7 +46,7 @@ export class RutaComponent implements OnInit {
       if (this.ruta.ID_RUTA > 0) {
         this.getRuta();
       } else {
-        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0);
+        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,0,0,0,0,0,0,0);
       }
     });
   }
@@ -59,6 +59,9 @@ export class RutaComponent implements OnInit {
     this.loading = true;
     this._registerService.getRuta(this.ruta.ID_RUTA).subscribe(
       (response: any) => {
+        // console.log(response)
+        this.getDetaRutaTipoCargas();
+        this.getDetaRutaProductos();
         this.ruta.ID_RUTA = response.ruta.ID_RUTA;
         this.ruta.ID_CLIENTE = response.ruta.ID_CLIENTE;
         this.ruta.ID_ORIGEN = response.ruta.ID_ORIGEN;
@@ -76,6 +79,22 @@ export class RutaComponent implements OnInit {
       },
       (error: any) => {
         this.loading = false;
+      }
+    );
+  }
+
+  getDetaRutaTipoCargas() {
+    this._registerService.getDetaRutaTipoCargas(this.ruta.ID_RUTA).subscribe(
+      (response: any) => {
+        this.detaTipoCargas = response.detaTipoCargas;
+      }
+    );
+  }
+
+  getDetaRutaProductos() {
+    this._registerService.getDetaRutaProductos(this.ruta.ID_RUTA).subscribe(
+      (response: any) => {
+        this.detaProductos = response.detaProductos;
       }
     );
   }
@@ -117,6 +136,28 @@ export class RutaComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  buscarClienteRuc() {
+    if (this.RUC.length === 0) {
+      return;
+    }
+    const dataCliente = this.clientes.find( cliente => cliente.RUC === this.RUC);
+    if (dataCliente) {
+      this.ruta.ID_CLIENTE = dataCliente.ID_CLIENTE;
+    }
+  }
+
+  rucCliente() {
+    console.log('this.ruta.ID_CLIENTE', this.ruta.ID_CLIENTE);
+    if (this.ruta.ID_CLIENTE == 0) {
+      this.RUC = '';
+      return;
+    }
+    const dataCliente = this.clientes.find( cliente => cliente.ID_CLIENTE == this.ruta.ID_CLIENTE);
+    if (dataCliente) {
+      this.RUC = dataCliente.RUC;
+    }
   }
 
   getOrigenes() {
@@ -191,13 +232,13 @@ export class RutaComponent implements OnInit {
       return;
     }
 
-    if (this.ruta.ID_TIPO_CARGA == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un tipo de carga', 'warning');
+    if (this.detaTipoCargas.length === 0) {
+      Swal.fire('Mensaje', 'Debe agregar al menos un tipo de carga', 'warning');
       return;
     }
 
-    if (this.ruta.ID_PRODUCTO == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un producto', 'warning');
+    if (this.detaProductos.length === 0) {
+      Swal.fire('Mensaje', 'Debe agregar al menos un producto', 'warning');
       return;
     }
 
@@ -208,6 +249,8 @@ export class RutaComponent implements OnInit {
 
     this.ruta.ID_USUARIO = this._userService.user.ID_USER;
     this.registrando = true;
+    this.ruta.DETA_TIPO_CARGAS = this.detaTipoCargas;
+    this.ruta.DETA_PRODUCTOS = this.detaProductos;
     this._registerService.registerRuta(this.ruta).subscribe(
       (response: any) => {
         // console.log(response);
@@ -240,13 +283,13 @@ export class RutaComponent implements OnInit {
       return;
     }
 
-    if (this.ruta.ID_TIPO_CARGA == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un tipo de carga', 'warning');
+    if (this.detaTipoCargas.length === 0) {
+      Swal.fire('Mensaje', 'Debe agregar al menos un tipo de carga', 'warning');
       return;
     }
 
-    if (this.ruta.ID_PRODUCTO == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un producto', 'warning');
+    if (this.detaProductos.length === 0) {
+      Swal.fire('Mensaje', 'Debe agregar al menos un producto', 'warning');
       return;
     }
 
@@ -359,32 +402,165 @@ export class RutaComponent implements OnInit {
     });
   }
 
-  async agregarProducto() {
+  async agregarTipoCarga(idTipoCarga) {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
+    }
+
+    if (this.ruta.ID_TIPO_CARGA == 0) {
+      Swal.fire('Mensaje', 'Debe seleccionar un tipo de carga.', 'warning');
+      return;
+    }
+
+    const detaCarga = this.detaTipoCargas.find( deta => deta.idTipoCarga == idTipoCarga);
+    if (detaCarga) {
+      Swal.fire('Mensaje', 'El tipo de carga ya esta agregado a la lista.', 'warning');
+      return;
+    }
+
+    var dsTipocarga = ''
+    const carga = this.tipoCargas.find( tipoCarga => tipoCarga.ID_TIPO_CARGA == idTipoCarga);
+    if (carga) {
+      dsTipocarga = carga.DS_TIPO_CARGA
+    }
+
+    if (this.ruta.ID_RUTA > 0) {
+      this._registerService.registerDetaRutaTipoCarga(idTipoCarga, this.ruta.ID_RUTA).subscribe(
+        (response: any) => {
+          this.detaTipoCargas.push({
+            ID_TIPO_CARGA: idTipoCarga,
+            DS_TIPO_CARGA: dsTipocarga,
+            ID_DETA_RUTA_TIPO_CARGA: 0
+          });
+          this.ruta.ID_TIPO_CARGA = 0; 
+        }
+      );
+    } else {
+      this.detaTipoCargas.push({
+        ID_TIPO_CARGA: idTipoCarga,
+        DS_TIPO_CARGA: dsTipocarga,
+        ID_DETA_RUTA_TIPO_CARGA: 0
+      });
+      this.ruta.ID_TIPO_CARGA = 0;    
+    }
+
+  }
+
+  async eliminarTipoCarga(i, idDeta) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Eliminar Registro',
+      text: "¿Desea eliminar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {        
+        if (idDeta > 0) {
+          this._registerService.deleteDetaRutaTipoCarga(idDeta).subscribe(
+            (response: any) => {
+              this.detaTipoCargas.splice(i, 1);
+            }
+          );
+        } else {
+          this.detaTipoCargas.splice(i, 1);
+        }
+      } 
+    });
+  }
+
+  async agregarProducto(idProducto) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+
+    if (this.ruta.ID_PRODUCTO == 0) {
+      Swal.fire('Mensaje', 'Debe seleccionar un producto.', 'warning');
+      return;
+    }
+
+    const detProducto = this.detaProductos.find( deta => deta.idProducto == idProducto);
+    if (detProducto) {
+      Swal.fire('Mensaje', 'El producto ya esta agregado a la lista.', 'warning');
+      return;
+    }
+
+    var dsProducto = ''
+    const producto = this.productos.find( producto => producto.ID_PRODUCTO == idProducto);
+    if (producto) {
+      dsProducto = producto.DS_PRODUCTO
+    }
+
+    if (this.ruta.ID_RUTA > 0) {
+      this._registerService.registerDetaProducto(idProducto, this.ruta.ID_RUTA).subscribe(
+        (response: any) => {
+          this.detaProductos.push({
+            ID_PRODUCTO: idProducto,
+            DS_PRODUCTO: dsProducto,
+            ID_DETA_RUTA_PRODUCTO: 0
+          });
+          console.log(this.detaProductos);
+          this.ruta.ID_PRODUCTO = 0; 
+        }
+      );
+    } else {
+      this.detaProductos.push({
+        ID_PRODUCTO: idProducto,
+        DS_PRODUCTO: dsProducto,
+        ID_DETA_RUTA_PRODUCTO: 0
+      });
+      console.log(this.detaProductos);
+      this.ruta.ID_PRODUCTO = 0; 
     }
   }
 
-  async eliminarProducto(id) {
+  async eliminarProducto(i, idDeta) {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
     }
-  }
-
-  async agregarTipoCarga() {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-  }
-
-  async eliminarTipoCarga(id) {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Eliminar Registro',
+      text: "¿Desea eliminar este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        if (idDeta > 0) {
+          this._registerService.deleteDetaRutaProducto(idDeta).subscribe(
+            (response: any) => {
+              this.detaProductos.splice(i, 1);
+            }
+          );
+        } else {
+          this.detaProductos.splice(i, 1);
+        }
+      } 
+    });
   }
 
 }

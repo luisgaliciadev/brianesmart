@@ -1928,7 +1928,7 @@ deleteRuta(ruta) {
 }
 // End delete Ruta
 
-// Delete ruta
+// Aprobar ruta
 aprobarRuta(ruta) { 
   let params = ruta.ID_RUTA + '/' + ruta.ID_USUARIO 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
@@ -1949,7 +1949,117 @@ aprobarRuta(ruta) {
 }
 // End delete Ruta
 
+// Get deta ruta tipo cargas
+getDetaRutaTipoCargas(idRuta) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/detarutatipocargas/' + idRuta, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get deta ruta tipo cargas
 
+// Get deta productos
+getDetaRutaProductos(idRuta) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/detarutaproductos/' + idRuta, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get deta productos
+
+// Delete deta ruta tipo carga
+deleteDetaRutaTipoCarga(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/detarutatipocarga/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End delete deta ruta tipo carga
+
+// Delete deta ruta producto
+deleteDetaRutaProducto(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/detarutaproducto/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End delete deta ruta producto
+
+// Register deta ruta tipo carga
+registerDetaRutaTipoCarga(id, idRuta) { 
+  let params = id + '/' + idRuta + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/detarutatipocarga/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Tipo de carga registrado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End delete deta ruta tipo carga
+
+// Register deta ruta producto
+registerDetaProducto(id, idRuta) { 
+  let params = id + '/' + idRuta + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/detarutaproducto/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Producto registrado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End delete deta ruta producto
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////

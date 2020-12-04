@@ -66,7 +66,7 @@ export class RutasComponent implements OnInit {
     }
     this._registerService.getRutas(search).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;

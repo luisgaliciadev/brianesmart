@@ -33,7 +33,7 @@
                             <div class="form-group">
                                 <label>RUC:</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="RUC" name="RUC" type="text" class="form-control" placeholder="RUC">
+                                    <input (keyup.enter)="buscarClienteRuc()" [(ngModel)]="RUC" name="RUC" type="text" class="form-control" placeholder="RUC">
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <label>Cliente:</label>
                                 <div class="input-group">
-                                    <select [(ngModel)]="ruta.ID_CLIENTE" name="ID_CLIENTE" class="form-control" required>
+                                    <select (change)="rucCliente()" [(ngModel)]="ruta.ID_CLIENTE" name="ID_CLIENTE" class="form-control" required>
                                         <option value = 0>Seleccione</option>
                                         <option *ngFor="let cliente of clientes" value = {{cliente.ID_CLIENTE}}>{{cliente.RAZON_SOCIAL}}</option>
                                     </select>                                            
@@ -130,7 +130,7 @@
                                         <option value = 0>Seleccione</option>
                                         <option *ngFor="let tipoCarga of tipoCargas" value = {{tipoCarga.ID_TIPO_CARGA}}>{{tipoCarga.DS_TIPO_CARGA}}</option>
                                     </select>   
-                                    <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="agregarTipoCarga()"></i></div>                                         
+                                    <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="agregarTipoCarga(ruta.ID_TIPO_CARGA)"></i></div>                                         
                                 </div>
                             </div>
 
@@ -150,7 +150,7 @@
                                             <td align="center">{{detaTipoCarga.ID_TIPO_CARGA}}</td>
                                             <td align="center">{{detaTipoCarga.DS_TIPO_CARGA}}</td>                                              
                                             <td align="center">                                      
-                                                <a data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarTipoCarga(detaTipoCarga.ID_TIPO_CARGA)"></i> </a>
+                                                <a data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarTipoCarga(i,detaTipoCarga.ID_DETA_RUTA_TIPO_CARGA)"></i> </a>
                                             </td>                                    
                                         </tr>
                                     </tbody>
@@ -166,7 +166,7 @@
                                         <option value = 0>Seleccione</option>
                                         <option *ngFor="let producto of productos" value = "{{producto.ID_PRODUCTO}}">{{producto.DS_PRODUCTO}}</option>
                                     </select>    
-                                    <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="agregarProducto()"></i></div>                                        
+                                    <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="agregarProducto(ruta.ID_PRODUCTO)"></i></div>                                        
                                 </div>
                             </div>
                             
@@ -186,7 +186,7 @@
                                             <td align="center">{{detaProducto.ID_PRODUCTO}}</td>
                                             <td align="center">{{detaProducto.DS_PRODUCTO}}</td>                                              
                                             <td align="center">                                      
-                                                <a data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarProducto(detaProducto.ID_PRODUCTO)"></i> </a>
+                                                <a data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarProducto(i,detaProducto.ID_DETA_RUTA_PRODUCTO)"></i> </a>
                                             </td>                                    
                                         </tr>
                                     </tbody>
@@ -194,7 +194,111 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <hr>
+                    <h4>Información Complementaria</h4>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hora Inicio Atención:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.HORA_INICIO" name="HORA_INICIO" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hora Fin Atención:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.HORA_FIN" name="HORA_FIN" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Kilometros:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.KM" name="KM" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Ida (horas):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.IDA_HORAS" name="IDA_HORAS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Retorno (horas):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.RETORNO_HORAS" name="RETORNO_HORAS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Origen (horas):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.ORIGEN_HORAS" name="ORIGEN_HORAS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Destino (horas):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.DESTINO_HORAS" name="DESTINO_HORAS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Leadtime (Dias):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.LEADTIME_DIAS" name="LEADTIME_DIAS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Combustible (Glns):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.COMBUSTIBLE_GLNS" name="COMBUSTIBLE_GLNS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Rendimiento (Km/Glns):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.REDIMIENTO_KM_GLNS" name="REDIMIENTO_KM_GLNS" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
                     <div class="form-group">
                         <label>Observación:</label>
                         <div class="input-group">                                            
@@ -202,7 +306,7 @@
                         </div>
                     </div>
 
-                    <button *ngIf="ruta.ID_RUTA === 0" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                    <button *ngIf="ruta.ID_RUTA === 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="registerRuta()">
                         <i class="fa fa-save"></i>
                         Guardar
                     </button>
