@@ -134,6 +134,31 @@ export class IntegracionQwantecComponent implements OnInit {
                 "departamento": "Departamento inicial",                                                        
                 "aliasCompania": null,
                 "estado": true
+            },
+            {
+              "codigo": "108239214",
+              "rut": "003075753",
+              "codigoFicha": "003075753",
+              "nombres": "Luis Raul",   
+              "apellidos": "Galicia Lugo",
+              "nombreEnReloj": "lgalicia",
+              "email": "luis.galicia@supervan.pe",
+              "fechaNacimiento": "1986-12-12",
+              "nacionalidad": null,
+              "genero": 1,
+              "cargo": "Analista Programador",
+              "comentario": null,
+              "fechaContrato": "2020-05-04",
+              "fechaFinContrato": null,
+              "direccion1": "CALLAO, CALLAO, CALLAO",
+              "direccion2": "201",
+              "ciudad": "LIMA",
+              "telefonoFijo": null,
+              "telefonoMovil": "929647791",
+              "sucursal": "Matriz",
+              "departamento": "Departamento inicial",                                                        
+              "aliasCompania": null,
+              "estado": true
             }
           ],
           "crearNoExistentes": false
@@ -270,6 +295,31 @@ export class IntegracionQwantecComponent implements OnInit {
                 "departamento": "Departamento inicial",                                                        
                 "aliasCompania": null,
                 "estado": false
+            },
+            {
+              "codigo": "108239214",
+              "rut": "003075753",
+              "codigoFicha": "003075753",
+              "nombres": "Luis Raul",   
+              "apellidos": "Galicia Lugo",
+              "nombreEnReloj": "lgalicia",
+              "email": "luis.galicia@supervan.pe",
+              "fechaNacimiento": "1986-12-12",
+              "nacionalidad": null,
+              "genero": 1,
+              "cargo": "Analista Programador",
+              "comentario": null,
+              "fechaContrato": "2020-05-04",
+              "fechaFinContrato": null,
+              "direccion1": "CALLAO, CALLAO, CALLAO",
+              "direccion2": "201",
+              "ciudad": "LIMA",
+              "telefonoFijo": null,
+              "telefonoMovil": "929647791",
+              "sucursal": "Matriz",
+              "departamento": "Departamento inicial",                                                        
+              "aliasCompania": null,
+              "estado": true
             }
           ],
           "crearNoExistentes": false

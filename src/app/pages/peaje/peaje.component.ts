@@ -267,13 +267,16 @@ export class PeajeComponent implements OnInit {
     }
   }
 
-  getConductor(id) {
+  async getConductor(id) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     if (id === '') {
       return;
     }
     this._registerService.getConductor(id).subscribe(
       (response: any) => {
-        // console.log(response);
         this.dniConductor = response.conductor.ID_Chofer;
         this.nombreConductor = response.conductor.Nombre;
         this.idConductor = response.conductor.ID_CONDUCTOR;

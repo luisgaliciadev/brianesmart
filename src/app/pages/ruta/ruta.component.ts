@@ -3,6 +3,12 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Ruta } from 'src/app/models/ruta.model';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
+
 
 @Component({
   selector: 'app-ruta',
@@ -10,11 +16,10 @@ import Swal from 'sweetalert2';
   styles: [
   ]
 })
-export class RutaComponent implements OnInit {
-
+export class RutaComponent implements OnInit {  
   loading = false;
   registrando = false;
-  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0);;
+  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0);
   RUC = '';
   clientes = [];
   origenes = [];
@@ -36,7 +41,7 @@ export class RutaComponent implements OnInit {
   ngOnInit(): void {
     this.getClientes();
     this.getOrigenes();
-    this.getDestinos();
+    this.getDestinos();23
     this.getTipoCargas();
     this.getProductos();  
     this.getMonedas();  
@@ -46,7 +51,7 @@ export class RutaComponent implements OnInit {
       if (this.ruta.ID_RUTA > 0) {
         this.getRuta();
       } else {
-        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,0,0,0,0,0,0,0);
+        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0);
       }
     });
   }
@@ -75,6 +80,19 @@ export class RutaComponent implements OnInit {
         this.ruta.ESTADO = response.ruta.ESTADO;
         this.ruta.ID_TIPO_COBRO_OS = response.ruta.ID_TIPO_COBRO_OS;
         this.ruta.ID_USUARIO = this._userService.user.ID_USER;
+        this.ruta.HORA_INICIO = response.ruta.HORA_INICIO;
+        this.ruta.HORA_FIN = response.ruta.HORA_FIN;
+        this.ruta.KM = response.ruta.KM;
+        this.ruta.IDA_HORAS = response.ruta.IDA_HORAS;
+        this.ruta.RETORNO_HORAS = response.ruta.RETORNO_HORAS;
+        this.ruta.ORIGEN_HORAS = response.ruta.ORIGEN_HORAS;
+        this.ruta.DESTINO_HORAS = response.ruta.DESTINO_HORAS;
+        this.ruta.LEADTIME_HORAS = response.ruta.LEADTIME_HORAS;
+        this.ruta.LEADTIME_DIAS = response.ruta.LEADTIME_DIAS;
+        this.ruta.COSTO_ESTIBA = response.ruta.COSTO_ESTIBA;
+        this.ruta.PEAJES = response.ruta.PEAJES;
+        this.ruta.COMBUSTIBLE_GLNS = response.ruta.COMBUSTIBLE_GLNS;
+        this.ruta.REDIMIENTO_KM_GLNS = response.ruta.REDIMIENTO_KM_GLNS;
         this.loading = false;
       },
       (error: any) => {
@@ -82,6 +100,21 @@ export class RutaComponent implements OnInit {
       }
     );
   }
+
+  // formatoHora(horaMinutos, nro) {    
+  //   if (horaMinutos.length === 2) {
+  //     let hora = horaMinutos.substring(0,2)
+  //     if (hora > 23) {
+  //       if (nro === 1) {
+  //         this.ruta.HORA_INICIO = '23';
+  //       }
+
+  //       if (nro === 2) {
+  //         this.ruta.HORA_FIN = '23';
+  //       }
+  //     }
+  //   }
+  // }
 
   getDetaRutaTipoCargas() {
     this._registerService.getDetaRutaTipoCargas(this.ruta.ID_RUTA).subscribe(
@@ -212,6 +245,79 @@ export class RutaComponent implements OnInit {
     );
   }
 
+  horasLeadtime () {
+    let horasLeadtime = ''
+    let totalHorasLeadtime
+    let horasIda = 0;
+    let horasRetorno = 0;
+    let horasOrigen = 0;
+    let horasDestino = 0;
+    let totalMinLeadtime
+    let minIda = 0;
+    let minRetorno = 0;
+    let minOrigen = 0;
+    let minDestino = 0;
+
+    if (parseInt(this.ruta.IDA_HORAS.substring(0,2))) {
+      horasIda = parseInt(this.ruta.IDA_HORAS.substring(0,2));
+    }
+
+    if (parseInt(this.ruta.RETORNO_HORAS.substring(0,2))) {
+      horasRetorno = parseInt(this.ruta.RETORNO_HORAS.substring(0,2));
+    }
+
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(0,2))) {
+      horasOrigen = parseInt(this.ruta.ORIGEN_HORAS.substring(0,2));
+    }
+   
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(0,2))) {
+      horasDestino = parseInt(this.ruta.DESTINO_HORAS.substring(0,2));
+    }
+
+    if (parseInt(this.ruta.IDA_HORAS.substring(2))) {
+      if (parseInt(this.ruta.IDA_HORAS.substring(2)) > 59) {
+        this.ruta.IDA_HORAS = this.ruta.IDA_HORAS.substring(0,2) + '59';
+      }
+      minIda = parseInt(this.ruta.IDA_HORAS.substring(2));
+    }
+
+    if (parseInt(this.ruta.RETORNO_HORAS.substring(2))) {
+      minRetorno = parseInt(this.ruta.RETORNO_HORAS.substring(2));
+    }
+
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2))) {
+      minOrigen = parseInt(this.ruta.ORIGEN_HORAS.substring(2));
+    }
+   
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(2))) {
+      minDestino = parseInt(this.ruta.DESTINO_HORAS.substring(2));
+    }
+
+    let minutos = minIda + minRetorno + minOrigen + minDestino;
+    let horasMin = (minutos / 60).toFixed(2);
+    let arrayTotalHorasMin = horasMin.toString().split('.');
+    let totalHorasMin = parseInt(arrayTotalHorasMin[0]);
+    let totalMin = Math.ceil((parseInt(arrayTotalHorasMin[1]) * 59) / 99);
+    totalHorasLeadtime = horasIda + horasRetorno + horasOrigen + horasDestino + totalHorasMin;
+    totalMinLeadtime = totalMin;
+
+    if (totalHorasLeadtime.toString().length < 2) {
+      horasLeadtime = '0' + totalHorasLeadtime.toString();
+    } else {
+      horasLeadtime = totalHorasLeadtime.toString();
+    }
+
+    if (totalMinLeadtime.toString().length < 2) {
+      totalMinLeadtime = '0' + totalMinLeadtime.toString();
+    } else {
+      totalMinLeadtime = totalMinLeadtime.toString();
+    }
+    
+    this.ruta.LEADTIME_HORAS = '';
+    this.ruta.LEADTIME_HORAS = horasLeadtime + ':' + totalMinLeadtime;
+    this.ruta.LEADTIME_DIAS = Math.ceil((parseInt(horasLeadtime) + parseInt(totalMinLeadtime) / 60) / 24);
+  }
+
   async registerRuta() {
     let token = await this._userService.validarToken();
     if (!token) {
@@ -247,10 +353,46 @@ export class RutaComponent implements OnInit {
       return;
     }
 
-    this.ruta.ID_USUARIO = this._userService.user.ID_USER;
-    this.registrando = true;
+    let horaInicio = parseInt(this.ruta.HORA_INICIO.substring(0,2));
+    let minInicio = parseInt(this.ruta.HORA_INICIO.substring(2));
+    let horaFin = parseInt(this.ruta.HORA_FIN.substring(0,2));
+    let minFin = parseInt(this.ruta.HORA_FIN.substring(2));
+
+    if (horaInicio > 23 || horaInicio < 0 || minInicio > 59 || minInicio <0) {
+      Swal.fire('Mensaje', 'Formato de hora de inicio de atención incorrecto', 'warning');
+      return;
+    }
+
+    if (horaFin > 23 || horaFin < 0 || minFin > 59 || minFin <0) {
+      Swal.fire('Mensaje', 'Formato de hora de fin de atención incorrecto', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.IDA_HORAS.substring(2)) > 59) {
+      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas de ida', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.RETORNO_HORAS.substring(2)) > 59) {
+      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas de retorno', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2)) > 59) {
+      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas en origen', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(2)) > 59) {
+      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas en destino', 'warning');
+      return;
+    }
+
+    this.ruta.ID_USUARIO = this._userService.user.ID_USER;   
     this.ruta.DETA_TIPO_CARGAS = this.detaTipoCargas;
     this.ruta.DETA_PRODUCTOS = this.detaProductos;
+    console.log('ruta:',this.ruta);
+    this.registrando = true;
     this._registerService.registerRuta(this.ruta).subscribe(
       (response: any) => {
         // console.log(response);

@@ -15,6 +15,8 @@ import { ChartsModule } from 'ng2-charts';
 // PDF view
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
 
 // Pipe Module
 import { PipesModule } from '../pipes/pipes.module';
@@ -76,6 +78,15 @@ import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.co
 import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-qwantec.component';
 import { RutasComponent } from './rutas/rutas.component';
 import { RutaComponent } from './ruta/ruta.component';
+import { ConductoresComponent } from './conductores/conductores.component';
+import { DocumentosConductorComponent } from './documentos-conductor/documentos-conductor.component';
+import { DocumentosClienteComponent } from './documentos-cliente/documentos-cliente.component';
+import { HomologacionConductorComponent } from './homologacion-conductor/homologacion-conductor.component';
+import { DocumentosUnidadComponent } from './documentos-unidad/documentos-unidad.component';
+import { HomologacionUnidadComponent } from './homologacion-unidad/homologacion-unidad.component';
+import { DocumentosClienteUnidadComponent } from './documentos-cliente-unidad/documentos-cliente-unidad.component';
+import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades.component';
+
 
 @NgModule({
     declarations: [
@@ -134,7 +145,15 @@ import { RutaComponent } from './ruta/ruta.component';
         RepositorioDocsComponent,
         IntegracionQwantecComponent,
         RutasComponent,
-        RutaComponent
+        RutaComponent,
+        ConductoresComponent,
+        DocumentosConductorComponent,
+        DocumentosClienteComponent,
+        HomologacionConductorComponent,
+        DocumentosUnidadComponent,
+        HomologacionUnidadComponent,
+        DocumentosClienteUnidadComponent,
+        ConsultaUnidadesComponent
     ],
     exports: [
         // PagesComponent,
@@ -150,7 +169,8 @@ import { RutaComponent } from './ruta/ruta.component';
         ChartsModule,
         PipesModule,
         ReactiveFormsModule,
-        PdfViewerModule
+        PdfViewerModule,
+        NgxMaskModule.forRoot()
     ],
     providers: [],
     bootstrap: []

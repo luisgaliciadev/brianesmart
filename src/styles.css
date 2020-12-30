@@ -71,6 +71,7 @@
 
 .table-op td {
     height: 80px;
+    border:#e9ecef 1px solid  !important;
 }
 
 .table-op tbody td,
@@ -227,5 +228,21 @@
 .control-guia-text-white {
     color: white;
 }
+
+body {
+    font-size: 12px !important;
+}
+
+.form-control {
+    font-size: 12px !important;
+}
+
+/* .input-group {
+    height: 10px !important;
+} */
+
+/* .input-group {
+    font-size: 12px !important;
+} */
 
    

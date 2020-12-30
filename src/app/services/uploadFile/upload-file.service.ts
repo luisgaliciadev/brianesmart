@@ -8,7 +8,7 @@ export class UploadFileService {
 
   constructor() { }
 
-  uploadFile(file: File, type: string, id: number, idUser: number) {
+  uploadFile(file: File, type: string, id, idUser) {
 
     return new Promise( (resolve, reject) => {
 
@@ -35,8 +35,6 @@ export class UploadFileService {
 
       // tslint:disable-next-line: prefer-const
       let url = URL_SERVICES + '/upload/' + type + '/' + id + '/' + idUser;
-      console.log('url:' + url);
-
       xhr.open('PUT', url, true);
       xhr.send(formData);
 

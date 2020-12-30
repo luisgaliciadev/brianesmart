@@ -61,6 +61,14 @@ import { RepositorioDocsComponent } from './repositorio-docs/repositorio-docs.co
 import { IntegracionQwantecComponent } from './integracion-qwantec/integracion-qwantec.component';
 import { RutasComponent } from './rutas/rutas.component';
 import { RutaComponent } from './ruta/ruta.component';
+import { ConductoresComponent } from './conductores/conductores.component';
+import { DocumentosConductorComponent } from './documentos-conductor/documentos-conductor.component';
+import { DocumentosClienteComponent } from './documentos-cliente/documentos-cliente.component';
+import { HomologacionConductorComponent } from './homologacion-conductor/homologacion-conductor.component';
+import { DocumentosUnidadComponent } from './documentos-unidad/documentos-unidad.component';
+import { HomologacionUnidadComponent } from './homologacion-unidad/homologacion-unidad.component';
+import { DocumentosClienteUnidadComponent } from './documentos-cliente-unidad/documentos-cliente-unidad.component';
+import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -107,7 +115,15 @@ const pagesRoutes: Routes = [
             {path: 'integracion-qwantec', component: IntegracionQwantecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Integraciones con Sistema Qwantec'}},
             {path: 'rutas', component: RutasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Rutas'}},
             {path: 'ruta/:id', component: RutaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registro de Ruta'}},
-        
+            {path: 'conductores', component: ConductoresComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Listado de Conductores'}},
+            {path: 'documentos-conductor', component: DocumentosConductorComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos de Conductores'}},
+            {path: 'documentos-cliente-conductor', component: DocumentosClienteComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos por Cliente y Conductor'}},
+            {path: 'homologacion-conductor', component: HomologacionConductorComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Homologación de Conductor'}},
+            {path: 'documentos-unidad', component: DocumentosUnidadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos de Unidades'}},
+            {path: 'homologacion-unidad', component: HomologacionUnidadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Homologación de Unidad'}},
+            {path: 'documentos-cliente-unidad', component: DocumentosClienteUnidadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos por Cliente y Unidad'}},
+            {path: 'consulta-unidades', component: ConsultaUnidadesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Listado de Unidades'}},
+            
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},

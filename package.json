@@ -33,6 +33,7 @@
     "ng2-charts-extended": "0.0.3",
     "ng2-pdf-viewer": "^6.3.2",
     "ngx-extended-pdf-viewer": "^5.4.0-beta.1",
+    "ngx-mask": "^11.1.4",
     "request": "^2.88.2",
     "rxjs": "^6.6.2",
     "sweetalert": "^2.1.2",

@@ -1,0 +1,108 @@
+<div class="row animated fadeInRight">    
+    <div class="col-12">     
+        <div class="card">
+            <div class="card-body">
+                <div class="row" *ngIf="loading">
+                    <div class="col-sm-12">
+                        <div class="alert alert-warning text-center">
+                            <strong>Cargando...</strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                            <span>Por Favor Espere...</span>
+                        </div>
+                    </div>   
+                </div>
+
+                <div *ngIf="!loading">
+                    <div class="row">  
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>RUC:</label>
+                                <div class="input-group">                                            
+                                    <input (keyup.enter)="buscarClienteRuc()" [(ngModel)]="RUC" name="RUC" type="text" class="form-control" placeholder="RUC">
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-9">                            
+                            <div class="form-group">
+                                <label>Cliente:</label>
+                                <div class="input-group">
+                                    <select (change)="rucCliente()" [(ngModel)]="idCliente" name="idCliente" class="form-control" required>
+                                        <option value = 0>Seleccione</option>
+                                        <option *ngFor="let cliente of clientes" value = {{cliente.ID_CLIENTE}}>{{cliente.RAZON_SOCIAL}}</option>
+                                    </select>                                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf = "!resgistrado" class="form-group">
+                        <label>Documentos:</label>
+                        <div class="input-group">
+                            <select [(ngModel)]="idDocumento" name="idDocumento" class="form-control" required>
+                                <option value = 0>Seleccione</option>
+                                <option *ngFor="let documento of documentos" value = {{documento.ID_DOCUMENTO}}>{{documento.DS_DOCUMENTO}}</option>
+                            </select> 
+                            <div class="input-group-addon"><i class="fa fa-plus-circle pointer" data-toggle="tooltip" data-placement="top" title="Agregar" (click)="registerDoc()"></i></div>                                           
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="row" *ngIf="busqueda">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning text-center">
+                                <strong>Cargando...</strong>
+                                <br>
+                                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                                <br>
+                                <span>Por Favor Espere...</span>
+                            </div>
+                        </div>   
+                    </div>
+
+                    <div class="row" *ngIf="resgistrado">
+                        <div class="col-sm-12">
+                            <div class="alert alert-primary text-center">
+                                <strong>Guardando datos</strong>
+                                <br>
+                                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                                <br>
+                                <span>Por Favor Espere...</span>
+                            </div>
+                        </div>    
+                    </div>
+                    
+                    <div *ngIf="(!busqueda && !resgistrado) || loading">
+                        <h3>Listado de Documentos (<small>{{totalRegistros}}</small>)</h3>
+                        <div style="overflow: auto;">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ITEMS</th>
+                                        <th>Documento</th>                                       
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let documento of documentosCliente">
+                                        <td>{{documento.ITEMS}}</td>
+                                        <td>{{documento.DS_DOCUMENTO}}</td>                     
+                                        <td style="text-align: center;">
+                                            <a data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-close text-danger pointer m-r-10" (click)="borrarDocumento(documento.ID_RELACION_DOC_CLIENTE)"></i></a>
+                                            <!-- <i class="fa fa-trash-o pointer" data-toggle="tooltip" data-placement="top" title="Eliminar"></i> -->
+                                            <!-- <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="borrarDocumento(documento.ID_RELACION_DOC_CLIENTE)">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

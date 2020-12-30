@@ -12,6 +12,7 @@ import { UserService } from '../user/user.service';
 import { AddressClient } from '../../models/addressClient.model';
 import { Denuncia } from 'src/app/models/denuncia.model';
 import { UploadFileService } from '../uploadFile/upload-file.service';
+import { ParseTreeResult } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -52,8 +53,7 @@ getTypeClient() {
 // End Get Type Client
 
 // Register Client
-registerClient(client: Client) {
- 
+registerClient(client: Client) { 
   let json = JSON.stringify(client);  
   let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
@@ -122,7 +122,6 @@ getClients(search) {
   }
   return this._http.get(this.URL + '/register/clients/' + search + '/' + this._userService.user.ID_USER)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }));
 }
@@ -244,7 +243,6 @@ defaultAddressClient(addressClient: AddressClient, idAddress: number) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.put(this.URL + '/register/defaultaddress/' + idAddress, params, {headers})
   .pipe(map((res: any) => {
-    // console.log(res);
     Swal.fire('Mensaje', 'Sucursal principal establecida correctamente.', 'success');
     return res;
   }))
@@ -307,7 +305,6 @@ getDenuncias(search) {
   }
   return this._http.get(this.URL + '/register/denuncias/' + search)
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }));
 }
@@ -369,7 +366,7 @@ getDenunciasExcel(search) {
 }
 // Fin Metodo para exportar empresas
 
- // Cambiar imagen de empresa
+ // Subir archivo de denuncia
  uploadFileDenuncia(file: File, id: number, numArchivo: number) {
   this._uploadFileService.uploadFile(file, 'denuncia', id, numArchivo)
       .then( (resp: any) => {
@@ -379,7 +376,7 @@ getDenunciasExcel(search) {
         // Swal.fire('Error', 'No se pudo subir la imagen', 'warning');
       });
  }
-// Fin Cambiar imagen de empresa
+// Fin Subir archivo de denuncia
 
 // Metodo para exportar a excel listado de denuncias
 // getDenuncia(idDenuncia) {
@@ -1872,7 +1869,6 @@ getRuta(idRuta) {
 
 // Get rutas
 getRutas(search) {
-  console.log(search);
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/register/rutas/' + search, {headers})
   .pipe(map((res: any) => {
@@ -1932,9 +1928,9 @@ deleteRuta(ruta) {
 aprobarRuta(ruta) { 
   let params = ruta.ID_RUTA + '/' + ruta.ID_USUARIO 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.put(this.URL + '/register/ruta/' + params, {headers})
+  return this._http.put(this.URL + '/register/aprobarRuta/' + params, {},{headers})
   .pipe(map((res: any) => {
-    Swal.fire('Mensaje', 'Ruta aprobada correctamente.', 'success');
+    Swal.fire('Mensaje', 'Ruta actualizada correctamente.', 'success');
     return res;
   }))
   .pipe(catchError( (err: any) => {   
@@ -1942,7 +1938,7 @@ aprobarRuta(ruta) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
     } else {
-      Swal.fire('Mensaje', 'No se pudo aprobar el registro.', 'error');
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
       return throwError(err);
     }
   }));
@@ -2060,6 +2056,223 @@ registerDetaProducto(id, idRuta) {
   }));
 }
 // End delete deta ruta producto
+
+// Get conductores
+getConductores(search) {
+  if (search === '') {
+    search = '0';
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/conductores/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get conductores
+
+// Get documentos conductores
+getDocConductores(search) {
+  if (search === '') {
+    search = '0'
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosConductor/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos conductores
+
+// Register documento conductor
+registerDocConductor(documento) { 
+  let json = JSON.stringify(documento);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/documentoConductor', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento registrado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register documento conductor
+
+// Update documento conductor
+updateDocConductor(documento) { 
+  let json = JSON.stringify(documento);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/register/documentoConductor', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento modificado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo modificar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update documento conductor
+
+// Delete documento conductor
+deleteDocConductor(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/documentoConductor/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete documento conductor
+
+// Get documentos unidad
+getDocUnidades(search) {
+  if (search === '') {
+    search = '0'
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosUnidad/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos unidad
+
+// Register documento unidad
+registerDocUnidad(documento) { 
+  let json = JSON.stringify(documento);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/documentoUnidad', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento registrado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register documento conductor
+
+// Update documento unidad
+updateDocUnidad(documento) { 
+  let json = JSON.stringify(documento);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/register/documentoUnidad', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento modificado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo modificar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update documento unidad
+
+// Delete documento unidad
+deleteDocUnidad(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/documentoUnidad/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete documento unidad
+
+// Get unidades
+getUnidades(search) {
+  if (search === '') {
+    search = '0';
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/unidades/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get unidades
+
+// Get unidad
+getUnidad(placa) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/unidad/' + placa, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar el el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// Fin Get unidad
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2245,6 +2458,251 @@ getTipoCobrosOs() {
 }
 // Fin Get tipo cobros ordenes servicios
 
+// Register documento cliente
+registerDocCliente(data) { 
+  let json = JSON.stringify(data);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/documentoCliente', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento registrado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register documento cliente
+
+// Get documentos cliente conductor
+getDocClientes(idCliente) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosCliente/' + idCliente, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos cliente conductor
+
+// Delete documento cliente conductor
+deleteDocCliente(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/documentoCliente/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete documento cliente conductor 
+
+// Register relacion documento conductor
+registerDocConductorRelacion(data) { 
+  let json = JSON.stringify(data);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/documentoConductorRelacion', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro actualizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register relacion documento conductor
+
+// Get relacion documentos conductor total
+getDocConductorTotal(idCliente, idConductor) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosConductorTotal/' + idCliente + '/' + idConductor, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get relacion documentos conductor total
+
+// Update relacion documento conductor
+updateDocCondcutor(data) { 
+  let json = JSON.stringify(data);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/register/documentoConductorRelacion', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro actualizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update relacion documento conductor
+
+
+// Register documento cliente unidad
+registerDocClienteUnidad(data) { 
+  let json = JSON.stringify(data);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/documentoClienteUnidad', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento registrado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register documento cliente
+
+// Get documentos cliente unidad
+getDocClientesUnidad(idCliente) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosClienteUnidad/' + idCliente, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos cliente unidad
+
+// Delete documento cliente unidad
+deleteDocClienteUnidad(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/register/documentoClienteUnidad/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete documento cliente conductor
+
+// Get relacion documentos unidad total
+getDocUnidadTotal(idCliente, idUnidad) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosUnidadTotal/' + idCliente + '/' + idUnidad, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get relacion documentos conductor total
+
+// Register relacion documento unidad
+registerDocUnidadRelacion(data) { 
+  let json = JSON.stringify(data);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/register/documentoUnidadRelacion', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro actualizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register relacion documento unidad
+
+// Update relacion documento unidad
+updateRelacionDocUnidad(data) { 
+  let json = JSON.stringify(data);  
+  let dataDocumento = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/register/documentoUnidadRelacion', dataDocumento, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro actualizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actualizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update relacion documento conductor
+
+
+// Subir documento de conductor
+// uploadFileConductor(file: File, id, idConductor) {
+//   this._uploadFileService.uploadFile(file, 'documentos-conductor', id, idConductor)
+//       .then( (resp: any) => {
+//         Swal.fire('Mensaje', 'Archivo Actualizado Correctamente', 'success');
+        
+//       })
+//       .catch( resp => {
+//         Swal.fire('Error', 'No se pudo subir el archivo', 'warning');
+//       });
+//  }
+// Fin Subir documento de conductor
+
 // Administracion
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2256,11 +2714,9 @@ getTipoCobrosOs() {
 marcajesQwantec(data) {
   let json = JSON.stringify(data);  
   let params = json;  
-  console.log(params);
   let headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this._http.post('https://app.relojcontrol.com/api/consultaMarcaciones/consulta',params, {headers})
   .pipe(map((res: any) => {
-    // console.log(res);
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -2274,7 +2730,6 @@ marcajesQwantec(data) {
 sincronizarEmpleadosQwantec(data) {
   let json = JSON.stringify(data);  
   let params = json;  
-  // console.log('params:', params);
   let headers = new HttpHeaders({'Content-Type': 'application/json'});
   return this._http.post('https://app.relojcontrol.com/api/actualizarEmpleados/importar',params, {headers})
   .pipe(map((res: any) => {

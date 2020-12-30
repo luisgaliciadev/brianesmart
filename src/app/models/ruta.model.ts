@@ -18,14 +18,16 @@ export class Ruta {
         public HORA_INICIO?: string,
         public HORA_FIN?: string,
         public KM?: number,
-        public IDA_HORAS?: number,
-        public RETORNO_HORAS?: number,
-        public ORIGEN_HORAS?: number,
-        public DESTINO_HORAS?: number,
+        public IDA_HORAS?: string,
+        public RETORNO_HORAS?: string,
+        public ORIGEN_HORAS?: string,
+        public DESTINO_HORAS?: string,
+        public LEADTIME_HORAS?: string,
         public LEADTIME_DIAS?: number,
+        public COSTO_ESTIBA?: number,
+        public PEAJES?: number,
         public COMBUSTIBLE_GLNS?: number,
-        public REDIMIENTO_KM_GLNS?: number,
-
+        public REDIMIENTO_KM_GLNS?: number
     ) { }
 
 }

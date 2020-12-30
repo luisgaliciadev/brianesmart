@@ -37,30 +37,24 @@ export class DenunciaComponent implements OnInit {
   }
 
   guardarDenuncia(denuncia) {       
-    
     this.denuncia = denuncia;
     this.denuncia.FG_EMPLEADO = this.empleado;
-    this.denuncia.FG_ANONIMATO = this.anonimato;     
-           
+    this.denuncia.FG_ANONIMATO = this.anonimato;        
     this._registerService.registerDenuncia(this.denuncia).subscribe(
     (response: any) => {
       if (response) {
         this.denuncia = new Denuncia('', '', false, false, '', '', '', '', '', '', '', '', '');
         this.idDenuncia = response.denuncia.ID_DENUNCIA;
-        
         if (this.idDenuncia > 0) {
           if (this.imageUpload) {
             this.changeImage(this.imageUpload, 1);
           }
-          
           if (this.imageUpload2) {
             this.changeImage(this.imageUpload2, 2);
           }
-
           if (this.imageUpload3) {
               this.changeImage(this.imageUpload3, 3);
           }
-
           this.imageUpload = null;
           this.imageUpload2= null;
           this.imageUpload3 = null;
