@@ -88,11 +88,10 @@
                                         <th>Documento</th> 
                                         <th>Fecha Emisión</th>         
                                         <th>Fecha Vencimiento</th>
-                                        <th>Estatus</th>                              
+                                        <th></th>     
+                                        <th>Dias</th>                         
+                                        <th>Estatus</th>
                                         <th></th>
-                                        <!-- <th></th>
-                                        <th></th>
-                                        <th></th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -111,6 +110,7 @@
                                                 <label for="{{documento.ID_RELACION_DOC_CLIENTE}}"></label>
                                             </div>
                                         </td>
+                                        <td class="{{documento.CLASE_DIAS}}" style="text-align: center;">{{documento.DIAS}}</td>
                                         <td>{{documento.ESTATUS}}</td>
                                         <td style="width: 160px;">
                                             <button (click)="actualizarRegistro(i)" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Guardar/Actualizar">

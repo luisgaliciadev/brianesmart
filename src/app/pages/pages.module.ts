@@ -86,6 +86,8 @@ import { DocumentosUnidadComponent } from './documentos-unidad/documentos-unidad
 import { HomologacionUnidadComponent } from './homologacion-unidad/homologacion-unidad.component';
 import { DocumentosClienteUnidadComponent } from './documentos-cliente-unidad/documentos-cliente-unidad.component';
 import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades.component';
+import { PlanificacionOperacionesComponent } from './planificacion-operaciones/planificacion-operaciones.component';
+import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones-op.component';
 
 
 @NgModule({
@@ -153,7 +155,9 @@ import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades
         DocumentosUnidadComponent,
         HomologacionUnidadComponent,
         DocumentosClienteUnidadComponent,
-        ConsultaUnidadesComponent
+        ConsultaUnidadesComponent,
+        PlanificacionOperacionesComponent,
+        PlanificacionesOpComponent
     ],
     exports: [
         // PagesComponent,

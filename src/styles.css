@@ -237,12 +237,37 @@ body {
     font-size: 12px !important;
 }
 
-/* .input-group {
-    height: 10px !important;
+/* 
+.tabla-demanda th {
+    border-collapse: collapse !important;
+    border:#e9ecef 1px solid  !important;
+    background-color: gray;
 } */
 
-/* .input-group {
-    font-size: 12px !important;
+.tabla-demanda thead{
+    overflow: auto;
+    width: 100%;
+}
+
+.tabla-demanda tbody{
+    height: 350px;
+    overflow: auto;
+    width: 100%;
+}
+
+.tabla-demanda tbody,    
+.tabla-demanda td,
+.tabla-demanda th{
+  display: block;
+}
+
+/* .tabla-demanda td {
+    border:#e9ecef 1px solid  !important;
 } */
+
+.tabla-demanda tbody td,
+.tabla-demanda thead > tr > th{
+    float: left;
+}
 
    

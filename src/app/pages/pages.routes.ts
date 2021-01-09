@@ -69,6 +69,8 @@ import { DocumentosUnidadComponent } from './documentos-unidad/documentos-unidad
 import { HomologacionUnidadComponent } from './homologacion-unidad/homologacion-unidad.component';
 import { DocumentosClienteUnidadComponent } from './documentos-cliente-unidad/documentos-cliente-unidad.component';
 import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades.component';
+import { PlanificacionOperacionesComponent } from './planificacion-operaciones/planificacion-operaciones.component';
+import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones-op.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -123,7 +125,9 @@ const pagesRoutes: Routes = [
             {path: 'homologacion-unidad', component: HomologacionUnidadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Homologación de Unidad'}},
             {path: 'documentos-cliente-unidad', component: DocumentosClienteUnidadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos por Cliente y Unidad'}},
             {path: 'consulta-unidades', component: ConsultaUnidadesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Listado de Unidades'}},
-            
+            {path: 'planificacion-operaciones/:id', component: PlanificacionOperacionesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificación Operaciones'}},
+            {path: 'planificaciones-op', component: PlanificacionesOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificaciones Operaciones'}},
+
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},

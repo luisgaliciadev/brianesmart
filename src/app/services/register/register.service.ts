@@ -1221,10 +1221,10 @@ getExcelDescuentoPeaje(desde, hasta, search) {
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // OPERACIONES
 
-// Get Orden servicio
-getOrdenServicio(id) {
+// Get Ordenes servicios guias
+getOrdenServicio(idUser) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.get(this.URL + '/operaciones/os/' + id, {headers})
+  return this._http.get(this.URL + '/operaciones/os/' + idUser, {headers})
   .pipe(map((res: any) => {
     return res;
   }))
@@ -1258,6 +1258,25 @@ getOrdenServicioAll(id) {
   }));
 }
 // End Get Orden servicio
+
+// Get Orden servicio planificacion
+getOrdenServicioPlanificacion() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/osPlanificacion', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar las ordenes de servicio.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get Orden planificacion
 
 // Get Vehiculo
 getVehiculo(placa, tipo) {
@@ -2273,6 +2292,192 @@ getUnidad(placa) {
   }));
 }
 // Fin Get unidad
+
+// Get unidades disponibles
+getUnidadesDisponibles(idTipo) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/unidadesDisponibles/' + idTipo, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get unidades disponibles
+
+// Get conductores disponibles
+getConductoresDisponibles() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/conductoresDisponibles', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {    
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get conductores disponibles
+
+// Register planificacion Op
+registerPlanifiacionOp(planifiacion) { 
+  let json = JSON.stringify(planifiacion);  
+  let data = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/planificacionOp', data, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Planificación registrada correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register planificacion Op
+
+// Get orden servicio
+getOS(id) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/ordenServicio/' + id, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    this._router.navigate(['/planificacion-operaciones', 0]);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// Fin Get orden servicio
+
+// Get planificacion OP
+getPlanificacionOP(id) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/planificacionOp/' + id, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      this._router.navigate(['/planificacion-operaciones', 0]);
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// Fin Get planificacion OP
+
+// Get planificacion deta
+getPlanificacionDeta(idPlanificacion) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/planificacionDeta/' + idPlanificacion, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {    
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get planificacion deta
+
+// Register planificacion Op deta
+registerPlanifiacionOpDeta(planifiacion) { 
+  let json = JSON.stringify(planifiacion);  
+  let data = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/planificacionOpDeta', data, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register planificacion Op deta
+
+// Get planificaciones op
+getPlanificacionesOp(search, desde, hasta) {
+  if (search === '') {
+    search = '0';
+  }
+  let params = search + '/' + desde + '/' + hasta;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/planificacionesOp/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {    
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get planificaciones op
+
+// Delete planifiacion op
+deletePlanificacionOp(id, idOs) { 
+  let params = id + '/' +  idOs + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/operaciones/planificacionOp/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete planificacion op
+
+// Delete planifiacion op deta
+deletePlanificacionOpDeta(id) { 
+  let params = id + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/operaciones/planificacionOpDeta/' + params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Documento anulado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo anular el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Delete planificacion op deta
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
