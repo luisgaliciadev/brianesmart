@@ -71,6 +71,7 @@ import { DocumentosClienteUnidadComponent } from './documentos-cliente-unidad/do
 import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades.component';
 import { PlanificacionOperacionesComponent } from './planificacion-operaciones/planificacion-operaciones.component';
 import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones-op.component';
+import { AsignacionGuiaComponent } from './asignacion-guia/asignacion-guia.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -127,6 +128,7 @@ const pagesRoutes: Routes = [
             {path: 'consulta-unidades', component: ConsultaUnidadesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Listado de Unidades'}},
             {path: 'planificacion-operaciones/:id', component: PlanificacionOperacionesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificación Operaciones'}},
             {path: 'planificaciones-op', component: PlanificacionesOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificaciones Operaciones'}},
+            {path: 'asignacion-guia', component: AsignacionGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Asignacón de Guía'}},
 
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

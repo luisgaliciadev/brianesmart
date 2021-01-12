@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, RegisterService } from 'src/app/services/service.index';
+import { UserService, RegisterService, UploadFileService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Peaje } from 'src/app/models/peaje.model';
 import {saveAs} from 'file-saver';
+import { URL_SERVICES } from '../../config/config';
 
 @Component({
   selector: 'app-peaje',
@@ -47,12 +48,17 @@ export class PeajeComponent implements OnInit {
   idAccion = 0;
   depositado;
   valorI;
+  extesion = ['png','PNG','jpeg','JPEG','jpg','JPG','pdf']; 
+  imageUpload: File;
+  tempImage: string;
+  URL = URL_SERVICES;
 
   constructor(
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private _uploadFileService: UploadFileService
   ) 
   { 
   }
@@ -198,7 +204,6 @@ export class PeajeComponent implements OnInit {
         };
         this._registerService.updatePeaje(peajes).subscribe(
           (response: any) => {
-            // console.log(response);
             this.getPeaje();
           }
         );
@@ -359,7 +364,6 @@ export class PeajeComponent implements OnInit {
 
       this._registerService.registerDetaPeaje(detaPeaje).subscribe(
         (response: any) => {
-          // console.log(response);
           var idDetaPeaje = response.detaPeaje.ID_DETA_PEAJE;
           this.conductores.push({
             idConductor: this.idConductor,
@@ -417,7 +421,6 @@ export class PeajeComponent implements OnInit {
         if (idDeta > 0) {
           this._registerService.deleteDetaPeaje(this.peaje.ID_PEAJE, idDeta).subscribe(
             (response: any) => {
-              // console.log(response);
               this.conductores.splice(i, 1);
               var montoTotal = 0;
               this.conductores.forEach(function (peaje) { 
@@ -440,17 +443,17 @@ export class PeajeComponent implements OnInit {
       return;
     }
     if (this.idTipoDocPeaje == 0) {
-      alert('1');
+      Swal.fire('Error', 'No se realizo el registro, debe llenar todos los campos.', 'warning');
       return;
     }
 
     if (this.idTipoDocPeaje == 1 && (this.nroDocumento === '' || this.fechaDoc === '' || this.montoDoc == 0 || this.idGuia == 0)) {
-      alert('2');
+      Swal.fire('Error', 'No se realizo el registro, debe llenar todos los campos.', 'warning');
       return;
     }
 
     if (this.idTipoDocPeaje > 1 && this.nroDocumento === '' || this.fechaDoc === '' || this.montoDoc == 0) {
-      alert('3');
+      Swal.fire('Error', 'No se realizo el registro, debe llenar todos los campos.', 'warning');
       return;
     }
 
@@ -465,14 +468,18 @@ export class PeajeComponent implements OnInit {
       idUser : this._userService.user.ID_USER,
       idTipoDoc: this.idTipoDocPeaje
     }
+    this.registrando = true;
     this._registerService.registePeajeFact(factura).subscribe(
       (response: any) => {
+        this.changeImage(response.peajeFactura.ID_RELACION_PEAJES,response.peajeFactura.ID_PEAJE);
         this.getPeaje();
         this.limpiarModal();
+        this.registrando = false;
         // this.registrando = false;
       },
       error => {
         this.limpiarModal();
+        this.registrando = false;
         // this.registrando = false;
       }
     );
@@ -510,7 +517,6 @@ export class PeajeComponent implements OnInit {
    
     this._registerService.getVerificarNroGuia(correlativo, this.conductores[this.valorI].dni).subscribe(
       (response: any) => {
-        // console.log(response);
         this.idGuia = response.guia.ID_GUIA
       },
       (error: any) => {
@@ -542,11 +548,15 @@ export class PeajeComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         if (id > 0) {
+          this.registrando = true;
           this._registerService.deletePeajeFact(id).subscribe(
             (response: any) => {
-              // console.log(response);
               this.getPeajesFacturas(idDeta, dni, conductor);
               this.getPeaje();
+              this.registrando = false;
+            }, 
+            error => {
+              this.registrando = false;
             }
           );
         }
@@ -565,7 +575,6 @@ export class PeajeComponent implements OnInit {
     }
     this._registerService.updateDetaPeaje(idDeta, valor).subscribe(
       (response: any) => {
-        // console.log(response);
       },
       error => {
         if (valor = 1) {
@@ -584,7 +593,6 @@ export class PeajeComponent implements OnInit {
     }
     this._registerService.updateAllDetaPeaje(this.peaje.ID_PEAJE, valor).subscribe(
       (response: any) => {
-        // console.log(response);
         this.getPeaje();
       }
     );
@@ -714,6 +722,55 @@ export class PeajeComponent implements OnInit {
     }
     this._userService.loadReport();
     window.open('#/resumenpeaje/' + this.peaje.ID_PEAJE, '0' , '_blank');
+  }
+
+  selectImage(file: File) {
+    if (!file) {
+      this.imageUpload = null;
+      return;
+    } else {
+
+      var fileName = file.name.split('.');
+      var extFile = fileName[fileName.length - 1];      
+           
+      if (this.extesion.indexOf(extFile) < 0) {
+        this.imageUpload = null;
+        (<HTMLInputElement>document.getElementById('archivo')).value = '';
+        Swal.fire('Mensaje', 'Disculpe, tipo de archvio no valido', 'warning');
+        return;
+      }
+
+      if (file.size > 10000000) {
+        this.imageUpload = null;
+        (<HTMLInputElement>document.getElementById('archivo')).value = '';
+        Swal.fire('Mensaje', 'Disculpe, tamaño del archivo no debe superar los 10 MB', 'warning');
+        return;
+      }
+
+      this.imageUpload = file;
+      let reader = new FileReader();
+      let urlImageTemp = reader.readAsDataURL(file);
+      reader.onloadend = () => this.tempImage = reader.result as string;
+    }
+  }
+
+  changeImage(idRelacionPeaje, idPeaje) {    
+    this._uploadFileService.uploadFile(this.imageUpload, 'facturas-peaje', idRelacionPeaje, idPeaje)
+    .then( (resp: any) => {
+      (<HTMLInputElement>document.getElementById('archivo')).value = '';
+      // Swal.fire('Mensaje', 'Archivo Actualizado Correctamente', 'success');
+    })
+    .catch( resp => {
+      Swal.fire('Error', 'No se pudo subir el archivo', 'warning');
+    });
+  }
+
+  async verDocumento(archivo) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+    window.open(this.URL +'/image/facturas-peaje/' + archivo);
   }
 
 }

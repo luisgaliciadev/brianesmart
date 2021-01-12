@@ -339,6 +339,12 @@
                     <input [(ngModel)]="montoDoc" name="montoDoc" type="number" step="0.01" class="form-control" required>
                 </div>
             </div>
+            <div class="form-group row" >
+                <label class="col-3 col-form-label">Archivo:</label>                                
+                <div class="input-group col-9">                                  
+                    <input id = "archivo" type="file" (change)="selectImage($event.target.files[0])">                                                                                                             
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cancelar</button>
@@ -382,8 +388,9 @@
                         <td align="center">{{peajeFactura.FECHA_COMPROBANTE}}</td>
                         <td align="center">{{peajeFactura.MONTO_COMPROBANTE}}</td>
                         <td align="center">{{peajeFactura.CORRELATIVO}}</td>                     
-                        <td align="center">                               
-                            <a data-toggle="tooltip" data-placement="top" title="Eliminar Factura" (click)="deletePeajeFact(peajeFactura.ID_RELACION_PEAJES,peajeFactura.ID_DETA_PEAJE,peajeFactura.IDENTIFICACION,peajeFactura.NOMBRE_APELLIDO)"> <i class="fa fa-close text-danger pointer m-r-10"></i></a>
+                        <td align="center">   
+                            <a data-toggle="tooltip" data-placement="top" title="Ver Documento" (click)="verDocumento(peajeFactura.NB_ARCHIVO)"> <i class="fa fa-search text-info pointer m-r-10"></i></a>                            
+                            <a data-toggle="tooltip" data-placement="top" title="Eliminar Factura" (click)="deletePeajeFact(peajeFactura.ID_RELACION_PEAJES,peajeFactura.ID_DETA_PEAJE,peajeFactura.IDENTIFICACION,peajeFactura.NOMBRE_APELLIDO)"> <i class="fa fa-close text-danger pointer"></i></a>
                         </td>
                     </tr>
                 </tbody>

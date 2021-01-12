@@ -88,6 +88,7 @@ import { DocumentosClienteUnidadComponent } from './documentos-cliente-unidad/do
 import { ConsultaUnidadesComponent } from './consulta-unidades/consulta-unidades.component';
 import { PlanificacionOperacionesComponent } from './planificacion-operaciones/planificacion-operaciones.component';
 import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones-op.component';
+import { AsignacionGuiaComponent } from './asignacion-guia/asignacion-guia.component';
 
 
 @NgModule({
@@ -157,7 +158,8 @@ import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones
         DocumentosClienteUnidadComponent,
         ConsultaUnidadesComponent,
         PlanificacionOperacionesComponent,
-        PlanificacionesOpComponent
+        PlanificacionesOpComponent,
+        AsignacionGuiaComponent
     ],
     exports: [
         // PagesComponent,

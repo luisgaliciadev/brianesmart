@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
   ]
 })
 export class GuiaComponent implements OnInit {
-
   tipoServicio = '';
   producto = '';
   cliente = '';

@@ -2592,9 +2592,9 @@ getDocumentosBriane(idClasificacion, idCategoria, idArea) {
 // Fin Get documentos BRIANE
 
 // Get empleados rrhh genesys
-getEmpleadosRhhGenesys(fechaContrato) {
+getEmpleadosRhhGenesys(desde, hasta) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  let params = fechaContrato;
+  let params = desde + '/' + hasta;
   return this._http.get(this.URL + '/register/empleadosrrhhgenesys/' + params, {headers})
   .pipe(map((res: any) => {
     return res;
@@ -2607,9 +2607,9 @@ getEmpleadosRhhGenesys(fechaContrato) {
 // Fin Get empleados rrhh genesys
 
 // Get empleados rrhh genesys bajas
-getEmpleadosRhhGenesysBajas(fechaFinContrato) {
+getEmpleadosRhhGenesysBajas(desde, hasta) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  let params = fechaFinContrato;
+  let params = desde + '/' + hasta;
   return this._http.get(this.URL + '/register/empleadosrrhhgenesysbajas/' + params, {headers})
   .pipe(map((res: any) => {
     return res;

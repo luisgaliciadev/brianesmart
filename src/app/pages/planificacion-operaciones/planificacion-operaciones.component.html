@@ -103,8 +103,12 @@
                         Guardar y Continuar
                     </button>  
 
-                    <div *ngIf="idPlanificacion > 0">
+                    <button *ngIf="idPlanificacion === 0" routerLink="/planificaciones-op" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
+                        <i class="fa fa-arrow-circle-right"></i>
+                        Volver
+                    </button>
 
+                    <div *ngIf="idPlanificacion > 0">
                         <div class="row"> 
                             <div class="col-sm-6">
                                 <div class="row">
@@ -330,8 +334,13 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
 
+                            <button *ngIf="idPlanificacion > 0" routerLink="/planificaciones-op" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
+                                <i class="fa fa-arrow-circle-right"></i>
+                                Volver
+                            </button>
+
+                        </div>
                     </div>
                 </div>                
             </div> 

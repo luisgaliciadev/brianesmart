@@ -60,16 +60,23 @@
             <form ngNativeValidate #formRegistro="ngForm" class="form p-t-20"> 
                 <div class="modal-body">           
                     <div class="form-group row" >
-                    <label class="col-5 col-form-label">Fecha Contrato:</label>                                
-                    <div class="input-group col-7">   
-                        <input [(ngModel)]="fechaContrato" name="fechaContrato" type="date" class="form-control" required>
+                        <label class="col-5 col-form-label">Fecha Contrato (Desde):</label>                                
+                        <div class="input-group col-7">   
+                            <input [(ngModel)]="desde" name="desde" type="date" class="form-control" required>
+                        </div>
                     </div>
+
+                    <div class="form-group row" >
+                        <label class="col-5 col-form-label">Fecha Contrato (Hasta):</label>                                
+                        <div class="input-group col-7">   
+                            <input [(ngModel)]="hasta" name="hasta" type="date" class="form-control" required>
+                        </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cancelar</button>
-                    <button [disabled]="!formRegistro.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="registroActEmpleados(fechaContrato)">Guardar</button>
+                    <button [disabled]="!formRegistro.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="registroActEmpleados(desde, hasta)">Guardar</button>
                 </div>
             </form>  
         </div>
@@ -90,16 +97,23 @@
             <form ngNativeValidate #formBajas="ngForm" class="form p-t-20"> 
                 <div class="modal-body">           
                     <div class="form-group row" >
-                    <label class="col-5 col-form-label">Fecha Fin Contrato:</label>                                
-                    <div class="input-group col-7">   
-                        <input [(ngModel)]="fechaContrato" name="fechaContrato" type="date" class="form-control" required>
+                        <label class="col-5 col-form-label">Fecha Fin Contrato (desde):</label>                                
+                        <div class="input-group col-7">   
+                            <input [(ngModel)]="desde" name="desde" type="date" class="form-control" required>
+                        </div>
                     </div>
+
+                    <div class="form-group row" >
+                        <label class="col-5 col-form-label">Fecha Fin Contrato (hasta):</label>                                
+                        <div class="input-group col-7">   
+                            <input [(ngModel)]="hasta" name="hasta" type="date" class="form-control" required>
+                        </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cancelar</button>
-                    <button [disabled]="!formBajas.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="bajaEmpleados(fechaContrato)">Guardar</button>
+                    <button [disabled]="!formBajas.form.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="bajaEmpleados(desde, hasta)">Guardar</button>
                 </div>
             </form>  
         </div>

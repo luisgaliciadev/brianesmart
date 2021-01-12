@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
 })
 export class IntegracionQwantecComponent implements OnInit {
   apiKeyQwantec: string = API_KEY_QWANTEC;
-  fechaContrato = '';
+  desde = '';
+  hasta = '';
   idTipoAccion = 0;
   empleados= [];
   loading = false;
@@ -30,9 +31,9 @@ export class IntegracionQwantecComponent implements OnInit {
     this.idTipoAccion = valor;
   }
 
-  registroActEmpleados(fecha) {
+  registroActEmpleados(desde, hasta) {
     this.loading = true;
-    this._registerService.getEmpleadosRhhGenesys(fecha).subscribe(
+    this._registerService.getEmpleadosRhhGenesys(desde, hasta).subscribe(
       (response: any) => {
         this.empleados = response.empleados;
         let empleadosNuevos = [];
@@ -78,62 +79,61 @@ export class IntegracionQwantecComponent implements OnInit {
           "apiKey": this.apiKeyQwantec,
           "empleados": empleadosNuevos,
           "crearNoExistentes": crearNoExistentes
-
         }
-        // console.log(data);
-       
+        console.log('data:', data);
+        return;
         data = {
           "apiKey": this.apiKeyQwantec,
           "empleados": [
-              {
-                  "codigo": "17026508",
-                  "rut": "17026508",
-                  "codigoFicha": "17026508",
-                  "nombres": "Prueba2 Nombre2",   
-                  "apellidos": "Prueba2 Apellido2",
-                  "nombreEnReloj": "papellido2",
-                  "email": "devbriane2@gmail.com",
-                  "fechaNacimiento": "1986-12-12",
-                  "nacionalidad": null,
-                  "genero": 1,
-                  "cargo": "Programador",
-                  "comentario": null,
-                  "fechaContrato": "2020-05-04",
-                  "fechaFinContrato": null,
-                  "direccion1": "CALLAO, CALLAO, CALLAO",
-                  "direccion2": "201",
-                  "ciudad": "LIMA",
-                  "telefonoFijo": null,
-                  "telefonoMovil": "929647791",
-                  "sucursal": "Matriz",
-                  "departamento": "Departamento inicial",                                                        
-                  "aliasCompania": null,
-                  "estado": true
-              },
-              {
-                "codigo": "178232817",
-                "rut": "178232817",
-                "codigoFicha": "178232817",
-                "nombres": "Prueba1 Nombre1",   
-                "apellidos": "Prueba1 1",
-                "nombreEnReloj": "papellido1",
-                "email": "devbriane@gmail.com",
-                "fechaNacimiento": "1986-12-12",
-                "nacionalidad": null,
-                "genero": 1,
-                "cargo": "Programador",
-                "comentario": null,
-                "fechaContrato": "2020-05-04",
-                "fechaFinContrato": null,
-                "direccion1": "CALLAO, CALLAO, CALLAO",
-                "direccion2": "201",
-                "ciudad": "LIMA",
-                "telefonoFijo": null,
-                "telefonoMovil": "929647791",
-                "sucursal": "Matriz",
-                "departamento": "Departamento inicial",                                                        
-                "aliasCompania": null,
-                "estado": true
+            {
+              "codigo": "17026508",
+              "rut": "17026508",
+              "codigoFicha": "17026508",
+              "nombres": "Prueba2 Nombre2",   
+              "apellidos": "Prueba2 Apellido2",
+              "nombreEnReloj": "papellido2",
+              "email": "devbriane2@gmail.com",
+              "fechaNacimiento": "1986-12-12",
+              "nacionalidad": null,
+              "genero": 1,
+              "cargo": "Programador",
+              "comentario": null,
+              "fechaContrato": "2020-05-04",
+              "fechaFinContrato": null,
+              "direccion1": "CALLAO, CALLAO, CALLAO",
+              "direccion2": "201",
+              "ciudad": "LIMA",
+              "telefonoFijo": null,
+              "telefonoMovil": "929647791",
+              "sucursal": "Matriz",
+              "departamento": "Departamento inicial",                                                        
+              "aliasCompania": null,
+              "estado": true
+            },
+            {
+              "codigo": "178232817",
+              "rut": "178232817",
+              "codigoFicha": "178232817",
+              "nombres": "Prueba1 Nombre1",   
+              "apellidos": "Prueba1 1",
+              "nombreEnReloj": "papellido1",
+              "email": "devbriane@gmail.com",
+              "fechaNacimiento": "1986-12-12",
+              "nacionalidad": null,
+              "genero": 1,
+              "cargo": "Programador",
+              "comentario": null,
+              "fechaContrato": "2020-05-04",
+              "fechaFinContrato": null,
+              "direccion1": "CALLAO, CALLAO, CALLAO",
+              "direccion2": "201",
+              "ciudad": "LIMA",
+              "telefonoFijo": null,
+              "telefonoMovil": "929647791",
+              "sucursal": "Matriz",
+              "departamento": "Departamento inicial",                                                        
+              "aliasCompania": null,
+              "estado": true
             },
             {
               "codigo": "108239214",
@@ -203,10 +203,11 @@ export class IntegracionQwantecComponent implements OnInit {
     );
   }
 
-  bajaEmpleados(fecha) {
+  bajaEmpleados(desde, hasta) {
     this.loading = true;
-    this._registerService.getEmpleadosRhhGenesysBajas(fecha).subscribe(
+    this._registerService.getEmpleadosRhhGenesysBajas(desde, hasta).subscribe(
       (response: any) => {
+        console.log(response);
         this.empleados = response.empleados;
         let empleadosNuevos = [];
         this.empleados.forEach((empleado) => {          
@@ -241,8 +242,9 @@ export class IntegracionQwantecComponent implements OnInit {
           "apiKey": this.apiKeyQwantec,
           "empleados": empleadosNuevos,
           "crearNoExistentes": false
-
         }
+        console.log('data:', data);
+        return;
         data = {
           "apiKey": this.apiKeyQwantec,
           "empleados": [
@@ -366,7 +368,8 @@ export class IntegracionQwantecComponent implements OnInit {
   // }
 
   limpiarModal() {
-    this.fechaContrato = '';
+    this.desde = '';
+    this.hasta = '';
     this.idTipoAccion = 0;
   }
 
