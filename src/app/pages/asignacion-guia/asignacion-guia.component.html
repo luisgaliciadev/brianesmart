@@ -164,7 +164,7 @@
                                 <label>Placa Tracto:</label>
                                 <div class="input-group">
                                     <div class="input-group">   
-                                        <input (focusout) = "getVehiculo(tracto, 1)" (keyup) = "idVehiculos(1)" [(ngModel)]="tracto" name="tracto" type="text" class="form-control" placeholder="Buscar">                        
+                                        <input (focusout) = "getVehiculo(tracto, 1)" (keyup) = "idVehiculos(1)" [(ngModel)]="tracto" name="tracto" type="text" class="form-control" placeholder="Buscar" disabled>                        
                                         <div *ngIf ="guia.ID_TRACTO > 0" class="input-group-addon"><i style="color: #06D79C;" class="mdi mdi-check-circle" data-toggle="tooltip" data-placement="top" title="Placa Correcta"></i></div>        
                                       </div>
                                 </div>
@@ -176,7 +176,7 @@
                                 <label>Placa Remolque:</label>
                                 <div class="input-group">
                                     <div class="input-group">   
-                                        <input (focusout) = "getVehiculo(remolque, 2)" (keyup) = "idVehiculos(2)" [(ngModel)]="remolque" name="remolque" type="text" class="form-control" placeholder="Buscar">                        
+                                        <input (focusout) = "getVehiculo(remolque, 2)" (keyup) = "idVehiculos(2)" [(ngModel)]="remolque" name="remolque" type="text" class="form-control" placeholder="Buscar" disabled>                        
                                         <div *ngIf ="guia.ID_REMOLQUE > 0" class="input-group-addon"><i style="color: #06D79C;" class="mdi mdi-check-circle" data-toggle="tooltip" data-placement="top" title="Placa Correcta"></i></div>        
                                      </div>
                                 </div>
@@ -289,20 +289,20 @@
                         </div>
                     </div>
 
-                    <button *ngIf="this.guia.ID_GUIA == 0" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                    <!-- <button *ngIf="this.guia.ID_GUIA == 0" type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Guardar
+                    </button> -->
+
+                    <button [disabled]="!form.form.valid" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateGuia(form.value)">
                         <i class="fa fa-save"></i>
                         Guardar
                     </button>
 
-                    <button [disabled]="!form.form.valid" *ngIf="this.guia.ID_GUIA > 0" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updateGuia(form.value)">
-                        <i class="fa fa-save"></i>
-                        Moificar
-                    </button>
-
-                    <button [disabled]="!form.form.valid" *ngIf="this.guia.ID_GUIA > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteGuia()">
+                    <!-- <button [disabled]="!form.form.valid" *ngIf="this.guia.ID_GUIA > 0" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteGuia()">
                         <i class="fa fa-trash-o"></i>
                         Anular
-                    </button>
+                    </button> -->
 
                     <button routerLink="/guias" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
                         <i class="fa fa-arrow-circle-right"></i>

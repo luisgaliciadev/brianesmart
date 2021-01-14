@@ -128,7 +128,7 @@ const pagesRoutes: Routes = [
             {path: 'consulta-unidades', component: ConsultaUnidadesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Listado de Unidades'}},
             {path: 'planificacion-operaciones/:id', component: PlanificacionOperacionesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificación Operaciones'}},
             {path: 'planificaciones-op', component: PlanificacionesOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificaciones Operaciones'}},
-            {path: 'asignacion-guia', component: AsignacionGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Asignacón de Guía'}},
+            {path: 'asignacion-guia', component: AsignacionGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Asignación de Guía'}},
 
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

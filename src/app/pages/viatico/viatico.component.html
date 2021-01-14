@@ -56,7 +56,7 @@
 
                     <div class="col-sm">
                         <div class="form-group">
-                            <label for="exampleInputuname">Zona:</label>
+                            <label for="exampleInputuname">Línea de Negocio:</label>
                             <div class="input-group">                   
                                 <select [(ngModel)]="idZona" name="idZona" class="form-control" required [disabled] = "modificar">
                                     <option value = "">Seleccione</option>
@@ -382,7 +382,7 @@
                     </div>
                 
 
-                    <div *ngIf = "idZona == 2 || idZona == 3" style="position: relative; overflow: auto; font-size: 10px;">
+                    <div *ngIf = "idZona == 2 || idZona == 3 || idZona == 4" style="position: relative; overflow: auto; font-size: 10px;">
                     <!-- <div *ngIf = "idZona == 2 || idZona == 3" style="overflow: auto; height: 500px; font-size: 10px;"> -->
                         <table class="table table-hover table-bordered table-op"  style="width: 1670px;">
                             <thead style="color: white;">

@@ -78,6 +78,27 @@ ngOnInit(): void {
   this.fhFin = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
 }
 
+async getGuiaPlanificacion() {
+  let token = await this._userService.validarToken();
+  if (!token) {
+    return;
+  } 
+  this.guia.FECHA = this.fhEmision + ' ' + this.horaEmision + ':' + this.minEmision;
+  this._registerService.getGuiaPlanificacion(this.guia.ID_ORDEN_SERVICIO, this.guia.ID_CONDUCTOR).subscribe(
+    (response: any) => {
+      this.tracto = response.guiaPlanificacion.PLACA_TRACTO;
+      this.guia.ID_TRACTO = response.guiaPlanificacion.ID_TRACTO; 
+      this.guia.PLACA_TRACTO = response.guiaPlanificacion.PLACA_TRACTO;    
+      this.remolque = response.guiaPlanificacion.PLACA_REMOLQUE;
+      this.guia.ID_REMOLQUE = response.guiaPlanificacion.ID_REMOLQUE;
+      this.guia.PLACA_REMOLQUE = response.guiaPlanificacion.PLACA_REMOLQUE;
+      this.guia.IDEN_CONDUCTOR = response.guiaPlanificacion.IDEN_CONDUCTOR;
+      this.guia.ID_GUIA = response.guiaPlanificacion.ID_GUIA;
+      console.log(this.guia);
+    }
+  );
+}
+
 getGuia() {
   this._registerService.getGuia(this.guia.ID_GUIA, this._userService.user.ID_USER).subscribe(
     (response: any) => {
@@ -173,6 +194,12 @@ async registerGuia(data) {
     this.registrando = false;
     return;
   } 
+
+  if (this.guia.ID_ORDEN_SERVICIO == '0') {
+    Swal.fire('Mensaje', 'Disculpe, debe seleccionar una orden de servicio.', 'warning');
+    this.registrando = false;
+    return;
+  }
 
   // console.log(this.guia);
   // return;  
@@ -276,9 +303,45 @@ async updateGuia(data) {
     return;
   } 
 
-  this._registerService.updateGuia(this.guia).subscribe(
+  if (this.guia.ID_ORDEN_SERVICIO == '0') {
+    Swal.fire('Mensaje', 'Disculpe, debe seleccionar una orden de servicio.', 'warning');
+    this.registrando = false;
+    return;
+  } 
+
+  this._registerService.asignarGuia(this.guia).subscribe(
     (response: any) => {
       if (response.guia) {
+        this.fhEmision = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+        this.fhTraslado = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+        this.fhFin = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;         
+        this.horaEmision = '';
+        this.minEmision = '';
+        this.horaTraslado = '';
+        this.minTraslado = '';
+        this.horaFin = '';
+        this.minFin = '';
+        this.idConductor = '';
+        this.nombreConductor = '';
+        this.guia.ID_CONDUCTOR = 0;
+        this.tracto = '';
+        this.remolque = '';
+        this.guia.ID_TRACTO = 0;
+        this.guia.ID_REMOLQUE = 0;
+        this.guia.PESO_BRUTO = 0;
+        this.guia.PESO_TARA = 0;
+        this.guia.PESO_NETO = 0;
+        this.guia.NRO_PERMISO = '';
+        this.guia.NRO_GUIA_CLIENTE = '';
+        // this.guia.SERIAL = '';
+        this.guia.CORRELATIVO = '';
+        this.guia.OBSERVACION = ''
+        this.guia.ID_EMPRESA = 0;
+        this.guia.TIPO_EMPRESA = 'SERVICIO PROPIO';
+        this.tipoEmpresa = false;
+        this.ruc = ''
+        this.nombreCliente = ''
+        this.registrando = false;
         this.registrando = false;
       }        
     },
@@ -398,11 +461,29 @@ getConductor(id) {
   if (id === '') {
     return;
   }
+
+  if (this.guia.ID_ORDEN_SERVICIO === '0') {
+    return;
+  }
+
+  if (this.fhEmision === '') {
+    return;
+  }
+
+  if (this.horaEmision === '') {
+    return;
+  }
+
+  if (this.minEmision === '') {
+    return;
+  }
+
   this._registerService.getConductor(id).subscribe(
     (response: any) => {
       this.idConductor = response.conductor.ID_Chofer;
       this.nombreConductor = response.conductor.Nombre;
       this.guia.ID_CONDUCTOR = response.conductor.ID_CONDUCTOR
+      this.getGuiaPlanificacion();
     },
     error => {
       this.idConductor = '';

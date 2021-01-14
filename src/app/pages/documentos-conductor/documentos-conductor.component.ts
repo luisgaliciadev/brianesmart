@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-documentos-conductor',
@@ -105,6 +106,26 @@ export class DocumentosConductorComponent implements OnInit {
       },
       error => {
         this.loading = false;
+      }
+    );
+  }
+
+  async getExelDocumentosConductor() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+    if(this.totalRegistros === 0) {
+      return;
+    }
+    this._registerService.getExelDocumentosConductor().subscribe(
+      (response: any) => {
+        let fileBlob = response;
+        let blob = new Blob([fileBlob], {
+          type: "application/vnd.ms-excel"
+        });
+        // use file saver npm package for saving blob to file
+        saveAs(blob, `documentosConductor.xlsx`);
       }
     );
   }

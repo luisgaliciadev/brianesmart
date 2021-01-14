@@ -1215,6 +1215,20 @@ getExcelDescuentoPeaje(desde, hasta, search) {
 }
 // Fin Metodo para exportar a excel descuento de peajes de conductores
 
+// Metodo para exportar a excel documentos de conductor
+getExelDocumentosConductor() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/documentosConductor', {responseType: 'blob', headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// Fin Metodo para exportar a excel documentos de conductor
+
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1303,7 +1317,7 @@ registerGuia(guia) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.post(this.URL + '/operaciones/guia', params, {headers})
   .pipe(map((res: any) => {
-    Swal.fire('Mensaje', 'Guia Registrada Correctamente.', 'success');
+    Swal.fire('Mensaje', 'Gu{ia Registrada Correctamente.', 'success');
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -1311,7 +1325,7 @@ registerGuia(guia) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
     } else {
-      Swal.fire('Mensaje', 'No se pudo registar la guia.', 'error');
+      Swal.fire('Mensaje', 'No se pudo registar la guía.', 'error');
       return throwError(err);
     }
   }));
@@ -1333,7 +1347,7 @@ getGuia(id, idUser) {
       this._router.navigate(['/guias']);
       return throwError(err);
     } else {
-      Swal.fire('Mensaje', 'No se pudo consultar la guia.', 'error');
+      Swal.fire('Mensaje', 'No se pudo consultar la guía.', 'error');
       this._router.navigate(['/guias']);
       return throwError(err);
     }
@@ -1348,7 +1362,7 @@ updateGuia(guia) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.put(this.URL + '/operaciones/guia', params, {headers})
   .pipe(map((res: any) => {
-    Swal.fire('Mensaje', 'Guia Actualizada Correctamente.', 'success');
+    Swal.fire('Mensaje', 'Guía Actualizada Correctamente.', 'success');
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -1356,7 +1370,29 @@ updateGuia(guia) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
     } else {
-      Swal.fire('Mensaje', 'No se pudo registar la guia.', 'error');
+      Swal.fire('Mensaje', 'No se pudo registar la guía.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update Guia
+
+// Update Guia
+asignarGuia(guia) { 
+  let json = JSON.stringify(guia);  
+  let params = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/asignarGuia', params, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Guía Asignada Correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo asignar la guía.', 'error');
       return throwError(err);
     }
   }));
@@ -1372,7 +1408,7 @@ getGuias(search,desde, hasta, idUser) {
     return res;
   }))
   .pipe(catchError( (err: any) => {   
-    Swal.fire('Mensaje', 'No se pudo consultar el listado de guias.', 'error');
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de guías.', 'error');
     return throwError(err);
   }));
 }
@@ -1399,7 +1435,7 @@ deleteGuia(id) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.delete(this.URL + '/operaciones/guia/' + id, {headers})
   .pipe(map((res: any) => {
-    Swal.fire('Mensaje', 'Guia anulada correctamente.', 'success');
+    Swal.fire('Mensaje', 'Guía anulada correctamente.', 'success');
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -1407,7 +1443,7 @@ deleteGuia(id) {
       Swal.fire('Mensaje', err.error.message, 'error');
       return throwError(err);
     } else {
-      Swal.fire('Mensaje', 'No se pudo consultar la guia.', 'error');
+      Swal.fire('Mensaje', 'No se pudo consultar la guía.', 'error');
       return throwError(err);
     }
   }));
@@ -1766,7 +1802,7 @@ getGuiasControlViaje(search,desde, hasta, idUser,idZona) {
     return res;
   }))
   .pipe(catchError( (err: any) => {   
-    Swal.fire('Mensaje', 'No se pudo consultar el listado de guias.', 'error');
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de guías.', 'error');
     return throwError(err);
   }));
 }
@@ -2479,6 +2515,26 @@ deletePlanificacionOpDeta(id) {
 }
 // End Delete planificacion op deta
 
+// Get guia planificacion
+getGuiaPlanificacion(idOrden, idConductor) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = idOrden + '/' + idConductor;
+  return this._http.get(this.URL + '/operaciones/guiaPlanificacion/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// Fin Get guia planificacion
+
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2893,6 +2949,20 @@ updateRelacionDocUnidad(data) {
   }));
 }
 // End Update relacion documento conductor
+
+// Metodo para exportar a excel documentos de unidad
+getExelDocumentosUnidad() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/documentosUnidad', {responseType: 'blob', headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// Fin Metodo para exportar a excel documentos de unidad
 
 
 // Subir documento de conductor
