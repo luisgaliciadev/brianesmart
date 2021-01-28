@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
   ]
 })
 export class RutasComponent implements OnInit {
-
   rutas = [];
   desde = 0;
   hasta = 5;
@@ -66,7 +65,6 @@ export class RutasComponent implements OnInit {
     }
     this._registerService.getRutas(search).subscribe(
       (response: any) => {
-        // console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -112,7 +110,6 @@ export class RutasComponent implements OnInit {
         this.loading = false;
         this._registerService.deleteRuta(ruta).subscribe(
           (response: any) => {
-            // console.log(response);
             this.loading = false;
             this.getRutas(this.search);
           },

@@ -53,7 +53,7 @@
 }
 
 .table-op thead{
-    overflow: auto;
+    /* overflow: auto; */
     width: 100%;
 }
 
@@ -261,13 +261,127 @@ body {
   display: block;
 }
 
-/* .tabla-demanda td {
-    border:#e9ecef 1px solid  !important;
-} */
-
 .tabla-demanda tbody td,
 .tabla-demanda thead > tr > th{
     float: left;
 }
+
+.tabla-planificacion-guia thead th{
+    border-collapse: collapse !important;
+    background: gray !important;
+    color: white !important;
+    text-align: center !important;
+    font-size: 14px !important;
+}
+
+.tabla-planificacion-guia thead{
+    width: 100% !important;
+}
+
+.tabla-planificacion-guia tbody{
+    height: 400px !important;
+    overflow: auto !important;
+    width: 100% !important;
+}
+
+.tabla-planificacion-guia tbody,    
+.tabla-planificacion-guia td,
+.tabla-planificacion-guia th{
+  display: block !important;
+}
+
+.tabla-planificacion-guia td {
+    height: 43px !important;
+    line-height: 40px !important;
+}
+
+.tabla-planificacion-guia tbody td,
+.tabla-planificacion-guia thead > tr > th{
+    float: left !important;
+}
+
+.tabla-planificacion-guia th,
+.tabla-planificacion-guia td {
+    border-collapse: collapse !important;
+    border-left: solid 1px #ccc !important;
+    border-bottom: solid 1px #ccc !important;
+}
+
+.tabla-planificacion-guia th:last-child,
+.tabla-planificacion-guia td:last-child {       
+    border-right: solid 1px #ccc !important;
+}
+
+.tabla-planificacion-guia th {     
+    text-align: center !important;
+}
+
+.tabla-planificacion-guia tbody td {
+    padding-left: 2px !important;
+}
+
+.tabla-planificacion-guia .items {
+    min-width: 50px !important;
+}
+
+.tabla-planificacion-guia .OrdenServicio {
+    min-width: 110px !important;
+}
+
+.tabla-planificacion-guia .idGuia {
+    min-width: 60px !important;
+}
+
+.tabla-planificacion-guia .guiaTrans {
+    min-width: 90px !important;
+}
+
+.tabla-planificacion-guia .fechaGuia {
+    min-width: 60px !important;
+}
+
+.tabla-planificacion-guia .tracto {
+    min-width: 60px !important;
+}
+
+.tabla-planificacion-guia .remolque {
+    min-width: 80px !important;
+}
+
+.tabla-planificacion-guia .conductor {
+    min-width: 250px !important;
+}
+
+.tabla-planificacion-guia .tiempo {
+    min-width: 60px !important;
+}
+
+.tabla-planificacion-guia .estado {
+    min-width: 200px !important;
+}
+
+.tabla-planificacion-guia .fechasPl {
+    min-width: 208px !important;
+}
+
+.tabla-planificacion-guia .botones {
+    min-width: 85px !important;
+}
+
+.tabla-homologacion td {
+    height: 43px !important;
+    padding: 0.2% !important;
+    /* line-height: 40px !important; */
+}
+
+.tabla-documentos td {
+    padding: 0.2% !important;
+}
+
+
+
+
+
+
 
    

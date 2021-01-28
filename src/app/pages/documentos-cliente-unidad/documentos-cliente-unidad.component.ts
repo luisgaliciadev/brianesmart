@@ -61,7 +61,6 @@ export class DocumentosClienteUnidadComponent implements OnInit {
   }
 
   rucCliente() {
-    console.log('this.ruta.ID_CLIENTE', this.idCliente);
     if (this.idCliente == 0) {
       this.RUC = '';
       return;
@@ -75,12 +74,7 @@ export class DocumentosClienteUnidadComponent implements OnInit {
 
   getDocumentos() {
     this.loading = true;
-    // let token = await this._userService.validarToken();
-    // if (!token) {
-    //   return;
-    // }
-    
-    this._registerService.getDocUnidades(0).subscribe(
+    this._registerService.getDocUnidadesCliente(0).subscribe(
       (response: any) => {
         this.documentos = response.documentos;
         this.loading = false;
@@ -94,7 +88,6 @@ export class DocumentosClienteUnidadComponent implements OnInit {
       return;
     }
     
-
     if (this.idCliente == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar un cliente.', 'warning');
       return;
@@ -106,14 +99,12 @@ export class DocumentosClienteUnidadComponent implements OnInit {
     }
 
     this.resgistrado = true;
-
     let data = {
       idDocumento: this.idDocumento,
       idCliente: this.idCliente,
       idUsuario: this._userService.user.ID_USER
     }
 
-    // return;
     this._registerService.registerDocClienteUnidad(data).subscribe(
       (response: any) => {
         this.getDocClientesUnidad(this.idCliente);
@@ -134,7 +125,6 @@ export class DocumentosClienteUnidadComponent implements OnInit {
     this.busqueda = true;
     this._registerService.getDocClientesUnidad(idCliente).subscribe(
       (response: any) => {
-        console.log(response);
         this.documentosCliente = response.documentosClienteUnidad;
         this.totalRegistros = this.documentosCliente.length;
         this.busqueda = false;
@@ -161,6 +151,5 @@ export class DocumentosClienteUnidadComponent implements OnInit {
       }
     );
   }
-
 
 }

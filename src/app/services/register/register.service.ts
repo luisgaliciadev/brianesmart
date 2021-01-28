@@ -978,7 +978,6 @@ getPeajeFacturas(idDeta) {
 // Get verificar guia
 getVerificarNroGuia(correlativo, DNI) { 
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  // console.log('dni', DNI);
   return this._http.get(this.URL + '/operaciones/nroguiacond/' + correlativo + '/' + DNI, {headers})
   .pipe(map((res: any) => {
     return res;   
@@ -1274,9 +1273,24 @@ getOrdenServicioAll(id) {
 // End Get Orden servicio
 
 // Get Orden servicio planificacion
-getOrdenServicioPlanificacion() {
+getOrdenServicioPlanificacion(desde, hasta, idZona) {
+  // let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  // return this._http.get(this.URL + '/operaciones/osPlanificacion', {headers})
+  // .pipe(map((res: any) => {
+  //   return res;
+  // }))
+  // .pipe(catchError( (err: any) => {
+  //   if (err.status === 400) {
+  //     Swal.fire('Mensaje', err.error.message, 'error');
+  //     return throwError(err);
+  //   } else {
+  //     Swal.fire('Mensaje', 'No se pudo consultar las ordenes de servicio.', 'error');
+  //     return throwError(err);
+  //   }
+  // }));
+  let params = desde + '/' + hasta + '/' + idZona
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.get(this.URL + '/operaciones/osPlanificacion', {headers})
+  return this._http.get(this.URL + '/operaciones/osPlanificaciones/' + params, {headers})
   .pipe(map((res: any) => {
     return res;
   }))
@@ -1291,6 +1305,7 @@ getOrdenServicioPlanificacion() {
   }));
 }
 // End Get Orden planificacion
+
 
 // Get Vehiculo
 getVehiculo(placa, tipo) {
@@ -1334,8 +1349,6 @@ registerGuia(guia) {
 
 // Get Guia
 getGuia(id, idUser) {
-  // console.log('id:',id),
-  // console.log('idUser:',idUser)
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/operaciones/guia/' + id + '/' + idUser, {headers})
   .pipe(map((res: any) => {
@@ -1521,7 +1534,6 @@ registerReportPro(diasproductividadop, nroSemana, anio, zona) {
   let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   let parametros = nroSemana + '/' + anio + '/' + zona + '/' + this._userService.user.ID_USER
-  // console.log(parametros);
   return this._http.post(this.URL + '/operaciones/reportop/' + parametros, params, {headers})
   .pipe(map((res: any) => {
     Swal.fire('Mensaje', 'Registro realizado Correctamente.', 'success');
@@ -1545,10 +1557,8 @@ registerReportProNuevos(diasproductividadop, nroSemana, anio, zona, idReport) {
   let params = json;  
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   let parametros = nroSemana + '/' + anio + '/' + zona + '/' + this._userService.user.ID_USER + '/' + idReport;
-  // console.log(parametros);
   return this._http.post(this.URL + '/operaciones/reportopviajes/' + parametros, params, {headers})
   .pipe(map((res: any) => {
-    // Swal.fire('Mensaje', 'Viajes Actualizados Correctamente.', 'success');
     return res;
   }))
   .pipe(catchError( (err: any) => {
@@ -1701,7 +1711,6 @@ getReportsPro(desde, hasta, search) {
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/operaciones/reportspro/' + desde + '/' + hasta + '/' + search, {headers})
   .pipe(map((res: any) => {
-    // console.log(res); 
     return res;   
   }))
 }
@@ -2074,7 +2083,7 @@ deleteDetaRutaProducto(id) {
 registerDetaRutaTipoCarga(id, idRuta) { 
   let params = id + '/' + idRuta + '/' + this._userService.user.ID_USER;
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.post(this.URL + '/register/detarutatipocarga/' + params, {headers})
+  return this._http.post(this.URL + '/register/detarutatipocarga/' + params,{}, {headers})
   .pipe(map((res: any) => {
     Swal.fire('Mensaje', 'Tipo de carga registrado correctamente.', 'success');
     return res;
@@ -2095,7 +2104,7 @@ registerDetaRutaTipoCarga(id, idRuta) {
 registerDetaProducto(id, idRuta) { 
   let params = id + '/' + idRuta + '/' + this._userService.user.ID_USER;
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
-  return this._http.post(this.URL + '/register/detarutaproducto/' + params, {headers})
+  return this._http.post(this.URL + '/register/detarutaproducto/' + params, {}, {headers})
   .pipe(map((res: any) => {
     Swal.fire('Mensaje', 'Producto registrado correctamente.', 'success');
     return res;
@@ -2136,6 +2145,23 @@ getDocConductores(search) {
   }
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/register/documentosConductor/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos conductores
+
+// Get documentos conductores
+getDocConductoresCliente(search) {
+  if (search === '') {
+    search = '0'
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosConductorCliente/' + search, {headers})
   .pipe(map((res: any) => {
     return res;
   }))
@@ -2218,6 +2244,23 @@ getDocUnidades(search) {
   }
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   return this._http.get(this.URL + '/register/documentosUnidad/' + search, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get documentos unidad
+
+// Get documentos unidad
+getDocUnidadesCliente(search) {
+  if (search === '') {
+    search = '0'
+  }
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/documentosUnidadCliente/' + search, {headers})
   .pipe(map((res: any) => {
     return res;
   }))
@@ -2433,6 +2476,22 @@ getPlanificacionDeta(idPlanificacion) {
 }
 // Fin Get planificacion deta
 
+
+// Get planificaciones deta
+getPlanificacionesDeta(desde, hasta, idZona) {
+  let paramas = desde + '/' + hasta + '/' + idZona
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/planificacionesDeta/' + paramas, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {    
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get planificacion deta
+
 // Register planificacion Op deta
 registerPlanifiacionOpDeta(planifiacion) { 
   let json = JSON.stringify(planifiacion);  
@@ -2534,6 +2593,28 @@ getGuiaPlanificacion(idOrden, idConductor) {
   }));
 }
 // Fin Get guia planificacion
+
+// Update fechas planificacion guia
+updateFechaPlanificacionGuia(guia) { 
+  let json = JSON.stringify(guia);  
+  let dataGuia = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/planificacionOpGuia', dataGuia, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro actualizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo actuliazar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End fechas planificacion guia
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2964,6 +3045,63 @@ getExelDocumentosUnidad() {
 }
 // Fin Metodo para exportar a excel documentos de unidad
 
+// Get tipo documentos conductor
+getTipoDocumentosConductor() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/tipoDocumentosConductor', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get tipo documentos conductor
+
+
+// Get tipo documentos unidad
+getTipoDocumentosUnidad() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/tipoDocumentosUnidad', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get tipo documentos unidad
+
+// Get cantidad dias tramite documentos unidad-conductor
+getDiasTramiteUnidadCond() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/cantidadDiasTramiteDocumentos', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get cantidad dias tramite documentos unidad-conductor
+
+// Get cantidad dias tramite documentos unidad-conductor
+getConceptosGatosOp() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/conceptosGatosOp', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get cantidad dias tramite documentos unidad-conductor
+
 
 // Subir documento de conductor
 // uploadFileConductor(file: File, id, idConductor) {
@@ -3016,8 +3154,6 @@ sincronizarEmpleadosQwantec(data) {
   }));
 }
 // Altas, bajas y actualizacion de empleados 
-
-
 
 // // marcajes
 // prueba() {

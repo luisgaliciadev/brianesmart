@@ -17,12 +17,29 @@ export class IntegracionQwantecComponent implements OnInit {
   idTipoAccion = 0;
   empleados= [];
   loading = false;
+  date = new Date();
+  mes;
+  dia;
 
   constructor(
     private _registerService: RegisterService,
     public _router: Router,
     private _userService: UserService
-  ) { }
+  ) { 
+    this.mes = this.date.getMonth() + 1;
+    this.dia = this.date.getDate();
+
+    if (this.mes < 10) {
+      this.mes = 0 + this.mes.toString(); 
+    }
+
+    if (this.dia < 10) {
+      this.dia = 0 + this.dia.toString(); 
+    }
+
+    this.desde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+    this.hasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+  }
 
   ngOnInit(): void {
   }
@@ -81,6 +98,7 @@ export class IntegracionQwantecComponent implements OnInit {
           "crearNoExistentes": crearNoExistentes
         }
         console.log('data:', data);
+        this.loading = false;
         return;
         data = {
           "apiKey": this.apiKeyQwantec,
@@ -244,6 +262,7 @@ export class IntegracionQwantecComponent implements OnInit {
           "crearNoExistentes": false
         }
         console.log('data:', data);
+        this.loading = false;
         return;
         data = {
           "apiKey": this.apiKeyQwantec,

@@ -1,5 +1,4 @@
 <div class="col-12 animated fadeInRight">     
-    
     <div class="row" *ngIf="loading">
         <div class="col-sm-12">
             <div class="alert alert-warning text-center">
@@ -18,11 +17,6 @@
                 <div class="card-body"> 
 
                     <div class="text-left" style="float: left;">
-                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
-                            <i class="mdi mdi-printer"></i>
-                            Imprimir
-                        </button> -->
-
                         <button (click)="getExelDocumentosConductor()" type="button" class="btn waves-effect waves-light btn-rounded btn-success">
                             <i class="mdi mdi-file-excel"></i>
                             Exportar
@@ -38,19 +32,40 @@
                     <br>
                     <h3>Listado de Documentos (<small>{{totalRegistros}}</small>)</h3>
                     <div style="overflow: auto">
-                        <table class="table">
-                            <!-- <thead>
+                        <table class="table table-bordered tabla-documentos">
+                            <thead>
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-center">Días Tramite</th>
+                                    <th class="text-center">Aplica Fecha Vencimiento</th>
+                                    <th class="text-center">Acción</th>
                                 </tr>
-                            </thead> -->
+                            </thead>
                             <tbody>
                                 <tr *ngFor="let documento of documentos; index as i">
                                     <td>
                                         <input [(ngModel)]="documento.DS_DOCUMENTO" name="DS_DOCUMENTO" type="text" class="form-control" placeholder="Nombre del Modulo" required>
                                     </td>
-                                    <td style="width: 200px;">
+                                    <td>
+                                        <select [(ngModel)]="documento.ID_TIPO_DOCUMENTO" name="ID_TIPO_DOCUMENTO" class="form-control">
+                                            <option value = "0">Seleccione</option>
+                                            <option *ngFor="let tipoDocumento of tipoDocumentos" value = "{{tipoDocumento.ID_TIPO_DOC_CONDUCTOR}}">{{tipoDocumento.DS_TIPO_DOC}}</option>
+                                        </select> 
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="documento.ID_CANT_DIAS" name="ID_CANT_DIAS" class="form-control">
+                                            <option value = "0">Seleccione</option>
+                                            <option *ngFor="let diaTramite of diasTramite" value = "{{diaTramite.ID_OP_DIAS_TRAMITE_DOC}}">{{diaTramite.CANT_DIAS}}</option>
+                                        </select>       
+                                    </td>
+                                    <td>
+                                        <select [(ngModel)]="documento.FG_FH_VENCIMIENTO" name="FG_FH_VENCIMIENTO" class="form-control">
+                                            <option value = "1">SI</option>
+                                            <option value = "0">NO</option>    
+                                        </select>       
+                                    </td>
+                                    <td style="width: 100px;">
                                          <button type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar" (click)="modificarDoc(i)">
                                             <i class="fa fa-pencil"></i>
                                         </button>
@@ -63,13 +78,11 @@
                                 </tr>
                             </tbody>
                         </table> 
-                    </div>                    
-                    
+                    </div>                     
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 <div class="modal fade" id="documento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,6 +100,36 @@
                         <label for="exampleInputuname">Nombre del documento:</label>
                         <div class="input-group">                    
                             <input [(ngModel)]="nombreDocumento" name="nombreDocumento" type="text" class="form-control" placeholder="Nombre del Documento" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo de Documento:</label>
+                        <div class="input-group">
+                            <select [(ngModel)]="idTipoDocumento" name="idTipoDocumento" class="form-control">
+                                <option value = "0">Seleccione</option>
+                                <option *ngFor="let tipoDocumento of tipoDocumentos" value = "{{tipoDocumento.ID_TIPO_DOC_CONDUCTOR}}">{{tipoDocumento.DS_TIPO_DOC}}</option>
+                            </select>                                            
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Días de Tramite:</label>
+                        <div class="input-group">
+                            <select [(ngModel)]="cantDias" name="cantDias" class="form-control">
+                                <option value = "0">Seleccione</option>
+                                <option *ngFor="let diaTramite of diasTramite" value = "{{diaTramite.ID_OP_DIAS_TRAMITE_DOC}}">{{diaTramite.CANT_DIAS}}</option>
+                            </select>                                            
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Aplica Fecha de Vencimiento:</label>
+                        <div class="input-group">
+                            <select [(ngModel)]="fgFhVencimiento" name="fgFhVencimiento" class="form-control">
+                                <option value = "1">SI</option>
+                                <option value = "0">NO</option>
+                            </select>                                            
                         </div>
                     </div>
 

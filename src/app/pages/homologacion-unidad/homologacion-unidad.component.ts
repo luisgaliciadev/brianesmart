@@ -28,7 +28,6 @@ export class HomologacionUnidadComponent implements OnInit {
   idRelacion = 0;
   archivo = null;
   URL = URL_SERVICES;
-
   idUnidad = 0;
   tipoVehiculo = '';
   placa = '';
@@ -90,8 +89,10 @@ export class HomologacionUnidadComponent implements OnInit {
     }
 
     if (this.placa === '') {
+      Swal.fire('Mensaje', 'Debe ingresar una placa.', 'warning');
       this.idUnidad = 0;
       this.tipoVehiculo = '';
+      this.documentosUnidad = [];
       return;
     }
 
@@ -99,16 +100,19 @@ export class HomologacionUnidadComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe seleccionar un cliente.', 'warning');
       return;
     }
-
+    this.busqueda = true;
     this._registerService.getUnidad(this.placa).subscribe(
       (response: any) => {       
         this.idUnidad = response.unidad.ID_VEHICULO;
         this.tipoVehiculo = response.unidad.DS_TIPO_VEHICULO;
         this.getDocUnidadTotal();
+        this.busqueda = false;
       }, 
       (error: any) => {
         this.idUnidad = 0;
         this.tipoVehiculo = '';
+        this.documentosUnidad = [];
+        this.busqueda = false;
       }
     );
   }
@@ -139,6 +143,7 @@ export class HomologacionUnidadComponent implements OnInit {
         nroDocumento: this.documentosUnidad[i].NRO_DOCUMENTO,
         fhEmision: this.documentosUnidad[i].FH_EMISION,
         fhVencimiento: this.documentosUnidad[i].FH_VENCIMIENTO,
+        idTipo: this.documentosUnidad[i].ID_TIPO_DOCUMENTO,
         idUsuario: this._userService.user.ID_USER
       }
       this.resgistrado = true;
@@ -170,6 +175,7 @@ export class HomologacionUnidadComponent implements OnInit {
         nroDocumento: this.documentosUnidad[i].NRO_DOCUMENTO,
         fhEmision: this.documentosUnidad[i].FH_EMISION,
         fhVencimiento: this.documentosUnidad[i].FH_VENCIMIENTO,
+        idTipo: this.documentosUnidad[i].ID_TIPO_DOCUMENTO,
         idUsuario: this._userService.user.ID_USER,
         fgActivo
       }
@@ -208,6 +214,7 @@ export class HomologacionUnidadComponent implements OnInit {
       nroDocumento: this.documentosUnidad[i].NRO_DOCUMENTO,
       fhEmision: this.documentosUnidad[i].FH_EMISION,
       fhVencimiento: this.documentosUnidad[i].FH_VENCIMIENTO,
+      idTipo: this.documentosUnidad[i].ID_TIPO_DOCUMENTO,
       idUsuario: this._userService.user.ID_USER,
       fgActivo
     }
@@ -300,6 +307,5 @@ export class HomologacionUnidadComponent implements OnInit {
     }
     window.open(this.URL +'/image/documentos-unidad/' + archivo);
   }
-
 
 }

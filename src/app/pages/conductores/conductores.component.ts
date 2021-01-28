@@ -38,6 +38,7 @@ export class ConductoresComponent implements OnInit {
     if (!token) {
       return;
     }
+    this.loading = true;
     this._registerService.getConductores(this.search).subscribe(
       (response: any) => {
         console.log('response', response);
@@ -51,6 +52,10 @@ export class ConductoresComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
+        this.loading = false;
+        this.activeButton = false;
+      }, 
+      error => {
         this.loading = false;
         this.activeButton = false;
       }

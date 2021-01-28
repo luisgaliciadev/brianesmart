@@ -9,7 +9,6 @@ const maskConfig: Partial<IConfig> = {
   validation: false,
 };
 
-
 @Component({
   selector: 'app-ruta',
   templateUrl: './ruta.component.html',
@@ -19,7 +18,7 @@ const maskConfig: Partial<IConfig> = {
 export class RutaComponent implements OnInit {  
   loading = false;
   registrando = false;
-  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0);
+  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','');
   RUC = '';
   clientes = [];
   origenes = [];
@@ -51,7 +50,7 @@ export class RutaComponent implements OnInit {
       if (this.ruta.ID_RUTA > 0) {
         this.getRuta();
       } else {
-        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0);
+        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','');
       }
     });
   }
@@ -64,7 +63,6 @@ export class RutaComponent implements OnInit {
     this.loading = true;
     this._registerService.getRuta(this.ruta.ID_RUTA).subscribe(
       (response: any) => {
-        // console.log(response)
         this.getDetaRutaTipoCargas();
         this.getDetaRutaProductos();
         this.ruta.ID_RUTA = response.ruta.ID_RUTA;
@@ -93,6 +91,8 @@ export class RutaComponent implements OnInit {
         this.ruta.PEAJES = response.ruta.PEAJES;
         this.ruta.COMBUSTIBLE_GLNS = response.ruta.COMBUSTIBLE_GLNS;
         this.ruta.REDIMIENTO_KM_GLNS = response.ruta.REDIMIENTO_KM_GLNS;
+        this.ruta.INGRESO_ORIGEN = response.ruta.INGRESO_ORIGEN;
+        this.ruta.INGRESO_DESTINO = response.ruta.INGRESO_DESTINO;
         this.loading = false;
       },
       (error: any) => {
@@ -100,21 +100,6 @@ export class RutaComponent implements OnInit {
       }
     );
   }
-
-  // formatoHora(horaMinutos, nro) {    
-  //   if (horaMinutos.length === 2) {
-  //     let hora = horaMinutos.substring(0,2)
-  //     if (hora > 23) {
-  //       if (nro === 1) {
-  //         this.ruta.HORA_INICIO = '23';
-  //       }
-
-  //       if (nro === 2) {
-  //         this.ruta.HORA_FIN = '23';
-  //       }
-  //     }
-  //   }
-  // }
 
   getDetaRutaTipoCargas() {
     this._registerService.getDetaRutaTipoCargas(this.ruta.ID_RUTA).subscribe(
@@ -182,7 +167,6 @@ export class RutaComponent implements OnInit {
   }
 
   rucCliente() {
-    console.log('this.ruta.ID_CLIENTE', this.ruta.ID_CLIENTE);
     if (this.ruta.ID_CLIENTE == 0) {
       this.RUC = '';
       return;
@@ -248,7 +232,9 @@ export class RutaComponent implements OnInit {
   horasLeadtime () {
     let horasLeadtime = ''
     let totalHorasLeadtime
+    let horasIngresoOrigen = 0;
     let horasIda = 0;
+    let horasIngresoDestino = 0;
     let horasRetorno = 0;
     let horasOrigen = 0;
     let horasDestino = 0;
@@ -257,21 +243,45 @@ export class RutaComponent implements OnInit {
     let minRetorno = 0;
     let minOrigen = 0;
     let minDestino = 0;
+    let minIngresoOrigen = 0;
+    let minIngresoDestino = 0;
+
+    if (parseInt(this.ruta.INGRESO_ORIGEN.substring(0,2))) {
+      horasIngresoOrigen = parseInt(this.ruta.INGRESO_ORIGEN.substring(0,2));
+    }
+
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(0,2))) {
+      horasOrigen = parseInt(this.ruta.ORIGEN_HORAS.substring(0,2));
+    }
 
     if (parseInt(this.ruta.IDA_HORAS.substring(0,2))) {
       horasIda = parseInt(this.ruta.IDA_HORAS.substring(0,2));
+    }
+
+    if (parseInt(this.ruta.INGRESO_DESTINO.substring(0,2))) {
+      horasIngresoDestino = parseInt(this.ruta.INGRESO_DESTINO.substring(0,2));
+    }
+
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(0,2))) {
+      horasDestino = parseInt(this.ruta.DESTINO_HORAS.substring(0,2));
     }
 
     if (parseInt(this.ruta.RETORNO_HORAS.substring(0,2))) {
       horasRetorno = parseInt(this.ruta.RETORNO_HORAS.substring(0,2));
     }
 
-    if (parseInt(this.ruta.ORIGEN_HORAS.substring(0,2))) {
-      horasOrigen = parseInt(this.ruta.ORIGEN_HORAS.substring(0,2));
+    if (parseInt(this.ruta.INGRESO_ORIGEN.substring(2))) {      
+      if (parseInt(this.ruta.INGRESO_ORIGEN.substring(2)) > 59) {
+        this.ruta.INGRESO_ORIGEN = this.ruta.INGRESO_ORIGEN.substring(0,2) + '59';
+      }
+      minIngresoOrigen = parseInt(this.ruta.INGRESO_ORIGEN.substring(2));
     }
-   
-    if (parseInt(this.ruta.DESTINO_HORAS.substring(0,2))) {
-      horasDestino = parseInt(this.ruta.DESTINO_HORAS.substring(0,2));
+
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2))) {
+      if (parseInt(this.ruta.ORIGEN_HORAS.substring(2)) > 59) {
+        this.ruta.ORIGEN_HORAS = this.ruta.ORIGEN_HORAS.substring(0,2) + '59';
+      }
+      minOrigen = parseInt(this.ruta.ORIGEN_HORAS.substring(2));
     }
 
     if (parseInt(this.ruta.IDA_HORAS.substring(2))) {
@@ -281,24 +291,33 @@ export class RutaComponent implements OnInit {
       minIda = parseInt(this.ruta.IDA_HORAS.substring(2));
     }
 
+    if (parseInt(this.ruta.INGRESO_DESTINO.substring(2))) {
+      if (parseInt(this.ruta.INGRESO_DESTINO.substring(2)) > 59) {
+        this.ruta.INGRESO_DESTINO = this.ruta.INGRESO_DESTINO.substring(0,2) + '59';
+      }
+      minIngresoDestino = parseInt(this.ruta.INGRESO_DESTINO.substring(2));
+    }
+
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(2))) {
+      if (parseInt(this.ruta.DESTINO_HORAS.substring(2)) > 59) {
+        this.ruta.DESTINO_HORAS = this.ruta.DESTINO_HORAS.substring(0,2) + '59';
+      }
+      minDestino = parseInt(this.ruta.DESTINO_HORAS.substring(2));
+    }
+  
     if (parseInt(this.ruta.RETORNO_HORAS.substring(2))) {
+      if (parseInt(this.ruta.RETORNO_HORAS.substring(2)) > 59) {
+        this.ruta.RETORNO_HORAS = this.ruta.RETORNO_HORAS.substring(0,2) + '59';
+      }
       minRetorno = parseInt(this.ruta.RETORNO_HORAS.substring(2));
     }
 
-    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2))) {
-      minOrigen = parseInt(this.ruta.ORIGEN_HORAS.substring(2));
-    }
-   
-    if (parseInt(this.ruta.DESTINO_HORAS.substring(2))) {
-      minDestino = parseInt(this.ruta.DESTINO_HORAS.substring(2));
-    }
-
-    let minutos = minIda + minRetorno + minOrigen + minDestino;
+    let minutos = minIngresoOrigen + minOrigen + minIda + minIngresoDestino + minDestino + minRetorno;
     let horasMin = (minutos / 60).toFixed(2);
     let arrayTotalHorasMin = horasMin.toString().split('.');
     let totalHorasMin = parseInt(arrayTotalHorasMin[0]);
     let totalMin = Math.ceil((parseInt(arrayTotalHorasMin[1]) * 59) / 99);
-    totalHorasLeadtime = horasIda + horasRetorno + horasOrigen + horasDestino + totalHorasMin;
+    totalHorasLeadtime = horasIngresoOrigen + horasOrigen + horasIda + horasIngresoDestino + horasDestino + horasRetorno + totalHorasMin;
     totalMinLeadtime = totalMin;
 
     if (totalHorasLeadtime.toString().length < 2) {
@@ -315,7 +334,8 @@ export class RutaComponent implements OnInit {
     
     this.ruta.LEADTIME_HORAS = '';
     this.ruta.LEADTIME_HORAS = horasLeadtime + ':' + totalMinLeadtime;
-    this.ruta.LEADTIME_DIAS = Math.ceil((parseInt(horasLeadtime) + parseInt(totalMinLeadtime) / 60) / 24);
+    let leadDias = ((parseInt(horasLeadtime) + parseInt(totalMinLeadtime) / 60) / 24).toFixed(2);
+    this.ruta.LEADTIME_DIAS = parseFloat(leadDias);
   }
 
   async registerRuta() {
@@ -325,6 +345,21 @@ export class RutaComponent implements OnInit {
     }
     if (this.ruta.ID_CLIENTE == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar un cliente', 'warning');
+      return;
+    }
+
+    if (this.ruta.ID_MONEDA == 0) {
+      Swal.fire('Mensaje', 'Debe seleccionar una moneda', 'warning');
+      return;
+    }
+
+    if (this.ruta.TARIFA === 0) {
+      Swal.fire('Mensaje', 'Debe ingresar el monto de la tarifa', 'warning');
+      return;
+    }
+
+    if (this.ruta.ID_TIPO_COBRO_OS == 0) {
+      Swal.fire('Mensaje', 'Debe seleccionar un tipo de cobro', 'warning');
       return;
     }
 
@@ -348,54 +383,66 @@ export class RutaComponent implements OnInit {
       return;
     }
 
-    if (this.ruta.ID_TIPO_COBRO_OS == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un tipo de cobro', 'warning');
+    if (!this.ruta.INGRESO_ORIGEN)  {
+      this.ruta.INGRESO_ORIGEN = '0000';
+    }
+
+    if (!this.ruta.ORIGEN_HORAS) {
+      this.ruta.ORIGEN_HORAS = '0000';
+    }
+
+    if (!this.ruta.IDA_HORAS) {
+      this.ruta.IDA_HORAS = '0000';
+    }
+
+    if (!this.ruta.INGRESO_DESTINO) {
+      this.ruta.INGRESO_DESTINO = '0000';
+    }
+   
+    if (!this.ruta.DESTINO_HORAS) {
+      this.ruta.DESTINO_HORAS = '0000';
+    }
+
+    if (!this.ruta.RETORNO_HORAS) {
+      this.ruta.RETORNO_HORAS = '0000';
+    }
+    
+    if (parseInt(this.ruta.INGRESO_ORIGEN.substring(2)) > 59 || this.ruta.INGRESO_ORIGEN.length < 4)  {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de ingreso origen', 'warning');
       return;
     }
 
-    let horaInicio = parseInt(this.ruta.HORA_INICIO.substring(0,2));
-    let minInicio = parseInt(this.ruta.HORA_INICIO.substring(2));
-    let horaFin = parseInt(this.ruta.HORA_FIN.substring(0,2));
-    let minFin = parseInt(this.ruta.HORA_FIN.substring(2));
-
-    if (horaInicio > 23 || horaInicio < 0 || minInicio > 59 || minInicio <0) {
-      Swal.fire('Mensaje', 'Formato de hora de inicio de atención incorrecto', 'warning');
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2)) > 59 || this.ruta.ORIGEN_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas en origen', 'warning');
       return;
     }
 
-    if (horaFin > 23 || horaFin < 0 || minFin > 59 || minFin <0) {
-      Swal.fire('Mensaje', 'Formato de hora de fin de atención incorrecto', 'warning');
+    if (parseInt(this.ruta.IDA_HORAS.substring(2)) > 59 || this.ruta.IDA_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de ida', 'warning');
       return;
     }
 
-    if (parseInt(this.ruta.IDA_HORAS.substring(2)) > 59) {
-      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas de ida', 'warning');
+    if (parseInt(this.ruta.INGRESO_DESTINO.substring(2)) > 59 || this.ruta.INGRESO_DESTINO.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de ingreso destino', 'warning');
       return;
     }
-
-    if (parseInt(this.ruta.RETORNO_HORAS.substring(2)) > 59) {
-      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas de retorno', 'warning');
-      return;
-    }
-
-    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2)) > 59) {
-      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas en origen', 'warning');
-      return;
-    }
-
-    if (parseInt(this.ruta.DESTINO_HORAS.substring(2)) > 59) {
+   
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(2)) > 59 || this.ruta.DESTINO_HORAS.length < 4) {
       Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas en destino', 'warning');
       return;
     }
 
+    if (parseInt(this.ruta.RETORNO_HORAS.substring(2)) > 59 || this.ruta.RETORNO_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de retorno', 'warning');
+      return;
+    }
+ 
     this.ruta.ID_USUARIO = this._userService.user.ID_USER;   
     this.ruta.DETA_TIPO_CARGAS = this.detaTipoCargas;
     this.ruta.DETA_PRODUCTOS = this.detaProductos;
-    console.log('ruta:',this.ruta);
     this.registrando = true;
     this._registerService.registerRuta(this.ruta).subscribe(
       (response: any) => {
-        // console.log(response);
         this._router.navigate(['/ruta',response.ruta.ID_RUTA]);
         this.registrando = false;
       },
@@ -415,6 +462,21 @@ export class RutaComponent implements OnInit {
       return;
     }
 
+    if (this.ruta.ID_MONEDA == 0) {
+      Swal.fire('Mensaje', 'Debe seleccionar una moneda', 'warning');
+      return;
+    }
+
+    if (this.ruta.TARIFA === 0) {
+      Swal.fire('Mensaje', 'Debe ingresar el monto de la tarifa', 'warning');
+      return;
+    }
+
+    if (this.ruta.ID_TIPO_COBRO_OS == 0) {
+      Swal.fire('Mensaje', 'Debe ingresar el monto de la tarifa', 'warning');
+      return;
+    }
+
     if (this.ruta.ID_ORIGEN == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar un origen', 'warning');
       return;
@@ -432,6 +494,60 @@ export class RutaComponent implements OnInit {
 
     if (this.detaProductos.length === 0) {
       Swal.fire('Mensaje', 'Debe agregar al menos un producto', 'warning');
+      return;
+    }
+
+    if (!this.ruta.INGRESO_ORIGEN)  {
+      this.ruta.INGRESO_ORIGEN = '0000';
+    }
+
+    if (!this.ruta.ORIGEN_HORAS) {
+      this.ruta.ORIGEN_HORAS = '0000';
+    }
+
+    if (!this.ruta.IDA_HORAS) {
+      this.ruta.IDA_HORAS = '0000';
+    }
+
+    if (!this.ruta.INGRESO_DESTINO) {
+      this.ruta.INGRESO_DESTINO = '0000';
+    }
+   
+    if (!this.ruta.DESTINO_HORAS) {
+      this.ruta.DESTINO_HORAS = '0000';
+    }
+
+    if (!this.ruta.RETORNO_HORAS) {
+      this.ruta.RETORNO_HORAS = '0000';
+    }
+
+    if (parseInt(this.ruta.INGRESO_ORIGEN.substring(2)) > 59 || this.ruta.INGRESO_ORIGEN.length < 4)  {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de ingreso origen', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.ORIGEN_HORAS.substring(2)) > 59 || this.ruta.ORIGEN_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas en origen', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.IDA_HORAS.substring(2)) > 59 || this.ruta.IDA_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de ida', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.INGRESO_DESTINO.substring(2)) > 59 || this.ruta.INGRESO_DESTINO.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de ingreso destino', 'warning');
+      return;
+    }
+   
+    if (parseInt(this.ruta.DESTINO_HORAS.substring(2)) > 59 || this.ruta.DESTINO_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato de minutos incorrecto en horas en destino', 'warning');
+      return;
+    }
+
+    if (parseInt(this.ruta.RETORNO_HORAS.substring(2)) > 59 || this.ruta.RETORNO_HORAS.length < 4) {
+      Swal.fire('Mensaje', 'Formato incorrecto en horas de retorno', 'warning');
       return;
     }
 
@@ -456,7 +572,6 @@ export class RutaComponent implements OnInit {
         this.registrando = true;
         this._registerService.updateRuta(this.ruta).subscribe(
           (response: any) => {
-            console.log(response);
             this.registrando = false;
           },
           (error: any) => {
@@ -493,7 +608,6 @@ export class RutaComponent implements OnInit {
         this.registrando = true;
         this._registerService.deleteRuta(this.ruta).subscribe(
           (response: any) => {
-            console.log(response);
             this.registrando = false;
             this._router.navigate(['/rutas']);
           },
@@ -531,10 +645,8 @@ export class RutaComponent implements OnInit {
         this.registrando = true;
         this._registerService.aprobarRuta(this.ruta).subscribe(
           (response: any) => {
-            console.log(response);
             this.registrando = false;
             this.getRuta()
-            // this._router.navigate(['/rutas']);
           },
           (error: any) => {
             this.registrando = false;
@@ -544,12 +656,7 @@ export class RutaComponent implements OnInit {
     });
   }
 
-  async agregarTipoCarga(idTipoCarga) {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-
+  async agregarTipoCarga(idTipoCarga) {  
     if (this.ruta.ID_TIPO_CARGA == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar un tipo de carga.', 'warning');
       return;
@@ -568,6 +675,11 @@ export class RutaComponent implements OnInit {
     }
 
     if (this.ruta.ID_RUTA > 0) {
+      let token = await this._userService.validarToken();
+      if (!token) {
+        return;
+      }
+      
       this._registerService.registerDetaRutaTipoCarga(idTipoCarga, this.ruta.ID_RUTA).subscribe(
         (response: any) => {
           this.detaTipoCargas.push({
@@ -655,7 +767,6 @@ export class RutaComponent implements OnInit {
             DS_PRODUCTO: dsProducto,
             ID_DETA_RUTA_PRODUCTO: 0
           });
-          console.log(this.detaProductos);
           this.ruta.ID_PRODUCTO = 0; 
         }
       );
@@ -665,7 +776,6 @@ export class RutaComponent implements OnInit {
         DS_PRODUCTO: dsProducto,
         ID_DETA_RUTA_PRODUCTO: 0
       });
-      console.log(this.detaProductos);
       this.ruta.ID_PRODUCTO = 0; 
     }
   }
@@ -703,6 +813,15 @@ export class RutaComponent implements OnInit {
         }
       } 
     });
+  }
+
+  rendimiento() {
+    if (this.ruta.COMBUSTIBLE_GLNS > 0 && this.ruta.KM > 0) {
+      let redimiento = (this.ruta.KM / this.ruta.COMBUSTIBLE_GLNS).toFixed(2);
+      this.ruta.REDIMIENTO_KM_GLNS = parseFloat(redimiento);
+    } else {
+      this.ruta.REDIMIENTO_KM_GLNS = 0;
+    } 
   }
 
 }

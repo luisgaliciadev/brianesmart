@@ -81,21 +81,17 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ITEMS</th>
-                                        <th>Documento</th>                                       
-                                        <th></th>
+                                        <th class="text-center">ITEMS</th>
+                                        <th class="text-center">Documento</th>                                       
+                                        <th class="text-center">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let documento of documentosCliente">
-                                        <td>{{documento.ITEMS}}</td>
+                                        <td class="text-center">{{documento.ITEMS}}</td>
                                         <td>{{documento.DS_DOCUMENTO}}</td>                     
                                         <td style="text-align: center;">
                                             <a data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-close text-danger pointer m-r-10" (click)="borrarDocumento(documento.ID_RELACION_DOC_CLIENTE)"></i></a>
-                                            <!-- <i class="fa fa-trash-o pointer" data-toggle="tooltip" data-placement="top" title="Eliminar"></i> -->
-                                            <!-- <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="borrarDocumento(documento.ID_RELACION_DOC_CLIENTE)">
-                                                <i class="fa fa-trash-o"></i>
-                                            </button> -->
                                         </td>
                                     </tr>
                                 </tbody>
@@ -103,6 +99,7 @@
                         </div>
                     </div>
                 </div>
+            </div>                
         </div>
     </div>
 </div>

@@ -295,18 +295,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Registro de Facturas</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limpiarModal()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form ngNativeValidate #formFacturas="ngForm" class="form p-t-20"> 
         <div class="modal-body">
             <div class="form-group row">
+                <label class="col-5 col-form-label">Concepto:</label>
+                <div class="input-group col-7">
+                    <select [(ngModel)]="idConceptoGastosOp" name="idConceptoGastosOp" class="form-control" required>
+                        <option value = "0" >Seleccione</option>
+                        <option *ngFor="let concepto of conceptosGastosOp" value = "{{concepto.ID_TIPO_CONCEPTO_GASTOS_OP}}">{{concepto.DS_TIPO_CONCEPTO_OP}}</option>
+                    </select>                                            
+                    <!-- <input [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" type="text" class="form-control" placeholder="Buscar">                         -->
+                    <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getOrdenServicio(guia.ID_ORDEN_SERVICIO)"></i></div>         -->
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <label class="col-5 col-form-label">Tipo Documento:</label>
                 <div class="input-group col-7">
                     <select [(ngModel)]="idTipoDocPeaje" name="idTipoDocPeaje" class="form-control" required>
                         <option value = "0" >Seleccione</option>
-                        <option *ngFor="let documento of documentosPeaje" value = "{{documento.ID_TIPO_DOC_PEAJE}}">{{documento.DS_TIPO_DOC_PEAJE}}</option>
+                        <option *ngFor="let documento of documentosPeaje" value = "{{documento.ID_TIPO_DOC_PEAJE}}">{{documento.DS_TIPO_DOC_PEAJE}}</option>                        
                     </select>                                            
                     <!-- <input [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" type="text" class="form-control" placeholder="Buscar">                         -->
                     <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getOrdenServicio(guia.ID_ORDEN_SERVICIO)"></i></div>         -->

@@ -15,6 +15,11 @@ export class DocumentosUnidadComponent implements OnInit {
   totalRegistros = 0;
   loading = false;
   search = '';
+  tipoDocumentos = [];
+  diasTramite = [];
+  idTipoDocumento = 0;
+  cantDias = 0;
+  fgFhVencimiento = 1;
 
   constructor(
     public _registerService: RegisterService,
@@ -25,7 +30,33 @@ export class DocumentosUnidadComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getDocumentos()
+    this.getTipoDocumentosUnidad();
+    this.getDiasTramiteUnidadCond();
+    this.getDocumentos();
+  }
+
+  getDiasTramiteUnidadCond() {
+    this.loading = true;
+    this._registerService.getDiasTramiteUnidadCond().subscribe(
+      (response: any) => {
+        this.diasTramite = response.cantidadDiasTramite;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      }
+    );
+  }
+
+  getTipoDocumentosUnidad() {
+    this.loading = true;
+    this._registerService.getTipoDocumentosUnidad().subscribe(
+      (response: any) => {
+        this.tipoDocumentos = response.tipoDocumentosUnidad;
+        this.loading = false;
+      }, error => {
+        this.loading = false;
+      }
+    );
   }
 
   async getDocumentos() {
@@ -53,6 +84,9 @@ export class DocumentosUnidadComponent implements OnInit {
     }
     let documento = {
       nombreDocumento: data.nombreDocumento,
+      idTipoDocumento: data.idTipoDocumento,
+      idCantDias: data.cantDias,
+      fgFhVencimiento: data.fgFhVencimiento,
       idUsuario: this._userService.user.ID_USER
     }
     this.loading = true;
@@ -69,6 +103,9 @@ export class DocumentosUnidadComponent implements OnInit {
 
   cancel() {
     this.nombreDocumento = '';
+    this.idTipoDocumento = 0;
+    this.cantDias = 0;
+    this.fgFhVencimiento = 1;
   }
 
   async modificarDoc(i) {
@@ -79,6 +116,9 @@ export class DocumentosUnidadComponent implements OnInit {
     let documento = {
       idDocumento: this.documentos[i].ID_DOCUMENTO,
       nombreDocumento: this.documentos[i].DS_DOCUMENTO,
+      idTipoDocumento: this.documentos[i].ID_TIPO_DOCUMENTO,
+      idCantDias: this.documentos[i].ID_CANT_DIAS,
+      fgFhVencimiento: this.documentos[i].FG_FH_VENCIMIENTO,
       idUsuario: this._userService.user.ID_USER
     }
     this.loading = true;

@@ -34,7 +34,6 @@ export class DocumentosClienteComponent implements OnInit {
     this._userService.permisoModule(this._router.url);
     this.getClientes();
     this.getDocumentos();
-
   }
 
   getClientes() {
@@ -62,7 +61,6 @@ export class DocumentosClienteComponent implements OnInit {
   }
 
   rucCliente() {
-    console.log('this.ruta.ID_CLIENTE', this.idCliente);
     if (this.idCliente == 0) {
       this.RUC = '';
       return;
@@ -76,12 +74,7 @@ export class DocumentosClienteComponent implements OnInit {
 
   getDocumentos() {
     this.loading = true;
-    // let token = await this._userService.validarToken();
-    // if (!token) {
-    //   return;
-    // }
-    
-    this._registerService.getDocConductores(0).subscribe(
+    this._registerService.getDocConductoresCliente(0).subscribe(
       (response: any) => {
         this.documentos = response.documentos;
         this.loading = false;
@@ -94,8 +87,7 @@ export class DocumentosClienteComponent implements OnInit {
     if (!token) {
       return;
     }
-    
-
+  
     if (this.idCliente == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar un cliente.', 'warning');
       return;
@@ -107,14 +99,12 @@ export class DocumentosClienteComponent implements OnInit {
     }
 
     this.resgistrado = true;
-
     let data = {
       idDocumento: this.idDocumento,
       idCliente: this.idCliente,
       idUsuario: this._userService.user.ID_USER
     }
 
-    // return;
     this._registerService.registerDocCliente(data).subscribe(
       (response: any) => {
         this.getDocumentosCliente(this.idCliente);
@@ -135,7 +125,6 @@ export class DocumentosClienteComponent implements OnInit {
     this.busqueda = true;
     this._registerService.getDocClientes(idCliente).subscribe(
       (response: any) => {
-        console.log(response);
         this.documentosCliente = response.documentosCliente;
         this.totalRegistros = this.documentosCliente.length;
         this.busqueda = false;
@@ -162,7 +151,5 @@ export class DocumentosClienteComponent implements OnInit {
       }
     );
   }
-
-
 
 }

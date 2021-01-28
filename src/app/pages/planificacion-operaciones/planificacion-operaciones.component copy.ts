@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Peaje } from 'src/app/models/peaje.model';
 import {saveAs} from 'file-saver';
 
 @Component({
@@ -24,7 +25,6 @@ export class PlanificacionOperacionesComponent implements OnInit {
   remolques = [];
   planificaciones = [];
   demandas = [];
-  demandasTotal = [];
   registrando = false;
   idRecursos = 1;
   idPlanificacion = 0;
@@ -33,79 +33,40 @@ export class PlanificacionOperacionesComponent implements OnInit {
   viajesEstimados = 0;
   unidadesEstimadas = 0;
   estadoOs = 0;
-  fhDesde;
-  fhHasta;
-  date = new Date();
-  mes;
-  dia;
-  zonasConductor: any[] = [];
-  idZona = 1;
-  buscarDemada = '';
-  buscarConductor = '';
-  buscarTracto = '';
-  buscarRemolque = '';
   
   constructor(
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
     public _route: ActivatedRoute
-  ) { 
-    this.mes = this.date.getMonth() + 1;
-    this.dia = this.date.getDate();
-
-    if (this.mes < 10) {
-      this.mes = 0 + this.mes.toString(); 
-    }
-
-    if (this.dia < 10) {
-      this.dia = 0 + this.dia.toString(); 
-    }
-
-    this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
-    this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
-  }
+  ) { }
 
   ngOnInit(): void {    
-    this.getConductores();
-    this.getTractos();
-    this.getRemolques();
-    this.getZonasConcutor();
+    this._route.params.forEach((params: Params) => {
+      this.idOrderSevicio = 0;
+      this.idPlanificacion = parseInt(params.id);
+      this.getConductores();
+      this.getTractos();
+      this.getRemolques();
+      this.getOrdenesServicioAll();
+    });
   }
 
-  async getOrdenServicioPlanificacion() {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-
+  getOrdenesServicioAll() {
     this.loading = true;
-    this._registerService.getOrdenServicioPlanificacion(this.fhDesde, this.fhHasta, this.idZona).subscribe(
+    this._registerService.getOrdenServicioPlanificacion().subscribe(
       (response: any) => {        
-        this.buscarDemada = '';
-        this.buscarConductor = '';
-        this.buscarTracto = '';
-        this.buscarRemolque = '';
         this.ordenes = response.ordenesServicio;  
-        this.demandas = response.demandas;
-        this.getPlanificacionesDeta();
+        if (this.idPlanificacion > 0) {
+          this.getPlanificacionOP();
+        } else {
+          this.datosOrden( this.idOrderSevicio);
+        }
         this.loading = false;
       },
       (error: any) => {
           this.loading = false;
-      }
-    );
-  }
-
-  getZonasConcutor() {
-    this.loading = true;
-    this._registerService.getZonaConductor().subscribe(
-      (response: any) => {        
-        this.zonasConductor = response.zonasConductor
-        this.loading = false;
-      },
-      error => {
-        this.loading = false;
+          this.ordenes = [];
       }
     );
   }
@@ -196,6 +157,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
         this.idOrderSevicio = response.planificacionOp.ID_ORDEN_SERVICIO;
         this.fechaPlanificacion = response.planificacionOp.FECHA_CAMBIO;
         this.getOS(response.planificacionOp.ID_ORDEN_SERVICIO);
+        this.getPlanificacionDeta();
       },
       error => {
         this.loading = false;
@@ -203,11 +165,11 @@ export class PlanificacionOperacionesComponent implements OnInit {
     );
   }
 
-  getPlanificacionesDeta() {
+  getPlanificacionDeta() {
     this.loading = true;
-    this._registerService.getPlanificacionesDeta(this.fhDesde,this.fhDesde,this.idZona).subscribe(
+    this._registerService.getPlanificacionDeta(this.idPlanificacion).subscribe(
       (response: any) => {
-        this.planificaciones = response.planificacionesDeta;
+        this.planificaciones = response.planificacionDeta;
         this.loading = false;
       },
       error => {
@@ -295,7 +257,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
     };
     this._registerService.registerPlanifiacionOp(planificacion).subscribe(
       (response: any) => {
-        this._router.navigate(['/planificacion-operaciones']);
+        this._router.navigate(['/planificacion-operaciones', response.planifiacionOp.ID_PLANIFICACION_OP]);
         this.registrando = false;
       },
       error => {
@@ -304,9 +266,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
     );
   }
 
-  seleccion(items) { 
-    let i;
-    i = items - 1;   
+  seleccion(i) {    
     let j;
     for (j = 0; j < this.demandas.length; j++) {
       this.demandas[j].seleccion = false;
@@ -314,9 +274,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
     this.demandas[i].seleccion = true;
   }
 
-  seleccionConductor(items) {  
-    let i;
-    i = items - 1;
+  seleccionConductor(i) {    
     let j;
     for (j = 0; j < this.conductores.length; j++) {
       this.conductores[j].seleccion = false;
@@ -324,9 +282,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
     this.conductores[i].seleccion = true;
   }
 
-  seleccionTracto(items) { 
-    let i;
-    i = items - 1;  
+  seleccionTracto(i) {    
     let j;
     for (j = 0; j < this.tractos.length; j++) {
       this.tractos[j].seleccion = false;
@@ -334,9 +290,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
     this.tractos[i].seleccion = true;
   }
 
-  seleccionRemolque(items) {    
-    let i;
-    i = items - 1;
+  seleccionRemolque(i) {    
     let j;
     for (j = 0; j < this.remolques.length; j++) {
       this.remolques[j].seleccion = false;
@@ -349,6 +303,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
   }
 
   reestablecerListas() {
+    this.demandas.splice(0, 1);
     let j;
     for (j = 0; j < this.demandas.length; j++) {
       this.demandas[j].seleccion = false;
@@ -367,22 +322,15 @@ export class PlanificacionOperacionesComponent implements OnInit {
     }
   }
 
-  async agregarRegistroPlanificacion() {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
+  agregarRegistroPlanificacion() {
     let idConductor = 0;
     let idTracto = 0;
     let idRemolque = 0;
     let idDemanda = 0;
-    let idOrdenServicio = 0
 
     this.demandas.forEach(function (demanda) {
       if (demanda.seleccion) {
         idDemanda = demanda.id;
-        idOrdenServicio = demanda.idOrdenServicio
-        
       }
     });
 
@@ -425,25 +373,19 @@ export class PlanificacionOperacionesComponent implements OnInit {
     }
 
     let dataPlanificacion = {
-      idOrdenServicio,
+      idOrdenServicio: this.idOrderSevicio,
       idTracto,
       idRemolque,
       idConductor,
-      idUsuario: this._userService.user.ID_USER,
-      fecha: this.fhDesde
+      idUsuario: this._userService.user.ID_USER
     };
     document.getElementById("btnConductor").click();
     this.registrando = true;
     this._registerService.registerPlanifiacionOpDeta(dataPlanificacion).subscribe(
       (response: any) => {
-        this.demandas.splice(0, 1);
         this.reestablecerListas();
-        this.getPlanificacionesDeta();
-        this.buscarDemada = '';
-        this.buscarConductor = '';
-        this.buscarTracto = '';
-        this.buscarRemolque = '';
         this.registrando = false;
+        this.getPlanificacionDeta();
       },
       (error: any) => {
         this.registrando = false;
@@ -515,7 +457,9 @@ export class PlanificacionOperacionesComponent implements OnInit {
         this._registerService.deletePlanificacionOpDeta(id).subscribe(
           (response: any) => {
             this.loading = false;
-            this.getOrdenServicioPlanificacion()
+            // this._router.navigate(['/planificacion-operaciones', this.idPlanificacion]);
+            this.getOS(this.idOrderSevicio);
+            this.getPlanificacionDeta();
           },
           (error: any) => {
             this.loading = false;
@@ -525,125 +469,4 @@ export class PlanificacionOperacionesComponent implements OnInit {
     });
   }
 
-  async updateFechaPlanificacionGuia(i) {    
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-
-    if(this.planificaciones[i].FG_PLANIFICADO) { 
-      if (this.planificaciones[i].FECHA_INICIO_VIAJE === '' || !this.planificaciones[i].FECHA_INICIO_VIAJE) {
-        Swal.fire('Mensaje', 'Debe ingresar la fecha de inicio de viaje.', 'warning');
-        return;
-      }
-
-      if (this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE === '' || !this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE) {
-        Swal.fire('Mensaje', 'Debe ingresar la hora de inicio de viaje.', 'warning');
-        return;
-      }
-
-     
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(0, 2)) > 23 || parseInt(this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(2)) > 59 || this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.length < 4)  {
-        Swal.fire('Mensaje', 'Formato incorrecto en horas de inicio de viaje.', 'warning');
-        return;
-      }
-
-      if (this.planificaciones[i].FECHA_LLEGADA_PC === '' || !this.planificaciones[i].FECHA_LLEGADA_PC) {
-        Swal.fire('Mensaje', 'Debe ingresar la fecha de llegada al punto de carga.', 'warning');
-        return;
-      }
-
-      if (this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC === '' || !this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC) {
-        Swal.fire('Mensaje', 'Debe ingresar la hora de llegada al punto de carga', 'warning');
-        return;
-      }
-
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(0, 2)) > 23 || parseInt(this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(2)) > 59 || this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.length < 4)  {
-        Swal.fire('Mensaje', 'Formato incorrecto en hora de llegada al punto de carga.', 'warning');
-        return;
-      }
-
-      if (this.planificaciones[i].FECHA_FIN_VIAJE) {
-        if (parseInt(this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(0, 2)) > 23 || parseInt(this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(2)) > 59 || this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.length < 4)  {
-          Swal.fire('Mensaje', 'Formato incorrecto en hora de fin de viaje.', 'warning');
-          return;
-        }
-      }
-     
-      let fhFinViaje = null;
-
-      if (this.planificaciones[i].FECHA_FIN_VIAJE) {
-        if (this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE) {
-          fhFinViaje = this.planificaciones[i].FECHA_FIN_VIAJE + ' ' + this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(0, 2) + ':' + this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(2);
-        }
-      }
-
-      let dataGuia = {
-        idGuia: this.planificaciones[i].ID_GUIA,
-        fhInicioViaje: this.planificaciones[i].FECHA_INICIO_VIAJE + ' ' + this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(0, 2) + ':' + this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(2),
-        fhLlegadaPc: this.planificaciones[i].FECHA_LLEGADA_PC + ' ' + this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(0, 2) + ':' + this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(2),
-        idUsuario: this._userService.user.ID_USER,
-        fhFinViaje
-      }
-
-      this.registrando = true;
-      this._registerService.updateFechaPlanificacionGuia(dataGuia).subscribe(
-        (response: any) => {
-          this.getConductores();
-          this.getTractos();
-          this.getRemolques();
-          this.getPlanificacionesDeta();
-          this.registrando = false;
-        },
-        error => {
-          this.registrando = false;
-        }
-      );
-    }
-  }
-
-  validarHora(i) { 
-    if (this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE) {
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(0, 2))) {      
-        if (this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(0, 2) > 23) {
-          this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE = this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(0,0) + '23';
-        }
-      }
-
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(2))) {      
-        if (parseInt(this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(2)) > 59) {
-          this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE = this.planificaciones[i].HORA_MIN_FH_INICIO_VIAJE.substring(0,2) + '59';
-        }
-      }
-    }
-
-
-    if (this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC) {
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(0, 2))) {      
-        if (this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(0, 2) > 23) {
-          this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC = this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(0,0) + '23';
-        }
-      }
-  
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(2))) {      
-        if (parseInt(this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(2)) > 59) {
-          this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC = this.planificaciones[i].HORA_MIN_FH_LLEGADA_PC.substring(0,2) + '59';
-        }
-      }
-    }
-    
-    if (this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE) { 
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(0, 2))) {      
-        if (this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(0, 2) > 23) {
-          this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE = this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(0,0) + '23';
-        }
-      }
-  
-      if (parseInt(this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(2))) {      
-        if (parseInt(this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(2)) > 59) {
-          this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE = this.planificaciones[i].HORA_MIN_FH_FIN_VIAJE.substring(0,2) + '59';
-        }
-      }
-    }
-  }
 }

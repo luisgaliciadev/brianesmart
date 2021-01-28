@@ -27,7 +27,9 @@ export class Ruta {
         public COSTO_ESTIBA?: number,
         public PEAJES?: number,
         public COMBUSTIBLE_GLNS?: number,
-        public REDIMIENTO_KM_GLNS?: number
+        public REDIMIENTO_KM_GLNS?: number,
+        public INGRESO_ORIGEN?: string,
+        public INGRESO_DESTINO?: string
     ) { }
 
 }

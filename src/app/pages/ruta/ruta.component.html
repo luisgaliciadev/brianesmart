@@ -196,7 +196,7 @@
                     </div>
 
                     <hr>
-                    <h4>Información Complementaria</h4>
+                    <h4>Información Adicional</h4>
 
                     <div class="row">
                         <div class="col-sm">
@@ -221,36 +221,45 @@
                             <div class="form-group">
                                 <label>Kilometros:</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="ruta.KM" name="KM" type="number" step="0.01" class="form-control">
+                                    <input (keyup)="rendimiento()" (change)="rendimiento()" [(ngModel)]="ruta.KM" name="KM" type="number" step="0.01" class="form-control">
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Ida (horas):</label>
+                                <label>Ingreso Origen (Hrs):</label>
+                                <div class="input-group">                                            
+                                    <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.INGRESO_ORIGEN" name="INGRESO_ORIGEN" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Origen (Hrs):</label>
+                                <div class="input-group">                                            
+                                    <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.ORIGEN_HORAS" name="ORIGEN_HORAS" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Ida (Hrs):</label>
                                 <div class="input-group">                                            
                                     <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.IDA_HORAS" name="IDA_HORAS" type="text" placeholder="00:00" mask="99:99" class="form-control">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label>Retorno (horas):</label>
-                                <div class="input-group">                                            
-                                    <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.RETORNO_HORAS" name="RETORNO_HORAS" type="text" placeholder="00:00" mask="99:99" class="form-control">
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="row">  
+                    <div class="row">                         
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Origen (horas):</label>
+                                <label>Ingreso Destino (Hrs):</label>
                                 <div class="input-group">                                            
-                                    <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.ORIGEN_HORAS" name="ORIGEN_HORAS" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                    <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.INGRESO_DESTINO" name="INGRESO_DESTINO" type="text" placeholder="00:00" mask="99:99" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -260,6 +269,15 @@
                                 <label>Destino (horas):</label>
                                 <div class="input-group">                                            
                                     <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.DESTINO_HORAS" name="DESTINO_HORAS" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Retorno (horas):</label>
+                                <div class="input-group">                                            
+                                    <input (keyup)="horasLeadtime()" [(ngModel)]="ruta.RETORNO_HORAS" name="RETORNO_HORAS" type="text" placeholder="00:00" mask="99:99" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -287,7 +305,7 @@
                     <div class="row">
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Costo Estiba:</label>
+                                <label>Costo Estiba (S/):</label>
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="ruta.COSTO_ESTIBA" name="COSTO_ESTIBA" type="number" step="0.01" class="form-control">
                                 </div>
@@ -296,7 +314,7 @@
 
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Peajes:</label>
+                                <label>Costo Peajes (S/):</label>
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="ruta.PEAJES" name="PEAJES" type="number" step="0.01" class="form-control">
                                 </div>
@@ -307,7 +325,7 @@
                             <div class="form-group">
                                 <label>Combustible (Glns):</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="ruta.COMBUSTIBLE_GLNS" name="COMBUSTIBLE_GLNS" type="number" step="0.01" class="form-control">
+                                    <input (keyup)="rendimiento()" (change)="rendimiento()" [(ngModel)]="ruta.COMBUSTIBLE_GLNS" name="COMBUSTIBLE_GLNS" type="number" step="0.01" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -316,7 +334,7 @@
                             <div class="form-group">
                                 <label>Rendimiento (Km/Glns):</label>
                                 <div class="input-group">                                            
-                                    <input [(ngModel)]="ruta.REDIMIENTO_KM_GLNS" name="REDIMIENTO_KM_GLNS" type="number" step="0.01" class="form-control">
+                                    <input [(ngModel)]="ruta.REDIMIENTO_KM_GLNS" name="REDIMIENTO_KM_GLNS" type="number" step="0.01" class="form-control" disabled>
                                 </div>
                             </div>
                         </div>

@@ -39,9 +39,9 @@ export class ConsultaUnidadesComponent implements OnInit {
     if (!token) {
       return;
     }
+    this.loading = true;
     this._registerService.getUnidades(this.search).subscribe(
       (response: any) => {
-        console.log('response', response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -52,6 +52,10 @@ export class ConsultaUnidadesComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
+        this.loading = false;
+        this.activeButton = false;
+      },
+      error => {
         this.loading = false;
         this.activeButton = false;
       }

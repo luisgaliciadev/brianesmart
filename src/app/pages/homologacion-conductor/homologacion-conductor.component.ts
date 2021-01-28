@@ -24,7 +24,7 @@ export class HomologacionConductorComponent implements OnInit {
   resgistrado = false;
   dniConductor = '';
   nombreConductor = '';
-  idConductor = '';
+  idConductor = 0;
   extesion = ['png','PNG','jpeg','JPEG','jpg','JPG','pdf','txt','docx','xlsx', 'pptx']; 
   imageUpload: File;
   tempImage: string;
@@ -89,6 +89,11 @@ export class HomologacionConductorComponent implements OnInit {
       return;
     }
     if (id === '') {
+      Swal.fire('Mensaje', 'Debe ingresar el dni del conductor.', 'warning');
+      this.dniConductor = '';
+      this.nombreConductor = '';
+      this.idConductor = 0;
+      this.documentosConductor = [];
       return;
     }
 
@@ -107,8 +112,9 @@ export class HomologacionConductorComponent implements OnInit {
         this.busqueda = false;
       },
       error => {
-        this.idConductor = '';
+        this.idConductor = 0;
         this.nombreConductor = '';
+        this.documentosConductor = [];
         this.busqueda = false;
       }
     );
@@ -140,6 +146,7 @@ export class HomologacionConductorComponent implements OnInit {
         nroDocumento: this.documentosConductor[i].NRO_DOCUMENTO,
         fhEmision: this.documentosConductor[i].FH_EMISION,
         fhVencimiento: this.documentosConductor[i].FH_VENCIMIENTO,
+        idTipo: this.documentosConductor[i].ID_TIPO_DOCUMENTO,
         idUsuario: this._userService.user.ID_USER
       }
       this.resgistrado = true;
@@ -171,6 +178,7 @@ export class HomologacionConductorComponent implements OnInit {
         nroDocumento: this.documentosConductor[i].NRO_DOCUMENTO,
         fhEmision: this.documentosConductor[i].FH_EMISION,
         fhVencimiento: this.documentosConductor[i].FH_VENCIMIENTO,
+        idTipo: this.documentosConductor[i].ID_TIPO_DOCUMENTO,
         idUsuario: this._userService.user.ID_USER,
         fgActivo
       }
@@ -209,6 +217,7 @@ export class HomologacionConductorComponent implements OnInit {
       nroDocumento: this.documentosConductor[i].NRO_DOCUMENTO,
       fhEmision: this.documentosConductor[i].FH_EMISION,
       fhVencimiento: this.documentosConductor[i].FH_VENCIMIENTO,
+      idTipo: this.documentosConductor[i].ID_TIPO_DOCUMENTO,
       idUsuario: this._userService.user.ID_USER,
       fgActivo
     }
@@ -277,7 +286,7 @@ export class HomologacionConductorComponent implements OnInit {
 
   limpiarDataConductor() {
     this.dniConductor = '';
-    this.idConductor = '';
+    this.idConductor = 0;
     this.nombreConductor = '';
     this.totalRegistros = 0;
     this.documentosConductor = [];

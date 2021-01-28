@@ -52,6 +52,8 @@ export class PeajeComponent implements OnInit {
   imageUpload: File;
   tempImage: string;
   URL = URL_SERVICES;
+  conceptosGastosOp = [];
+  idConceptoGastosOp = 0;
 
   constructor(
     public _registerService: RegisterService,
@@ -75,9 +77,9 @@ export class PeajeComponent implements OnInit {
 
       if (params.fact == 1 || params.fact == 2) {
         this.facturas = true;
+        this.getConceptosGatosOp();
         this.getDocPeajes();
       }
-
 
       if (this.peaje.ID_PEAJE > 0) {
         this.modificar = true;
@@ -97,6 +99,19 @@ export class PeajeComponent implements OnInit {
       this.dia = 0 + this.dia.toString(); 
     }
     
+  }
+
+  getConceptosGatosOp() {
+    this.loading = true;
+    this._registerService.getConceptosGatosOp().subscribe(
+      (response: any) => {
+        this.conceptosGastosOp = response.conceptosGastosOP;
+        this.loading = true;
+      },
+      error => {
+        this.loading = false;
+      }
+    );
   }
 
   getPeaje() {
@@ -247,7 +262,6 @@ export class PeajeComponent implements OnInit {
     this._registerService.getOrdenServicioAll(0).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;  
-        // console.log(this.ordenes); 
         if (this.peaje.ID_PEAJE > 0) {
            this.datosOrden(this.peaje.ID_ORDEN_SERVICIO);   
         }
@@ -442,8 +456,14 @@ export class PeajeComponent implements OnInit {
     if (!token) {
       return;
     }
+
     if (this.idTipoDocPeaje == 0) {
       Swal.fire('Error', 'No se realizo el registro, debe llenar todos los campos.', 'warning');
+      return;
+    }
+
+    if (this.idConceptoGastosOp == 0) {
+      Swal.fire('Error', 'No se realizo el registro, debe seleccionar un concepto.', 'warning');
       return;
     }
 
@@ -466,21 +486,22 @@ export class PeajeComponent implements OnInit {
       fecha: this.fechaDoc,
       idGuia: this.idGuia,
       idUser : this._userService.user.ID_USER,
-      idTipoDoc: this.idTipoDocPeaje
+      idTipoDoc: this.idTipoDocPeaje,
+      idConceptoGastosOp: this.idConceptoGastosOp
     }
     this.registrando = true;
     this._registerService.registePeajeFact(factura).subscribe(
       (response: any) => {
-        this.changeImage(response.peajeFactura.ID_RELACION_PEAJES,response.peajeFactura.ID_PEAJE);
+        if (this.imageUpload) {
+          this.changeImage(response.peajeFactura.ID_RELACION_PEAJES,response.peajeFactura.ID_PEAJE);
+        }
         this.getPeaje();
         this.limpiarModal();
         this.registrando = false;
-        // this.registrando = false;
       },
       error => {
         this.limpiarModal();
         this.registrando = false;
-        // this.registrando = false;
       }
     );
   }
@@ -497,6 +518,7 @@ export class PeajeComponent implements OnInit {
     this.nroGuia = '';
     this.idGuia = 0;
     this.idTipoDocPeaje = 0;
+    this.idConceptoGastosOp = 0;
   }
 
   getPeajesFacturas(idDeta, dni, conductor) {

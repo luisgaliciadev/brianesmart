@@ -27,101 +27,69 @@
                     </div>    
                 </div>
 
-                <div *ngIf="!loading  && !registrando">                     
+                <div *ngIf="!loading  && !registrando">    
                     <div class="row">
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Nro Orden:</label>
-                                <div class="input-group">
-                                    <select (change) = "datosOrden(idOrderSevicio)" [(ngModel)]="idOrderSevicio" name="idOrderSevicio" class="form-control" required [disabled]="idPlanificacion">
-                                        <option value = "0">Seleccione</option>
-                                        <option *ngFor="let orden of ordenes" value = "{{orden.ID_ORDEN_SERVICIO}}">{{orden.CORRELATIVO}} | {{orden.DS_TIPO_SERVICIO}} | {{orden.DS_PRODUCTO}} | {{orden.DS_ORI_DEST}} | {{orden.DESTINO}}</option>
-                                    </select>                                            
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
                                 </div>
                             </div>
                         </div>
+            
+                        <!-- <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getPlanificacionesOp(search)">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>-->
 
                         <div class="col-sm">
                             <div class="form-group">
-                                <label>Tipo Servicio:</label>
-                                <div class="input-group">                                            
-                                    <input [(ngModel)]="tipoServicio" name="tipoServicio" type="text" class="form-control" disabled = "true" required>
+                                <label for="exampleInputuname">Línea Negocio:</label>
+                                <div class="input-group">                   
+                                    <select [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                        <option value = "">Seleccione</option>
+                                        <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
+                                    </select>
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getOrdenServicioPlanificacion()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button> 
                                 </div>
                             </div>
                         </div>
+                    </div> 
 
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label>Producto:</label>
-                                <div class="input-group">                                            
-                                    <input [(ngModel)]="producto" name="producto" type="text" class="form-control" disabled = "true" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label>Cliente:</label>
-                                <div class="input-group">                                            
-                                    <input [(ngModel)]="cliente" name="cliente" type="text" class="form-control" disabled = "true" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">              
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label>Toneladas:</label>
-                                <div class="input-group">                                            
-                                    <input [(ngModel)]="toneladas" name="toneladas" type="text" class="form-control" disabled = "true" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label>Viajes Estimados:</label>
-                                <div class="input-group">                                            
-                                    <input [(ngModel)]="viajesEstimados" name="viajesEstimados" type="text" class="form-control" disabled = "true" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm">
-                            <div class="form-group">
-                                <label>Unidades estimadas:</label>
-                                <div class="input-group">                                            
-                                    <input [(ngModel)]="unidadesEstimadas" name="unidadesEstimadas" type="text" class="form-control" disabled = "true" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button *ngIf="idPlanificacion === 0" type="button" class="btn btn-primary" (click) = "registerPlanificacion()">
-                        <i class="fa fa-save"></i>
-                        Guardar y Continuar
-                    </button>  
-
-                    <button *ngIf="idPlanificacion === 0" routerLink="/planificaciones-op" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
-                        <i class="fa fa-arrow-circle-right"></i>
-                        Volver
-                    </button>
-
-                    <div *ngIf="idPlanificacion > 0">
+                    <div *ngIf = "demandas.length > 0">
                         <div class="row"> 
                             <div class="col-sm-6">
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <h3>Demanda</h3> 
+                                    <div class="col-sm-6">
+                                        <h3>Demanda (<small>{{demandas.length}}</small>)</h3> 
                                     </div>
-                                    <div class="col-sm-8 text-right">
+                                    <div class="col-sm-6 text-right">
                                         <button type="button" class="btn btn-primary" (click)="agregarRegistroPlanificacion()">
                                             <i class="fa fa-plus-square"></i>
                                             Agregar
                                         </button>
                                     </div>
                                 </div> 
+                                
+                                <div class="row">   
+                                    <label class="col-2 col-form-label">Buscar:</label>                                           
+                                    <div class="col-10">                                            
+                                        <input [(ngModel)]="buscarDemada" name="buscarDemada" type="text" class="form-control">
+                                    </div>
+                                </div>                                   
                             </div>
                             <div class="col-sm-6">
                                 <div class="row">
@@ -132,7 +100,7 @@
                                         <button id="btnConductor" type="button" class="btn btn-info" (click) = "recursos(1)">
                                             Conductor
                                         </button>
-                                        <button id="btnTracto" type="button" class="btn btn-success" (click) = "recursos(2)">
+                                        <button id="btnTracto" type="button" class="btn btn-dark" (click) = "recursos(2)">
                                             Tracto
                                         </button>
                                         <button id="btnRemolque" type="button" class="btn btn-warning" (click) = "recursos(3)">
@@ -140,206 +108,225 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div class="row" *ngIf="idRecursos === 1">   
+                                    <label class="col-2 col-form-label">Buscar:</label>                                           
+                                    <div class="col-10">                                            
+                                        <input [(ngModel)]="buscarConductor" name="buscarConductor" type="text" class="form-control">
+                                    </div>
+                                </div> 
+                                <div class="row" *ngIf="idRecursos === 2">   
+                                    <label class="col-2 col-form-label">Buscar:</label>                                           
+                                    <div class="col-10">                                            
+                                        <input [(ngModel)]="buscarTracto" name="buscarTracto" type="text" class="form-control">
+                                    </div>
+                                </div> 
+                                <div class="row" *ngIf="idRecursos === 3">   
+                                    <label class="col-2 col-form-label">Buscar:</label>                                           
+                                    <div class="col-10">                                            
+                                        <input [(ngModel)]="buscarRemolque" name="buscarRemolque" type="text" class="form-control">
+                                    </div>
+                                </div>  
                             </div>
-                            <div class="col-sm-6" style="overflow: auto; height: 200px;">
+                            <div class="col-sm-6" style="overflow: auto; height: 300px; margin-top: 5px;">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">ITEMS</th>
+                                            <th></th>
+                                            <th class="text-center">Nro. Orden</th>
                                             <th class="text-center">Origen</th>
                                             <th class="text-center">Destino</th>
-                                            <th></th>
+                                            <th class="text-center">Producto</th>
+                                            <th class="text-center">Cliente</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let demanda of demandas; index as i">
-                                            <td>{{i+1}}</td>
-                                            <td>{{demanda.origen}}</td>
-                                            <td>{{demanda.destino}}</td>
-                                            <td>
+                                        <tr *ngFor="let demanda of demandas | demanda:buscarDemada; index as i">
+                                            <td class="text-center">
                                                 <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
-                                                    <input (change)="seleccion(i)" class="chk-col-blue" [value]="demanda.seleccion" [(ngModel)]="demanda.seleccion" name="check-{{demanda.id}}" id="check-{{demanda.id}}" type="checkbox">
-                                                    <label for="check-{{demanda.id}}"></label>
+                                                    <input (change)="seleccion(demanda.id)" class="chk-col-blue" [value]="demanda.seleccion" [(ngModel)]="demanda.seleccion" name="{{demanda.id}}" id="{{demanda.id}}" type="checkbox">
+                                                    <label for="{{demanda.id}}"></label>
                                                 </div>
                                             </td>
+                                            <td>{{demanda.ordenServicio}}</td>
+                                            <td>{{demanda.origen}}</td>
+                                            <td>{{demanda.destino}}</td>
+                                            <td>{{demanda.producto}}</td>
+                                            <td>{{demanda.razonSocial}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                            
-                            <div class="col-sm-6" style="overflow: auto; height: 200px;" *ngIf="idRecursos === 1 && demandas.length > 0">
+                            <div class="col-sm-6" style="overflow: auto; height: 300px; margin-top: 5px;" *ngIf="idRecursos === 1 && demandas.length > 0">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
+                                            <th class="text-center"></th>
                                             <th class="text-center">ITEMS</th>
                                             <th class="text-center">DNI</th>
-                                            <th class="text-center">Nombre</th>
-                                            <th class="text-center"></th>
+                                            <th class="text-center">Nombre</th> 
+                                            <th class="text-center">Disponibilidad</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let conductor of conductores; index as i">
-                                            <td>{{conductor.ITEMS}}</td>
-                                            <td>{{conductor.ID_Chofer}}</td>
-                                            <td>{{conductor.Nombre}}</td>
-                                            <td>
+                                        <tr *ngFor="let conductor of conductores | recursosConductor:buscarConductor; index as i">
+                                            <td class="text-center">
                                                 <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
-                                                    <input (change)="seleccionConductor(i)" class="chk-col-blue" [value]="conductor.seleccion" [(ngModel)]="conductor.seleccion" name="check-{{conductor.ID_Chofer}}" id="check-{{conductor.ID_Chofer}}" type="checkbox">
-                                                    <label for="check-{{conductor.ID_Chofer}}"></label>
+                                                    <input (change)="seleccionConductor(conductor.ITEMS)" class="chk-col-blue" [value]="conductor.seleccion" [(ngModel)]="conductor.seleccion" name="{{conductor.ID_Chofer}}" id="{{conductor.ID_Chofer}}" type="checkbox">
+                                                    <label for="{{conductor.ID_Chofer}}"></label>
                                                 </div>
                                             </td>
+                                            <td class="text-center">{{i+1}}</td>
+                                            <td>{{conductor.ID_Chofer}}</td>
+                                            <td>{{conductor.Nombre}}</td> 
+                                            <td>{{conductor.DISPONIBILIDAD}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div> 
     
-                            <div class="col-sm-6" style="overflow: auto; height: 200px;" *ngIf="idRecursos === 2 && demandas.length > 0">
+                            <div class="col-sm-6" style="overflow: auto; height: 300px; margin-top: 5px;" *ngIf="idRecursos === 2 && demandas.length > 0">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
+                                            <th class="text-center"></th>
                                             <th class="text-center">ITEMS</th>
                                             <th class="text-center">Tracto</th>
-                                            <th class="text-center"></th>
+                                            <th class="text-center">Disponibilidad</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let tracto of tractos; index as i">
-                                            <td>{{tracto.ITEMS}}</td>
-                                            <td>{{tracto.PLACA}}</td>
-                                            <td>
+                                        <tr *ngFor="let tracto of tractos | recursosTracto:buscarTracto; index as i">
+                                            <td class="text-center">
                                                 <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
-                                                    <input (change)="seleccionTracto(i)" class="chk-col-blue" [value]="tracto.seleccion" [(ngModel)]="tracto.seleccion" name="check-{{tracto.PLACA}}" id="check-{{tracto.PLACA}}" type="checkbox">
-                                                    <label for="check-{{tracto.PLACA}}"></label>
+                                                    <input (change)="seleccionTracto(tracto.ITEMS)" class="chk-col-blue" [value]="tracto.seleccion" [(ngModel)]="tracto.seleccion" name="{{tracto.PLACA}}" id="{{tracto.PLACA}}" type="checkbox">
+                                                    <label for="{{tracto.PLACA}}"></label>
                                                 </div>
                                             </td>
+                                            <td class="text-center">{{i+1}}</td>
+                                            <td>{{tracto.PLACA}}</td>
+                                            <td>{{tracto.DISPONIBILIDAD}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div> 
     
-                            <div class="col-sm-6" style="overflow: auto; height: 200px;" *ngIf="idRecursos === 3 && demandas.length > 0">
+                            <div class="col-sm-6" style="overflow: auto; height: 300px; margin-top: 5px;" *ngIf="idRecursos === 3 && demandas.length > 0">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">ITEMS</th>
-                                            <th class="text-center">Remolque</th>
                                             <th class="text-center"></th>
+                                            <th class="text-center">ITEMS</th>
+                                            <th class="text-center">Remolque</th>   
+                                            <th class="text-center">Disponibilidad</th>                                         
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let remolque of remolques; index as i">
-                                            <td>{{remolque.ITEMS}}</td>
-                                            <td>{{remolque.PLACA}}</td>
-                                            <td>
+                                        <tr *ngFor="let remolque of remolques | recursosRemolque:buscarRemolque; index as i">
+                                            <td class="text-center">
                                                 <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
-                                                    <input (change)="seleccionRemolque(i)" class="chk-col-blue" [value]="remolque.seleccion" [(ngModel)]="remolque.seleccion" name="check-{{remolque.PLACA}}" id="check-{{remolque.PLACA}}" type="checkbox">
-                                                    <label for="check-{{remolque.PLACA}}"></label>
+                                                    <input (change)="seleccionRemolque(remolque.ITEMS)" class="chk-col-blue" [value]="remolque.seleccion" [(ngModel)]="remolque.seleccion" name="{{remolque.PLACA}}" id="{{remolque.PLACA}}" type="checkbox">
+                                                    <label for="{{remolque.PLACA}}"></label>
                                                 </div>
                                             </td>
+                                            <td class="text-center">{{i+1}}</td>
+                                            <td>{{remolque.PLACA}}</td>  
+                                            <td>{{remolque.DISPONIBILIDAD}}</td>                                         
                                         </tr>
                                     </tbody>
                                 </table>
                             </div> 
                         </div>
-    
-                        <hr>
-    
-                        <div>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <h3>Planificación</h3> 
-                                </div>
-                                <div class="col-sm-8 text-right">
-                                    <!-- <button type="button" class="btn btn-primary">
-                                        <i class="fa fa-save"></i>
-                                        Aprobar
-                                    </button> -->
-
-                                    <button (click)="deletePlanificacion()" type="button" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                        Anular
-                                    </button>
-                                </div>
-                            </div> 
-
-                            <div class="row">    
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Nro. Planificacion:</label>
-                                        <div class="input-group">                                            
-                                            <input [(ngModel)]="idPlanificacion" name="idPlanificacion" type="text" class="form-control" disabled = "true" required>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="col-sm">
-                                    <div class="form-group">
-                                        <label>Fecha:</label>
-                                        <div class="input-group">                                            
-                                            <input [(ngModel)]="fechaPlanificacion" name="fechaPlanificacion" type="text" class="form-control" disabled = "true" required>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h3>Planificado y Ejecutado</h3> 
                             </div>
-
-                            <div style="overflow: auto; height: 350px;">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ITEMS</th>
-                                            <th class="text-center">ID</th>
-                                            <th class="text-center">Guia Trans.</th>
-                                            <th class="text-center">Fecha</th>
-                                            <th class="text-center">Tracto</th>
-                                            <th class="text-center">Remolque</th>
-                                            <th class="text-center">Conductor1</th>                                            
-                                            <th class="text-center">Tiempo</th>
-                                            <th class="text-center">Estado</th>
-                                            <th class="text-center">Inicio Viaje</th>
-                                            <th class="text-center">Llegada Punto Carga</th>
-                                            <th class="text-center">Ingreso Punto Carga</th>
-                                            <th class="text-center">Salida Punto Carga</th>
-                                            <th class="text-center">Llegada Punto Descarga</th>
-                                            <th class="text-center">Ingreso Punto Descarga</th>
-                                            <th class="text-center">Salida Punto Descarga</th>
-                                            <th class="text-center">Fin Viaje</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let planificacion of planificaciones; index as i">
-                                            <td>{{i+1}}</td>
-                                            <td>{{planificacion.ID_GUIA}}</td>
-                                            <td>{{planificacion.CORRELATIVO}}</td>
-                                            <td>{{planificacion.FECHA}}</td>
-                                            <td>{{planificacion.PLACA_TRACTO}}</td>
-                                            <td>{{planificacion.PLACA_REMOLQUE}}</td>
-                                            <td>{{planificacion.NOMBRE_CONDUCTOR}}</td>
-                                            <td>{{planificacion.TOTAL_HORAS_PLANIFICACION_VIAJE}}</td>
-                                            <td>{{planificacion.ESTATUS_PLANICACION}}</td>
-                                            <td>{{planificacion.FH_INICIO_VIAJE}}</td>
-                                            <td>{{planificacion.FH_LLEGADA_PC}}</td>
-                                            <td>{{planificacion.FH_INGRESO_PC}}</td>
-                                            <td>{{planificacion.FH_SALIDA_PC}}</td>
-                                            <td>{{planificacion.FH_LLEGADA_PD}}</td>
-                                            <td>{{planificacion.FH_INGRESO_PD}}</td>
-                                            <td>{{planificacion.FH_SALIDA_PD}}</td>
-                                            <td>{{planificacion.FH_FIN_VIAJE}}</td>
-                                            <td>
-                                                <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deletePlanificacionDeta(planificacion.ID_GUIA)" [disabled]="!planificacion.FG_PLANIFICADO">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <button *ngIf="idPlanificacion > 0" routerLink="/planificaciones-op" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
-                                <i class="fa fa-arrow-circle-right"></i>
-                                Volver
-                            </button>
-
+                        </div> 
+                        <div style="overflow: auto;">
+                            <table class="tabla-planificacion-guia fz-10px" style="width: 2800px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center items">ITEMS</th>
+                                        <th class="text-center OrdenServicio">Orden Servicio</th>
+                                        <th class="text-center idGuia">ID</th>
+                                        <th class="text-center guiaTrans">Guia Trans.</th>
+                                        <th class="text-center fechaGuia">Fecha</th>
+                                        <th class="text-center tracto">Tracto</th>
+                                        <th class="text-center remolque">Remolque</th>
+                                        <th class="text-center conductor">Conductor</th>                                            
+                                        <th class="text-center tiempo">Tiempo</th>
+                                        <th class="text-center estado">Estado</th>
+                                        <th class="text-center fechasPl">Inicio Viaje</th>
+                                        <th class="text-center fechasPl">Llegada Punto Carga</th>
+                                        <th class="text-center fechasPl">Ingreso Punto Carga</th>
+                                        <th class="text-center fechasPl">Salida Punto Carga</th>
+                                        <th class="text-center fechasPl">Llegada Punto Descarga</th>
+                                        <th class="text-center fechasPl">Ingreso Punto Descarga</th>
+                                        <th class="text-center fechasPl">Salida Punto Descarga</th>
+                                        <th class="text-center fechasPl">Fin Viaje</th>
+                                        <th class="botones">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let planificacion of planificaciones; index as i">
+                                        <td class="text-center items">{{i+1}}</td>
+                                        <td class="OrdenServicio"data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.CORRELATIVO_OS}}</td>
+                                        <td class="idGuia" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.ID_GUIA}}</td>
+                                        <td class="guiaTrans" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.CORRELATIVO}}</td>
+                                        <td class="fechaGuia" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.FH_GUIA}}</td>
+                                        <td class="tracto" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.PLACA_TRACTO}}</td>
+                                        <td class="remolque" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.PLACA_REMOLQUE}}</td>
+                                        <td class="conductor"data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.NOMBRE_CONDUCTOR}}</td>
+                                        <td class="tiempo" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.TOTAL_HORAS_PLANIFICACION_VIAJE}}</td>
+                                        <td class="estado {{planificacion.COLOR_ESTATUS}}" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">{{planificacion.ESTATUS_PLANICACION}}</td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}" style="line-height: 0px !important;">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_INICIO_VIAJE" name="FECHA_INICIO_VIAJE_PL" type="date" class="form-control fz-10px" required>
+                                            <input (keyup)="validarHora(i)" style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_INICIO_VIAJE" name="HORA_MIN_FH_INICIO_VIAJE" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_LLEGADA_PC" name="FECHA_LLEGADA_PC" type="date" class="form-control fz-10px" required>
+                                            <input (keyup)="validarHora(i)" style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_LLEGADA_PC" name="HORA_MIN_FH_LLEGADA_PC" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_INGRESO_PC" name="FECHA_INGRESO_PC" type="date" class="form-control fz-10px" required>
+                                            <input style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_INGRESO_PC" name="HORA_MIN_FH_INGRESO_PC" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_SALIDA_PC" name="FECHA_SALIDA_PC" type="date" class="form-control fz-10px" required>
+                                            <input style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_SALIDA_PC" name="HORA_MIN_FH_SALIDA_PC" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_LLEGADA_PD" name="FECHA_LLEGADA_PD" type="date" class="form-control fz-10px" required>
+                                            <input style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_LLEGADA_PD" name="HORA_MIN_FH_LLEGADA_PD" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_INGRESO_PD" name="FECHA_INGRESO_PD" type="date" class="form-control fz-10px" required>
+                                            <input style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_INGRESO_PD" name="HORA_MIN_FH_INGRESO_PD" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_SALIDA_PD" name="FECHA_SALIDA_PD" type="date" class="form-control fz-10px" required>
+                                            <input style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_SALIDA_PD" name="HORA_MIN_FH_SALIDA_PD" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                                        <td class="fechasPl" data-toggle="tooltip" data-placement="top" title="{{planificacion.CORRELATIVO_OS}} | {{planificacion.ID_GUIA}} | {{planificacion.CORRELATIVO}} | {{planificacion.FH_GUIA}} | {{planificacion.PLACA_TRACTO}} | {{planificacion.PLACA_REMOLQUE}} | {{planificacion.NOMBRE_CONDUCTOR}}">
+                                            <input style="width: 140px; height: 10px;" [(ngModel)]="planificacion.FECHA_FIN_VIAJE" name="FECHA_FIN_VIAJE" type="date" class="form-control fz-10px" required>
+                                            <input (keyup)="validarHora(i)" style="width: 60px; height: 10px; margin-left: 3px;" [(ngModel)]="planificacion.HORA_MIN_FH_FIN_VIAJE" name="HORA_MIN_FH_FIN_VIAJE" type="text" placeholder="00:00" mask="99:99" class="form-control">
+                                        </td>
+                    
+                                        <td class="botones">
+                                            <button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Guardar" (click)="updateFechaPlanificacionGuia(i)" [disabled]="!planificacion.FG_PLANIFICADO">
+                                                <i class="fa fa-save"></i>
+                                            </button>
+                                            <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deletePlanificacionDeta(planificacion.ID_GUIA)" [disabled]="!planificacion.FG_PLANIFICADO">
+                                                <i class="fa fa-trash-o"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>                
