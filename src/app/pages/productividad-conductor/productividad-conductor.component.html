@@ -1,0 +1,124 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="text-left" style="float: left;">
+                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                            <i class="mdi mdi-printer"></i>
+                            Imprimir
+                        </button> -->
+
+                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button> -->
+                    </div>  
+                    
+
+                    <!-- <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0/0">
+                            <i class="fa fa-plus"></i>
+                            Registrar
+                        </button>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getProductividad()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div> 
+
+                    <!-- <br/> -->
+
+                    <!-- <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" >                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda"></i></div>
+                        </div>
+                    </div> -->
+                                      
+                    <h3>Productividad de Conductores (<small>{{totalRegistros}}</small>)</h3>
+                    <div style="overflow: auto;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ITEMS</th>
+                                    <th>Conductor</th>
+                                    <th style="text-align: center; width: 326px;" *ngFor = "let dia of dias">
+                                        {{dia.FECHA}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let productividadConductor of productividadConductores; index as i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{productividadConductor.conductor}}</td>
+                                    <td *ngFor = "let dia of dias; index as j">
+                                        <table>
+                                            <tbody>
+                                                <tr *ngFor="let viaje of productividadConductores[i][dia.DIA]">
+                                                    <td>{{viaje.ruta}}</td>
+                                                    <td>{{viaje.viajes}}</td>                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td>0</td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            
+                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -261,90 +261,90 @@ export class IntegracionQwantecComponent implements OnInit {
           "empleados": empleadosNuevos,
           "crearNoExistentes": false
         }
-        console.log('data:', data);
-        this.loading = false;
-        return;
-        data = {
-          "apiKey": this.apiKeyQwantec,
-          "empleados": [
-              {
-                  "codigo": "17026508",
-                  "rut": "17026508",
-                  "codigoFicha": "17026508",
-                  "nombres": "Prueba Nombre",   
-                  "apellidos": "Prueba2 Apellido2",
-                  "nombreEnReloj": "papellido2",
-                  "email": "devbriane2@gmail.com",
-                  "fechaNacimiento": "1986-12-12",
-                  "nacionalidad": null,
-                  "genero": 1,
-                  "cargo": "Programador",
-                  "comentario": null,
-                  "fechaContrato": "2020-05-04",
-                  "fechaFinContrato": null,
-                  "direccion1": "CALLAO, CALLAO, CALLAO",
-                  "direccion2": "201",
-                  "ciudad": "LIMA",
-                  "telefonoFijo": null,
-                  "telefonoMovil": "929647791",
-                  "sucursal": "Matriz",
-                  "departamento": "Departamento inicial",                                                        
-                  "aliasCompania": null,
-                  "estado": false
-              },
-              {
-                "codigo": "178232817",
-                "rut": "178232817",
-                "codigoFicha": "178232817",
-                "nombres": "Prueba Nombre",   
-                "apellidos": "Prueba2 Apellido2",
-                "nombreEnReloj": "papellido2",
-                "email": "devbriane@gmail.com",
-                "fechaNacimiento": "1986-12-12",
-                "nacionalidad": null,
-                "genero": 1,
-                "cargo": "Programador",
-                "comentario": null,
-                "fechaContrato": "2020-05-04",
-                "fechaFinContrato": null,
-                "direccion1": "CALLAO, CALLAO, CALLAO",
-                "direccion2": "201",
-                "ciudad": "LIMA",
-                "telefonoFijo": null,
-                "telefonoMovil": "929647791",
-                "sucursal": "Matriz",
-                "departamento": "Departamento inicial",                                                        
-                "aliasCompania": null,
-                "estado": false
-            },
-            {
-              "codigo": "108239214",
-              "rut": "003075753",
-              "codigoFicha": "003075753",
-              "nombres": "Luis Raul",   
-              "apellidos": "Galicia Lugo",
-              "nombreEnReloj": "lgalicia",
-              "email": "luis.galicia@supervan.pe",
-              "fechaNacimiento": "1986-12-12",
-              "nacionalidad": null,
-              "genero": 1,
-              "cargo": "Analista Programador",
-              "comentario": null,
-              "fechaContrato": "2020-05-04",
-              "fechaFinContrato": null,
-              "direccion1": "CALLAO, CALLAO, CALLAO",
-              "direccion2": "201",
-              "ciudad": "LIMA",
-              "telefonoFijo": null,
-              "telefonoMovil": "929647791",
-              "sucursal": "Matriz",
-              "departamento": "Departamento inicial",                                                        
-              "aliasCompania": null,
-              "estado": true
-            }
-          ],
-          "crearNoExistentes": false
-        }
+        // console.log('data:', data);
+        // this.loading = false;
+        // return;
+        // data = {
+        //   "apiKey": this.apiKeyQwantec,
+        //   "empleados": [
+        //       {
+        //           "codigo": "17026508",
+        //           "rut": "17026508",
+        //           "codigoFicha": "17026508",
+        //           "nombres": "Prueba Nombre",   
+        //           "apellidos": "Prueba2 Apellido2",
+        //           "nombreEnReloj": "papellido2",
+        //           "email": "devbriane2@gmail.com",
+        //           "fechaNacimiento": "1986-12-12",
+        //           "nacionalidad": null,
+        //           "genero": 1,
+        //           "cargo": "Programador",
+        //           "comentario": null,
+        //           "fechaContrato": "2020-05-04",
+        //           "fechaFinContrato": null,
+        //           "direccion1": "CALLAO, CALLAO, CALLAO",
+        //           "direccion2": "201",
+        //           "ciudad": "LIMA",
+        //           "telefonoFijo": null,
+        //           "telefonoMovil": "929647791",
+        //           "sucursal": "Matriz",
+        //           "departamento": "Departamento inicial",                                                        
+        //           "aliasCompania": null,
+        //           "estado": false
+        //       },
+        //       {
+        //         "codigo": "178232817",
+        //         "rut": "178232817",
+        //         "codigoFicha": "178232817",
+        //         "nombres": "Prueba Nombre",   
+        //         "apellidos": "Prueba2 Apellido2",
+        //         "nombreEnReloj": "papellido2",
+        //         "email": "devbriane@gmail.com",
+        //         "fechaNacimiento": "1986-12-12",
+        //         "nacionalidad": null,
+        //         "genero": 1,
+        //         "cargo": "Programador",
+        //         "comentario": null,
+        //         "fechaContrato": "2020-05-04",
+        //         "fechaFinContrato": null,
+        //         "direccion1": "CALLAO, CALLAO, CALLAO",
+        //         "direccion2": "201",
+        //         "ciudad": "LIMA",
+        //         "telefonoFijo": null,
+        //         "telefonoMovil": "929647791",
+        //         "sucursal": "Matriz",
+        //         "departamento": "Departamento inicial",                                                        
+        //         "aliasCompania": null,
+        //         "estado": false
+        //     },
+        //     {
+        //       "codigo": "108239214",
+        //       "rut": "003075753",
+        //       "codigoFicha": "003075753",
+        //       "nombres": "Luis Raul",   
+        //       "apellidos": "Galicia Lugo",
+        //       "nombreEnReloj": "lgalicia",
+        //       "email": "luis.galicia@supervan.pe",
+        //       "fechaNacimiento": "1986-12-12",
+        //       "nacionalidad": null,
+        //       "genero": 1,
+        //       "cargo": "Analista Programador",
+        //       "comentario": null,
+        //       "fechaContrato": "2020-05-04",
+        //       "fechaFinContrato": null,
+        //       "direccion1": "CALLAO, CALLAO, CALLAO",
+        //       "direccion2": "201",
+        //       "ciudad": "LIMA",
+        //       "telefonoFijo": null,
+        //       "telefonoMovil": "929647791",
+        //       "sucursal": "Matriz",
+        //       "departamento": "Departamento inicial",                                                        
+        //       "aliasCompania": null,
+        //       "estado": true
+        //     }
+        //   ],
+        //   "crearNoExistentes": false
+        // }
         this._registerService.sincronizarEmpleadosQwantec(data).subscribe(
           (response: any) => {
             console.log('response API:', response);
@@ -364,8 +364,6 @@ export class IntegracionQwantecComponent implements OnInit {
       }
     );
   }
-
- 
 
   // marcajesQwantec() {
   //   console.log('inicio consulta');

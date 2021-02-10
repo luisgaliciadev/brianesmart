@@ -2616,6 +2616,27 @@ updateFechaPlanificacionGuia(guia) {
 }
 // End fechas planificacion guia
 
+// Get productividad conductores
+getProductividadConductor(desde ,hasta) {
+  // let params = tipo + '/' + semana + '/' + year + '/' + desde + '/' + hasta;
+  let params = desde + '/' + hasta + '/1';
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/conductor/productividadComision/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get productividad OP
+
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
