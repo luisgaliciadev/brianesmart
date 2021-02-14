@@ -25,10 +25,12 @@ export class ProductividadConductorComponent implements OnInit {
   dia;
   paginas = 0;
   pagina = 1;
-  productividadTotal = [];
+  productividadTotal: any = [];
   dias = [];
   cantDias = 0;
   pruebaHtml;
+  viajes = "viajes"
+  anchoTabla = 0;
 
   constructor(
     public _router: Router,
@@ -72,7 +74,7 @@ export class ProductividadConductorComponent implements OnInit {
         this.totalRegistros = response.productividaConductor.length;
         this.dias = response.dias;
         this.cantDias = this.dias.length;
-        console.log('dias', this.dias)
+        this.anchoTabla = ( this.cantDias * 300) + 270;
         this.productividadTotal = response.productividaConductor;
         this.productividadConductores = this.productividadTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 5);
@@ -82,11 +84,32 @@ export class ProductividadConductorComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
 
+  registerUpdateMotivoNoProdConductor(i, dia, fecha) {
+    if (this.productividadConductores[i][dia]['motivo']['length'] === 0) {
+      Swal.fire('Mensaje', 'Debe ingresar un motivo.', 'warning');
+      return;
+    }
+    let arrayFecha = fecha.split('/');
+    let fechaDia = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
+    let data = {
+      id: this.productividadConductores[i][dia]['idMotivo'],
+      idConductor: this.productividadConductores[i].id,
+      motivo: this.productividadConductores[i][dia]['motivo'],
+      fecha: fechaDia,
+      idUsuario: this._userService.user.ID_USER
+    }
+
+    this._registerService.registerUpdateMotivoNoProdConductor(data).subscribe(
+      (response: any) => {
+      // console.log(response);
+      }
+    );
   }
 
   filtroPagina () {
-    // this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
+    this.productividadConductores = this.productividadTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
@@ -121,6 +144,23 @@ export class ProductividadConductorComponent implements OnInit {
     // this.getGuias(this.search);
     this.filtroPagina();
   }
+
+   
+  tableToExcel = (function () {
+    var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+    return function (table, name, filename) {
+        if (!table.nodeType) table = document.getElementById(table)
+        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+
+        document.getElementById("dlink").href = uri + base64(format(template, ctx));
+        document.getElementById("dlink").download = filename;
+        document.getElementById("dlink").click();
+
+    } 
+  })()
 
 
 }

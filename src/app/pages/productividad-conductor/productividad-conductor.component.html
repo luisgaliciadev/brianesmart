@@ -72,50 +72,59 @@
                     </div> -->
                                       
                     <h3>Productividad de Conductores (<small>{{totalRegistros}}</small>)</h3>
-                    <div style="overflow: auto;">
-                        <table class="table table-hover">
+                    <input type="button" (click)="tableToExcel('conductorProductividad', 'name', 'myfile.xls')" value="Export to Excel">
+                    <div class="table-container">                    
+                    <!-- <div style="overflow: auto;"> -->
+                        <table id = "conductorProductividad" class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px;">
                             <thead>
                                 <tr>
-                                    <th>ITEMS</th>
-                                    <th>Conductor</th>
-                                    <th style="text-align: center; width: 326px;" *ngFor = "let dia of dias">
+                                    <!-- <th class="items">ITEMS</th> -->
+                                    <th class="nombre">Conductor</th>
+                                    <th *ngFor = "let dia of dias">
                                         {{dia.FECHA}}
                                     </th>
+                                    <th class="text-center totalesCabecera">Total Viajes</th>
+                                    <th class="text-center totalesCabecera">Total Comisión</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let productividadConductor of productividadConductores; index as i">
-                                    <td>{{i+1}}</td>
-                                    <td>{{productividadConductor.conductor}}</td>
-                                    <td *ngFor = "let dia of dias; index as j">
-                                        <table>
-                                            <tbody>
-                                                <tr *ngFor="let viaje of productividadConductores[i][dia.DIA]">
-                                                    <td>{{viaje.ruta}}</td>
-                                                    <td>{{viaje.viajes}}</td>                                                    
-                                                </tr>
-                                                <tr>
-                                                    <td>0</td>
-                                                </tr>
-                                                
-                                            </tbody>
-                                        </table>
-                                    </td>
+                                    <!-- <td class="text-center items">{{i+1}}</td> -->
+                                    <td class="text-center nombre">{{productividadConductor.conductor}}</td>
+                                    <td class="text-center" *ngFor = "let dia of dias; index as j"> 
+                                        <div data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}} | {{dia.FECHA}}">
+                                            <table class="tabla-productividad-conductor-viajes fz-8px">
+                                                <tbody *ngIf = "productividadConductores[i][dia.DIA]['viajes']['length'] > 0">                                              
+                                                        <tr *ngFor="let viaje of productividadConductores[i][dia.DIA]['viajes'];  index as j">                                                                                                                
+                                                            <td style="width: 150px;">{{viaje.ruta}}</td>
+                                                            <td style="width: 25px; vertical-align:middle !important;">{{viaje.viajes}}</td>
+                                                            <td style="width: 45px; vertical-align:middle !important;">S/ {{viaje.comisionTotal}}</td>
+                                                            <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 35px; vertical-align:middle !important; font-weight: bold;">{{productividadConductores[i][dia.DIA]['totalViajes']}}</td>  
+                                                            <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 45px; vertical-align:middle !important; font-weight: bold;">S/ {{productividadConductores[i][dia.DIA]['totalComision']}}</td>  
+                                                        </tr>
+                                                </tbody>
+                                            </table>    
+                                            <input (keyup.enter) = "registerUpdateMotivoNoProdConductor(i,dia.DIA,dia.FECHA)" *ngIf = "!productividadConductores[i][dia.DIA]['viajes']['length']" [(ngModel)]="productividadConductores[i][dia.DIA]['motivo']" name="MOTIVO" type="text" class="motivo-no-viajes bg-danger text-light">
+                                        </div> 
+                                    </td>                                     
+                                    <td class="text-center totales">{{productividadConductor.viajesTotal}}</td>
+                                    <td class="text-center totales">S/ {{productividadConductor.comisionTotal}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-            
-                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
-                        Anterior
-                    </button>
-            
-                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
 
-                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
-                        Siguiente
-                    </button>
-
+                    <div *ngIf = "totalRegistros > 0">
+                        <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                            Anterior
+                        </button>
+                
+                        <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+    
+                        <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                            Siguiente
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

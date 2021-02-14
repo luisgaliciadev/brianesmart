@@ -2637,6 +2637,29 @@ getProductividadConductor(desde ,hasta) {
 }
 // End Get productividad OP
 
+
+// Register - Update motivo no productividad conductor
+registerUpdateMotivoNoProdConductor(motivo) { 
+  let json = JSON.stringify(motivo);  
+  let dataMotivo = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/conductor/motivoNoProductividadConductor', dataMotivo, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register - Update motivo no productividad conductor
+
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
