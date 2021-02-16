@@ -53,7 +53,7 @@
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
                                     
-                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getProductividad()">
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getProductividad()">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
@@ -71,8 +71,19 @@
                         </div>
                     </div> -->
                                       
-                    <h3>Productividad de Conductores (<small>{{totalRegistros}}</small>)</h3>
-                    <input type="button" (click)="tableToExcel('conductorProductividad', 'name', 'myfile.xls')" value="Export to Excel">
+                    <div class="row">
+                        <div class="col-sm">
+                            <h3>Productividad de Conductores (<small>{{totalRegistros}}</small>)</h3>
+                        </div>
+                        <div class="col-sm text-right">
+                            <button  type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="tableToExcel('conductorProductividad2', 'productividadConductores')">
+                                <i class="mdi mdi-file-excel"></i>
+                                Exportar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- <input type="button" (click)="tableToExcel('conductorProductividad', 'productividadConductores')" value="Export to Excel"> -->
                     <div class="table-container">                    
                     <!-- <div style="overflow: auto;"> -->
                         <table id = "conductorProductividad" class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px;">
@@ -129,5 +140,44 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<table hidden id = "conductorProductividad2" class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px; border: solid 1px gray">
+    <thead>
+        <tr>
+            <th style="border: solid 1px gray;" class="items">ITEMS</th>
+            <th style="border: solid 1px gray;" class="nombre">Conductor</th>
+            <th style="border: solid 1px gray;" *ngFor = "let dia of dias">
+                {{dia.FECHA}}
+            </th>
+            <th style="border: solid 1px gray;" class="text-center totalesCabecera">Total Viajes</th>
+            <th style="border: solid 1px gray;" class="text-center totalesCabecera">Total Comision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let productividadConductor of productividadTotal; index as i">
+            <td style="border: solid 1px gray; vertical-align:middle; text-align: center;">{{i+1}}</td>
+            <td style="border: solid 1px gray; vertical-align:middle" class="text-center nombre">{{productividadConductor.conductor}}</td>
+            <td style="border: solid 1px gray;" class="text-center" *ngFor = "let dia of dias; index as j"> 
+                <div data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}} | {{dia.FECHA}}">
+                    <table class="tabla-productividad-conductor-viajes fz-8px">
+                        <tbody *ngIf = "productividadTotal[i][dia.DIA]['viajes']['length'] > 0">                                              
+                                <tr *ngFor="let viaje of productividadTotal[i][dia.DIA]['viajes'];  index as j">                                                                                                                
+                                    <td style="width: 150px;">{{viaje.ruta}}</td>
+                                    <td style="width: 25px; vertical-align:middle;">{{viaje.viajes}}</td>
+                                    <td style="width: 45px; vertical-align:middle;">S/ {{viaje.comisionTotal}}</td>
+                                    <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 35px; vertical-align:middle !important; font-weight: bold;">{{productividadTotal[i][dia.DIA]['totalViajes']}}</td>  
+                                    <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 45px; vertical-align:middle !important; font-weight: bold;">S/ {{productividadTotal[i][dia.DIA]['totalComision']}}</td>  
+                                </tr>
+                        </tbody>
+                    </table>    
+                    <div *ngIf = "!productividadTotal[i][dia.DIA]['viajes']['length']" >
+                        <a style="font-weight: bold; vertical-align:middle">{{productividadTotal[i][dia.DIA]['motivo']}}</a>
+                    </div>
+                </div> 
+            </td>                                     
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle">{{productividadConductor.viajesTotal}}</td>
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle">S/ {{productividadConductor.comisionTotal}}</td>
+        </tr>
+    </tbody>
+</table>

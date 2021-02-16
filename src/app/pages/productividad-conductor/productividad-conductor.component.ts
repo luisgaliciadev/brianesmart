@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
-import {saveAs} from 'file-saver';
+// import {FileSaver} from 'file-saver';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+// import * as FileSaver from 'file-saver';
+// import * as XLSX from 'xlsx';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformarts-officedocument.spreadsheetml.sheet; charset=UTF-8';
+const EXCEL_EXT = '.xlsx';
 
 @Component({
   selector: 'app-productividad-conductor',
@@ -31,6 +36,7 @@ export class ProductividadConductorComponent implements OnInit {
   pruebaHtml;
   viajes = "viajes"
   anchoTabla = 0;
+  prueba = false;
 
   constructor(
     public _router: Router,
@@ -145,22 +151,58 @@ export class ProductividadConductorComponent implements OnInit {
     this.filtroPagina();
   }
 
-   
-  tableToExcel = (function () {
-    var uri = 'data:application/vnd.ms-excel;base64,'
-    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-    , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
-    , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
-    return function (table, name, filename) {
-        if (!table.nodeType) table = document.getElementById(table)
-        var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
-
-        document.getElementById("dlink").href = uri + base64(format(template, ctx));
-        document.getElementById("dlink").download = filename;
-        document.getElementById("dlink").click();
-
-    } 
-  })()
+  // exportToExcel(json: any[], excelFile: string ): void {
+  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+  //   const workbook: XLSX.WorkBook = { 
+  //     Sheets: {'data': worksheet},
+  //     SheetNames: ['data']
+  //   };
+  
+  //   const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
+  //   // call method buffer  and fileName
 
 
+  // }
+
+  // saveAsExcel(buffer: any, fileName: string) {
+  //   const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+  //   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime + EXCEL_EXT);
+  // }
+
+  tableToExcel(tableID, filename = ''){
+    if (this.totalRegistros === 0) {
+      Swal.fire('Mensaje', 'No hay registro para exportar.', 'warning');
+      return;
+    }
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+ ' ' + this.fhDesde + '|' + this.fhHasta + '.xls':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+  }
+
+ 
 }
