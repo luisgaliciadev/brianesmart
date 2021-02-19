@@ -2635,7 +2635,7 @@ getProductividadConductor(desde ,hasta) {
     }
   }));
 }
-// End Get productividad OP
+// End Get productividad conductores
 
 
 // Register - Update motivo no productividad conductor
@@ -2659,6 +2659,49 @@ registerUpdateMotivoNoProdConductor(motivo) {
   }));
 }
 // End Register - Update motivo no productividad conductor
+
+// Get productividad tractos
+getProductividadTracto(desde ,hasta) {
+  // let params = tipo + '/' + semana + '/' + year + '/' + desde + '/' + hasta;
+  let params = desde + '/' + hasta + '/1';
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/productividadTractoTarifa/' + params, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Get productividad tractos
+
+// Register - Update motivo no productividad tracto
+registerUpdateMotivoNoTracto(motivo) { 
+  let json = JSON.stringify(motivo);  
+  let dataMotivo = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/motivoNoProductividadTracto', dataMotivo, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register - Update motivo no productividad tracto
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////

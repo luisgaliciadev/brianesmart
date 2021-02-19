@@ -73,6 +73,7 @@ import { PlanificacionOperacionesComponent } from './planificacion-operaciones/p
 import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones-op.component';
 import { AsignacionGuiaComponent } from './asignacion-guia/asignacion-guia.component';
 import { ProductividadConductorComponent } from './productividad-conductor/productividad-conductor.component';
+import { ProductividadTractoComponent } from './productividad-tracto/productividad-tracto.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -131,6 +132,7 @@ const pagesRoutes: Routes = [
             {path: 'planificaciones-op', component: PlanificacionesOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Planificaciones Operaciones'}},
             {path: 'asignacion-guia', component: AsignacionGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Asignación de Guía'}},
             {path: 'productividad-conductor', component: ProductividadConductorComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad de Conductores'}},
+            {path: 'productividad-tracto', component: ProductividadTractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad de Tracto'}},
 
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},

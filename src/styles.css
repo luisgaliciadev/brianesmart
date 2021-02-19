@@ -384,34 +384,12 @@ body {
 }
 
 .tabla-productividad-conductor thead th{
-    /* border-collapse: collapse ; */
     background: gray ;
     color: white ;
     text-align: center ;
     font-size: 14px ;
     min-width: 300px;
-    /* padding: 0.2%;
-    white-space: nowrap;
-    border: solid 1px #ccc ; */
 }
-
-
-/* .tabla-productividad-conductor tbody{
-    overflow: auto ;
-    width: 100% ;
-    height: 200px;
-} */
-
-/* .tabla-productividad-conductor tbody,    
-.tabla-productividad-conductor td,
-.tabla-productividad-conductor th{
-  display: block ;
-}
-
-.tabla-productividad-conductor tbody td,
-.tabla-productividad-conductor thead > tr > th{
-    float: left;
-} */
 
 .tabla-productividad-conductor .totalesCabecera {
     min-width: 50px ;
@@ -439,23 +417,17 @@ body {
 
 .tabla-productividad-conductor th,
 .tabla-productividad-conductor td {
-    /* border-left: 0; */
     border-top: solid 1px #ccc;
     border-right: solid 1px #ccc;
-    /* border-collapse: collapse ; */
-    /* border-left: solid 1px #ccc ; */
-    /* border-right: solid 1px #ccc ;
-    border-top: solid 1px #ccc ;
-    border-bottom: solid 1px #ccc ; */
+    border-bottom: solid 1px #ccc;
     vertical-align:baseline;
-    /* padding: 0.2% !important; */
 }
 
 
 .tabla-productividad-conductor th:last-child,
 .tabla-productividad-conductor td:last-child {  
     border-right: 0;     
-    /* border-right: solid 1px #ccc ; */
+    /* border-right: solid 1px #ccc */
 }
 
 .tabla-productividad-conductor tbody td {
@@ -467,25 +439,7 @@ body {
 .tabla-productividad-conductor-viajes td {
     border-collapse: collapse ;
     border: solid 1px #ccc ;
-    /* border-bottom: solid 1px #ccc ;
-    border-top: solid 1px #ccc ; */
-    /* min-width: 205px; */
-    /* padding: 0.2% !important; */
-    /* background-color: red; */
-    /* vertical-align:middle ; */
-    /* width: 200px; */
 }
-
-/* .tabla-productividad-conductor-viajes tbody,    
-.tabla-productividad-conductor-viajes td,
-.tabla-productividad-conductor-viajes th{
-  display: none ;
-} */
-/* 
-.tabla-productividad-conductor-viajes tbody td,
-.tabla-productividad-conductor-viajes thead > tr > th{
-    float: none; ;
-} */
 
 .tabla-productividad-conductor-viajes th:last-child,
 .tabla-productividad-conductor-viajes td:last-child {       
@@ -496,6 +450,17 @@ body {
     border-radius: 2px;
     border: #ccc;
     width: 100%;
+}
+
+.tabla-productividad-conductor .placa {
+    min-width: 50px ;
+    vertical-align:middle;
+    position: sticky;
+    left: 0;
+}
+
+.tabla-productividad-conductor tbody tr .placa {
+    background: white;
 }
 
 

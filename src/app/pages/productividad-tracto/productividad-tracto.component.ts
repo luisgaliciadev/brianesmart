@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-// import {FileSaver} from 'file-saver';
-// import * as FileSaver from 'file-saver';
-// import * as XLSX from 'xlsx';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
-// const EXCEL_TYPE = 'application/vnd.openxmlformarts-officedocument.spreadsheetml.sheet; charset=UTF-8';
-// const EXCEL_EXT = '.xlsx';
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @Component({
-  selector: 'app-productividad-conductor',
-  templateUrl: './productividad-conductor.component.html',
+  selector: 'app-productividad-tracto',
+  templateUrl: './productividad-tracto.component.html',
   styles: [
   ]
 })
-export class ProductividadConductorComponent implements OnInit {
-  productividadConductores = [];
+export class ProductividadTractoComponent implements OnInit {
+
+  productividadTractos = [];
   desde = 0;
   hasta = 5;
   loading = false;
@@ -54,6 +54,7 @@ export class ProductividadConductorComponent implements OnInit {
 
     this.fhDesde = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
     this.fhHasta = this.date.getFullYear() + '-' + this.mes + '-' + this.dia;
+
   }
 
   ngOnInit(): void {
@@ -62,17 +63,17 @@ export class ProductividadConductorComponent implements OnInit {
 
   getProductividad() {
     this.loading = true;
-    this._registerService.getProductividadConductor(this.fhDesde, this.fhHasta).subscribe(
+    this._registerService.getProductividadTracto(this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
-        this.totalRegistros = response.productividaConductor.length;
+        this.totalRegistros = response.productividaTracto.length;
         this.dias = response.dias;
         this.cantDias = this.dias.length;
-        this.anchoTabla = ( this.cantDias * 300) + 270;
-        this.productividadTotal = response.productividaConductor;
-        this.productividadConductores = this.productividadTotal.slice(this.desde, this.hasta);
+        this.anchoTabla = ( this.cantDias * 390) + 50;
+        this.productividadTotal = response.productividaTracto;
+        this.productividadTractos = this.productividadTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
@@ -82,35 +83,35 @@ export class ProductividadConductorComponent implements OnInit {
     );
   }
 
-  registerUpdateMotivoNoProdConductor(i, dia, fecha) {
-    if (this.productividadConductores[i][dia]['motivo']['length'] === 0) {
+  registerUpdateMotivoNoTracto(i, dia, fecha) {
+    if (this.productividadTractos[i][dia]['motivo']['length'] === 0) {
       Swal.fire('Mensaje', 'Debe ingresar un motivo.', 'warning');
       return;
     }
     let arrayFecha = fecha.split('/');
     let fechaDia = arrayFecha[2] + '-' + arrayFecha[1] + '-' + arrayFecha[0];
     let data = {
-      id: this.productividadConductores[i][dia]['idMotivo'],
-      idConductor: this.productividadConductores[i].id,
-      motivo: this.productividadConductores[i][dia]['motivo'],
+      id: this.productividadTractos[i][dia]['idMotivo'],
+      idConductor: this.productividadTractos[i].id,
+      motivo: this.productividadTractos[i][dia]['motivo'],
       fecha: fechaDia,
       idUsuario: this._userService.user.ID_USER
     }
 
-    this._registerService.registerUpdateMotivoNoProdConductor(data).subscribe(
+    this._registerService.registerUpdateMotivoNoTracto(data).subscribe(
       (response: any) => {
-      // console.log(response);
       }
     );
   }
 
   filtroPagina () {
-    this.productividadConductores = this.productividadTotal.slice(this.desde, this.hasta);
+    this.productividadTractos = this.productividadTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
 
-  changePage(valor: number, pagina) {
+   // Cambiar pagina de lista de empresas
+   changePage(valor: number, pagina) {
     this.desde = this.desde + valor;
     this.hasta = this.hasta + valor;
     this.pagina = this.pagina + pagina;
@@ -135,27 +136,10 @@ export class ProductividadConductorComponent implements OnInit {
     if (this.pagina <= 0) {
       this.pagina = 1;
     }
-    
+
+    // this.getGuias(this.search);
     this.filtroPagina();
   }
-
-  // exportToExcel(json: any[], excelFile: string ): void {
-  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-  //   const workbook: XLSX.WorkBook = { 
-  //     Sheets: {'data': worksheet},
-  //     SheetNames: ['data']
-  //   };
-  
-  //   const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
-  //   // call method buffer  and fileName
-
-
-  // }
-
-  // saveAsExcel(buffer: any, fileName: string) {
-  //   const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-  //   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime + EXCEL_EXT);
-  // }
 
   tableToExcel(tableID, filename = ''){
     if (this.totalRegistros === 0) {
@@ -192,15 +176,4 @@ export class ProductividadConductorComponent implements OnInit {
     }
   }
 
-  // exportF(): void {
-  //   let element = document.getElementById('conductorProductividad2');
-  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-  //   XLSX.writeFile(wb, 'prueba.xlsx')
-  // }
-
- 
 }

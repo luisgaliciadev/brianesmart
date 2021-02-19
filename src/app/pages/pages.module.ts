@@ -90,6 +90,7 @@ import { PlanificacionOperacionesComponent } from './planificacion-operaciones/p
 import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones-op.component';
 import { AsignacionGuiaComponent } from './asignacion-guia/asignacion-guia.component';
 import { ProductividadConductorComponent } from './productividad-conductor/productividad-conductor.component';
+import { ProductividadTractoComponent } from './productividad-tracto/productividad-tracto.component';
 
 @NgModule({
     declarations: [
@@ -160,7 +161,8 @@ import { ProductividadConductorComponent } from './productividad-conductor/produ
         PlanificacionOperacionesComponent,
         PlanificacionesOpComponent,
         AsignacionGuiaComponent,
-        ProductividadConductorComponent
+        ProductividadConductorComponent,
+        ProductividadTractoComponent
     ],
     exports: [
         // PagesComponent,
