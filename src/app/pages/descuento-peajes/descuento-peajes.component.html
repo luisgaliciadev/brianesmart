@@ -99,7 +99,7 @@
                                     <th>Abono (S/)</th>
                                     <th>Saldo (S/)</th>
                                     <th>Estatus</th>
-                                    <th style="width: 200px;">
+                                    <th style="white-space: nowrap;">
                                         Descontar
                                         <button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Marcar Todo" (click)="seleccionarTodo()">
                                             <i class="fa fa-check-square"></i>  
@@ -123,7 +123,7 @@
                                     <td>{{peaje.ABONO}}</td>
                                     <td>{{peaje.TOTAL_SUSTENTAR}}</td>
                                     <td>{{peaje.DESCUENTO}}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
                                             <input class="chk-col-blue" [value]="peaje.FG_DESCONTADO" [(ngModel)]="peaje.FG_DESCONTADO" name="check-{{i}}" id="check-{{i}}" type="checkbox" [disabled]="peaje.FG_DESCONTADO_AUX">
                                             <label for="check-{{i}}"></label>

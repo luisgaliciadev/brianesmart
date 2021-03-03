@@ -323,6 +323,15 @@
 
                         <div class="col-sm">
                             <div class="form-group">
+                                <label>Comisión Conductor (S/):</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="ruta.COMISION" name="COMISION" type="number" step="0.01" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm">
+                            <div class="form-group">
                                 <label>Combustible (Glns):</label>
                                 <div class="input-group">                                            
                                     <input (keyup)="rendimiento()" (change)="rendimiento()" [(ngModel)]="ruta.COMBUSTIBLE_GLNS" name="COMBUSTIBLE_GLNS" type="number" step="0.01" class="form-control">

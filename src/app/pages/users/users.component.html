@@ -12,7 +12,6 @@
         </div>    
     </div>
 
-
     <div class="row" *ngIf="!loading">
         <div class="col-12" >
             <div class="card" style="overflow: auto">
@@ -62,12 +61,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
+                                    <th class="text-center">Imagen</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Email</th>
                                     <!-- <th>Auntenticacón</th> -->
-                                    <th>Rol</th>
-                                    <th style="width: 120px;"></th>
+                                    <th class="text-center">Rol</th>
+                                    <th class="text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,7 +83,7 @@
                                             <option disabled = "true" *ngFor="let role of roles" value = "{{role.ID_ROLE}}">{{role.DS_ROLE}}</option>
                                         </select>
                                     </td>
-                                    <td style="width: 120px;">
+                                    <td style="white-space: nowrap;">
                                          <button [routerLink]="(['/user',user.ID_USER])" type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar">
                                             <i class="fa fa-pencil"></i>
                                         </button>
@@ -99,7 +98,6 @@
                         </table>
                     </div>
                     
-
                     <button class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
                         Anterior
                     </button>

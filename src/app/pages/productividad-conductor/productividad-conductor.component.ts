@@ -60,7 +60,12 @@ export class ProductividadConductorComponent implements OnInit {
     this._userService.permisoModule(this._router.url);
   }
 
-  getProductividad() {
+  async getProductividad() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+
     this.loading = true;
     this._registerService.getProductividadConductor(this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
@@ -82,7 +87,12 @@ export class ProductividadConductorComponent implements OnInit {
     );
   }
 
-  registerUpdateMotivoNoProdConductor(i, dia, fecha) {
+  async registerUpdateMotivoNoProdConductor(i, dia, fecha) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+
     if (this.productividadConductores[i][dia]['motivo']['length'] === 0) {
       Swal.fire('Mensaje', 'Debe ingresar un motivo.', 'warning');
       return;
@@ -157,7 +167,12 @@ export class ProductividadConductorComponent implements OnInit {
   //   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime + EXCEL_EXT);
   // }
 
-  tableToExcel(tableID, filename = ''){
+  async tableToExcel(tableID, filename = ''){
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+
     if (this.totalRegistros === 0) {
       Swal.fire('Mensaje', 'No hay registro para exportar.', 'warning');
       return;

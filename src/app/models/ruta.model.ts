@@ -29,7 +29,8 @@ export class Ruta {
         public COMBUSTIBLE_GLNS?: number,
         public REDIMIENTO_KM_GLNS?: number,
         public INGRESO_ORIGEN?: string,
-        public INGRESO_DESTINO?: string
+        public INGRESO_DESTINO?: string,
+        public COMISION?: number
     ) { }
 
 }

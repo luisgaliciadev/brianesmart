@@ -82,7 +82,7 @@
                                     <th>Fecha Hasta</th>
                                     <th>Monto Total (S/)</th>
                                     <th>Estatus</th>
-                                    <th style="width: 190px;"></th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,7 +93,7 @@
                                     <td>{{viatico.fhHasta}}</td>
                                     <td>{{viatico.TOTAL_MONTO}}</td>
                                     <td>{{viatico.ESTADO}}</td>
-                                    <td style="width: 190px;">                                   
+                                    <td style="white-space: nowrap;">                                   
                                         <button [routerLink]="(['/viatico',viatico.ID_VIATICO])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
                                             <i class="fa fa-search"></i>
                                         </button>

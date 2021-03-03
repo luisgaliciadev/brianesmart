@@ -90,7 +90,7 @@
                                     <th>Origen</th>
                                     <th>Destino</th>
                                     <th>Coordinador</th>
-                                    <th></th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,9 +109,8 @@
                                     <td>{{guia.DS_TIPO_SERVICIO}}</td>
                                     <td>{{guia.DS_ORI_DEST}}</td>
                                     <td>{{guia.DESTINO}}</td>
-                                    <td>{{guia.USUARIO_BS}}</td>
-                                   
-                                    <td>
+                                    <td>{{guia.USUARIO_BS}}</td>                                   
+                                    <td style="white-space: nowrap;">
                                         <button [routerLink]="(['/consultaguia',guia.ID_GUIA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver">
                                             <i class="fa fa-search"></i>                                            
                                         </button>

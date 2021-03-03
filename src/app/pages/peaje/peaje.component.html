@@ -2,7 +2,6 @@
 <div class="row animated fadeInRight">    
     <div class="col-12">     
         <div class="card">
-            <!-- <h2 class="card-title">Registro de Guía</h2> -->
             <div class="card-body">
 
                 <div class="row" *ngIf="loading">
@@ -39,8 +38,6 @@
                                         <option value = "0">Seleccione</option>
                                         <option *ngFor="let orden of ordenes" value = "{{orden.ID_ORDEN_SERVICIO}}">{{orden.CORRELATIVO}} | {{orden.DS_TIPO_SERVICIO}} | {{orden.DS_PRODUCTO}} | {{orden.DS_ORI_DEST}} | {{orden.DESTINO}}</option>
                                     </select>                                            
-                                    <!-- <input [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" type="text" class="form-control" placeholder="Buscar">                         -->
-                                    <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getOrdenServicio(guia.ID_ORDEN_SERVICIO)"></i></div>         -->
                                 </div>
                             </div>
                         </div>
@@ -150,12 +147,6 @@
                     </div>
 
                     <h3>Listado de Conductores (<small>{{conductores.length}}</small>)</h3>                   
-                    <!-- <div class="text-right">
-                        <button *ngIf="idAccion == 2" class="btn waves-effect waves-light btn-rounded btn-success" data-toggle="tooltip" data-placement="top" title="Exportar" (click)="getExcelPeajeTelecredito()">
-                            <i class="fa fa-file-excel-o"></i>  
-                            Exportar
-                        </button>
-                    </div> -->
                     <div style="overflow: auto">
                         <table *ngIf = "idAccion == 0 || idAccion == 2" class="table table-striped table-bordered">
                             <thead>
@@ -164,7 +155,6 @@
                                     <th style="text-align: center;">Nombre</th>
                                     <th style="text-align: center;">DNI</th>
                                     <th style="text-align: center;">Monto S/</th>
-                                    <!-- <th style="text-align: center;">Peaje</th> -->
                                     <th style="text-align: center;">Fecha</th>
                                     <th *ngIf="idAccion == 2" style="text-align: center;">
                                         Depositado
@@ -201,8 +191,7 @@
                                     <th style="text-align: center;">ITEM</th>
                                     <th style="text-align: center;">Nombre</th>
                                     <th style="text-align: center;">DNI</th>
-                                    <th style="text-align: center;">Monto S/</th>
-                                    <!-- <th style="text-align: center;">Peaje</th> -->
+                                    <th style="text-align: center;">Monto S/</th>                                   
                                     <th style="text-align: center;">Fecha</th>
                                     <th style="text-align: center;">Depositado</th>
                                     <th style="text-align: center;">Abono S/</th>
@@ -227,7 +216,7 @@
                                     <td align="center">{{conductor.montoSustentar}}</td>                        
                                     <td align="center">                               
                                         <a *ngIf="conductor.montoSustentar > 0 && conductor.depositado" data-toggle="tooltip" data-placement="top" title="Registrar Factura" data-toggle="modal" data-target="#facturas" (click)="limpiarModal()" (click)="valorIdDeta(conductor.ID_DETA, i)" disabled><i class="mdi mdi-beaker text-success pointer m-r-10"></i></a>
-                                        <a *ngIf="conductor.depositado" data-toggle="tooltip" data-placement="top" title="Ver Facturas" data-toggle="modal" data-target="#peajeFacturas" (click)="limpiarModal()" (click)="getPeajesFacturas(conductor.ID_DETA,conductor.dni,conductor.nombre)"> <i class="fa fa-search text-info pointer"></i></a>
+                                        <a *ngIf="conductor.depositado" data-toggle="tooltip" data-placement="top" title="Ver Facturas" data-toggle="modal" data-target="#peajeFacturas" (click)="limpiarModal()" (click)="getPeajesFacturas(conductor.ID_DETA,conductor.dni,conductor.nombre)" (click)="valorIdDeta(conductor.ID_DETA, i)"> <i class="fa fa-search text-info pointer"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -249,7 +238,7 @@
                         Guardar
                     </button>
 
-                    <button *ngIf="peaje.ID_PEAJE > 0 && !facturas" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updatePeaje()">
+                    <button *ngIf="peaje.ID_PEAJE > 0 && !facturas" type="button" class="btn btn-succes waves-effect waves-light m-r-10" (click)="updatePeaje()">
                         <i class="fa fa-save"></i>
                         Moificar
                     </button>
@@ -269,7 +258,7 @@
                         Exportar
                     </button>
 
-                    <button *ngIf="idAccion == 1 && peaje.ESTATUS == 2" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="liquidarSolicitud()">
+                    <button *ngIf="idAccion == 1 && peaje.ESTATUS == 2" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="liquidarSolicitud()">
                         <i class="mdi mdi-playlist-check"></i>
                         Liquidar Solicitud
                     </button>
@@ -277,6 +266,11 @@
                     <button *ngIf="peaje.ID_PEAJE > 0" type="button" class="btn btn-default waves-effect waves-light m-r-10" (click)="printer()">
                         <i class="mdi mdi-printer"></i>
                         Imprimir
+                    </button>
+
+                    <button *ngIf="idAccion == 1 && peaje.ESTATUS > 1" class="btn btn-success waves-effect waves-light m-r-10" (click)="getExcelPeajeFactTotal()">
+                        <i class="fa fa-file-excel-o"></i>  
+                        Exportar Detalle
                     </button>
 
                     <button routerLink="/peajes" type="button" class="btn btn-warning waves-effect waves-light m-r-10">
@@ -308,8 +302,6 @@
                         <option value = "0" >Seleccione</option>
                         <option *ngFor="let concepto of conceptosGastosOp" value = "{{concepto.ID_TIPO_CONCEPTO_GASTOS_OP}}">{{concepto.DS_TIPO_CONCEPTO_OP}}</option>
                     </select>                                            
-                    <!-- <input [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" type="text" class="form-control" placeholder="Buscar">                         -->
-                    <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getOrdenServicio(guia.ID_ORDEN_SERVICIO)"></i></div>         -->
                 </div>
             </div>
 
@@ -320,8 +312,6 @@
                         <option value = "0" >Seleccione</option>
                         <option *ngFor="let documento of documentosPeaje" value = "{{documento.ID_TIPO_DOC_PEAJE}}">{{documento.DS_TIPO_DOC_PEAJE}}</option>                        
                     </select>                                            
-                    <!-- <input [(ngModel)]="guia.ID_ORDEN_SERVICIO" name="ID_ORDEN_SERVICIO" type="text" class="form-control" placeholder="Buscar">                         -->
-                    <!-- <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getOrdenServicio(guia.ID_ORDEN_SERVICIO)"></i></div>         -->
                 </div>
             </div>
 
@@ -384,17 +374,19 @@
                 <thead>
                     <tr>
                         <th style="text-align: center;">ITEM</th>
+                        <th style="text-align: center;">Concepto</th>
                         <th style="text-align: center;">Tipo</th>
                         <th style="text-align: center;">Nro. Doc./Ref.</th>
                         <th style="text-align: center;">Fecha</th>
-                        <th style="text-align: center;">Monto S/</th>                        
+                        <th style="text-align: center;">Monto S/</th> 
                         <th style="text-align: center;">Nro. Guia</th>
-                        <th style="text-align: center;"></th>
+                        <th style="text-align: center;">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let peajeFactura of peajeFacturas; index as i ">
                         <td align="center">{{peajeFactura.ITEMS}}</td>
+                        <td align="center">{{peajeFactura.DS_TIPO_CONCEPTO_OP}}</td>
                         <td align="center">{{peajeFactura.DS_TIPO_DOC_PEAJE}}</td>
                         <td align="center">{{peajeFactura.NRO_COMPROBANTE}}</td>
                         <td align="center">{{peajeFactura.FECHA_COMPROBANTE}}</td>
@@ -410,8 +402,11 @@
           
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cerrar</button>
-          <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="registrarFact()">Guardar</button> -->
+            <button class="btn waves-effect waves-light btn-success" data-toggle="tooltip" data-placement="top" title="Exportar" (click)="getExcelPeajeFact(peajeFacturas[0].ID_DETA_PEAJE, peajeFacturas[0].IDENTIFICACION)">
+                <i class="fa fa-file-excel-o"></i>  
+                Exportar
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarModal()">Cerrar</button>
         </div>
       </div>
     </div>

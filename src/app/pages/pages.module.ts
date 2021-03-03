@@ -91,6 +91,8 @@ import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones
 import { AsignacionGuiaComponent } from './asignacion-guia/asignacion-guia.component';
 import { ProductividadConductorComponent } from './productividad-conductor/productividad-conductor.component';
 import { ProductividadTractoComponent } from './productividad-tracto/productividad-tracto.component';
+import { DiferenciaPesoComponent } from './diferencia-peso/diferencia-peso.component';
+import { DashboardProductividadComponent } from './dashboard-productividad/dashboard-productividad.component';
 
 @NgModule({
     declarations: [
@@ -162,7 +164,9 @@ import { ProductividadTractoComponent } from './productividad-tracto/productivid
         PlanificacionesOpComponent,
         AsignacionGuiaComponent,
         ProductividadConductorComponent,
-        ProductividadTractoComponent
+        ProductividadTractoComponent,
+        DiferenciaPesoComponent,
+        DashboardProductividadComponent
     ],
     exports: [
         // PagesComponent,

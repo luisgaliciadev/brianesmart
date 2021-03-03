@@ -74,6 +74,8 @@ import { PlanificacionesOpComponent } from './planificaciones-op/planificaciones
 import { AsignacionGuiaComponent } from './asignacion-guia/asignacion-guia.component';
 import { ProductividadConductorComponent } from './productividad-conductor/productividad-conductor.component';
 import { ProductividadTractoComponent } from './productividad-tracto/productividad-tracto.component';
+import { DiferenciaPesoComponent } from './diferencia-peso/diferencia-peso.component';
+import { DashboardProductividadComponent } from './dashboard-productividad/dashboard-productividad.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -133,7 +135,7 @@ const pagesRoutes: Routes = [
             {path: 'asignacion-guia', component: AsignacionGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Asignación de Guía'}},
             {path: 'productividad-conductor', component: ProductividadConductorComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad de Conductores'}},
             {path: 'productividad-tracto', component: ProductividadTractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad de Tracto'}},
-
+            {path: 'diferencia-peso', component: DiferenciaPesoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Guías con Diferencia de Peso'}},
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},
@@ -144,7 +146,8 @@ const pagesRoutes: Routes = [
             {path: 'dashboardkpioptracto', component: DashboardKpitractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Desempeño por Tracto'}},     
             {path: 'dashboardkpimandismec', component: DashboardKpimandismecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Disponibilidad Mecánica'}},     
             {path: 'dashboardestadopro', component: DashboardEstadospComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Estado de Proyectos'}},     
-            {path: 'dashboardindexper', component: DashboardIndexpersonalComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Index de Personal'}},     
+            {path: 'dashboardindexper', component: DashboardIndexpersonalComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Index de Personal'}}, 
+            {path: 'dashboardprodcondtracto', component: DashboardProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Productividad'}},     
 
             // Modulos Matenimientos sistema
             {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},

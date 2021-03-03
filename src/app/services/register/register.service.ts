@@ -1228,6 +1228,67 @@ getExelDocumentosConductor() {
 }
 // Fin Metodo para exportar a excel documentos de conductor
 
+// Get excel deta peaje fact
+getExcelPeajeFact(idDeta) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/peajefact/' + idDeta, {responseType: 'blob' , headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// End Get excel deta peaje fact
+
+// Get excel deta peaje fact total
+getExcelPeajeFactTotal(idPeaje) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/peajeFactTotal/' + idPeaje, {responseType: 'blob' , headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// End Get excel deta peaje fact
+
+// Get excel deta peaje fact total
+getExcelDetaPeajes(search, desde, hasta) {
+  if (search === '') {
+    search = '0'
+  }
+  let params = search + '/' + desde + '/' + hasta;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/peajesDeta/' + params, {responseType: 'blob' , headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// End Get excel deta peaje fact
+
+ // Get viajes diferencia peso
+  getViajesDifPeso(search, desde, hasta) { 
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  let params = search + '/' + desde + '/' + hasta;
+  return this._http.get(this.URL + '/conductor/viajesDiferenciaPesoTotal/' + params, {headers})
+    .pipe(map( (res: any) => {          
+      return res;            
+    }))
+    .pipe(catchError( (err: any) => {  
+      Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');          
+      return throwError(err);         
+    }));
+ }
+ // Fin Get viajes diferencia peso
+
 // FIN CONDUCTOR
 ////////////////////////////////////////////////////////////////////////////////////////////////
 

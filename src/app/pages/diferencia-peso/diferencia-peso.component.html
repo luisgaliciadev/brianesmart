@@ -17,25 +17,24 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="text-left" style="float: left;">
-                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                    <div class="text-left" >
+                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
                             <i class="mdi mdi-printer"></i>
                             Imprimir
                         </button>
 
-                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getExcelDetaPeajes()">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
                             <i class="mdi mdi-file-excel"></i>
-                            Exportar Detalle
-                        </button>
+                            Exportar
+                        </button> -->
                     </div>  
                     
-
-                    <div class="text-right">
-                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0/0">
+                    <!-- <div class="text-right">
+                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/guia/0">
                             <i class="fa fa-plus"></i>
-                            Registrar
+                            Registrar Guia
                         </button>
-                    </div>
+                    </div> -->
 
                     <div class="row">
                         <div class="col-sm">
@@ -53,7 +52,7 @@
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
                                     
-                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getPeajes(search)">
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
@@ -66,55 +65,59 @@
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getPeajes(search)" (keyup)="activeButtons()">                        
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getGuias(search)" (keyup)="activeButtons()">                        
                             <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
                         </div>
                     </div>
                    
-                    <h3>Listado de Solicitudes de Peaje (<small>{{totalRegistros}}</small>)</h3>
-                    <div style="overflow: auto;">
+                    <h3>Listado de Guías (<small>{{totalRegistros}}</small>)</h3>
+                    <div style="overflow: auto">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ITEMS</th>
-                                    <th class="text-center">Nro. Solicitud</th>
-                                    <th class="text-center">Nro. Orden Servicio</th>
-                                    <th class="text-center">Monto (S/)</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Nro. Guia</th>
                                     <th class="text-center">Fecha</th>
-                                    <th class="text-center">Cliente</th>
+                                    <th class="text-center">Conductor</th>
+                                    <th class="text-center">Tracto</th>
+                                    <th class="text-center">Remolque</th>
+                                    <th class="text-center">Peso Bruto</th>
+                                    <th class="text-center">Peso Tara</th>
+                                    <th class="text-center">Peso Neto</th>
+                                    <th class="text-center">Peso Llegada</th>
+                                    <th class="text-center">Peso Diferencia</th>
+                                    <th class="text-center">Motivo Descargo</th>
+                                    <th class="text-center">Orden Servicio</th>
                                     <th class="text-center">Origen</th>
                                     <th class="text-center">Destino</th>
-                                    <th class="text-center">Estatus</th>
                                     <th class="text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let peaje of peajes">
-                                    <td>{{peaje.ITEMS}}</td>
-                                    <td>{{peaje.ID_PEAJE}}</td>
-                                    <td>{{peaje.CORRELATIVO}}</td>
-                                    <td>{{peaje.MONTO_TOTAL}}</td>
-                                    <td>{{peaje.FECHA}}</td>
-                                    <td>{{peaje.RAZON_SOCIAL}}</td>
-                                    <td>{{peaje.ORIGEN}}</td>
-                                    <td>{{peaje.DESTINO}}</td>
-                                    <td>{{peaje.ESTADO}}</td>
+                                <tr *ngFor="let guia of guias">
+                                    <td>{{guia.ID_GUIA}}</td>
+                                    <td>{{guia.CORRELATIVO}}</td>                                   
+                                    <td>{{guia.FH_GUIA}}</td>
+                                    <td>{{guia.NOMBRE_CONDUCTOR}}</td>
+                                    <td>{{guia.PLACA_TRACTO}}</td>
+                                    <td>{{guia.PLACA_REMOLQUE}}</td>
+                                    <td>{{guia.PESO_BRUTO}}</td>
+                                    <td>{{guia.PESO_TARA}}</td>
+                                    <td>{{guia.PESO_NETO}}</td>
+                                    <td>{{guia.PESO_LLEGADA}}</td>
+                                    <td>{{guia.DIFERENCIA}}</td>
+                                    <td>{{guia.DS_MOTIVO_DESCARGO}}</td>
+                                    <td>{{guia.CORRELATIVO_OS}}</td>
+                                    <td>{{guia.DS_ORI_DEST}}</td>
+                                    <td>{{guia.DESTINO}}</td>                            
                                     <td style="white-space: nowrap;">
-                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE,'0'])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
-                                            <i class="fa fa-pencil"></i>  
+                                        <button class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Aprobar Descargo" [disabled]="!guia.ID_MOTIVO_DESCARGO">
+                                            <i class="fa fa-check-square"></i>                                            
                                         </button>
 
-                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE,'2'])" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Procesar">
-                                            <i class="fa fa-check-square"></i>  
-                                        </button>
-
-                                        <button [routerLink]="(['/peaje',peaje.ID_PEAJE,'1'])" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Registrar Facturas">
-                                            <i class="mdi mdi-library-books"></i>  
-                                        </button>
-
-                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deletePeaje(peaje.ID_PEAJE)">
+                                        <!-- <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Eliminar" (click)="deleteGuia(guia.ID_GUIA)">
                                             <i class="fa fa-trash-o"></i>
-                                        </button>
+                                        </button> -->
                                     </td>
                                 </tr>
                             </tbody>

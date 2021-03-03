@@ -5,14 +5,14 @@ import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-peajes',
-  templateUrl: './peajes.component.html',
+  selector: 'app-diferencia-peso',
+  templateUrl: './diferencia-peso.component.html',
   styles: [
   ]
 })
-export class PeajesComponent implements OnInit {
+export class DiferenciaPesoComponent implements OnInit {
 
-  peajes = [];
+  guias = [];
   desde = 0;
   hasta = 5;
   loading = false;
@@ -26,7 +26,7 @@ export class PeajesComponent implements OnInit {
   dia;
   paginas = 0;
   pagina = 1;
-  peajesTotal = [];
+  guiasTotal = [];
 
   constructor(
     public _router: Router,
@@ -51,10 +51,10 @@ export class PeajesComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    // this.getPeajes(this.search);
+    // this.getGuias(this.search);
   }
 
-  async getPeajes(search) {
+  async getGuias(search) {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
@@ -63,44 +63,21 @@ export class PeajesComponent implements OnInit {
     if (search === '') {
       search = '0';
     }
-    this._registerService.getPeajes(search, this.fhDesde, this.fhHasta).subscribe(
+    this._registerService.getViajesDifPeso(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
-        this.totalRegistros = response.peajes.length;
-        this.peajesTotal = response.peajes;
-        this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
+        this.totalRegistros = response.viajes.length;
+        this.guiasTotal = response.viajes;
+        this.guias = this.guiasTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
         this.loading = false;
         this.activeButton = false;
-      }
-    );
-  }
-
-  // Exportar a excel listado de usuarios
-  async getExcelDetaPeajes() {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-    if(this.totalRegistros === 0) {
-      return;
-    }
-    this.loading = true;
-    this._registerService.getExcelDetaPeajes(this.search, this.fhDesde, this.fhHasta).subscribe(
-      (response: any) => {        
-        let fileBlob = response;
-        let blob = new Blob([fileBlob], {
-          type: "application/vnd.ms-excel"
-        });
-        // use file saver npm package for saving blob to file
-        saveAs(blob, `detalleSolicitudGatosOperativos.xlsx`);
-        this.loading = false;
       },
       error => {
         this.loading = false;
@@ -108,11 +85,30 @@ export class PeajesComponent implements OnInit {
     );
   }
 
-  async deletePeaje(id) {
+   // Exportar a excel listado de usuarios
+   async getGuiasExcel() {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
     }
+    if(this.totalRegistros === 0) {
+      return;
+    }
+    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, 0).subscribe(
+      (response: any) => {
+        // tslint:disable-next-line: prefer-const
+        let fileBlob = response;
+        // tslint:disable-next-line: prefer-const
+        let blob = new Blob([fileBlob], {
+          type: "application/vnd.ms-excel"
+        });
+        // use file saver npm package for saving blob to file
+        saveAs(blob, `ListadoGuias.xlsx`);
+      }
+    );
+  }
+
+  deleteGuia(id) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -130,14 +126,12 @@ export class PeajesComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.loading = true;
-        this._registerService.deletePeaje(id).subscribe(
+        this._registerService.deleteGuia(id).subscribe(
           (response: any) => {
-            this.getPeajes(this.search);
-            this.loading = false;
-          },
-          error => {
-            this.loading = false;
+            // console.log(response);
+            if(response) {
+              this.getGuias(this.search);
+            }
           }
         );
       } 
@@ -145,7 +139,7 @@ export class PeajesComponent implements OnInit {
   }
 
   filtroPagina () {
-    this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
+    this.guias = this.guiasTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
@@ -192,16 +186,16 @@ export class PeajesComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listpeajes/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
+      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
     } else {
-      window.open('#/listpeajes/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
+      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
     }
   }
 
   // Limpiar busqueda
   clear() {
     this.search = '';
-     this.getPeajes(this.search);
+     this.getGuias(this.search);
   }
 
   // Activar o desactivar botones de reportes
@@ -210,7 +204,7 @@ export class PeajesComponent implements OnInit {
       this.activeButton = true;
     } else {
       this.activeButton = false;
-      this.getPeajes(this.search);
+      this.getGuias(this.search);
     }
   }
 

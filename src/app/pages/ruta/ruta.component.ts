@@ -18,7 +18,7 @@ const maskConfig: Partial<IConfig> = {
 export class RutaComponent implements OnInit {  
   loading = false;
   registrando = false;
-  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','');
+  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','',0);
   RUC = '';
   clientes = [];
   origenes = [];
@@ -50,7 +50,7 @@ export class RutaComponent implements OnInit {
       if (this.ruta.ID_RUTA > 0) {
         this.getRuta();
       } else {
-        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','');
+        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','',0);
       }
     });
   }
@@ -93,6 +93,7 @@ export class RutaComponent implements OnInit {
         this.ruta.REDIMIENTO_KM_GLNS = response.ruta.REDIMIENTO_KM_GLNS;
         this.ruta.INGRESO_ORIGEN = response.ruta.INGRESO_ORIGEN;
         this.ruta.INGRESO_DESTINO = response.ruta.INGRESO_DESTINO;
+        this.ruta.COMISION = response.ruta.COMISION;
         this.loading = false;
       },
       (error: any) => {

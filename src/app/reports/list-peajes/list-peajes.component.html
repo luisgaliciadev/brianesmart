@@ -12,12 +12,15 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>ITEMS</th>
-                <th>Nro. Solicitud</th>
-                <th>Nro. Orden Servicio</th>
-                <th>Monto (S/)</th>
-                <th>Fecha</th>
-                <th>Estatus</th>
+                <th class="text-center">ITEMS</th>
+                <th class="text-center">Nro. Solicitud</th>
+                <th class="text-center">Nro. Orden Servicio</th>
+                <th class="text-center">Monto (S/)</th>                
+                <th class="text-center">Fecha</th>
+                <th class="text-center">Cliente</th>
+                <th class="text-center">Origen</th>
+                <th class="text-center">Destino</th>
+                <th class="text-center">Estatus</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +30,9 @@
                 <td>{{peaje.CORRELATIVO}}</td>
                 <td>{{peaje.MONTO_TOTAL}}</td>
                 <td>{{peaje.FECHA}}</td>
+                <td>{{peaje.RAZON_SOCIAL}}</td>
+                <td>{{peaje.ORIGEN}}</td>
+                <td>{{peaje.DESTINO}}</td>
                 <td>{{peaje.ESTADO}}</td>
             </tr>
         </tbody>

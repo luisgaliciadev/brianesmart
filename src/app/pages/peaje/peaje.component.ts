@@ -66,7 +66,6 @@ export class PeajeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this._userService.permisoModule(this._router.url);
     this._route.params.forEach((params: Params) => {
       this.peaje.ID_PEAJE = params.id;
       this.idAccion = params.fact;
@@ -81,9 +80,10 @@ export class PeajeComponent implements OnInit {
         this.getDocPeajes();
       }
 
+
       if (this.peaje.ID_PEAJE > 0) {
         this.modificar = true;
-        this.getPeaje();
+        // this.getPeaje();
         this.getOrdenesServicioAll(); 
       } else {
         this.getOrdenesServicioAll();
@@ -102,19 +102,15 @@ export class PeajeComponent implements OnInit {
   }
 
   getConceptosGatosOp() {
-    this.loading = true;
     this._registerService.getConceptosGatosOp().subscribe(
       (response: any) => {
         this.conceptosGastosOp = response.conceptosGastosOP;
-        this.loading = true;
-      },
-      error => {
-        this.loading = false;
       }
     );
   }
 
   getPeaje() {
+    this.loading = true;
     this._registerService.getPeaje(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
         this.peaje.MONTO_TOTAL = response.peaje.MONTO_TOTAL;
@@ -142,6 +138,13 @@ export class PeajeComponent implements OnInit {
             });
         });
         this.conductores = detaPeajes;
+        if (this.peaje.ID_PEAJE > 0) {
+          this.datosOrden(this.peaje.ID_ORDEN_SERVICIO);   
+        }
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -217,9 +220,14 @@ export class PeajeComponent implements OnInit {
           peaje: this.peaje,
           detaPeaje: this.conductores
         };
+        this.loading = true;
         this._registerService.updatePeaje(peajes).subscribe(
           (response: any) => {
             this.getPeaje();
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
           }
         );
       } 
@@ -248,9 +256,14 @@ export class PeajeComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
+        this.loading = true;
         this._registerService.deletePeaje(this.peaje.ID_PEAJE).subscribe(
           (response: any) => {
             this._router.navigate(['/peajes']);
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
           }
         );
       } 
@@ -260,14 +273,17 @@ export class PeajeComponent implements OnInit {
   getOrdenesServicioAll() {
     this.loading = true;
     this._registerService.getOrdenServicioAll(0).subscribe(
-      (response: any) => {         
+      (response: any) => {     
         this.ordenes = response.ordenesServicio;  
         if (this.peaje.ID_PEAJE > 0) {
-           this.datosOrden(this.peaje.ID_ORDEN_SERVICIO);   
+          this.getPeaje();  
+        } 
+        else {
+          this.loading = false;
         }
-        this.loading = false;
       },
       (error: any) => {
+          this.loading = false;
           this.ordenes = [];
       }
     );
@@ -398,8 +414,7 @@ export class PeajeComponent implements OnInit {
             montoTotal = montoTotal + peaje.monto;
           });
           this.peaje.MONTO_TOTAL = montoTotal;
-          this.peaje.CANT_REGISTROS = this.conductores.length;
-      
+          this.peaje.CANT_REGISTROS = this.conductores.length;      
           this.nombreConductor = '';
           this.idConductor = '';
           this.montoPeaje = 0;
@@ -477,7 +492,6 @@ export class PeajeComponent implements OnInit {
       return;
     }
 
-    // this.registrando = true;
     let factura = {
       idPeaje: this.peaje.ID_PEAJE,
       idDetallePeaje: this.idDeta,
@@ -495,7 +509,19 @@ export class PeajeComponent implements OnInit {
         if (this.imageUpload) {
           this.changeImage(response.peajeFactura.ID_RELACION_PEAJES,response.peajeFactura.ID_PEAJE);
         }
-        this.getPeaje();
+        // this.getPeaje();
+        let montoAbono = this.conductores[this.valorI].montoAbono + this.montoDoc;
+        if (montoAbono % 1 == 0) {
+          this.conductores[this.valorI].montoAbono = montoAbono;
+        } else {
+          this.conductores[this.valorI].montoAbono = parseFloat(montoAbono.toFixed(2));
+        }
+        let montoSustentar = this.conductores[this.valorI].montoSustentar - this.montoDoc;
+        if (montoSustentar % 1 == 0) {
+          this.conductores[this.valorI].montoSustentar = montoSustentar;
+        } else {
+          this.conductores[this.valorI].montoSustentar = parseFloat(montoSustentar.toFixed(2));
+        }
         this.limpiarModal();
         this.registrando = false;
       },
@@ -521,11 +547,15 @@ export class PeajeComponent implements OnInit {
     this.idConceptoGastosOp = 0;
   }
 
-  getPeajesFacturas(idDeta, dni, conductor) {
+  async getPeajesFacturas(idDeta, dni, conductor) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
     this.conductor = '';
     this._registerService.getPeajeFacturas(idDeta).subscribe(
       (response: any) => {
-        this.getPeaje();
+        // this.getPeaje();
         this.peajeFacturas = response.peajesFacturas;
         this.conductor = dni + ' - ' + conductor;
       }
@@ -573,8 +603,20 @@ export class PeajeComponent implements OnInit {
           this.registrando = true;
           this._registerService.deletePeajeFact(id).subscribe(
             (response: any) => {
+              let montoAbono = this.conductores[this.valorI].montoAbono - response.peajeFactura.MONTO_COMPROBANTE;
+              let montoSustentar = this.conductores[this.valorI].montoSustentar + response.peajeFactura.MONTO_COMPROBANTE;
+              if (montoAbono % 1 == 0) {
+                this.conductores[this.valorI].montoAbono = montoAbono;
+              } else {
+                this.conductores[this.valorI].montoAbono = parseFloat(montoAbono.toFixed(2));
+              }
+              if (montoSustentar % 1 == 0) {
+                this.conductores[this.valorI].montoSustentar = montoSustentar;
+              } else {
+                this.conductores[this.valorI].montoSustentar = parseFloat(montoSustentar.toFixed(2));
+              }
               this.getPeajesFacturas(idDeta, dni, conductor);
-              this.getPeaje();
+              // this.getPeaje();      
               this.registrando = false;
             }, 
             error => {
@@ -692,18 +734,7 @@ export class PeajeComponent implements OnInit {
     if (!token) {
       return;
     }
-    // var fgDepositado;
-    // this.conductores.forEach(function (detalle) { 
-    //     if (detalle.depositado) {
-    //       fgDepositado = detalle.depositado;
-    //     }
-    // });   
-
-    // if (!fgDepositado) {
-    //   Swal.fire('Mensaje', 'Debe marcar los peajes depositados.', 'warning');
-    //   return;
-    // }
-
+   
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -780,7 +811,6 @@ export class PeajeComponent implements OnInit {
     this._uploadFileService.uploadFile(this.imageUpload, 'facturas-peaje', idRelacionPeaje, idPeaje)
     .then( (resp: any) => {
       (<HTMLInputElement>document.getElementById('archivo')).value = '';
-      // Swal.fire('Mensaje', 'Archivo Actualizado Correctamente', 'success');
     })
     .catch( resp => {
       Swal.fire('Error', 'No se pudo subir el archivo', 'warning');
@@ -793,6 +823,48 @@ export class PeajeComponent implements OnInit {
       return;
     }
     window.open(this.URL +'/image/facturas-peaje/' + archivo);
+  }
+
+  async getExcelPeajeFact(idDeta, dni) {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+
+    this._registerService.getExcelPeajeFact(idDeta).subscribe(
+      (response: any) => {
+        let fileBlob = response;
+        let blob = new Blob([fileBlob], {
+          type: "application/vnd.ms-excel"
+        });
+        // use file saver npm package for saving blob to file
+        saveAs(blob, `${this.peaje.ID_PEAJE}-${dni}-gastosOperativosDocumentos.xlsx`);
+      }
+    );
+  }
+
+  async getExcelPeajeFactTotal() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+    this.loading = true;
+    this._registerService.getExcelPeajeFactTotal(this.peaje.ID_PEAJE).subscribe(
+      (response: any) => {
+        let fileBlob = response;
+        let blob = new Blob([fileBlob], {
+          type: "application/vnd.ms-excel"
+        });
+        // use file saver npm package for saving blob to file
+        saveAs(blob, `${this.peaje.ID_PEAJE}-gastosOperativosDocumentos.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+      }
+    );
+
+
   }
 
 }

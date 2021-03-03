@@ -35,10 +35,10 @@
                             Registrar Guía
                         </button>
 
-                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-info" routerLink="/asignacion-guia">
+                        <!-- <button type="button" class="btn waves-effect waves-light btn-rounded btn-info" routerLink="/asignacion-guia">
                             <i class="fa fa-check-square-o"></i>
                             Asignar Guía
-                        </button>
+                        </button> -->
                     </div>
 
                     <div class="row">
@@ -112,9 +112,8 @@
                                     <td>{{guia.CORRELATIVO_OS}}</td>
                                     <td>{{guia.DS_TIPO_SERVICIO}}</td>
                                     <td>{{guia.DS_ORI_DEST}}</td>
-                                    <td>{{guia.DESTINO}}</td>
-                                   
-                                    <td>
+                                    <td>{{guia.DESTINO}}</td>                                   
+                                    <td style="white-space: nowrap;">
                                         <button [routerLink]="(['/guia',guia.ID_GUIA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">
                                             <i class="fa fa-pencil">
                                             </i>
