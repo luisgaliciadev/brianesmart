@@ -1090,7 +1090,8 @@ export class UserService {
     if (search === '') {
       search = '0';
     }    
-    return this._http.get(this.URL + '/excel/companys/' + this.user.ID_USER + '/' + search, {responseType: 'blob'})
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
+    return this._http.get(this.URL + '/excel/companys/' + this.user.ID_USER + '/' + search, {responseType: 'blob', headers})
     .pipe(map((res: any) => {     
       return res;
     }))
@@ -1106,7 +1107,8 @@ export class UserService {
     if (search === '') {
       search = '0';
     }
-    return this._http.get(this.URL + '/excel/users/' + search,  {responseType: 'blob'})
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
+    return this._http.get(this.URL + '/excel/users/' + search,  {responseType: 'blob', headers})
     .pipe(map((res: any) => {      
       return res;
     }))
@@ -1122,7 +1124,8 @@ export class UserService {
     if (search === '') {
       search = '0';
     }
-    return this._http.get(this.URL + '/excel/clients/' + this.user.ID_USER + '/' + search, {responseType: 'blob'})
+    let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this.token});
+    return this._http.get(this.URL + '/excel/clients/' + this.user.ID_USER + '/' + search, {responseType: 'blob', headers})
     .pipe(map((res: any) => {
       return res;
     }))

@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
   ]
 })
 export class SaldosPeajesComponent implements OnInit {
-
   peajes = [];
   desde = 0;
   hasta = 5;
@@ -50,7 +49,6 @@ export class SaldosPeajesComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    // this.getPeajeSaldos(this.search);
   }
 
   async getPeajeSaldos(search) {
@@ -64,7 +62,6 @@ export class SaldosPeajesComponent implements OnInit {
     }
     this._registerService.getPeajeSaldos(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        // console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -89,6 +86,7 @@ export class SaldosPeajesComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
+    this.loading = true;
     this._registerService.getExcelSaldosPeaje(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -97,6 +95,10 @@ export class SaldosPeajesComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `saldosPeaje.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

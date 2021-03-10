@@ -77,6 +77,9 @@ export class RutasComponent implements OnInit {
         }
         this.loading = false;
         this.activeButton = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -121,62 +124,30 @@ export class RutasComponent implements OnInit {
     });
   }
 
-  //  // Exportar a excel listado de usuarios
-  //  async getGuiasExcel() {
-  //   let token = await this._userService.validarToken();
-  //   if (!token) {
-  //     return;
-  //   }
-  //   if(this.totalRegistros === 0) {
-  //     return;
-  //   }
-  //   this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
-  //     (response: any) => {
-  //       // tslint:disable-next-line: prefer-const
-  //       let fileBlob = response;
-  //       // tslint:disable-next-line: prefer-const
-  //       let blob = new Blob([fileBlob], {
-  //         type: "application/vnd.ms-excel"
-  //       });
-  //       // use file saver npm package for saving blob to file
-  //       saveAs(blob, `ListadoGuias.xlsx`);
-  //     }
-  //   );
-  // }
-
-  // async deleteGuia(id) {
-  //   let token = await this._userService.validarToken();
-  //   if (!token) {
-  //     return;
-  //   }
-  //   const swalWithBootstrapButtons = Swal.mixin({
-  //     customClass: {
-  //       confirmButton: 'btn btn-success',
-  //       cancelButton: 'btn btn-danger'
-  //     },
-  //     buttonsStyling: false
-  //   })    
-  //   swalWithBootstrapButtons.fire({
-  //     title: 'Anular Registro',
-  //     text: "¿Desea anular este registro? No podrás revertir esto!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Si',
-  //     cancelButtonText: 'No',
-  //     reverseButtons: true
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       this._registerService.deleteGuia(id).subscribe(
-  //         (response: any) => {
-  //           // console.log(response);
-  //           if(response) {
-  //             this.getRutas(this.search);
-  //           }
-  //         }
-  //       );
-  //     } 
-  //   });
-  // }
+   async getExcelRutas() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+    if(this.totalRegistros === 0) {
+      return;
+    }
+    this.loading = true;
+    this._registerService.getExcelRutas(this.search).subscribe(
+      (response: any) => {
+        let fileBlob = response;
+        let blob = new Blob([fileBlob], {
+          type: "application/vnd.ms-excel"
+        });
+        // use file saver npm package for saving blob to file
+        saveAs(blob, `ListadoRutas.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+      }
+    );
+  }
 
   filtroPagina () {
     this.rutas = this.rutasTotal.slice(this.desde, this.hasta);

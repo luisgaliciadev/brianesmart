@@ -76,6 +76,7 @@ import { ProductividadConductorComponent } from './productividad-conductor/produ
 import { ProductividadTractoComponent } from './productividad-tracto/productividad-tracto.component';
 import { DiferenciaPesoComponent } from './diferencia-peso/diferencia-peso.component';
 import { DashboardProductividadComponent } from './dashboard-productividad/dashboard-productividad.component';
+import { DashboardDifpesoComponent } from './dashboard-difpeso/dashboard-difpeso.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -148,6 +149,7 @@ const pagesRoutes: Routes = [
             {path: 'dashboardestadopro', component: DashboardEstadospComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Estado de Proyectos'}},     
             {path: 'dashboardindexper', component: DashboardIndexpersonalComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Index de Personal'}}, 
             {path: 'dashboardprodcondtracto', component: DashboardProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Productividad'}},     
+            {path: 'dashboard-diferenciapeso', component: DashboardDifpesoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Diferencia de Pesos'}},     
 
             // Modulos Matenimientos sistema
             {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},

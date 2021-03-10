@@ -59,7 +59,7 @@
                                 <tr>
                                     <th class="nombre">Conductor</th>
                                     <th *ngFor = "let dia of dias">
-                                        {{dia.FECHA}}
+                                        {{dia.NOMBRE_DIA}} {{dia.FECHA}}
                                     </th>
                                     <th class="text-center totalesCabecera">Total Viajes</th>
                                     <th class="text-center totalesCabecera">Total Comisión</th>
@@ -115,7 +115,7 @@
             <th style="border: solid 1px gray;" class="items">ITEMS</th>
             <th style="border: solid 1px gray;" class="nombre">Conductor</th>
             <th style="border: solid 1px gray;" *ngFor = "let dia of dias">
-                {{dia.FECHA}}
+                {{dia.NOMBRE_DIA}} {{dia.FECHA}}
             </th>
             <th style="border: solid 1px gray;" class="text-center totalesCabecera">Total Viajes</th>
             <th style="border: solid 1px gray;" class="text-center totalesCabecera">Total Comision</th>

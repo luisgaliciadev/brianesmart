@@ -50,6 +50,9 @@ export class DocumentosConductorComponent implements OnInit {
         this.documentos = response.documentos;
         this.totalRegistros = this.documentos.length;
         this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -170,6 +173,7 @@ export class DocumentosConductorComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
+    this.loading = true;
     this._registerService.getExelDocumentosConductor().subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -178,6 +182,10 @@ export class DocumentosConductorComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `documentosConductor.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
   ]
 })
 export class GuiasComponent implements OnInit {
-
   guias = [];
   desde = 0;
   hasta = 5;
@@ -33,7 +32,6 @@ export class GuiasComponent implements OnInit {
     private _userService: UserService,
     public _registerService: RegisterService
   ) { 
-    // this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -51,7 +49,6 @@ export class GuiasComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    // this.getGuias(this.search);
   }
 
   async getGuias(search) {
@@ -78,12 +75,14 @@ export class GuiasComponent implements OnInit {
         }
         this.loading = false;
         this.activeButton = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
 
-   // Exportar a excel listado de usuarios
-   async getGuiasExcel() {
+  async getGuiasExcel() {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
@@ -91,16 +90,19 @@ export class GuiasComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
+    this.loading = true;
     this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, this._userService.user.ID_USER).subscribe(
-      (response: any) => {
-        // tslint:disable-next-line: prefer-const
-        let fileBlob = response;
-        // tslint:disable-next-line: prefer-const
+      (response: any) => {       
+        let fileBlob = response;       
         let blob = new Blob([fileBlob], {
           type: "application/vnd.ms-excel"
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoGuias.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

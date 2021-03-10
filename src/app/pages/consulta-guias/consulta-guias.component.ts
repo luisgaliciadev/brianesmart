@@ -77,6 +77,9 @@ export class ConsultaGuiasComponent implements OnInit {
         }
         this.loading = false;
         this.activeButton = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -90,6 +93,7 @@ export class ConsultaGuiasComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
+    this.loading = true;
     this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, 0).subscribe(
       (response: any) => {
         // tslint:disable-next-line: prefer-const
@@ -99,7 +103,11 @@ export class ConsultaGuiasComponent implements OnInit {
           type: "application/vnd.ms-excel"
         });
         // use file saver npm package for saving blob to file
-        saveAs(blob, `ListadoGuias.xlsx`);
+        saveAs(blob, `ListadoGuias.xlsx`);        
+        this.loading = false;
+      },
+      error => { 
+        this.loading = false;
       }
     );
   }

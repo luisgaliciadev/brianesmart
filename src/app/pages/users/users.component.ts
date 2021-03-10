@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
     }
     this.activeButton = false;
     this.search = search;
-    // tslint:disable-next-line: prefer-const
+   
     this.loading = true;
     this._userService.getUsers(search).subscribe(
       (response: any) => {
@@ -106,16 +106,21 @@ export class UsersComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
+    this.loading = true;
     this._userService.getUsersExcel(this.search).subscribe(
       (response: any) => {
-        // tslint:disable-next-line: prefer-const
+       
         let fileBlob = response;
-        // tslint:disable-next-line: prefer-const
+       
         let blob = new Blob([fileBlob], {
           type: "application/vnd.ms-excel"
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoUsuarios.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

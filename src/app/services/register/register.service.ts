@@ -355,7 +355,8 @@ getDenunciasExcel(search) {
   if (search === '') {
     search = '0';
   }    
-  return this._http.get(this.URL + '/excel/denuncias/' + search, {responseType: 'blob'})
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/denuncias/' + search, {responseType: 'blob', headers})
   .pipe(map((res: any) => {     
     return res;
   }))
@@ -1531,7 +1532,7 @@ getGuiasExcel(search,desde, hasta, idUser) {
   }    
   let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
   let params = idUser + '/' + search + '/' + desde + '/' + hasta;
-  return this._http.get(this.URL + '/excel/guias/' + params, {responseType: 'blob'})
+  return this._http.get(this.URL + '/excel/guias/' + params, {responseType: 'blob', headers})
   .pipe(map((res: any) => {     
     return res;
   }))
@@ -2763,6 +2764,42 @@ registerUpdateMotivoNoTracto(motivo) {
   }));
 }
 // End Register - Update motivo no productividad tracto
+
+// Get excel guias diferencia peso
+getExcelGuiasDifPeso(search, desde, hasta) {
+  if (search === '') {
+    search = '0'
+  }
+  let params = search + '/' + desde + '/' + hasta;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/viajesDiferenciaPesoTotal/' + params, {responseType: 'blob' , headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// End Get excel guias diferencia peso
+
+// Get excel guias diferencia peso
+getExcelRutas(search) {
+  if (search === '') {
+    search = '0'
+  }
+  let params = search;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/excel/rutas/' + params, {responseType: 'blob' , headers})
+  .pipe(map((res: any) => {     
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+      Swal.fire('Mensaje', 'No se pudo exportar la información', 'error');
+      return throwError(err);
+  }));
+}
+// End Get excel guias diferencia peso
 
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////

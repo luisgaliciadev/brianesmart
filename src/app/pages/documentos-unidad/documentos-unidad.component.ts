@@ -73,6 +73,9 @@ export class DocumentosUnidadComponent implements OnInit {
         this.documentos = response.documentos;
         this.totalRegistros = this.documentos.length;
         this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -158,6 +161,7 @@ export class DocumentosUnidadComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
+    this.loading = true;
     this._registerService.getExelDocumentosUnidad().subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -166,6 +170,10 @@ export class DocumentosUnidadComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `documentosUnidad.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

@@ -10,13 +10,11 @@ import {saveAs} from 'file-saver';
   ]
 })
 export class DenunciasComponent implements OnInit {
-
   public denuncias = [];
   public desde: number;
   public hasta: number;
   public loading = false;
   public totalRegistros = 0;
-  
   public search: string;
   public activeButton;
 
@@ -33,7 +31,6 @@ export class DenunciasComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    // this.getDenuncias(this.search);
   }
 
   // Listar denuncias
@@ -47,13 +44,13 @@ export class DenunciasComponent implements OnInit {
 
     this.loading = true;
     this._registerService.getDenuncias(this.search).subscribe(
-      (response: any) => { 
-        // console.log(response.denuncias);      
+      (response: any) => {  
         this.denuncias = response.denuncias.slice(this.desde, this.hasta);
         this.totalRegistros = response.denuncias.length;
         this.loading = false;
-        // console.log(this.denuncias);
-        // console.log(this.totalRegistros);
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -66,7 +63,6 @@ export class DenunciasComponent implements OnInit {
     }
     this._registerService.deleteDenuncia(id).subscribe(
       (response: any) => {
-        // console.log(response);
         this.getDenuncias(this.search );
       }
     );
@@ -81,19 +77,19 @@ export class DenunciasComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    if(this.totalRegistros === 0) {
-      return;
-    }
+    this.loading = true;
     this._registerService.getDenunciasExcel(this.search).subscribe(
       (response: any) => {
-       
-        let fileBlob = response;
-       
+        let fileBlob = response;       
         let blob = new Blob([fileBlob], {
           type: "application/vnd.ms-excel"
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoDenuncias.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

@@ -15,6 +15,13 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="text-left" style="float: left;">
+                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getExcelRutas()">
+                            <i class="mdi mdi-file-excel"></i>
+                            Exportar
+                        </button>
+                    </div>  
+
                     <div class="text-right">
                         <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/ruta/0">
                             <i class="fa fa-plus"></i>
@@ -40,14 +47,15 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>ITEM</th>
-                                    <th>ID</th>
-                                    <th>Ruta</th>
-                                    <th>Cliente</th>
-                                    <th>Moneda</th>
-                                    <th>Tarifa</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
+                                    <th class="text-center">ITEM</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Ruta</th>
+                                    <th class="text-center">Cliente</th>                                   
+                                    <th class="text-center">Tarifa</th>
+                                    <th class="text-center">Moneda</th>
+                                    <th class="text-center">Tipo Cobro</th>
+                                    <th class="text-center">Estatus</th>
+                                    <th class="text-center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,8 +64,9 @@
                                     <td>{{ruta.ID_RUTA}}</td>
                                     <td>{{ruta.RUTA}}</td>
                                     <td>{{ruta.RAZON_SOCIAL}}</td>
-                                    <td>{{ruta.DS_MONEDA}}</td>
                                     <td>{{ruta.TARIFA}}</td>
+                                    <td>{{ruta.DS_MONEDA}}</td>                                   
+                                    <td>{{ruta.DS_TIPO_COBRO_OS}}</td>
                                     <td>{{ruta.ESTATUS}}</td>    
                                     <td style="white-space: nowrap;">
                                         <button [routerLink]="(['/ruta',ruta.ID_RUTA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">

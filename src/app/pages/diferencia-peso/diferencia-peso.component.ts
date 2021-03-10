@@ -33,7 +33,6 @@ export class DiferenciaPesoComponent implements OnInit {
     private _userService: UserService,
     public _registerService: RegisterService
   ) { 
-    // this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -51,7 +50,6 @@ export class DiferenciaPesoComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    // this.getGuias(this.search);
   }
 
   async getGuias(search) {
@@ -65,7 +63,6 @@ export class DiferenciaPesoComponent implements OnInit {
     }
     this._registerService.getViajesDifPeso(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -85,8 +82,7 @@ export class DiferenciaPesoComponent implements OnInit {
     );
   }
 
-   // Exportar a excel listado de usuarios
-   async getGuiasExcel() {
+  async getExcelGuiasDifPeso() {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
@@ -94,7 +90,8 @@ export class DiferenciaPesoComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this._registerService.getGuiasExcel(this.search, this.fhDesde, this.fhHasta, 0).subscribe(
+    this.loading = true;
+    this._registerService.getExcelGuiasDifPeso(this.search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         // tslint:disable-next-line: prefer-const
         let fileBlob = response;
@@ -104,7 +101,12 @@ export class DiferenciaPesoComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoGuias.xlsx`);
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
       }
+     
     );
   }
 
@@ -170,8 +172,6 @@ export class DiferenciaPesoComponent implements OnInit {
     if (this.pagina <= 0) {
       this.pagina = 1;
     }
-
-    // this.getGuias(this.search);
     this.filtroPagina();
   }
 
