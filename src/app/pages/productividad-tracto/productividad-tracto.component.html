@@ -16,27 +16,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-                    <div class="text-left" style="float: left;">
-                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
-                            <i class="mdi mdi-printer"></i>
-                            Imprimir
-                        </button> -->
-
-                        <!-- <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
-                            <i class="mdi mdi-file-excel"></i>
-                            Exportar
-                        </button> -->
-                    </div>  
-                    
-
-                    <!-- <div class="text-right">
-                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/peaje/0/0">
-                            <i class="fa fa-plus"></i>
-                            Registrar
-                        </button>
-                    </div> -->
-
                     <div class="row">
                         <div class="col-sm">
                             <div class="form-group">
@@ -61,16 +40,7 @@
                             </div>
                         </div>                       
                     </div> 
-
-                    <!-- <br/> -->
-
-                    <!-- <div class="form-group">
-                        <div class="input-group">
-                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" >                        
-                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda"></i></div>
-                        </div>
-                    </div> -->
-                                      
+                
                     <div class="row">
                         <div class="col-sm">
                             <h3>Productividad de Tracto (<small>{{totalRegistros}}</small>)</h3>
@@ -82,14 +52,11 @@
                             </button>
                         </div>
                     </div>
-                    
-                    <!-- <input type="button" (click)="tableToExcel('conductorProductividad', 'productividadConductores')" value="Export to Excel"> -->
+                
                     <div class="table-container">                    
-                    <!-- <div style="overflow: auto;"> -->
                         <table class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px;">
                             <thead>
                                 <tr>
-                                    <!-- <th class="items">ITEMS</th> -->
                                     <th class="placa">Placa</th>
                                     <th *ngFor = "let dia of dias">
                                         {{dia.NOMBRE_DIA}} {{dia.FECHA}}
@@ -100,7 +67,6 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let productividadTracto of productividadTractos; index as i">
-                                    <!-- <td class="text-center items">{{i+1}}</td> -->
                                     <td class="text-center placa">{{productividadTracto.placa}}</td>
                                     <td style="min-width: 390px !important;" class="text-center" *ngFor = "let dia of dias; index as j"> 
                                         <div data-toggle="tooltip" data-placement="top" title="{{productividadTracto.placa}} | {{dia.FECHA}}">

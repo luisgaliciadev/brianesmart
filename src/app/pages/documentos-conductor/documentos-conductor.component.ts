@@ -18,8 +18,8 @@ export class DocumentosConductorComponent implements OnInit {
   search = '';
   tipoDocumentos = [];
   diasTramite = [];
-  idTipoDocumento = 0;
-  cantDias = 0;
+  idTipoDocumento = 1;
+  cantDias = 1;
   fgFhVencimiento = 1;
 
   constructor(
@@ -118,8 +118,8 @@ export class DocumentosConductorComponent implements OnInit {
 
   cancel() {
     this.nombreDocumento = '';
-    this.idTipoDocumento = 0;
-    this.cantDias = 0;
+    this.idTipoDocumento = 1;
+    this.cantDias = 1;
     this.fgFhVencimiento = 1;
   }
 

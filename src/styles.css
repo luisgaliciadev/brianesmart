@@ -45,7 +45,7 @@
 .oculto{
     display: none;
 }
-   
+
 .table-op th {
     border-collapse: collapse !important;
     border:#e9ecef 1px solid  !important;
@@ -53,7 +53,6 @@
 }
 
 .table-op thead{
-    /* overflow: auto; */
     width: 100%;
 }
 
@@ -107,8 +106,10 @@
 .table-container {
     max-width: 100%;
     overflow-x: scroll;
-    border-left: solid 1px #ccc;
+    /* border-left: solid 1px #ccc;
     border-right: solid 1px #ccc;
+    border-top: solid 1px #ccc; */
+    border: solid 1px #ccc;
 }
 
 .tabla-control-guia {
@@ -462,6 +463,98 @@ body {
 .tabla-productividad-conductor tbody tr .placa {
     background: white;
 }
+
+.tabla-tareo-op {
+    border-top: solid 1px #ccc;
+    position: static;
+}
+
+.tabla-tareo-op  thead th{
+    background: gray ;
+    color: white ;
+    text-align: center ;
+    font-size: 14px ;
+    white-space: nowrap;
+    min-width: 200px;
+}
+
+.tabla-tareo-op tbody{
+    /* height: 400px !important; */
+    overflow: auto !important;
+    width: 100% !important;
+}
+
+.tabla-tareo-op th,
+.tabla-tareo-op td {
+    border-top: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    vertical-align:baseline;
+}
+
+/* .tabla-tareo-op tbody,    
+.tabla-tareo-op td,
+.tabla-tareo-op th{
+  display: block !important;
+} */
+
+
+/* .tabla-tareo-op tbody td,
+.tabla-tareo-op thead > tr > th{
+    float: left !important;
+} */
+
+.tabla-tareo-op .items {
+    min-width: 50px !important;
+    position: sticky !important;
+    left: 0 !important;
+}
+
+.tabla-tareo-op tbody tr .items {
+    background: white;
+}
+
+.tabla-tareo-op .conductor {
+    min-width: 300px !important;
+    padding-left: 2px; 
+    position: sticky !important;
+    left: 50px !important; 
+}
+
+.tabla-tareo-op tbody tr .conductor {
+    background: white;
+}
+
+/* .tabla-tareo-op .dias {
+    min-width: 200px !important;
+} */
+
+/* .tabla-tareo-op tbody tr .accion */
+.tabla-tareo-op thead tr .accion {
+    min-width: 70px !important;
+}
+
+.tabla-tareo-op-turno thead th {
+    background: gray ;
+    color: white ;
+    text-align: center ;
+    min-width: 70px;
+    font-size: 10px ;
+}
+
+.tabla-tareo-op-turno th,
+.tabla-tareo-op-turno td {
+    border: solid 1px #ccc;
+    vertical-align:baseline;
+    font-size: 10px ;
+}
+/* 
+.tabla-tareo-op-turno tbody{
+    height: 50px !important;
+} */
+
+
+
 
 
 

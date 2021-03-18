@@ -77,6 +77,9 @@ import { ProductividadTractoComponent } from './productividad-tracto/productivid
 import { DiferenciaPesoComponent } from './diferencia-peso/diferencia-peso.component';
 import { DashboardProductividadComponent } from './dashboard-productividad/dashboard-productividad.component';
 import { DashboardDifpesoComponent } from './dashboard-difpeso/dashboard-difpeso.component';
+import { TareoOperacionesComponent } from './tareo-operaciones/tareo-operaciones.component';
+import { TareosOperacionesComponent } from './tareos-operaciones/tareos-operaciones.component';
+import { DashboardManticsComponent } from './dashboard-mantics/dashboard-mantics.component';
 
 const pagesRoutes: Routes = [
    // {
@@ -111,14 +114,14 @@ const pagesRoutes: Routes = [
             {path: 'viaticosconductor', component: ConsultaViaticoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de viáticos'}},
             {path: 'consultaguias', component: ConsultaGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guías'}},
             {path: 'consultaguia/:id', component: ConsultaGuiaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Consulta de Guía'}},
-            {path: 'peaje/:id/:fact', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Peajes / Gastos Operativos'}},
-            {path: 'peajes', component: PeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes / Gastos Operativos'}},
-            {path: 'saldos-peaje', component: SaldosPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Peajes / Gastos Operativos - Saldos de Conductores'}},
+            {path: 'peaje/:id/:fact', component: PeajeComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Solicitud de Gastos Operativos'}},
+            {path: 'peajes', component: PeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Gastos Operativos'}},
+            {path: 'saldos-peaje', component: SaldosPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Gastos Operativos - Saldos de Conductores'}},
             {path: 'directorio-telefonico', component: AgendaTelefonicaComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Directorio Telefónico'}},
             {path: 'ayuda-contacto', component: AyudaContactoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Ayuda/Contacto BRIANE Smart'}},
             {path: 'noticias', component: NoticiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Noticias y Comunicaciones BRIANE'}},
             {path: 'control-viajes', component: PanelcontrolViajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Panel de Control de Viajes'}},
-            {path: 'descuento-peaje', component: DescuentoPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Descuento de Peajes / Gastos Operativos'}},
+            {path: 'descuento-peaje', component: DescuentoPeajesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Descuento de Gastos Operativos'}},
             {path: 'repositorio-docs', component: RepositorioDocsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Documentos BRIANE'}},
             {path: 'integracion-qwantec', component: IntegracionQwantecComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Integraciones con Sistema Qwantec'}},
             {path: 'rutas', component: RutasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Rutas'}},
@@ -137,6 +140,9 @@ const pagesRoutes: Routes = [
             {path: 'productividad-conductor', component: ProductividadConductorComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad de Conductores'}},
             {path: 'productividad-tracto', component: ProductividadTractoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Productividad de Tracto'}},
             {path: 'diferencia-peso', component: DiferenciaPesoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Guías con Diferencia de Peso'}},
+            {path: 'tareo-operaciones/:id', component: TareoOperacionesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Registrar Tareo Operaciones'}},
+            {path: 'tareos-operaciones', component: TareosOperacionesComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Tareos Operaciones'}},
+            
             // Dashboard
             {path: 'dashboardop', component: DashboardOpComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Ordenes Servicios'}},
             {path: 'dashboardkpiop', component: DashboardGuiasComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard KPI Operaciones'}},
@@ -150,6 +156,7 @@ const pagesRoutes: Routes = [
             {path: 'dashboardindexper', component: DashboardIndexpersonalComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Index de Personal'}}, 
             {path: 'dashboardprodcondtracto', component: DashboardProductividadComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Productividad'}},     
             {path: 'dashboard-diferenciapeso', component: DashboardDifpesoComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Diferencia de Pesos'}},     
+            {path: 'dashboard-mantics', component: DashboardManticsComponent, canActivate: [RenewTokenGuard], data: {titulo: 'Dashboard Mantenimientos TI'}},     
 
             // Modulos Matenimientos sistema
             {path: 'modules', component: ModulesComponent, canActivate: [AdminGuard, RenewTokenGuard, UserGuard], data: {titulo: 'Administración de Modulos'}},

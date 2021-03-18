@@ -43,8 +43,6 @@ export class HomologacionConductorComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getClientes();
-    // this.getDocumentos();
   }
 
   getClientes() {
@@ -97,11 +95,6 @@ export class HomologacionConductorComponent implements OnInit {
       return;
     }
 
-    if (this.idCliente == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un cliente.', 'warning');
-      return;
-    }
-
     this.busqueda = true;
     this._registerService.getConductor(id).subscribe(
       (response: any) => {
@@ -125,7 +118,7 @@ export class HomologacionConductorComponent implements OnInit {
     if (!token) {
       return;
     }
-    this._registerService.getDocConductorTotal(this.idCliente, this.idConductor).subscribe(
+    this._registerService.getDocConductorTotal(0, this.idConductor).subscribe(
       (response: any) => {
         this.documentosConductor = response.documentosConductor;
         this.totalRegistros = this.documentosConductor.length;
@@ -147,7 +140,8 @@ export class HomologacionConductorComponent implements OnInit {
         fhEmision: this.documentosConductor[i].FH_EMISION,
         fhVencimiento: this.documentosConductor[i].FH_VENCIMIENTO,
         idTipo: this.documentosConductor[i].ID_TIPO_DOCUMENTO,
-        idUsuario: this._userService.user.ID_USER
+        idUsuario: this._userService.user.ID_USER,
+        observacion: this.documentosConductor[i].OBSERVACION
       }
       this.resgistrado = true;
       this._registerService.registerDocConductorRelacion(data).subscribe(
@@ -161,7 +155,6 @@ export class HomologacionConductorComponent implements OnInit {
         }
       );
     }
-
     if ( this.documentosConductor[i].ID_RELACION_DOC_COND > 0) {
       var fgActivo;
       if (this.documentosConductor[i].FG_ACTIVO || this.documentosConductor[i].FG_ACTIVO === 1) {
@@ -180,7 +173,8 @@ export class HomologacionConductorComponent implements OnInit {
         fhVencimiento: this.documentosConductor[i].FH_VENCIMIENTO,
         idTipo: this.documentosConductor[i].ID_TIPO_DOCUMENTO,
         idUsuario: this._userService.user.ID_USER,
-        fgActivo
+        fgActivo,
+        observacion: this.documentosConductor[i].OBSERVACION
       }
       this.resgistrado = true;
       this._registerService.updateDocCondcutor(data).subscribe(
@@ -201,7 +195,6 @@ export class HomologacionConductorComponent implements OnInit {
     if (!token) {
       return;
     }
-
     var fgActivo;
     if (this.documentosConductor[i].FG_ACTIVO || this.documentosConductor[i].FG_ACTIVO === 1) {
       fgActivo = 1;
@@ -219,7 +212,8 @@ export class HomologacionConductorComponent implements OnInit {
       fhVencimiento: this.documentosConductor[i].FH_VENCIMIENTO,
       idTipo: this.documentosConductor[i].ID_TIPO_DOCUMENTO,
       idUsuario: this._userService.user.ID_USER,
-      fgActivo
+      fgActivo,
+      observacion: this.documentosConductor[i].OBSERVACION
     }
     this.resgistrado = true;
     this._registerService.updateDocCondcutor(data).subscribe(
@@ -245,22 +239,18 @@ export class HomologacionConductorComponent implements OnInit {
       this.imageUpload = null;
       return;
     } else {
-
       var fileName = file.name.split('.');
-      var extFile = fileName[fileName.length - 1];      
-           
+      var extFile = fileName[fileName.length - 1];                
       if (this.extesion.indexOf(extFile) < 0) {
         this.imageUpload = null;
         Swal.fire('Mensaje', 'Disculpe, tipo de archvio no valido', 'warning');
         return;
       }
-
       if (file.size > 10000000) {
         this.imageUpload = null;
         Swal.fire('Mensaje', 'Disculpe, tamaño del archivo no debe superar los 10 MB', 'warning');
         return;
       }
-
       this.imageUpload = file;
       let reader = new FileReader();
       let urlImageTemp = reader.readAsDataURL(file);
@@ -311,7 +301,4 @@ export class HomologacionConductorComponent implements OnInit {
     }
     window.open(this.URL +'/image/documentos-conductor/' + archivo);
   }
-
-
-
 }

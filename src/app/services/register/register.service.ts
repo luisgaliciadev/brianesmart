@@ -2801,6 +2801,165 @@ getExcelRutas(search) {
 }
 // End Get excel guias diferencia peso
 
+// Register tareo operaciones
+registerTareoOp(tareo) { 
+  let json = JSON.stringify(tareo);  
+  let dataTereo = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/tareoOperaciones', dataTereo, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register tareo operaciones
+
+// Get tareo operaciones
+getTareoOp(id) {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/tareoOperaciones/' + id, {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    // this._router.navigate(['/planificacion-operaciones', 0]);
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// Fin Get tareo operaciones
+
+// Get motivos tareo operaciones
+getMotivosTareoOp() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/motivosTareoOperaciones', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {    
+    Swal.fire('Mensaje', 'No se pudo consultar la información.', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get motivos tareo operaciones
+
+// Register deta tareo operaciones
+registerDetaTareoOp(detatareo) { 
+  let json = JSON.stringify(detatareo);  
+  let dataTereo = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/detaTareoOperaciones', dataTereo, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register tareo operaciones
+
+// Update tareo operaciones
+updateDetaTareoOp(detaTareo) { 
+  let json = JSON.stringify(detaTareo);  
+  let dataTereo = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.put(this.URL + '/operaciones/detaTareoOperaciones', dataTereo, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update tareo operaciones
+
+// Delete tareo operaciones
+deleteDetaTareoOp(idTareo, idConductor) { 
+  let params = idTareo + '/' + idConductor + '/' + this._userService.user.ID_USER;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.delete(this.URL + '/operaciones/detaTareoOperaciones/' + params, {headers})
+  .pipe(map((res: any) => {
+    // Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Update tareo operaciones
+
+
+// Get tareos operaciones
+getTareosOp(search, desde, hasta,) {
+  let params = search + '/' + desde + '/' + hasta ;
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/operaciones/tareosOperaciones/' + params,{headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    Swal.fire('Mensaje', 'No se pudo consultar el listado de guías.', 'error');
+    return throwError(err);
+  }));
+}
+// End Get tareos operaciones
+
+// Register deta tareo operaciones multiple
+registerDetaTareosOp(detaTareos) { 
+  let json = JSON.stringify(detaTareos);  
+  let dataTereos = json;  
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.post(this.URL + '/operaciones/detaTareosOperaciones', dataTereos, {headers})
+  .pipe(map((res: any) => {
+    Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {   
+    if (err.status === 400) {
+      Swal.fire('Mensaje', err.error.message, 'error');
+      return throwError(err);
+    } else {
+      Swal.fire('Mensaje', 'No se pudo realizar el registro.', 'error');
+      return throwError(err);
+    }
+  }));
+}
+// End Register deta tareo operaciones
+
 // OPERACIONES
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -3286,6 +3445,20 @@ getConceptosGatosOp() {
   }));
 }
 // Fin Get cantidad dias tramite documentos unidad-conductor
+
+// Get relacion documentos conductor total
+getMeses() {
+  let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': this._userService.token});
+  return this._http.get(this.URL + '/register/meses', {headers})
+  .pipe(map((res: any) => {
+    return res;
+  }))
+  .pipe(catchError( (err: any) => {
+    Swal.fire('Mensaje', 'No se pudo consultar la información', 'error');
+    return throwError(err);
+  }));
+}
+// Fin Get relacion documentos conductor total
 
 
 // Subir documento de conductor

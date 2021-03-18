@@ -5,14 +5,14 @@ import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-peajes',
-  templateUrl: './peajes.component.html',
+  selector: 'app-tareos-operaciones',
+  templateUrl: './tareos-operaciones.component.html',
   styles: [
   ]
 })
-export class PeajesComponent implements OnInit {
+export class TareosOperacionesComponent implements OnInit {
 
-  peajes = [];
+  tareosOp = [];
   desde = 0;
   hasta = 5;
   loading = false;
@@ -26,14 +26,13 @@ export class PeajesComponent implements OnInit {
   dia;
   paginas = 0;
   pagina = 1;
-  peajesTotal = [];
+  tareosOpTotal = [];
 
   constructor(
     public _router: Router,
     private _userService: UserService,
     public _registerService: RegisterService
   ) { 
-    // this.loading = false;
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
 
@@ -51,26 +50,26 @@ export class PeajesComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    // this.getPeajes(this.search);
   }
 
-  async getPeajes(search) {
+  async getTareosOp(search) {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
     }
-    this.loading = true;
     if (search === '') {
       search = '0';
     }
-    this._registerService.getPeajes(search, this.fhDesde, this.fhHasta).subscribe(
+    this.loading = true;
+    this._registerService.getTareosOp(search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
+        console.log(response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
-        this.totalRegistros = response.peajes.length;
-        this.peajesTotal = response.peajes;
-        this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
+        this.totalRegistros = response.tareosOperaciones.length;
+        this.tareosOpTotal = response.tareosOperaciones;
+        this.tareosOp = this.tareosOpTotal.slice(this.desde, this.hasta);
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
@@ -85,70 +84,8 @@ export class PeajesComponent implements OnInit {
     );
   }
 
-  // Exportar a excel listado de usuarios
-  async getExcelDetaPeajes() {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-    if(this.totalRegistros === 0) {
-      return;
-    }
-    this.loading = true;
-    this._registerService.getExcelDetaPeajes(this.search, this.fhDesde, this.fhHasta).subscribe(
-      (response: any) => {        
-        let fileBlob = response;
-        let blob = new Blob([fileBlob], {
-          type: "application/vnd.ms-excel"
-        });
-        // use file saver npm package for saving blob to file
-        saveAs(blob, `detalleSolicitudGatosOperativos.xlsx`);
-        this.loading = false;
-      },
-      error => {
-        this.loading = false;
-      }
-    );
-  }
-
-  async deletePeaje(id) {
-    let token = await this._userService.validarToken();
-    if (!token) {
-      return;
-    }
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    })    
-    swalWithBootstrapButtons.fire({
-      title: 'Anular Registro',
-      text: "¿Desea anular este registro? No podrás revertir esto!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        this.loading = true;
-        this._registerService.deletePeaje(id).subscribe(
-          (response: any) => {
-            this.getPeajes(this.search);
-            this.loading = false;
-          },
-          error => {
-            this.loading = false;
-          }
-        );
-      } 
-    });
-  }
-
   filtroPagina () {
-    this.peajes = this.peajesTotal.slice(this.desde, this.hasta);
+    this.tareosOp = this.tareosOpTotal.slice(this.desde, this.hasta);
     document.getElementById('Anterior').blur();
     document.getElementById('Siguiente').blur();
   }
@@ -204,7 +141,7 @@ export class PeajesComponent implements OnInit {
   // Limpiar busqueda
   clear() {
     this.search = '';
-     this.getPeajes(this.search);
+     this.getTareosOp(this.search);
   }
 
   // Activar o desactivar botones de reportes
@@ -213,7 +150,7 @@ export class PeajesComponent implements OnInit {
       this.activeButton = true;
     } else {
       this.activeButton = false;
-      this.getPeajes(this.search);
+      this.getTareosOp(this.search);
     }
   }
 

@@ -43,7 +43,6 @@ export class HomologacionUnidadComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
-    this.getClientes();
   }
 
   getClientes() {
@@ -87,17 +86,11 @@ export class HomologacionUnidadComponent implements OnInit {
     if (!token) {
       return;
     }
-
     if (this.placa === '') {
       Swal.fire('Mensaje', 'Debe ingresar una placa.', 'warning');
       this.idUnidad = 0;
       this.tipoVehiculo = '';
       this.documentosUnidad = [];
-      return;
-    }
-
-    if (this.idCliente == 0) {
-      Swal.fire('Mensaje', 'Debe seleccionar un cliente.', 'warning');
       return;
     }
     this.busqueda = true;
@@ -122,7 +115,7 @@ export class HomologacionUnidadComponent implements OnInit {
     if (!token) {
       return;
     }
-    this._registerService.getDocUnidadTotal(this.idCliente, this.idUnidad).subscribe(
+    this._registerService.getDocUnidadTotal(0, this.idUnidad).subscribe(
       (response: any) => {
         this.documentosUnidad = response.documentosUnidad;
         this.totalRegistros = this.documentosUnidad.length;
@@ -144,7 +137,8 @@ export class HomologacionUnidadComponent implements OnInit {
         fhEmision: this.documentosUnidad[i].FH_EMISION,
         fhVencimiento: this.documentosUnidad[i].FH_VENCIMIENTO,
         idTipo: this.documentosUnidad[i].ID_TIPO_DOCUMENTO,
-        idUsuario: this._userService.user.ID_USER
+        idUsuario: this._userService.user.ID_USER,
+        observacion: this.documentosUnidad[i].OBSERVACION
       }
       this.resgistrado = true;
       this._registerService.registerDocUnidadRelacion(data).subscribe(
@@ -158,7 +152,6 @@ export class HomologacionUnidadComponent implements OnInit {
         }
       );
     }
-
     if ( this.documentosUnidad[i].ID_RELACION_DOC_UNIDAD > 0) {
       var fgActivo;
       if (this.documentosUnidad[i].FG_ACTIVO || this.documentosUnidad[i].FG_ACTIVO === 1) {
@@ -177,7 +170,8 @@ export class HomologacionUnidadComponent implements OnInit {
         fhVencimiento: this.documentosUnidad[i].FH_VENCIMIENTO,
         idTipo: this.documentosUnidad[i].ID_TIPO_DOCUMENTO,
         idUsuario: this._userService.user.ID_USER,
-        fgActivo
+        fgActivo,
+        observacion: this.documentosUnidad[i].OBSERVACION
       }
       this.resgistrado = true;
       this._registerService.updateRelacionDocUnidad(data).subscribe(
@@ -198,7 +192,6 @@ export class HomologacionUnidadComponent implements OnInit {
     if (!token) {
       return;
     }
-
     var fgActivo;
     if (this.documentosUnidad[i].FG_ACTIVO || this.documentosUnidad[i].FG_ACTIVO === 1) {
       fgActivo = 1;
@@ -216,7 +209,8 @@ export class HomologacionUnidadComponent implements OnInit {
       fhVencimiento: this.documentosUnidad[i].FH_VENCIMIENTO,
       idTipo: this.documentosUnidad[i].ID_TIPO_DOCUMENTO,
       idUsuario: this._userService.user.ID_USER,
-      fgActivo
+      fgActivo,
+      observacion: this.documentosUnidad[i].OBSERVACION
     }
     this.resgistrado = true;
     this._registerService.updateRelacionDocUnidad(data).subscribe(
@@ -242,22 +236,18 @@ export class HomologacionUnidadComponent implements OnInit {
       this.imageUpload = null;
       return;
     } else {
-
       var fileName = file.name.split('.');
-      var extFile = fileName[fileName.length - 1];      
-           
+      var extFile = fileName[fileName.length - 1];  
       if (this.extesion.indexOf(extFile) < 0) {
         this.imageUpload = null;
         Swal.fire('Mensaje', 'Disculpe, tipo de archvio no valido', 'warning');
         return;
       }
-
       if (file.size > 10000000) {
         this.imageUpload = null;
         Swal.fire('Mensaje', 'Disculpe, tamaño del archivo no debe superar los 10 MB', 'warning');
         return;
       }
-
       this.imageUpload = file;
       let reader = new FileReader();
       let urlImageTemp = reader.readAsDataURL(file);
@@ -307,5 +297,4 @@ export class HomologacionUnidadComponent implements OnInit {
     }
     window.open(this.URL +'/image/documentos-unidad/' + archivo);
   }
-
 }

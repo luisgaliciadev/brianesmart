@@ -1,0 +1,126 @@
+<div class="col-12 animated fadeInRight">
+
+    <div class="row" *ngIf="loading">
+        <div class="col-sm-12">
+            <div class="alert alert-warning text-center">
+                <strong>Cargando...</strong>
+                <br>
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                <br>
+                <span>Por Favor Espere...</span>
+            </div>
+        </div>    
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <div class="text-left" style="float: left;">
+                            <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default">
+                                <i class="mdi mdi-printer"></i>
+                                Imprimir
+                            </button>
+    
+                            <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success">
+                                <i class="mdi mdi-file-excel"></i>
+                                Exportar
+                            </button>
+                        </div>  
+                        
+                        <div class="text-right">
+                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/tareo-operaciones/0">
+                                <i class="fa fa-plus"></i>
+                                Registrar
+                            </button>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getTareosOp(search)">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div> 
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getTareosOp(search)" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+                   
+                    <h3>Listado de Tareos de Operaciones (<small>{{totalRegistros}}</small>)</h3>
+                    <div style="overflow: auto;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ITEMS</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Año</th>
+                                    <th class="text-center">Mes</th>
+                                    <th class="text-center">Linea Negocio</th>
+                                    <th class="text-center">Fecha Registro</th>
+                                    <th class="text-center">Usuario</th>                                   
+                                    <th class="text-center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let tareo of tareosOp; index as i">
+                                    <td class="text-center">{{i+1}}</td>
+                                    <td class="text-center">{{tareo.ID_TAREO_OP}}</td>
+                                    <td class="text-center">{{tareo.ANIO}}</td>
+                                    <td class="text-center">{{tareo.MES}}</td>
+                                    <td>{{tareo.NB_ZONA_COND}}</td>                                   
+                                    <td class="text-center">{{tareo.FECHA}}</td>      
+                                    <td>{{tareo.NAME}}</td>                            
+                                    <td class="text-center" style="white-space: nowrap;">
+                                        <button [routerLink]="(['/tareo-operaciones',tareo.ID_TAREO_OP])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ver / Modificar">
+                                            <i class="fa fa-pencil"></i>  
+                                        </button>                               
+
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Anular">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            
+                    <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                        Anterior
+                    </button>
+            
+                    <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+
+                    <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                        Siguiente
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

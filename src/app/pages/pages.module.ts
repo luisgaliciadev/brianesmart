@@ -94,6 +94,9 @@ import { ProductividadTractoComponent } from './productividad-tracto/productivid
 import { DiferenciaPesoComponent } from './diferencia-peso/diferencia-peso.component';
 import { DashboardProductividadComponent } from './dashboard-productividad/dashboard-productividad.component';
 import { DashboardDifpesoComponent } from './dashboard-difpeso/dashboard-difpeso.component';
+import { TareoOperacionesComponent } from './tareo-operaciones/tareo-operaciones.component';
+import { TareosOperacionesComponent } from './tareos-operaciones/tareos-operaciones.component';
+import { DashboardManticsComponent } from './dashboard-mantics/dashboard-mantics.component';
 
 @NgModule({
     declarations: [
@@ -168,7 +171,10 @@ import { DashboardDifpesoComponent } from './dashboard-difpeso/dashboard-difpeso
         ProductividadTractoComponent,
         DiferenciaPesoComponent,
         DashboardProductividadComponent,
-        DashboardDifpesoComponent
+        DashboardDifpesoComponent,
+        TareoOperacionesComponent,
+        TareosOperacionesComponent,
+        DashboardManticsComponent
     ],
     exports: [
         // PagesComponent,

@@ -78,6 +78,9 @@ export class DocumentosClienteComponent implements OnInit {
       (response: any) => {
         this.documentos = response.documentos;
         this.loading = false;
+      },
+      (error:any) => {
+        this.loading = false;
       }
     );
   }

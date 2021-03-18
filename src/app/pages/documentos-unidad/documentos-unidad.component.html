@@ -64,7 +64,7 @@
                                             <option value = "0">NO</option>    
                                         </select>       
                                     </td>
-                                    <td style="width: 100px;">
+                                    <td style="white-space: nowrap;">
                                          <button type="button" class="btn btn-primary" data-toggle="modal" data-placement="top" title="Modificar" (click)="modificarDoc(i)">
                                             <i class="fa fa-pencil"></i>
                                         </button>
@@ -88,8 +88,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Registrar Documento de Conductor</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title" id="exampleModalLabel">Registrar Documento de Unidad</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cancel()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>    
@@ -105,8 +105,8 @@
                     <div class="form-group">
                         <label>Tipo de Documento:</label>
                         <div class="input-group">
-                            <select [(ngModel)]="idTipoDocumento" name="idTipoDocumento" class="form-control">
-                                <option value = "0">Seleccione</option>
+                            <select  [(ngModel)]="idTipoDocumento" name="idTipoDocumento" class="form-control" required>
+                                <option value = "0" >Seleccione</option>
                                 <option *ngFor="let tipoDocumento of tipoDocumentos" value = "{{tipoDocumento.ID_TIPO_DOC_UNIDAD}}">{{tipoDocumento.DS_TIPO_DOC}}</option>
                             </select>                                            
                         </div>
@@ -115,8 +115,8 @@
                     <div class="form-group">
                         <label>Días de Tramite:</label>
                         <div class="input-group">
-                            <select [(ngModel)]="cantDias" name="cantDias" class="form-control">
-                                <option value = "0">Seleccione</option>
+                            <select [(ngModel)]="cantDias" name="cantDias" class="form-control" required>
+                                <option value = "0" >Seleccione</option>
                                 <option *ngFor="let diaTramite of diasTramite" value = "{{diaTramite.ID_OP_DIAS_TRAMITE_DOC}}">{{diaTramite.CANT_DIAS}}</option>
                             </select>                                            
                         </div>

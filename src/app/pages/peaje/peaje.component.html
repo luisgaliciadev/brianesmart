@@ -151,34 +151,34 @@
                         <table *ngIf = "idAccion == 0 || idAccion == 2" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center;">ITEM</th>
-                                    <th style="text-align: center;">Nombre</th>
-                                    <th style="text-align: center;">DNI</th>
-                                    <th style="text-align: center;">Monto S/</th>
-                                    <th style="text-align: center;">Fecha</th>
-                                    <th *ngIf="idAccion == 2" style="text-align: center;">
+                                    <th class="text-center">ITEM</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">DNI</th>
+                                    <th class="text-center">Monto S/</th>
+                                    <th class="text-center">Fecha</th>
+                                    <th *ngIf="idAccion == 2" class="text-center">
                                         Depositado
                                         <button class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Marcar Todo" (click)="updateAllDetaPeaje(1)">
                                             <i class="fa fa-check-square"></i>  
                                         </button>
                                     </th>
-                                    <th style="text-align: center;"></th>
+                                    <th class="text-center"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let conductor of conductores; index as i ">
-                                    <td align="center">{{i+1}}</td>
-                                    <td align="center">{{conductor.nombre}}</td>
-                                    <td align="center">{{conductor.dni}}</td>
-                                    <td align="center">{{conductor.monto}}</td>
-                                    <td align="center">{{conductor.fecha}}</td> 
-                                    <td *ngIf="idAccion == 2" align="center">
+                                    <td class="text-center">{{i+1}}</td>
+                                    <td class="text-center">{{conductor.nombre}}</td>
+                                    <td class="text-center">{{conductor.dni}}</td>
+                                    <td class="text-center">{{conductor.monto}}</td>
+                                    <td class="text-center">{{conductor.fecha}}</td> 
+                                    <td *ngIf="idAccion == 2" class="text-center">
                                         <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
                                             <input class="chk-col-blue" (change)="updateDetaPeaje(conductor.ID_DETA,i)" [value]="conductor.depositado" [(ngModel)]="conductor.depositado" name="check-{{i}}" id="check-{{i}}" type="checkbox">
                                             <label for="check-{{i}}"></label>
                                         </div>
                                     </td>                             
-                                    <td align="center">                                      
+                                    <td class="text-center">                                      
                                         <a *ngIf="idAccion == 0" data-toggle="tooltip" data-placement="top" title="Eliminar"> <i class="fa fa-close text-danger pointer" (click)="eliminarConductor(i,conductor.ID_DETA)"></i> </a>
                                     </td>                                    
                                 </tr>
@@ -188,33 +188,33 @@
                         <table *ngIf = "idAccion == 1" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="text-align: center;">ITEM</th>
-                                    <th style="text-align: center;">Nombre</th>
-                                    <th style="text-align: center;">DNI</th>
-                                    <th style="text-align: center;">Monto S/</th>                                   
-                                    <th style="text-align: center;">Fecha</th>
-                                    <th style="text-align: center;">Depositado</th>
-                                    <th style="text-align: center;">Abono S/</th>
-                                    <th style="text-align: center;">Saldo S/</th>
-                                    <th style="text-align: center;"></th>
+                                    <th class="text-center">ITEM</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">DNI</th>
+                                    <th class="text-center">Monto S/</th>                                   
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Depositado</th>
+                                    <th class="text-center">Abono S/</th>
+                                    <th class="text-center">Saldo S/</th>
+                                    <th class="text-center"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let conductor of conductores; index as i">
-                                    <td align="center">{{i+1}}</td>
-                                    <td align="center">{{conductor.nombre}}</td>
-                                    <td align="center">{{conductor.dni}}</td>
-                                    <td align="center">{{conductor.monto}}</td>
-                                    <td align="center">{{conductor.fecha}}</td> 
-                                    <td align="center">
+                                    <td class="text-center">{{i+1}}</td>
+                                    <td class="text-center">{{conductor.nombre}}</td>
+                                    <td class="text-center">{{conductor.dni}}</td>
+                                    <td class="text-center">{{conductor.monto}}</td>
+                                    <td class="text-center">{{conductor.fecha}}</td> 
+                                    <td class="text-center">
                                         <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
                                             <input class="chk-col-blue" [value]="conductor.depositado" [(ngModel)]="conductor.depositado" name="check-{{i}}" id="check-{{i}}" type="checkbox" disabled>
                                             <label for="check-{{i}}"></label>
                                         </div>
                                     </td>        
-                                    <td align="center">{{conductor.montoAbono}}</td> 
-                                    <td align="center">{{conductor.montoSustentar}}</td>                        
-                                    <td align="center">                               
+                                    <td class="text-center">{{conductor.montoAbono}}</td> 
+                                    <td class="text-center">{{conductor.montoSustentar}}</td>                        
+                                    <td class="text-center">                               
                                         <a *ngIf="conductor.montoSustentar > 0 && conductor.depositado" data-toggle="tooltip" data-placement="top" title="Registrar Factura" data-toggle="modal" data-target="#facturas" (click)="limpiarModal()" (click)="valorIdDeta(conductor.ID_DETA, i)" disabled><i class="mdi mdi-beaker text-success pointer m-r-10"></i></a>
                                         <a *ngIf="conductor.depositado" data-toggle="tooltip" data-placement="top" title="Ver Facturas" data-toggle="modal" data-target="#peajeFacturas" (click)="limpiarModal()" (click)="getPeajesFacturas(conductor.ID_DETA,conductor.dni,conductor.nombre)" (click)="valorIdDeta(conductor.ID_DETA, i)"> <i class="fa fa-search text-info pointer"></i></a>
                                     </td>
@@ -373,26 +373,26 @@
             <table *ngIf = "facturas" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th style="text-align: center;">ITEM</th>
-                        <th style="text-align: center;">Concepto</th>
-                        <th style="text-align: center;">Tipo</th>
-                        <th style="text-align: center;">Nro. Doc./Ref.</th>
-                        <th style="text-align: center;">Fecha</th>
-                        <th style="text-align: center;">Monto S/</th> 
-                        <th style="text-align: center;">Nro. Guia</th>
-                        <th style="text-align: center;">Acción</th>
+                        <th class="text-center">ITEM</th>
+                        <th class="text-center">Concepto</th>
+                        <th class="text-center">Tipo</th>
+                        <th class="text-center">Nro. Doc./Ref.</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Monto S/</th> 
+                        <th class="text-center">Nro. Guia</th>
+                        <th class="text-center">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let peajeFactura of peajeFacturas; index as i ">
-                        <td align="center">{{peajeFactura.ITEMS}}</td>
-                        <td align="center">{{peajeFactura.DS_TIPO_CONCEPTO_OP}}</td>
-                        <td align="center">{{peajeFactura.DS_TIPO_DOC_PEAJE}}</td>
-                        <td align="center">{{peajeFactura.NRO_COMPROBANTE}}</td>
-                        <td align="center">{{peajeFactura.FECHA_COMPROBANTE}}</td>
-                        <td align="center">{{peajeFactura.MONTO_COMPROBANTE}}</td>
-                        <td align="center">{{peajeFactura.CORRELATIVO}}</td>                     
-                        <td align="center">   
+                        <td class="text-center">{{peajeFactura.ITEMS}}</td>
+                        <td class="text-center">{{peajeFactura.DS_TIPO_CONCEPTO_OP}}</td>
+                        <td class="text-center">{{peajeFactura.DS_TIPO_DOC_PEAJE}}</td>
+                        <td class="text-center">{{peajeFactura.NRO_COMPROBANTE}}</td>
+                        <td class="text-center">{{peajeFactura.FECHA_COMPROBANTE}}</td>
+                        <td class="text-center">{{peajeFactura.MONTO_COMPROBANTE}}</td>
+                        <td class="text-center">{{peajeFactura.CORRELATIVO}}</td>                     
+                        <td class="text-center">   
                             <a data-toggle="tooltip" data-placement="top" title="Ver Documento" (click)="verDocumento(peajeFactura.NB_ARCHIVO)"> <i class="fa fa-search text-info pointer m-r-10"></i></a>                            
                             <a data-toggle="tooltip" data-placement="top" title="Eliminar Factura" (click)="deletePeajeFact(peajeFactura.ID_RELACION_PEAJES,peajeFactura.ID_DETA_PEAJE,peajeFactura.IDENTIFICACION,peajeFactura.NOMBRE_APELLIDO)"> <i class="fa fa-close text-danger pointer"></i></a>
                         </td>
