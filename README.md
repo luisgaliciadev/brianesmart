@@ -1,6 +1,6 @@
 Briane Smart
 
-Sitio web para BRIANE
+Sistema web para la gestión de empresa de transporte
 
 Desarrollado en angular 10+, node.js y sql server 2012
 
