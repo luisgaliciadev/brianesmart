@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-documentos-conductor',
@@ -26,7 +27,8 @@ export class DocumentosConductorComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -41,7 +43,7 @@ export class DocumentosConductorComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     if (this.search === '') {
       this.search = '0';
     }
@@ -49,10 +51,10 @@ export class DocumentosConductorComponent implements OnInit {
       (response: any) => {
         this.documentos = response.documentos;
         this.totalRegistros = this.documentos.length;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -80,38 +82,38 @@ export class DocumentosConductorComponent implements OnInit {
       fgFhVencimiento: data.fgFhVencimiento,
       idUsuario: this._userService.user.ID_USER
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.registerDocConductor(documento).subscribe(
       (response: any) => {
         this.getDocumentos();
         this.cancel();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getTipoDocumentosConductor() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getTipoDocumentosConductor().subscribe(
       (response: any) => {
         this.tipoDocumentos = response.tipoDocumentosConductor;
-        this.loading = false;
+        this.spinner.hide();
       }, error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getDiasTramiteUnidadCond() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getDiasTramiteUnidadCond().subscribe(
       (response: any) => {
         this.diasTramite = response.cantidadDiasTramite;
-        this.loading = false;
+        this.spinner.hide();
       }, error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -136,14 +138,14 @@ export class DocumentosConductorComponent implements OnInit {
       fgFhVencimiento: this.documentos[i].FG_FH_VENCIMIENTO,
       idUsuario: this._userService.user.ID_USER
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.updateDocConductor(documento).subscribe(
       (response: any) => {
         this.getDocumentos();
         this.cancel();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -153,14 +155,14 @@ export class DocumentosConductorComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.deleteDocConductor(id).subscribe(
       (response: any) => {
         this.getDocumentos();
         this.cancel();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -173,7 +175,7 @@ export class DocumentosConductorComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getExelDocumentosConductor().subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -182,10 +184,10 @@ export class DocumentosConductorComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `documentosConductor.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }

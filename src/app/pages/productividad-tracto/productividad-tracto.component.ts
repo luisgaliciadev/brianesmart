@@ -3,6 +3,7 @@ import { UserService, RegisterService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -19,7 +20,6 @@ export class ProductividadTractoComponent implements OnInit {
   productividadTractos = [];
   desde = 0;
   hasta = 5;
-  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -39,7 +39,8 @@ export class ProductividadTractoComponent implements OnInit {
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) { 
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -67,7 +68,7 @@ export class ProductividadTractoComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getProductividadTracto(this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         this.desde = 0;
@@ -83,7 +84,10 @@ export class ProductividadTractoComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
       }
     );
   }

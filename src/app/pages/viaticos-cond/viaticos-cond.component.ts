@@ -42,7 +42,7 @@ export class ViaticosCondComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this._userService.permisoModule(this._router.url);
+    this._userService.permisoModule(this._router.url);
     this.getZonasConcutor();
 
     this._route.params.forEach((params: Params) => {
@@ -304,7 +304,7 @@ export class ViaticosCondComponent implements OnInit {
   printer() {
     this._userService.loadReport();
     if (this.modificar) {
-      window.open('#/listdetaviaticos/' + this.nroSemana + '/' + this.idZona, '0' , '_blank');
+      window.open('#/reports/listdetaviaticos/' + this.nroSemana + '/' + this.idZona, '0' , '_blank');
     }
   }
 

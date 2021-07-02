@@ -1,34 +1,21 @@
 <div class="col-12 animated fadeInRight">     
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card" style="overflow: auto">
                 <div class="card-body"> 
-                    <div class="text-left" style="float: left;">
+                    <div class="form-group text-left" style="float: left;">
                         <button (click)="getExelDocumentosUnidad()" type="button" class="btn waves-effect waves-light btn-rounded btn-success">
                             <i class="mdi mdi-file-excel"></i>
                             Exportar
                         </button>
                     </div>  
 
-                    <div class="text-right">
+                    <div class="form-group text-right">
                         <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" data-toggle="modal" data-target="#documento" (click)="cancel()">
                             <i class="fa fa-plus"></i>
-                            Nuevo Documento
+                            Registrar
                         </button>                    
                     </div>      
-                    <br>
                     <h3>Listado de Documentos (<small>{{totalRegistros}}</small>)</h3>
                     <div style="overflow: auto">
                         <table class="table table-bordered tabla-documentos">

@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'recursosTracto'
 })
 export class RecursosTractoPipe implements PipeTransform {
-
   transform(value: any, arg: any): any {
     const result = [];
     for (const recursos of value) {

@@ -1,18 +1,5 @@
 <div class="col-12 animated fadeInRight">
-
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card" style="overflow: auto">
                 <div class="card-body">
@@ -33,7 +20,7 @@
                         <div class="input-group">
                             <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getDenuncias(search)" (keyup)="activeButtons()">                        
                             <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
-                            <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getDenuncias(search)">
+                            <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getDenuncias(search)">
                                 <i class="fa fa-search"></i>
                                 Consultar
                             </button>

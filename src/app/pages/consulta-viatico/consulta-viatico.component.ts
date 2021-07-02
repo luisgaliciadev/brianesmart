@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
-import { URL_SERVICES } from 'src/app/config/config';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-consulta-viatico',
@@ -20,7 +20,7 @@ export class ConsultaViaticoComponent implements OnInit {
   mes;
   dia;
   loading = false;
-  URL = URL_SERVICES;
+  URL = environment.URL_SERVICES;
 
   constructor(
     public _router: Router,
@@ -45,8 +45,6 @@ export class ConsultaViaticoComponent implements OnInit {
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url); 
     this.idConductor = this._userService.user.IDEN;
-    // this.idConductor = '41228287';
-    // this.getViaticos();
   }
 
   async getViaticos() {
@@ -57,9 +55,7 @@ export class ConsultaViaticoComponent implements OnInit {
     this.loading = true;
     this._registerService.getResumenViaticosPorConductor(this.idConductor, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
-        
         this.resumenViaticos = response.viaticosResumen;
-        // console.log(this.resumenViaticos);
         this.totalRegistros = this.resumenViaticos.length;
         this.loading = false;
       },
@@ -92,8 +88,4 @@ export class ConsultaViaticoComponent implements OnInit {
     window.open(this.URL +'/image/viaticos-conductor/' + archivo);   
   }
 
-  // verDetalle(idViatico) {
-  //   this._userService.loadReport();    
-  //   window.open('#/detaviatico/' +  idViatico + '/' + this.idConductor, '0', '_blank');
-  // }
 }

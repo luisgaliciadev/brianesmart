@@ -1,8 +1,9 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Guia } from 'src/app/models/guia.model';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -23,7 +24,6 @@ export class ConsultaGuiaComponent implements OnInit {
   nombreConductor = '';
   tracto = '';
   remolque = '';
-  loading = true;
   ordenes = [];
   date = new Date();
   mes;
@@ -43,13 +43,12 @@ export class ConsultaGuiaComponent implements OnInit {
   ruc = ''
   nombreCliente = ''
 
-
-
   constructor(
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) 
   { 
     this.guia.ID_USUARIO_BS = this._userService.user.ID_USER;
@@ -64,7 +63,7 @@ export class ConsultaGuiaComponent implements OnInit {
         this.getGuia();
         this.getOrdenesServicioAll();
       } else {
-        // this.loading = false;
+        // this.spinner.hide();
         this.getOrdenesServicio();
       }
     });
@@ -105,13 +104,9 @@ export class ConsultaGuiaComponent implements OnInit {
         this.horaFin = arrayHoraFin[0];
         this.minFin = arrayHoraFin[1];
         }
-        console.log(this.guia.CORRELATIVO);
         var arrayCorrelativo = this.guia.CORRELATIVO.split('-');
         this.guia.CORRELATIVO = arrayCorrelativo[1];
-
-        // console.log(this.guia);
         if (this.guia.ID_EMPRESA > 0) {
-          // console.log('aqui');
           this.tipoEmpresa = true;
           this.getCliente(this.guia.ID_EMPRESA);
         }
@@ -120,8 +115,6 @@ export class ConsultaGuiaComponent implements OnInit {
   }
 
   registerGuia(data) {    
-    // console.log(data);
-    // return;
     this.registrando = true;
     this.guia.FECHA = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
     // this.guia.FH_TRASLADO = data.fhTraslado + ' ' + data.horaTraslado + ':' + data.minTraslado;
@@ -173,9 +166,6 @@ export class ConsultaGuiaComponent implements OnInit {
       this.registrando = false;
       return;
     } 
-
-    // console.log(this.guia);
-    // return;  
 
     this._registerService.registerGuia(this.guia).subscribe(
       (response: any) => {
@@ -304,9 +294,8 @@ export class ConsultaGuiaComponent implements OnInit {
       if (result.value) {
         this._registerService.deleteGuia(this.guia.ID_GUIA).subscribe(
           (response: any) => {
-            // console.log(response);
             if(response) {
-             this._router.navigate(['/guias']);
+              this._router.navigate(['/guias']);
             }
           }
         );
@@ -331,7 +320,7 @@ export class ConsultaGuiaComponent implements OnInit {
   }
 
   getOrdenesServicio() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrdenServicio(this._userService.user.ID_USER).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;      
@@ -341,7 +330,7 @@ export class ConsultaGuiaComponent implements OnInit {
           this.getVehiculo(this.guia.PLACA_TRACTO,1);
           this.getVehiculo(this.guia.PLACA_REMOLQUE,2);
         }
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
           this.ordenes = [];
@@ -350,8 +339,7 @@ export class ConsultaGuiaComponent implements OnInit {
   }
 
   getOrdenesServicioAll() {
-    // console.log('todas las os');
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrdenServicioAll(0).subscribe(
       (response: any) => {     
             
@@ -362,7 +350,7 @@ export class ConsultaGuiaComponent implements OnInit {
           this.getVehiculo(this.guia.PLACA_TRACTO,1);
           this.getVehiculo(this.guia.PLACA_REMOLQUE,2);
         }
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
           this.ordenes = [];

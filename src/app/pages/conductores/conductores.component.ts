@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Ruta } from 'src/app/models/ruta.model';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   ]
 })
 export class ConductoresComponent implements OnInit {
+
   conductores = [];
   desde = 0;
   hasta = 5;
@@ -26,7 +28,8 @@ export class ConductoresComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -38,10 +41,9 @@ export class ConductoresComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getConductores(this.search).subscribe(
       (response: any) => {
-        console.log('response', response);
         this.desde = 0;
         this.hasta = 5;
         this.pagina = 1;
@@ -52,11 +54,11 @@ export class ConductoresComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       }, 
       error => {
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       }
     );

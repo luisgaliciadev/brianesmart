@@ -30,7 +30,8 @@ export class Ruta {
         public REDIMIENTO_KM_GLNS?: number,
         public INGRESO_ORIGEN?: string,
         public INGRESO_DESTINO?: string,
-        public COMISION?: number
+        public COMISION?: number,
+        public FH_VIGENCIA?: string
     ) { }
 
 }

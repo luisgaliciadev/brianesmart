@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 
@@ -30,7 +31,8 @@ export class ViaticosComponent implements OnInit {
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) { 
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -57,7 +59,7 @@ export class ViaticosComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getViaticos(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
         this.desde = 0;
@@ -70,7 +72,7 @@ export class ViaticosComponent implements OnInit {
         }
         this.viaticosTotal = response.viaticos;
         this.viaticos = this.viaticosTotal.slice(this.desde, this.hasta);
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       }
     );
@@ -164,7 +166,7 @@ export class ViaticosComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.loading = true;
+        this.spinner.show();
         this._registerService.generarComprobantes(id).subscribe(
           (response: any) => {
             if(response) {
@@ -172,7 +174,7 @@ export class ViaticosComponent implements OnInit {
             }
           }, 
           error => {
-            this.loading = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -219,9 +221,9 @@ export class ViaticosComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listviaticos/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
+      window.open('#/reports/listviaticos/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
     } else {
-      window.open('#/listviaticos/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
+      window.open('#/reports/listviaticos/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
   }
 
@@ -231,7 +233,7 @@ export class ViaticosComponent implements OnInit {
       return;
     }
     this._userService.loadReport();    
-    window.open('#/listresumenviaticos/' + id, '0', '_blank');
+    window.open('#/reports/listresumenviaticos/' + id, '0', '_blank');
   }
 
   // Limpiar busqueda

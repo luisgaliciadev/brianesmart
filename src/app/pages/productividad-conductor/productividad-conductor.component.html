@@ -1,18 +1,5 @@
 <div class="col-12 animated fadeInRight">
-
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -31,15 +18,35 @@
                                 <label>Hasta:</label>
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
-                                    
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Línea Negocio:</label>
+                                <div class="input-group">                   
+                                    <select [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                        <option value = "0">Seleccione</option>
+                                        <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
+                                    </select>
                                     <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getProductividad()">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
                                 </div>
                             </div>
-                        </div>                       
+                        </div>
                     </div> 
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getProductividad()" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+
+                    
              
                     <div class="row">
                         <div class="col-sm">
@@ -54,10 +61,11 @@
                     </div>
                     
                     <div class="table-container">                    
-                        <table id = "conductorProductividad" class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px;">
+                        <table id = "conductorProductividad" class="tabla-productividad-conductor">
                             <thead>
                                 <tr>
                                     <th class="nombre">Conductor</th>
+                                    <th class="fechaIngreso">Fecha Ingreso</th>
                                     <th *ngFor = "let dia of dias">
                                         {{dia.NOMBRE_DIA}} {{dia.FECHA}}
                                     </th>
@@ -68,6 +76,7 @@
                             <tbody>
                                 <tr *ngFor="let productividadConductor of productividadConductores; index as i">                                   
                                     <td class="text-center nombre">{{productividadConductor.conductor}}</td>
+                                    <td class="text-center fechaIngreso">{{productividadConductor.fechaIngreso}}</td>
                                     <td class="text-center" *ngFor = "let dia of dias; index as j"> 
                                         <div data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}} | {{dia.FECHA}}">
                                             <table class="tabla-productividad-conductor-viajes fz-8px">
@@ -84,8 +93,8 @@
                                             <input (keyup.enter) = "registerUpdateMotivoNoProdConductor(i,dia.DIA,dia.FECHA)" *ngIf = "!productividadConductores[i][dia.DIA]['viajes']['length']" [(ngModel)]="productividadConductores[i][dia.DIA]['motivo']" name="MOTIVO" type="text" class="motivo-no-viajes bg-danger text-light">
                                         </div> 
                                     </td>                                     
-                                    <td class="text-center totales">{{productividadConductor.viajesTotal}}</td>
-                                    <td class="text-center totales">S/ {{productividadConductor.comisionTotal}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}}" class="text-center totales">{{productividadConductor.viajesTotal}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}}" class="text-center totales">S/ {{productividadConductor.comisionTotal}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -108,12 +117,12 @@
     </div>
 </div>
 
-
-<table hidden id = "conductorProductividad2" class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px; border: solid 1px gray">
+<table hidden id = "conductorProductividad2" class="tabla-productividad-conductor" style="border: solid 1px gray">
     <thead>
         <tr>
             <th style="border: solid 1px gray;" class="items">ITEMS</th>
             <th style="border: solid 1px gray;" class="nombre">Conductor</th>
+            <th style="border: solid 1px gray;" class="nombre">Fecha Ingreso</th>
             <th style="border: solid 1px gray;" *ngFor = "let dia of dias">
                 {{dia.NOMBRE_DIA}} {{dia.FECHA}}
             </th>
@@ -125,6 +134,7 @@
         <tr *ngFor="let productividadConductor of productividadTotal; index as i">
             <td style="border: solid 1px gray; vertical-align:middle; text-align: center;">{{i+1}}</td>
             <td style="border: solid 1px gray; vertical-align:middle" class="text-center nombre">{{productividadConductor.conductor}}</td>
+            <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center nombre">{{productividadConductor.fechaIngreso}}</td>
             <td style="border: solid 1px gray;" class="text-center" *ngFor = "let dia of dias; index as j"> 
                 <div data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}} | {{dia.FECHA}}">
                     <table class="tabla-productividad-conductor-viajes fz-8px">
@@ -138,13 +148,13 @@
                                 </tr>
                         </tbody>
                     </table>    
-                    <div *ngIf = "!productividadTotal[i][dia.DIA]['viajes']['length']" >
-                        <a style="font-weight: bold; vertical-align:middle">{{productividadTotal[i][dia.DIA]['motivo']}}</a>
+                    <div *ngIf = "!productividadTotal[i][dia.DIA]['viajes']['length']" style="font-weight: bold; vertical-align:middle; text-align: center;">
+                        {{productividadTotal[i][dia.DIA]['motivo']}}
                     </div>
                 </div> 
             </td>                                     
-            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle">{{productividadConductor.viajesTotal}}</td>
-            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle">S/ {{productividadConductor.comisionTotal}}</td>
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle; text-align: center;">{{productividadConductor.viajesTotal}}</td>
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle; text-align: center;">S/ {{productividadConductor.comisionTotal}}</td>
         </tr>
     </tbody>
 </table>

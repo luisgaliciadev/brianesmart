@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService, RegisterService } from 'src/app/services/service.index';
-import Swal from 'sweetalert2';
-import { URL_SERVICES } from '../../config/config';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-repositorio-docs',
@@ -12,7 +12,7 @@ import { URL_SERVICES } from '../../config/config';
 })
 export class RepositorioDocsComponent implements OnInit {
   pdfSrc = '';
-  URL = URL_SERVICES;
+  URL = environment.URL_SERVICES;
   clasificacionDoc = [];
   categoriasDoc = [];
   areasBriane = [];
@@ -28,7 +28,8 @@ export class RepositorioDocsComponent implements OnInit {
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +40,7 @@ export class RepositorioDocsComponent implements OnInit {
 
   getClasificacionDocBriane() {
     this.loading = true;
+    this.spinner.show();
     this._registerService.getClasificacionDocBriane().subscribe(
       (response: any) => {
         this.pdfSrc = '';
@@ -47,24 +49,29 @@ export class RepositorioDocsComponent implements OnInit {
         this.idDocumento = '';
         this.clasificacionDoc = response.clasificacionDocumentos;
         this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
         this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getAreasBriane() {
     this.loading = true;
+    this.spinner.show();
     this._registerService.getAreasBriane().subscribe(
       (response: any) => {
         this.idDocumento = '';
         this.pdfSrc = '';
         this.areasBriane = response.areasBriane;
         this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
         this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -85,6 +92,7 @@ export class RepositorioDocsComponent implements OnInit {
       return;
     }
     this.loading = true
+    this.spinner.show();
     
     this._registerService.getCategoriaDocBriane(this.idClasificacionDoc).subscribe(
       (response: any) => {
@@ -94,9 +102,11 @@ export class RepositorioDocsComponent implements OnInit {
         this.categoriasDoc = response.categoriaDocumenos;
         this.getDocumentosBriane();
         this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
         this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -114,6 +124,7 @@ export class RepositorioDocsComponent implements OnInit {
       return;
     }
     this.loading = true;
+    this.spinner.show();
     this._registerService.getDocumentosBriane(this.idClasificacionDoc, this.idCategoriaDoc, this.idArea).subscribe(
       (response: any) => {
         this.idDocumento = '';
@@ -121,9 +132,11 @@ export class RepositorioDocsComponent implements OnInit {
         this.documentos = response.documentosBriane;
         this.totalDocumentos = this.documentos.length;
         this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
         this.loading = false;
+        this.spinner.hide();
       }
     );
   }

@@ -3,8 +3,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Viatico } from 'src/app/models/viatico.model';
 import { ViaticoDeta } from 'src/app/models/viaticoDeta.model';
-import { URL_SERVICES } from 'src/app/config/config';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment.prod';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-viatico',
@@ -38,7 +39,7 @@ export class ViaticoComponent implements OnInit {
   idViatico = 0;
   modificar = false;
   estatus = 0;
-  URL = URL_SERVICES;
+  URL = environment.URL_SERVICES;
   actualizando = false;
   diasFeriado = [];
   tarifaDomingo = 8;
@@ -48,7 +49,8 @@ export class ViaticoComponent implements OnInit {
     public _router: Router,
     private _userService: UserService,
     public _registerService: RegisterService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -123,13 +125,11 @@ export class ViaticoComponent implements OnInit {
     this._registerService.getDiasFeriados().subscribe(
       (response: any) => {
         this.diasFeriado = response.diasFeriado;
-        // console.log(response);
       }
     );
   }
 
   anio() {
-   
   }
 
   getDatoSemana(dia) {
@@ -143,7 +143,7 @@ export class ViaticoComponent implements OnInit {
   }
 
   getViatico() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getViatico(this.idViatico).subscribe(
       (response: any) => {
         this.estatus = response.viatico.ESTATUS;
@@ -156,7 +156,7 @@ export class ViaticoComponent implements OnInit {
         }
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -173,12 +173,12 @@ export class ViaticoComponent implements OnInit {
           viaticosTotal = viaticosTotal + productividadOp.TOTAL;
         });
         this.montoTotalViaticos = viaticosTotal;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
         this.totalRegistros = 0;
         this.dias = [];
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -242,7 +242,6 @@ export class ViaticoComponent implements OnInit {
         this._registerService.aprobarViaticos(this.idViatico).subscribe(
           (response: any) => {
             if(response) {
-              // this._router.navigate(['/viaticos']);
               this.getViatico();
               this.registrando = false;
             }
@@ -268,7 +267,7 @@ export class ViaticoComponent implements OnInit {
     this.productividadOps = [];
     this.totalRegistros = 0;
     this.dias = [];
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getRepProductividadCond(this.nroSemana, this.year, this.idZona).subscribe(
       (response: any) => {
         this.productividadOps = response.diasProductividad;     
@@ -442,12 +441,12 @@ export class ViaticoComponent implements OnInit {
         });
        
         this.montoTotalViaticos = viaticosTotal;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
         this.totalRegistros = 0;
         this.dias = [];
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -546,13 +545,11 @@ export class ViaticoComponent implements OnInit {
       return;
     }
     this._userService.loadReport();    
-    window.open('#/listresumenviaticos/' + id, '0', '_blank');
+    window.open('#/reports/listresumenviaticos/' + id, '0', '_blank');
   }
 
 
   montos(i, nroDia) {
-    // return;
-    // console.log(this.productividadOps[i]);
     this.productividadOps[i].TOTAL = 0;
     var viaticoTotal = 0;
     if (this.productividadOps[i].dia1.check1 == 1) {
@@ -722,16 +719,16 @@ export class ViaticoComponent implements OnInit {
       return;
     }
     // console.log(idConductor);
-    this.loading = true;
+    this.spinner.show();
     this._registerService.generarNuevoComprobanteConductor(this.idViatico,idConductor).subscribe(
       (response: any) => {
         if(response) {
           this.descargar(response.nombreDoc);
-          this.loading = false;
+          this.spinner.hide();
         }
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }

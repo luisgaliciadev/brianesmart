@@ -1,79 +1,48 @@
 // Principal Modules
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
-// import { ChartsModule } from 'ng2-charts-extended/ng2-charts';
-
-// Components
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { PagesComponent } from './pages/pages.component';
-import { DenunciaComponent } from './denuncia/denuncia.component';
-
-// Routes
-import { APP_ROUTES } from './app.routes';
-
-// Modules
-// import { PagesModule } from './pages/pages.module';
-
-// Servicios
-// import { SettingsService } from './services/service.index';
+// Interceptors
+import { HttpInterceptorService } from './services/interceptors/http.interceptor.service';
 
 // Modulos
+import { AppRoutingModule } from './app-routing.module';
 import { ServiceModule } from './services/service.module';
 import { SharedModule } from './shared/shaerd.module';
 
-// Reportes
-import { ListUsersComponent } from './reports/list-users/list-users.component';
-import { ListCompanysComponent } from './reports/list-companys/list-companys.component';
-import { ListClientsComponent } from './reports/list-clients/list-clients.component';
-import { ListDenunciasComponent } from './reports/list-denuncias/list-denuncias.component';
-import { ListGuiasComponent } from './reports/list-guias/list-guias.component';
-import { ListViaticosComponent } from './reports/list-viaticos/list-viaticos.component';
-// import { ListDetaviaticosComponent } from './reports/list-detaviaticos/list-detaviaticos.component';
-import { ListReportproComponent } from './reports/list-reportpro/list-reportpro.component';
-import { ListResumenviaticosComponent } from './reports/list-resumenviaticos/list-resumenviaticos.component';
-import { DetaViaticoComponent } from './reports/deta-viatico/deta-viatico.component';
-import { ListPeajesComponent } from './reports/list-peajes/list-peajes.component';
-import { ResumenPeajeComponent } from './reports/resumen-peaje/resumen-peaje.component';
-import { ListSaldospeajeComponent } from './reports/list-saldospeaje/list-saldospeaje.component';
-import { ListDescuentopeajeComponent } from './reports/list-descuentopeaje/list-descuentopeaje.component';
-
+// Components
+import { AppComponent } from './app.component';
+import { PagesComponent } from './pages/pages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    PagesComponent,
-    ListUsersComponent,
-    ListCompanysComponent,
-    ListClientsComponent,
-    DenunciaComponent,
-    ListDenunciasComponent,
-    ListGuiasComponent,
-    ListViaticosComponent,
-    // ListDetaviaticosComponent,
-    ListReportproComponent,
-    ListResumenviaticosComponent,
-    DetaViaticoComponent,
-    ListPeajesComponent,
-    ResumenPeajeComponent,
-    ListSaldospeajeComponent,
-    ListDescuentopeajeComponent
+    PagesComponent
   ],
   imports: [
     BrowserModule,
-    APP_ROUTES,
-    // PagesModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     ServiceModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule,
+    ToastrModule.forRoot({
+      timeOut: 4000,
+      positionClass: 'toast-bottom-center',
+      preventDuplicates: true,
+    }),
   ],
-  providers: [],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -118,9 +118,9 @@ export class CompanysComponent implements OnInit {
   printer() {
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listcompanys/' + '0', '0' , '_blank');
+      window.open('#/reports/listcompanys/' + '0', '0' , '_blank');
     } else {
-      window.open('#/listcompanys/' + this.search, '0' , '_blank');
+      window.open('#/reports/listcompanys/' + this.search, '0' , '_blank');
     }
   }
 

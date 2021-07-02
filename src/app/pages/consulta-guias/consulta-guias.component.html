@@ -1,41 +1,23 @@
 <div class="col-12 animated fadeInRight">
-
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
 
-                    <div class="text-left" >
-                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
-                            <i class="mdi mdi-printer"></i>
-                            Imprimir
-                        </button>
-
-                        <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
-                            <i class="mdi mdi-file-excel"></i>
-                            Exportar
-                        </button>
-                    </div>  
+                    <div class="form-group">
+                        <div class="text-left" >
+                            <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-default" (click)="printer()">
+                                <i class="mdi mdi-printer"></i>
+                                Imprimir
+                            </button>
+    
+                            <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success" (click)="getGuiasExcel()">
+                                <i class="mdi mdi-file-excel"></i>
+                                Exportar
+                            </button>
+                        </div>  
+                    </div>
                     
-                    <!-- <div class="text-right">
-                        <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/guia/0">
-                            <i class="fa fa-plus"></i>
-                            Registrar Guia
-                        </button>
-                    </div> -->
-
                     <div class="row">
                         <div class="col-sm">
                             <div class="form-group">
@@ -52,7 +34,7 @@
                                 <div class="input-group">                                            
                                     <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
                                     
-                                    <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getGuias(search)">
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getGuias(search)">
                                         <i class="fa fa-search"></i>
                                         Consultar
                                     </button>
@@ -60,8 +42,6 @@
                             </div>
                         </div>                       
                     </div> 
-
-                    <!-- <br/> -->
 
                     <div class="form-group">
                         <div class="input-group">

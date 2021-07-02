@@ -4,6 +4,7 @@ import { Ruta } from 'src/app/models/ruta.model';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -16,9 +17,7 @@ const maskConfig: Partial<IConfig> = {
   ]
 })
 export class RutaComponent implements OnInit {  
-  loading = false;
-  registrando = false;
-  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','',0);
+  ruta: Ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','',0,'');
   RUC = '';
   clientes = [];
   origenes = [];
@@ -34,7 +33,8 @@ export class RutaComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +50,7 @@ export class RutaComponent implements OnInit {
       if (this.ruta.ID_RUTA > 0) {
         this.getRuta();
       } else {
-        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','',0);
+        this.ruta = new Ruta(0,'',0,0,0,0,0,0,'',0,0,0,0,[],[],'','',0,'','','','','',0,0,0,0,0,'','',0,'');
       }
     });
   }
@@ -60,7 +60,7 @@ export class RutaComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getRuta(this.ruta.ID_RUTA).subscribe(
       (response: any) => {
         this.getDetaRutaTipoCargas();
@@ -94,10 +94,11 @@ export class RutaComponent implements OnInit {
         this.ruta.INGRESO_ORIGEN = response.ruta.INGRESO_ORIGEN;
         this.ruta.INGRESO_DESTINO = response.ruta.INGRESO_DESTINO;
         this.ruta.COMISION = response.ruta.COMISION;
-        this.loading = false;
+        this.ruta.FH_VIGENCIA = response.ruta.FECHA_VIGENCIA;
+        this.spinner.hide();
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -119,40 +120,40 @@ export class RutaComponent implements OnInit {
   }
 
   getMonedas() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getMonedas().subscribe(
       (response: any) => {
         this.monedas = response.monedas;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getTipoCobrosOs() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getTipoCobrosOs().subscribe(
       (response: any) => {
         this.tipoCobrosOs = response.tipoCobrosOs;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getClientes() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getClientes().subscribe(
       (response: any) => {
         this.clientes = response.clientes;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -179,53 +180,53 @@ export class RutaComponent implements OnInit {
   }
 
   getOrigenes() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrigenesDestinos(0).subscribe(
       (response: any) => {       
         this.origenes = response.origenesDestinos;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getDestinos() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrigenesDestinos(1).subscribe(
       (response: any) => {       
         this.destinos = response.origenesDestinos;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getTipoCargas() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getTipoCargas().subscribe(
       (response: any) => {       
         this.tipoCargas = response.tipoCargas;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getProductos() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getProductos().subscribe(
       (response: any) => {       
         this.productos = response.productos;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -349,6 +350,11 @@ export class RutaComponent implements OnInit {
       return;
     }
 
+    if (!this.ruta.FH_VIGENCIA) {
+      Swal.fire('Mensaje', 'Debe ingresar una fecha de vigencia.', 'warning');
+      return;
+    }
+
     if (this.ruta.ID_MONEDA == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar una moneda', 'warning');
       return;
@@ -441,14 +447,14 @@ export class RutaComponent implements OnInit {
     this.ruta.ID_USUARIO = this._userService.user.ID_USER;   
     this.ruta.DETA_TIPO_CARGAS = this.detaTipoCargas;
     this.ruta.DETA_PRODUCTOS = this.detaProductos;
-    this.registrando = true;
+    this.spinner.show();
     this._registerService.registerRuta(this.ruta).subscribe(
       (response: any) => {
         this._router.navigate(['/ruta',response.ruta.ID_RUTA]);
-        this.registrando = false;
+        this.spinner.hide();
       },
       (error: any) => {
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -460,6 +466,11 @@ export class RutaComponent implements OnInit {
     }
     if (this.ruta.ID_CLIENTE == 0) {
       Swal.fire('Mensaje', 'Debe seleccionar un cliente', 'warning');
+      return;
+    }
+
+    if (!this.ruta.FH_VIGENCIA) {
+      Swal.fire('Mensaje', 'Debe ingresar una fecha de vigencia.', 'warning');
       return;
     }
 
@@ -570,13 +581,13 @@ export class RutaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.ruta.ID_USUARIO = this._userService.user.ID_USER;
-        this.registrando = true;
+        this.spinner.show();
         this._registerService.updateRuta(this.ruta).subscribe(
           (response: any) => {
-            this.registrando = false;
+            this.spinner.hide();
           },
           (error: any) => {
-            this.registrando = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -606,14 +617,14 @@ export class RutaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.ruta.ID_USUARIO = this._userService.user.ID_USER;
-        this.registrando = true;
+        this.spinner.show();
         this._registerService.deleteRuta(this.ruta).subscribe(
           (response: any) => {
-            this.registrando = false;
+            this.spinner.hide();
             this._router.navigate(['/rutas']);
           },
           (error: any) => {
-            this.registrando = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -643,14 +654,14 @@ export class RutaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.ruta.ID_USUARIO = this._userService.user.ID_USER;
-        this.registrando = true;
+        this.spinner.show();
         this._registerService.aprobarRuta(this.ruta).subscribe(
           (response: any) => {
-            this.registrando = false;
+            this.spinner.hide();
             this.getRuta()
           },
           (error: any) => {
-            this.registrando = false;
+            this.spinner.hide();
           }
         );
       } 

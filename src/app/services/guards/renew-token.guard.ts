@@ -27,7 +27,7 @@ export class RenewTokenGuard implements CanActivate {
     return this.veryfyTokenRenew(payload.exp);
   }
 
-  // Ferificar fecha de vencimiento de token
+  // Verificar fecha de vencimiento de token
   veryfyTokenVen(dateTokenExp: number) {
     let timeNow = new Date().getTime() / 1000;
     if (dateTokenExp < timeNow) {
@@ -45,7 +45,6 @@ export class RenewTokenGuard implements CanActivate {
       nowDate.setTime(nowDate.getTime() + (1 * 60 * 60 * 1000));
       if ( tokenExp.getTime() > nowDate.getTime() ) {
         resolve(true);
-        // console.log('no va a vencer');
       } else {
         this._userService.renewToken().subscribe(
           () => {

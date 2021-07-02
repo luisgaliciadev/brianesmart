@@ -8,7 +8,6 @@ import { UserService } from '../service.index';
 })
 export class UserGuard implements CanActivate {
   constructor(
-    // tslint:disable-next-line: variable-name
     public _userService: UserService,
     ) {
   }

@@ -3,6 +3,7 @@ import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import Swal from 'sweetalert2';
 import {saveAs} from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-planificacion-operaciones',
@@ -49,7 +50,8 @@ export class PlanificacionOperacionesComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { 
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -67,6 +69,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {    
+    this._userService.permisoModule(this._router.url);
     this.getConductores();
     this.getTractos();
     this.getRemolques();
@@ -79,7 +82,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrdenServicioPlanificacion(this.fhDesde, this.fhHasta, this.idZona).subscribe(
       (response: any) => {        
         this.buscarDemada = '';
@@ -89,62 +92,62 @@ export class PlanificacionOperacionesComponent implements OnInit {
         this.ordenes = response.ordenesServicio;  
         this.demandas = response.demandas;
         this.getPlanificacionesDeta();
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
-          this.loading = false;
+          this.spinner.hide();
       }
     );
   }
 
   getZonasConcutor() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getZonaConductor().subscribe(
       (response: any) => {        
         this.zonasConductor = response.zonasConductor
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getConductores() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getConductoresDisponibles().subscribe(
       (response: any) => {
         this.conductores = response.conductores;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getTractos() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getUnidadesDisponibles(1).subscribe(
       (response: any) => {
         this.tractos = response.unidades;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getRemolques() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getUnidadesDisponibles(2).subscribe(
       (response: any) => {
         this.remolques = response.unidades;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -190,7 +193,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
   }
 
   getPlanificacionOP() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getPlanificacionOP(this.idPlanificacion).subscribe(
       (response: any) => {
         this.idOrderSevicio = response.planificacionOp.ID_ORDEN_SERVICIO;
@@ -198,26 +201,26 @@ export class PlanificacionOperacionesComponent implements OnInit {
         this.getOS(response.planificacionOp.ID_ORDEN_SERVICIO);
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getPlanificacionesDeta() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getPlanificacionesDeta(this.fhDesde,this.fhDesde,this.idZona).subscribe(
       (response: any) => {
         this.planificaciones = response.planificacionesDeta;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getOS(idOs) {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOS(idOs).subscribe(
       (response: any) => {
         this.ordenes.push({
@@ -270,10 +273,10 @@ export class PlanificacionOperacionesComponent implements OnInit {
         this.toneladas = response.ordenServicio.TONELADAS;
         this.viajesEstimados = response.ordenServicio.VIAJES_ESTIMADOS;
         this.unidadesEstimadas = response.ordenServicio.UNIDADES_ESTIMADAS;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -288,7 +291,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe seleccionar una orden de servicio', 'warning');
       return;
     }
-    this.registrando = true;
+    this.spinner.show();
     let planificacion = {
       idOrdenServicio: this.idOrderSevicio,
       idUsuario: this._userService.user.ID_USER
@@ -296,10 +299,10 @@ export class PlanificacionOperacionesComponent implements OnInit {
     this._registerService.registerPlanifiacionOp(planificacion).subscribe(
       (response: any) => {
         this._router.navigate(['/planificacion-operaciones']);
-        this.registrando = false;
+        this.spinner.hide();
       },
       error => {
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -433,7 +436,7 @@ export class PlanificacionOperacionesComponent implements OnInit {
       fecha: this.fhDesde
     };
     document.getElementById("btnConductor").click();
-    this.registrando = true;
+    this.spinner.show();
     this._registerService.registerPlanifiacionOpDeta(dataPlanificacion).subscribe(
       (response: any) => {
         this.demandas.splice(0, 1);
@@ -443,10 +446,10 @@ export class PlanificacionOperacionesComponent implements OnInit {
         this.buscarConductor = '';
         this.buscarTracto = '';
         this.buscarRemolque = '';
-        this.registrando = false;
+        this.spinner.hide();
       },
       (error: any) => {
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -474,14 +477,14 @@ export class PlanificacionOperacionesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         
-        this.loading = true;
+        this.spinner.show();
         this._registerService.deletePlanificacionOp(this.idPlanificacion, this.idOrderSevicio).subscribe(
           (response: any) => {
-            this.loading = false;
+            this.spinner.hide();
             this._router.navigate(['/planificaciones-op']);
           },
           (error: any) => {
-            this.loading = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -511,14 +514,14 @@ export class PlanificacionOperacionesComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         
-        this.loading = true;
+        this.spinner.show();
         this._registerService.deletePlanificacionOpDeta(id).subscribe(
           (response: any) => {
-            this.loading = false;
+            this.spinner.hide();
             this.getOrdenServicioPlanificacion()
           },
           (error: any) => {
-            this.loading = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -586,17 +589,17 @@ export class PlanificacionOperacionesComponent implements OnInit {
         fhFinViaje
       }
 
-      this.registrando = true;
+      this.spinner.show();
       this._registerService.updateFechaPlanificacionGuia(dataGuia).subscribe(
         (response: any) => {
           this.getConductores();
           this.getTractos();
           this.getRemolques();
           this.getPlanificacionesDeta();
-          this.registrando = false;
+          this.spinner.hide();
         },
         error => {
-          this.registrando = false;
+          this.spinner.hide();
         }
       );
     }

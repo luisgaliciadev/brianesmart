@@ -1,17 +1,5 @@
 <div class="col-12 animated fadeInRight">
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -25,7 +13,7 @@
                     <div class="text-right">
                         <button type="button" class="btn waves-effect waves-light btn-rounded btn-primary" routerLink="/ruta/0">
                             <i class="fa fa-plus"></i>
-                            Registrar Ruta
+                            Registrar
                         </button>
                     </div>
 
@@ -35,7 +23,7 @@
                         <div class="input-group">
                             <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getRutas(search)" (keyup)="activeButtons()">                        
                             <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
-                            <button style="margin-left: 3px;" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="getRutas(search)">
+                            <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getRutas(search)">
                                 <i class="fa fa-search"></i>
                                 Consultar
                             </button>
@@ -54,6 +42,7 @@
                                     <th class="text-center">Tarifa</th>
                                     <th class="text-center">Moneda</th>
                                     <th class="text-center">Tipo Cobro</th>
+                                    <th class="text-center">Vigencia</th>
                                     <th class="text-center">Estatus</th>
                                     <th class="text-center">Acción</th>
                                 </tr>
@@ -67,6 +56,7 @@
                                     <td>{{ruta.TARIFA}}</td>
                                     <td>{{ruta.DS_MONEDA}}</td>                                   
                                     <td>{{ruta.DS_TIPO_COBRO_OS}}</td>
+                                    <td>{{ruta.FH_VIGENCIA}}</td>
                                     <td>{{ruta.ESTATUS}}</td>    
                                     <td style="white-space: nowrap;">
                                         <button [routerLink]="(['/ruta',ruta.ID_RUTA])" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Modificar">

@@ -191,9 +191,9 @@ export class ReportsproOpComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listoreportpro/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
+      window.open('#/reports/listoreportpro/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
     } else {
-      window.open('#/listoreportpro/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
+      window.open('#/reports/listoreportpro/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
   }
 

@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'recursosConductor'
 })
 export class RecursosConductorPipe implements PipeTransform {
-
   transform(value: any, arg: any): any {
     const result = [];
     for (const recursos of value) {
@@ -15,3 +14,4 @@ export class RecursosConductorPipe implements PipeTransform {
     return result;
   }
 }
+

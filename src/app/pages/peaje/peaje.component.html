@@ -1,34 +1,8 @@
-
 <div class="row animated fadeInRight">    
     <div class="col-12">     
         <div class="card">
             <div class="card-body">
-
-                <div class="row" *ngIf="loading">
-                    <div class="col-sm-12">
-                        <div class="alert alert-warning text-center">
-                            <strong>Cargando...</strong>
-                            <br>
-                            <i class="fa fa-refresh fa-spin fa-2x"></i>
-                            <br>
-                            <span>Por Favor Espere...</span>
-                        </div>
-                    </div>    
-                </div>
-
-                <div class="row" *ngIf="registrando">
-                    <div class="col-sm-12">
-                        <div class="alert alert-primary text-center">
-                            <strong>Guardando datos</strong>
-                            <br>
-                            <i class="fa fa-refresh fa-spin fa-2x"></i>
-                            <br>
-                            <span>Por Favor Espere...</span>
-                        </div>
-                    </div>    
-                </div>
-
-                <form *ngIf="!loading  && !registrando" ngNativeValidate #form="ngForm" class="form p-t-20">
+                <form ngNativeValidate #form="ngForm" class="form p-t-20">
                     <div class="row">       
                         <div class="col-sm">
                             <div class="form-group">
@@ -238,7 +212,7 @@
                         Guardar
                     </button>
 
-                    <button *ngIf="peaje.ID_PEAJE > 0 && !facturas" type="button" class="btn btn-succes waves-effect waves-light m-r-10" (click)="updatePeaje()">
+                    <button *ngIf="peaje.ID_PEAJE > 0 && !facturas" type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="updatePeaje()">
                         <i class="fa fa-save"></i>
                         Moificar
                     </button>

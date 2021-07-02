@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 
 @Component({
@@ -16,12 +17,12 @@ export class AgendaTelefonicaComponent implements OnInit {
   constructor(
     private _registerService: RegisterService,
     public _router: Router,
-    private _userService: UserService
+    private _userService: UserService,
+    private spinner: NgxSpinnerService
   ) { 
   }
 
   ngOnInit(): void {
-    // console.log('this._router.url:', this._router.url);
     this._userService.permisoModule(this._router.url);
   }
 
@@ -33,15 +34,14 @@ export class AgendaTelefonicaComponent implements OnInit {
     if (this.search === '') {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getAgendaTelefonica(this.search).subscribe(
       (response: any) => {  
-        // console.log(response);      
-        this.agendas = response.agendas;       
-        this.loading = false;
+        this.agendas = response.agendas;           
+        this.spinner.hide();
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }

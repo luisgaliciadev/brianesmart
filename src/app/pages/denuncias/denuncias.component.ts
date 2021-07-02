@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router } from '@angular/router';
 import {saveAs} from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-denuncias',
@@ -10,18 +11,18 @@ import {saveAs} from 'file-saver';
   ]
 })
 export class DenunciasComponent implements OnInit {
-  public denuncias = [];
-  public desde: number;
-  public hasta: number;
-  public loading = false;
-  public totalRegistros = 0;
-  public search: string;
-  public activeButton;
+  denuncias = [];
+  desde: number;
+  hasta: number;
+  totalRegistros = 0;
+  search: string;
+  activeButton;
 
   constructor(
     public _userService: UserService,
     public _registerService: RegisterService,
-    public _router: Router
+    public _router: Router,
+    private spinner: NgxSpinnerService
   ) { 
     this.desde = 0;
     this.hasta = 5;
@@ -42,15 +43,15 @@ export class DenunciasComponent implements OnInit {
     this.activeButton = false;
     this.search = search;
 
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getDenuncias(this.search).subscribe(
       (response: any) => {  
         this.denuncias = response.denuncias.slice(this.desde, this.hasta);
         this.totalRegistros = response.denuncias.length;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -77,7 +78,7 @@ export class DenunciasComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getDenunciasExcel(this.search).subscribe(
       (response: any) => {
         let fileBlob = response;       
@@ -86,10 +87,10 @@ export class DenunciasComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoDenuncias.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -125,9 +126,9 @@ export class DenunciasComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listdenuncias/' + '0', '0' , '_blank');
+      window.open('#/reports/listdenuncias/' + '0', '0' , '_blank');
     } else {
-      window.open('#/listdenuncias/' + this.search, '0' , '_blank');
+      window.open('#/reports/listdenuncias/' + this.search, '0' , '_blank');
     }
   }
 

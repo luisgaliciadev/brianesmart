@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-diferencia-peso',
@@ -15,7 +16,6 @@ export class DiferenciaPesoComponent implements OnInit {
   guias = [];
   desde = 0;
   hasta = 5;
-  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -31,7 +31,8 @@ export class DiferenciaPesoComponent implements OnInit {
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) { 
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -57,7 +58,7 @@ export class DiferenciaPesoComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     if (search === '') {
       search = '0';
     }
@@ -73,11 +74,11 @@ export class DiferenciaPesoComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -90,7 +91,7 @@ export class DiferenciaPesoComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getExcelGuiasDifPeso(this.search, this.fhDesde, this.fhHasta).subscribe(
       (response: any) => {
         // tslint:disable-next-line: prefer-const
@@ -101,10 +102,10 @@ export class DiferenciaPesoComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoGuias.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
      
     );
@@ -186,9 +187,9 @@ export class DiferenciaPesoComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
+      window.open('#/reports/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
     } else {
-      window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
+      window.open('#/reports/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
     }
   }
 

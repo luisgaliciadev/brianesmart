@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-viajes-cond',
@@ -35,7 +36,8 @@ export class ViajesCondComponent implements OnInit {
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -68,7 +70,7 @@ export class ViajesCondComponent implements OnInit {
     // if (this.idZona == 0) {
     //   return;
     // }
-    this.loading = true;
+    this.spinner.show();
     this.search = '0';
     this._registerService.getViajesHoras(this.search, this.fhDesde, this.fhHasta, this.dni, this.idZona).subscribe(
       (response: any) => {
@@ -79,10 +81,10 @@ export class ViajesCondComponent implements OnInit {
         // this.totalComision = response.comisionTotalHoras;
         this.totalComision = response.comisionTotalViajes;
         this.totalHoras = response.horasPagar;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService, UploadFileService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
-import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { URL_SERVICES } from '../../config/config';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment.prod';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-homologacion-unidad',
@@ -12,7 +13,6 @@ import { URL_SERVICES } from '../../config/config';
   ]
 })
 export class HomologacionUnidadComponent implements OnInit {
-  loading = false;
   clientes = [];
   RUC = '';
   idCliente = 0;
@@ -20,14 +20,12 @@ export class HomologacionUnidadComponent implements OnInit {
   idDocumento = 0;
   documentosUnidad = [];
   totalRegistros = 0;
-  busqueda = false;
-  resgistrado = false;
   extesion = ['png','PNG','jpeg','JPEG','jpg','JPG','pdf','txt','docx','xlsx', 'pptx']; 
   imageUpload: File;
   tempImage: string;
   idRelacion = 0;
   archivo = null;
-  URL = URL_SERVICES;
+  URL = environment.URL_SERVICES;
   idUnidad = 0;
   tipoVehiculo = '';
   placa = '';
@@ -38,7 +36,8 @@ export class HomologacionUnidadComponent implements OnInit {
     public _userService: UserService,
     public _route: ActivatedRoute,
     private _ngbModal: NgbModal,
-    private _uploadFileService: UploadFileService
+    private _uploadFileService: UploadFileService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -46,14 +45,14 @@ export class HomologacionUnidadComponent implements OnInit {
   }
 
   getClientes() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getClientes().subscribe(
       (response: any) => {
         this.clientes = response.clientes;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -93,19 +92,19 @@ export class HomologacionUnidadComponent implements OnInit {
       this.documentosUnidad = [];
       return;
     }
-    this.busqueda = true;
+    this.spinner.show();
     this._registerService.getUnidad(this.placa).subscribe(
       (response: any) => {       
         this.idUnidad = response.unidad.ID_VEHICULO;
         this.tipoVehiculo = response.unidad.DS_TIPO_VEHICULO;
         this.getDocUnidadTotal();
-        this.busqueda = false;
+        this.spinner.hide();
       }, 
       (error: any) => {
         this.idUnidad = 0;
         this.tipoVehiculo = '';
         this.documentosUnidad = [];
-        this.busqueda = false;
+        this.spinner.hide();
       }
     );
   }
@@ -140,15 +139,15 @@ export class HomologacionUnidadComponent implements OnInit {
         idUsuario: this._userService.user.ID_USER,
         observacion: this.documentosUnidad[i].OBSERVACION
       }
-      this.resgistrado = true;
+      this.spinner.show();
       this._registerService.registerDocUnidadRelacion(data).subscribe(
         (response: any) => {
           this.getDocUnidadTotal();
-          this.resgistrado = false;
+          this.spinner.hide();
         },
         error => {
           this.documentosUnidad[i].FG_ACTIVO = false;
-          this.resgistrado = false;
+          this.spinner.hide();
         }
       );
     }
@@ -173,15 +172,15 @@ export class HomologacionUnidadComponent implements OnInit {
         fgActivo,
         observacion: this.documentosUnidad[i].OBSERVACION
       }
-      this.resgistrado = true;
+      this.spinner.show();
       this._registerService.updateRelacionDocUnidad(data).subscribe(
         (response: any) => {
           this.getDocUnidadTotal();
-          this.resgistrado = false;
+          this.spinner.hide();
         },
         error => {
           this.documentosUnidad[i].FG_ACTIVO = false;
-          this.resgistrado = false;
+          this.spinner.hide();
         }
       );
     }    
@@ -212,15 +211,15 @@ export class HomologacionUnidadComponent implements OnInit {
       fgActivo,
       observacion: this.documentosUnidad[i].OBSERVACION
     }
-    this.resgistrado = true;
+    this.spinner.show();
     this._registerService.updateRelacionDocUnidad(data).subscribe(
       (response: any) => {
         this.getDocUnidadTotal();
-        this.resgistrado = false;
+        this.spinner.hide();
       },
       error => {
         this.getDocUnidadTotal();
-        this.resgistrado = false;
+        this.spinner.hide();
       }
     );
   }

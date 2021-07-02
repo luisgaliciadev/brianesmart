@@ -2,6 +2,16 @@
     cursor: pointer;
 }
 
+.load-login {
+    width: 250px;
+    margin-top: -80px;
+}
+
+svg path,
+svg rect{
+  fill: black;
+}
+
 .pointer{
     cursor: pointer;
 }
@@ -412,6 +422,11 @@ body {
     left: 0;
 }
 
+.tabla-productividad-conductor .fechaIngreso {
+    min-width: 120px ;
+    vertical-align:middle;
+}
+
 .tabla-productividad-conductor tbody tr .nombre {
     background: white;
 }
@@ -440,6 +455,10 @@ body {
 .tabla-productividad-conductor-viajes td {
     border-collapse: collapse ;
     border: solid 1px #ccc ;
+}
+
+.tabla-productividad-conductor-viajes .tracto {
+    vertical-align:middle;
 }
 
 .tabla-productividad-conductor-viajes th:last-child,
@@ -551,6 +570,63 @@ body {
 /* 
 .tabla-tareo-op-turno tbody{
     height: 50px !important;
+} */
+
+
+.tabla-rendimiento-cond {
+    border-top: solid 1px #ccc;
+    /* height: 500px; */
+    /* position: static; */
+}
+
+.tabla-rendimiento-cond  thead th{
+    background: gray ;
+    color: white ;
+    text-align: center ;
+    font-size: 14px ;
+    white-space: nowrap;
+    min-width: 100px;
+    position: sticky !important;
+    top: 0 !important;
+}
+
+.tabla-rendimiento-cond tbody{
+    overflow: auto !important;
+    width: 100% !important;
+    /* height: 500px; */
+}
+
+.tabla-rendimiento-cond th,
+.tabla-rendimiento-cond td {
+    border-top: solid 1px #ccc;
+    border-right: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+    vertical-align:baseline;
+}
+
+.tabla-rendimiento-cond .items {
+    min-width: 50px !important;
+    /* position: sticky !important;
+    left: 0 !important; */
+}
+
+.tabla-rendimiento-cond .accion {
+    min-width: 50px !important;
+}
+
+/* .tabla-rendimiento-cond tbody tr .items {
+    background: white;
+} */
+
+.tabla-rendimiento-cond .conductor {
+    min-width: 300px !important;
+    padding-left: 2px; 
+    /* position: sticky !important;
+    left: 50px !important;  */
+}
+
+/* .tabla-rendimiento-cond tbody tr .conductor {
+    background: white;
 } */
 
 

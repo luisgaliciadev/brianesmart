@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RegisterService, UserService } from 'src/app/services/service.index';
-import { API_KEY_QWANTEC, URL_SERVICES } from '../../config/config';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-integracion-qwantec',
@@ -11,12 +12,11 @@ import Swal from 'sweetalert2';
   ]
 })
 export class IntegracionQwantecComponent implements OnInit {
-  apiKeyQwantec: string = API_KEY_QWANTEC;
+  apiKeyQwantec = environment.API_KEY_QWANTEC;
   desde = '';
   hasta = '';
   idTipoAccion = 0;
   empleados= [];
-  loading = false;
   date = new Date();
   mes;
   dia;
@@ -24,7 +24,8 @@ export class IntegracionQwantecComponent implements OnInit {
   constructor(
     private _registerService: RegisterService,
     public _router: Router,
-    private _userService: UserService
+    public _userService: UserService,
+    private spinner: NgxSpinnerService
   ) { 
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -42,6 +43,7 @@ export class IntegracionQwantecComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._userService.permisoModule(this._router.url);
   }
 
   tipoAccion(valor) {
@@ -49,7 +51,7 @@ export class IntegracionQwantecComponent implements OnInit {
   }
 
   registroActEmpleados(desde, hasta) {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getEmpleadosRhhGenesys(desde, hasta).subscribe(
       (response: any) => {
         this.empleados = response.empleados;
@@ -98,7 +100,7 @@ export class IntegracionQwantecComponent implements OnInit {
           "crearNoExistentes": crearNoExistentes
         }
         console.log('data:', data);
-        this.loading = false;
+        this.spinner.hide();
         return;
         data = {
           "apiKey": this.apiKeyQwantec,
@@ -205,24 +207,24 @@ export class IntegracionQwantecComponent implements OnInit {
             if (this.idTipoAccion === 2) {
               Swal.fire('Mensaje', 'Cantidad de empleados actualizados: ' + empleadosActualizados, 'success');
             }
-            this.loading = false;
+            this.spinner.hide();
             this.limpiarModal();
           },
           (error: any) => {
-            this.loading = false;
+            this.spinner.hide();
             this.limpiarModal();
           }
         );
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
         this.limpiarModal();
       }
     );
   }
 
   bajaEmpleados(desde, hasta) {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getEmpleadosRhhGenesysBajas(desde, hasta).subscribe(
       (response: any) => {
         console.log(response);
@@ -262,7 +264,7 @@ export class IntegracionQwantecComponent implements OnInit {
           "crearNoExistentes": false
         }
         // console.log('data:', data);
-        // this.loading = false;
+        // this.spinner.hide();
         // return;
         // data = {
         //   "apiKey": this.apiKeyQwantec,
@@ -349,17 +351,17 @@ export class IntegracionQwantecComponent implements OnInit {
           (response: any) => {
             console.log('response API:', response);
             Swal.fire('Mensaje', 'Cantidad de empleados dados de baja: ' + response.empleadosOK.length, 'success');
-            this.loading = false;
+            this.spinner.hide();
             this.limpiarModal();
           },
           (error: any) => {
-            this.loading = false;
+            this.spinner.hide();
             this.limpiarModal();
           }
         );
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
         this.limpiarModal();
       }
     );

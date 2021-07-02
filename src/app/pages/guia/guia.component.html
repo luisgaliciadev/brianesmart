@@ -1,37 +1,8 @@
-
 <div class="row animated fadeInRight">    
     <div class="col-12">     
         <div class="card">
-            <!-- <h2 class="card-title">Registro de Guía</h2> -->
             <div class="card-body">
-
-                
-
-                <div class="row" *ngIf="loading">
-                    <div class="col-sm-12">
-                        <div class="alert alert-warning text-center">
-                            <strong>Cargando...</strong>
-                            <br>
-                            <i class="fa fa-refresh fa-spin fa-2x"></i>
-                            <br>
-                            <span>Por Favor Espere...</span>
-                        </div>
-                    </div>    
-                </div>
-
-                <div class="row" *ngIf="registrando">
-                    <div class="col-sm-12">
-                        <div class="alert alert-primary text-center">
-                            <strong>Guardando datos</strong>
-                            <br>
-                            <i class="fa fa-refresh fa-spin fa-2x"></i>
-                            <br>
-                            <span>Por Favor Espere...</span>
-                        </div>
-                    </div>    
-                </div>
-
-                <form *ngIf="!loading  && !registrando" ngNativeValidate #form="ngForm" (ngSubmit)="registerGuia(form.value)" class="form p-t-20">
+                <form ngNativeValidate #form="ngForm" (ngSubmit)="registerGuia(form.value)" class="form p-t-20">
                     <div class="row">       
                         <div class="col-sm">
                             <div class="form-group">
@@ -271,7 +242,7 @@
                         <label>RUC:</label>
                         <div class="input-group">
                             <div class="input-group" style="width: 200px;">   
-                                <input [(ngModel)]="ruc" name="ruc" type="text" class="form-control" placeholder="RUC" (focusout) = "getCliente(ruc)" required>                        
+                                <input [(ngModel)]="ruc" name="ruc" type="text" class="form-control" placeholder="RUC" required>                        
                                 <div class="input-group-addon"><i class="fa fa-search pointer" data-toggle="tooltip" data-placement="top" title="Buscar" (click)="getCliente(ruc)"></i></div>        
                             </div>
                             <div class="input-group" style="margin-left: 5px">

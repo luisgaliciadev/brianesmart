@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { URL_SERVICES } from '../config/config';
+import { environment } from '../../environments/environment.prod';
 
 @Pipe({
   name: 'image'
@@ -7,20 +7,13 @@ import { URL_SERVICES } from '../config/config';
 export class ImagePipe implements PipeTransform {
 
   transform(img: string, type: string): any {
-
-    
-    let url = URL_SERVICES + '/image';
-    // console.log('url:', url);
-    // console.log(type);
-    // console.log(img);
+    let url = environment.URL_SERVICES + '/image';
     if (!img) {
       return url + '/user/no-img';
     }
-
     if (img.indexOf('https') >= 0) {
       return img;
     }
-
     switch (type) {
       case 'user':
         url += '/user/' + img;
@@ -38,7 +31,6 @@ export class ImagePipe implements PipeTransform {
           console.log('tipo de imagen no valido.');
           url += '/user/no-img';
     }
-
     return url;
   }
 

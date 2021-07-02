@@ -1,0 +1,36 @@
+<h1 class="mt-3 font-weight-ligth">Academia BRIANE</h1>
+<div class="form-group">
+    <div class="input-group">
+        <input [(ngModel)]="buscar" type="text" class="form-control" placeholder="Buscar">                        
+    </div>
+</div>
+
+<div class="row">
+    <!-- <div class="col-4 col-md-4" *ngFor="let video of videos | videosYoutube:buscar"> -->
+    <div class="col-sm-4" *ngFor="let video of videos | videosYoutube:buscar">
+        <div class="card animate__animated animate__fadeIn" >
+            <img class="card-img-top" src="{{video.thumbnails.high.url}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{video.title}}</h5>
+                <p class="card-text">
+                    <!-- <strong>{{video.channelTitle}}</strong> -->
+                    {{video.description}}
+                </p>
+                <p class="card-text">
+                    <strong>Publicado:</strong> {{video.publishedAt | date}}
+                </p>  
+            </div>
+            <div class="container">
+                <button class="btn btn-outline-info btn-block ver-video-btn" (click)="mostrarVideo(video)">Ver Video</button> 
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+
+<!-- <div class="row mt-5 mb-5 text-center">
+    <div class="col">
+        <button class="btn btn-info btn-lg" (click)="cargarVideos()">Mas Videos</button>
+    </div>
+</div> -->

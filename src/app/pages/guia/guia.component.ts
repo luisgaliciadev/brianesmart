@@ -3,6 +3,7 @@ import { UserService, RegisterService } from 'src/app/services/service.index';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Guia } from 'src/app/models/guia.model';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-guia',
@@ -46,7 +47,8 @@ export class GuiaComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) 
   { 
     this.guia.ID_USUARIO_BS = this._userService.user.ID_USER;
@@ -61,7 +63,7 @@ export class GuiaComponent implements OnInit {
         this.getGuia();
         this.getOrdenesServicioAll();
       } else {
-        // this.loading = false;
+        // this.spinner.hide();
         this.getOrdenesServicio();
       }
     });
@@ -123,7 +125,7 @@ export class GuiaComponent implements OnInit {
     } 
     // console.log(data);
     // return;
-    this.registrando = true;
+    this.spinner.show();
     this.guia.FECHA = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
     // this.guia.FH_TRASLADO = data.fhTraslado + ' ' + data.horaTraslado + ':' + data.minTraslado;
     this.guia.FH_TRASLADO = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
@@ -141,37 +143,37 @@ export class GuiaComponent implements OnInit {
 
     if (this.tipoServicio === 'ALQUILER' && this.guia.TIEMPO_VIAJE <= 0) {
       Swal.fire('Mensaje', 'Error en fecha/hora de emisión ó fin, por favor verificar.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     }
 
     if (this.guia.PESO_BRUTO <= 0 || this.guia.PESO_TARA <= 0) {
       Swal.fire('Mensaje', 'Error en peso bruto ó peso tara, por favor verificar.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if (this.guia.PESO_NETO <= 0) {
       Swal.fire('Mensaje', 'Error en peso neto, por favor verificar.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if (this.guia.ID_TRACTO == 0) {
       Swal.fire('Mensaje', 'Disculpe, debe ingresar una placa de tracto correcta.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if (this.guia.ID_REMOLQUE == 0) {
       Swal.fire('Mensaje', 'Disculpe, debe ingresar una placa de remolque correcta.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if(this.tipoEmpresa && this.guia.ID_EMPRESA == 0) {
       Swal.fire('Mensaje', 'Disculpe, debe ingresar una empresa subcontratada.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
@@ -210,12 +212,12 @@ export class GuiaComponent implements OnInit {
           this.tipoEmpresa = false;
           this.ruc = ''
           this.nombreCliente = ''
-          this.registrando = false;
+          this.spinner.hide();
           // document.getElementById("fhEmision").focus(); 
         }        
       },
       (error: any) => {
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -225,7 +227,7 @@ export class GuiaComponent implements OnInit {
     if (!token) {
       return;
     }    
-    this.registrando = true;
+    this.spinner.show();
     this.guia.FECHA = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
     // this.guia.FH_TRASLADO = data.fhTraslado + ' ' + data.horaTraslado + ':' + data.minTraslado;
     this.guia.FH_TRASLADO = data.fhEmision + ' ' + data.horaEmision + ':' + data.minEmision;
@@ -243,48 +245,48 @@ export class GuiaComponent implements OnInit {
 
     if (this.tipoServicio === 'ALQUILER' && this.guia.TIEMPO_VIAJE <= 0) {
       Swal.fire('Mensaje', 'Error en fecha/hora de emisión ó fin, por favor verificar.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     }
 
     if (this.guia.PESO_BRUTO <= 0 || this.guia.PESO_TARA <= 0) {
       Swal.fire('Mensaje', 'Error en peso bruto ó peso tara, por favor verificar.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if (this.guia.PESO_NETO <= 0) {
       Swal.fire('Mensaje', 'Error en peso neto, por favor verificar.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if (this.guia.ID_TRACTO == 0) {
       Swal.fire('Mensaje', 'Disculpe, debe ingresar una placa de tracto correcta.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if (this.guia.ID_REMOLQUE == 0) {
       Swal.fire('Mensaje', 'Disculpe, debe ingresar una placa de remolque correcta.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
 
     if(this.tipoEmpresa && this.guia.ID_EMPRESA == 0) {
       Swal.fire('Mensaje', 'Disculpe, debe ingresar una empresa subcontratada.', 'warning');
-      this.registrando = false;
+      this.spinner.hide();
       return;
     } 
  
     this._registerService.updateGuia(this.guia).subscribe(
       (response: any) => {
         if (response.guia) {
-          this.registrando = false;
+          this.spinner.hide();
         }        
       },
       (error: any) => {
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -340,7 +342,7 @@ export class GuiaComponent implements OnInit {
   }
 
   getOrdenesServicio() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrdenServicio(this._userService.user.ID_USER).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;      
@@ -350,7 +352,7 @@ export class GuiaComponent implements OnInit {
           this.getVehiculo(this.guia.PLACA_TRACTO,1);
           this.getVehiculo(this.guia.PLACA_REMOLQUE,2);
         }
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
           this.ordenes = [];
@@ -360,7 +362,7 @@ export class GuiaComponent implements OnInit {
 
   getOrdenesServicioAll() {
     // console.log('todas las os');
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrdenServicioAll(this._userService.user.ID_USER).subscribe(
       (response: any) => {         
         this.ordenes = response.ordenesServicio;      
@@ -370,7 +372,7 @@ export class GuiaComponent implements OnInit {
           this.getVehiculo(this.guia.PLACA_TRACTO,1);
           this.getVehiculo(this.guia.PLACA_REMOLQUE,2);
         }
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
           this.ordenes = [];

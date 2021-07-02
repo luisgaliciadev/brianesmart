@@ -1,18 +1,5 @@
 <div class="col-12 animated fadeInRight">
-
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -55,7 +42,7 @@
                                         Guardar
                                     </button>
 
-                                    <button *ngIf="idTareo > 0"  style="margin-left: 3px;" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="registerTareoOp()">
+                                    <button *ngIf="idTareo > 0"  style="margin-left: 3px;" type="button" class="btn btn-danger waves-effect waves-light m-r-10" (click)="deleteTareoOp()">
                                         <i class="fa fa-trash-o"></i>
                                         Anular
                                     </button>
@@ -117,8 +104,8 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let conductor of conductores | recursosConductor:buscarConductor; index as i">
-                                            <td>{{i+1}}</td>
-                                            <td>{{conductor.ID_Chofer}}</td>
+                                            <td class="text-center">{{i+1}}</td>
+                                            <td class="text-center">{{conductor.ID_Chofer}}</td>
                                             <td>{{conductor.Nombre}}</td>
                                             <td class="text-center">
                                                 <div style="height: 10px;" class="checkbox checkbox-info p-t-0">
@@ -134,7 +121,17 @@
                                         
                         <hr>
                     
-                        <h3>Tareo</h3>   
+                        <div class="row">
+                            <div class="col-sm">
+                                <h3>Tareo (<small>{{totalRegistros}}</small>)</h3>
+                            </div>
+                            <div class="col-sm text-right">
+                                <button  type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="tableToExcel('tareo', 'tareOperaciones')">
+                                    <i class="mdi mdi-file-excel"></i>
+                                    Exportar
+                                </button>
+                            </div>
+                        </div> 
                         <div class="table-container" style="height: 500px;">    
                             <table class="tabla-tareo-op">
                                 <thead>
@@ -234,6 +231,64 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div hidden id="tareo" class="table-container" style="height: 500px;">    
+        <table class="tabla-tareo-op">
+            <thead>
+                <tr>
+                    <th style="border: solid 1px gray; background: rgb(113, 172, 235)" class="text-center items">ITEMS</th>
+                    <th style="border: solid 1px gray; background: rgb(113, 172, 235)" class="text-center conductor">Conductor</th>
+                    <th style="border: solid 1px gray;  background: rgb(113, 172, 235)" class="text-center" *ngFor = "let dia of dias">
+                        {{dia.NOMBRE_DIA}} {{dia.DIA}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tareo of detaTareo; index as i">   
+                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center align-middle items">{{i+1}}</td>  
+                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="align-middle conductor">{{tareo.nombre}}</td>
+                    <td style="border: solid 1px gray;" class="dias text-center" *ngFor = "let dia of dias">                                         
+                        <table class="tabla-tareo-op-turno fz-8px">
+                            <thead>
+                                <tr>
+                                    <th style="border: solid 1px gray; background: rgb(113, 172, 235)" class="text-center">TURNO 1</th>
+                                    <th style="border: solid 1px gray; background: rgb(113, 172, 235)" *ngIf = "cantTurnos >= 2" class="text-center">TURNO 2</th>
+                                    <th style="border: solid 1px gray; background: rgb(113, 172, 235)" *ngIf = "cantTurnos >= 3" class="text-center">TURNO 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-toggle="tooltip" data-placement="top" title="{{tareo.nombre}} | {{detaTareo[i][dia.DIA]['dia']}}">   
+                                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center" *ngIf = "detaTareo[i][dia.DIA]['turno1'] === 0">
+                                       {{detaTareo[i][dia.DIA]['codigo1']}}
+                                    </td>
+
+                                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center" *ngIf = "detaTareo[i][dia.DIA]['turno1'] > 0">
+                                        {{detaTareo[i][dia.DIA]['codigo1']}}                                        
+                                    </td>
+
+                                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center" *ngIf = "detaTareo[i][dia.DIA]['turno2'] === 0 && cantTurnos >= 2">
+                                        {{detaTareo[i][dia.DIA]['codigo2']}}                                        
+                                    </td>
+
+                                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center" *ngIf = "detaTareo[i][dia.DIA]['turno2'] > 0 && cantTurnos >= 2">
+                                        {{detaTareo[i][dia.DIA]['codigo2']}}                                        
+                                    </td>
+
+                                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center" *ngIf = "detaTareo[i][dia.DIA]['turno3'] === 0 && cantTurnos >= 3">
+                                        {{detaTareo[i][dia.DIA]['codigo3']}}
+                                    </td>
+                                                    
+                                    <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center" *ngIf = "detaTareo[i][dia.DIA]['turno3'] > 0 && cantTurnos >= 3">
+                                        {{detaTareo[i][dia.DIA]['codigo3']}}                                        
+                                    </td>                       
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>                               
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 

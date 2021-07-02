@@ -4,10 +4,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-
 // Modules
 import { SharedModule } from '../shared/shaerd.module';
-import { PAGES_ROUTES } from './pages.routes';
+import { PagesRoutingModule } from './pages-routing.module';
 
 // MODULO DE GRAFICAS
 import { ChartsModule } from 'ng2-charts';
@@ -41,7 +40,6 @@ import { ClientsComponent } from './clients/clients.component';
 import { AddClientComponent } from './add-client/add-client.component';
 import { UpdateAddressClientComponent } from './update-address-client/update-address-client.component';
 import { DashboardOpComponent } from './dashboard-op/dashboard-op.component';
-import { RutaPeajeComponent } from './ruta-peaje/ruta-peaje.component';
 import { DashboardGuiasComponent } from './dashboard-guias/dashboard-guias.component';
 import { DenunciasComponent } from './denuncias/denuncias.component';
 import { VerdenunciaComponent } from './verdenuncia/verdenuncia.component';
@@ -97,6 +95,12 @@ import { DashboardDifpesoComponent } from './dashboard-difpeso/dashboard-difpeso
 import { TareoOperacionesComponent } from './tareo-operaciones/tareo-operaciones.component';
 import { TareosOperacionesComponent } from './tareos-operaciones/tareos-operaciones.component';
 import { DashboardManticsComponent } from './dashboard-mantics/dashboard-mantics.component';
+import { VideosInstructivosComponent } from './videos-instructivos/videos-instructivos.component';
+import { RendimientoConductoresComponent } from './rendimiento-conductores/rendimiento-conductores.component';
+import { ProdConductorTractoComponent } from './prod-conductor-tracto/prod-conductor-tracto.component';
+import { RendimientoConductorComponent } from './rendimiento-conductor/rendimiento-conductor.component';
+
+
 
 @NgModule({
     declarations: [
@@ -119,7 +123,6 @@ import { DashboardManticsComponent } from './dashboard-mantics/dashboard-mantics
         AddClientComponent,
         UpdateAddressClientComponent,
         DashboardOpComponent,
-        RutaPeajeComponent,
         DashboardGuiasComponent,
         DenunciasComponent,
         VerdenunciaComponent,
@@ -174,18 +177,17 @@ import { DashboardManticsComponent } from './dashboard-mantics/dashboard-mantics
         DashboardDifpesoComponent,
         TareoOperacionesComponent,
         TareosOperacionesComponent,
-        DashboardManticsComponent
+        DashboardManticsComponent,
+        VideosInstructivosComponent,
+        RendimientoConductoresComponent,
+        ProdConductorTractoComponent,
+        RendimientoConductorComponent
     ],
-    exports: [
-        // PagesComponent,
-        // DashboardComponent,
-        // ProgressComponent,
-        // Graphics1Component
-    ],
+    exports: [],
     imports: [
         CommonModule,
         SharedModule,
-        PAGES_ROUTES,
+        PagesRoutingModule,
         FormsModule,
         ChartsModule,
         PipesModule,

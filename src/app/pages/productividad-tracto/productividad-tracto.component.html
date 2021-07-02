@@ -1,18 +1,5 @@
 <div class="col-12 animated fadeInRight">
-
-    <div class="row" *ngIf="loading">
-        <div class="col-sm-12">
-            <div class="alert alert-warning text-center">
-                <strong>Cargando...</strong>
-                <br>
-                <i class="fa fa-refresh fa-spin fa-2x"></i>
-                <br>
-                <span>Por Favor Espere...</span>
-            </div>
-        </div>    
-    </div>
-
-    <div class="row" *ngIf="!loading">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
@@ -54,7 +41,7 @@
                     </div>
                 
                     <div class="table-container">                    
-                        <table class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px;">
+                        <table class="tabla-productividad-conductor">
                             <thead>
                                 <tr>
                                     <th class="placa">Placa</th>
@@ -84,8 +71,8 @@
                                             <input (keyup.enter) = "registerUpdateMotivoNoTracto(i,dia.DIA,dia.FECHA)" *ngIf = "!productividadTractos[i][dia.DIA]['viajes']['length']" [(ngModel)]="productividadTractos[i][dia.DIA]['motivo']" name="MOTIVO" type="text" class="motivo-no-viajes bg-danger text-light">
                                         </div> 
                                     </td>                                     
-                                    <td class="text-center totales">{{productividadTracto.viajesTotal}}</td>
-                                    <td style="min-width: 150px !important;" class="text-center totales">S/ {{productividadTracto.tarifaTotal}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{productividadTracto.placa}}" class="text-center totales">{{productividadTracto.viajesTotal}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{productividadTracto.placa}}" style="min-width: 150px !important;" class="text-center totales">S/ {{productividadTracto.tarifaTotal}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -109,7 +96,7 @@
 </div>
 
 
-<table hidden id = "tractoProductividad" class="tabla-productividad-conductor" [style.width.px]="anchoTabla" style="height: 500px; border: solid 1px gray">
+<table hidden id = "tractoProductividad" class="tabla-productividad-conductor" style="border: solid 1px gray">
     <thead>
         <tr>
             <th style="border: solid 1px gray;" class="items">ITEMS</th>
@@ -138,13 +125,13 @@
                                 </tr>
                         </tbody>
                     </table>    
-                    <div *ngIf = "!productividadTotal[i][dia.DIA]['viajes']['length']" >
-                        <a style="font-weight: bold; vertical-align:middle">{{productividadTotal[i][dia.DIA]['motivo']}}</a>
+                    <div *ngIf = "!productividadTotal[i][dia.DIA]['viajes']['length']" style="font-weight: bold; vertical-align:middle; text-align: center;">
+                       {{productividadTotal[i][dia.DIA]['motivo']}}
                     </div>
                 </div> 
             </td>                                     
-            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle">{{productividadTracto.viajesTotal}}</td>
-            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle">S/ {{productividadTracto.tarifaTotal}}</td>
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle; text-align: center;">{{productividadTracto.viajesTotal}}</td>
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle; text-align: center;">S/ {{productividadTracto.tarifaTotal}}</td>
         </tr>
     </tbody>
 </table>

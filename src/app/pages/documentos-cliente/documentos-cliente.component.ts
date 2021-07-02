@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 
@@ -10,7 +11,6 @@ import Swal from 'sweetalert2';
   ]
 })
 export class DocumentosClienteComponent implements OnInit {
-  loading = false;
   clientes = [];
   RUC = '';
   idCliente = 0;
@@ -18,8 +18,6 @@ export class DocumentosClienteComponent implements OnInit {
   idDocumento = 0;
   documentosCliente = [];
   totalRegistros = 0;
-  busqueda = false;
-  resgistrado = false;
   dniConductor = '';
   nombreConductor = '';
 
@@ -27,7 +25,8 @@ export class DocumentosClienteComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -37,14 +36,14 @@ export class DocumentosClienteComponent implements OnInit {
   }
 
   getClientes() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getClientes().subscribe(
       (response: any) => {
         this.clientes = response.clientes;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -73,14 +72,14 @@ export class DocumentosClienteComponent implements OnInit {
   }
 
   getDocumentos() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getDocConductoresCliente(0).subscribe(
       (response: any) => {
         this.documentos = response.documentos;
-        this.loading = false;
+        // this.spinner.hide();
       },
-      (error:any) => {
-        this.loading = false;
+      (error: any) => {
+        // this.spinner.hide();
       }
     );
   }
@@ -101,7 +100,7 @@ export class DocumentosClienteComponent implements OnInit {
       return;
     }
 
-    this.resgistrado = true;
+    this.spinner.show();
     let data = {
       idDocumento: this.idDocumento,
       idCliente: this.idCliente,
@@ -112,10 +111,10 @@ export class DocumentosClienteComponent implements OnInit {
       (response: any) => {
         this.getDocumentosCliente(this.idCliente);
         this.idDocumento = 0;
-        this.resgistrado = false;
+        this.spinner.hide();
       },
       error => {
-        this.resgistrado = false;
+        this.spinner.hide();
       }
     );
   }
@@ -125,15 +124,15 @@ export class DocumentosClienteComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.busqueda = true;
+    this.spinner.show();
     this._registerService.getDocClientes(idCliente).subscribe(
       (response: any) => {
         this.documentosCliente = response.documentosCliente;
         this.totalRegistros = this.documentosCliente.length;
-        this.busqueda = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.busqueda = false;
+        this.spinner.hide();
       }
     );
   }
@@ -143,14 +142,14 @@ export class DocumentosClienteComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.resgistrado = true;
+    this.spinner.show();
     this._registerService.deleteDocCliente(id).subscribe(
       (response: any) => {
         this.getDocumentosCliente(this.idCliente);
-        this.resgistrado = false;
+        this.spinner.hide();
       },
       error => {
-        this.resgistrado = false;
+        this.spinner.hide();
       }
     );
   }

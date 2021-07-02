@@ -1,0 +1,222 @@
+<div class="col-12 animated fadeInRight">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div class="form-group">
+                        <div class="text-left">
+                            <button [disabled] ="activeButton" type="button" class="btn waves-effect waves-light btn-rounded btn-success">
+                                <i class="mdi mdi-file-excel"></i>
+                                Exportar
+                            </button>
+                        </div>  
+                    </div> -->
+                    
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getRendimientos()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div> 
+
+                    <h3>Listado de Rendimiento de Conductores (<small>{{totalRegistros}}</small>)</h3>
+                    <div class="input-group">
+                        <input [(ngModel)]="buscarCond" name="buscarCond" type="text" class="form-control" placeholder="Buscar">                        
+                    </div> 
+                    <div class="table-container table-hover" style="height: 500px; margin-top: 5px">
+                        <table class="tabla-rendimiento-cond no-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="text-center items">Items</th>
+                                    <th class="text-center conductor">Conductor</th>
+                                    <th class="text-center">DNI</th>
+                                    <th class="text-center">Días Asistidos</th>
+                                    <th class="text-center">Días Puntuales</th>
+                                    <th class="text-center">Indicador Puntualidad</th>
+                                    <th class="text-center">Porcentaje Puntualidad</th>
+                                    <th class="text-center">Puntuación Puntualidad</th>
+                                    <th class="text-center">Op. Asignados</th>
+                                    <th class="text-center">Faltas A Op.</th>
+                                    <th class="text-center">Asistencia A Op.</th>
+                                    <th class="text-center">Indicador Op.</th>
+                                    <th class="text-center">Porcentaje Op.</th>
+                                    <th class="text-center">Puntuación Op.</th>
+                                    <th class="text-center">Viajes</th>
+                                    <th class="text-center">Indicador Viajes</th>
+                                    <th class="text-center">Porcentaje Viajes</th>
+                                    <th class="text-center">Puntuación Viajes</th>
+                                    <th class="text-center">Puntuación Total</th>
+                                    <!-- <th class="text-center">Servicios</th> -->
+                                    <th class="text-center">Tn. Movilizadas</th>
+                                    <th class="text-center accion"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let conductor of conductores | rendimientoConductor:buscarCond ; index as i">
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center items">{{i+1}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="conductor">{{conductor.NOMBRES}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.DNI}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.DIAS_ASISTIDOS}}</td>                       
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.DIAS_PUNTUALES}}</td>  
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.INDICADOR_PUNTUALIDAD}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PORCENTAJE_PUNTUALIDAD}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PUNTUACION_PUNTUALIDAD}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.OPERATIVOS_ASIGNADOS}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.FALTAS_OPERATIVOS}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.DIAS_PRODUCTIVOS}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.INDICADOR_OPERATIVO}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PORCENTAJE_OPERATIVOS}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PUNTUACION_OPERATIVOS}}</td>   
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.TOTAL_VIAJES}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.INDICADOR_PRODUCCION}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PORCENTAJE_PRODUCCION}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PUNTUACION_PRODUCCION}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.PUNTUACION_TOTAL}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.TN | number:'4.1-5'}}</td>
+                                    <!-- <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center">{{conductor.SERVICIOS}}</td> -->
+                                    <td data-toggle="tooltip" data-placement="top" title="{{conductor.NOMBRES}} - {{conductor.DNI}}" class="text-center accion">
+                                        <i (click)="getRendimiento(i)" data-toggle="tooltip" data-placement="top" title="Ver Detalle" class="fa fa-search pointer text-info fz-15px" data-toggle="modal" data-target="#rendimientoCond"></i> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Facturas Registradas-->
+<div class="modal fade bs-example-modal-lg" id="rendimientoCond" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalle del Rendimiento | Periodo: {{fhDesde | date}} / {{fhHasta | date}} </h5> 
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>        
+        <div  class="modal-body">
+            <div *ngIf="loadingFoto" align="center" title="0">
+                <h4>Cargando</h4>  
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw text-info"></i>
+                <h4>Por Favor Espere</h4>
+            </div>    
+            <div *ngIf="!loadingFoto" >
+                <div class="row">
+                    <div class="col-5">
+                        <div class="row">
+                            <div class="col-sm-4 text-center">
+                                <div class="card">
+                                    <div class="box bg-success text-center">
+                                        <h1 class="font-light text-white">{{posicion}}</h1>
+                                        <h6 class="text-white">Posición</h6>
+                                    </div>
+                                </div>
+                                <!-- <a *ngIf ="!foto"><img src="assets/images/users/user.jpg" alt="user" class="img-circle" style="height: 100px; width: 100px;"></a> -->
+                                <!-- <a *ngIf ="foto"><img [src]="'data:image/jpeg;base64,' + foto" alt="user" class="img-circle" style="height: 100px; width: 100px;"></a> -->
+                            </div>
+                            <div class="col-sm">
+                                <address>
+                                    <label><b>Nombre:</b> {{conductor.NOMBRES}}</label>
+                                    <br>
+                                    <label><b>DNI:</b> {{conductor.DNI}}</label> 
+                                    <br>
+                                    <label><b>Área:</b> {{areaConductor}}</label> 
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <table class="table color-bordered-table success-bordered-table table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Días Asistidos</th>
+                                    <th class="text-center">Días Puntuales</th>
+                                    <th class="text-center">Porcentaje Puntualidad</th>
+                                    <th class="text-center">Puntuación Puntualidad</th>
+                                    <th class="text-center">Faltas A Operativos</th>
+                                    <th class="text-center">Asistencia Operativos</th>
+                                    <th class="text-center">Porcentaje Operativos</th>
+                                    <th class="text-center">Puntuación Operativos</th>
+                                    <th class="text-center">Viajes</th>
+                                    <th class="text-center">Porcentaje Viajes</th>
+                                    <th class="text-center">Puntuación Viajes</th>
+                                    <th class="text-center">Puntuación Total</th>
+                                    <th class="text-center">Toneladas Movilizadas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">{{conductor.DIAS_ASISTIDOS}}</td>
+                                    <td class="text-center">{{conductor.DIAS_PUNTUALES}}</td>
+                                    <td class="text-center">{{conductor.PORCENTAJE_PUNTUALIDAD}}</td>
+                                    <td class="text-center">{{conductor.PUNTUACION_PUNTUALIDAD}}</td>
+                                    <td class="text-center">{{conductor.FALTAS_OPERATIVOS}}</td>
+                                    <td class="text-center">{{conductor.DIAS_PRODUCTIVOS}}</td>
+                                    <td class="text-center">{{conductor.PORCENTAJE_OPERATIVOS}}</td>
+                                    <td class="text-center">{{conductor.PUNTUACION_OPERATIVOS}}</td>
+                                    <td class="text-center">{{conductor.TOTAL_VIAJES}}</td>
+                                    <td class="text-center">{{conductor.PORCENTAJE_PRODUCCION}}</td>
+                                    <td class="text-center">{{conductor.PUNTUACION_PRODUCCION}}</td>
+                                    <td class="text-center">{{conductor.PUNTUACION_TOTAL}}</td>
+                                    <td class="text-center">{{conductor.TN | number:'4.1-5'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div align="center" title="0">                        
+                        <div class="checkbox checkbox-primary p-t-0">
+                            <input (change)="verMeta(meta)" [value]="meta" class="filled-in" [(ngModel)]="meta" name="check1" id="check1" type="checkbox">
+                            <label for="check1">Ver Meta</label>
+                        </div>
+                    </div>    
+                </div>    
+                <div style="display: block">
+                    <canvas baseChart
+                      [datasets]="radarChartData"
+                      [options]="radarChartOptions"
+                      [labels]="radarChartLabels"
+                      [chartType]="radarChartType">
+                    </canvas>
+                </div>
+                 
+                <div style="display: block">
+                    <canvas baseChart
+                        [data]="polarAreaChartData"
+                        [labels]="polarAreaChartLabels"
+                        [legend]="polarAreaLegend"
+                        [chartType]="polarAreaChartType">
+                    </canvas>
+                </div>  
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="meta = false" type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+</div>

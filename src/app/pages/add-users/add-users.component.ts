@@ -3,6 +3,7 @@ import { User } from 'src/app/models/user.model';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -20,12 +21,10 @@ export class AddUsersComponent implements OnInit {
   public roles;
 
   constructor(
-    // tslint:disable-next-line: variable-name
     public _userService: UserService,
-    // tslint:disable-next-line: variable-name
     public _route: ActivatedRoute,
-    // tslint:disable-next-line: variable-name
-    public _router: Router
+    public _router: Router,
+    private spinner: NgxSpinnerService
 
   ) {
     this.user = new User('', '', '', '', 0, false, '', '', 0);
@@ -49,25 +48,29 @@ export class AddUsersComponent implements OnInit {
   }
 
   getRoles() {
+    this.spinner.show();
     this._userService.getRoles().subscribe(
       (response: any) => {
         this.roles = response;
-        // console.log(this.roles);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
       }
     );
   }
   saveUser(user) {
-    // console.log(user);
-    // return;
-
+    this.spinner.show();
     if (user.PASSWORD === user.PASSWORD2) {
       this._userService.userRegister(user).subscribe(
         (response: any) => {
           this._router.navigate(['/user', response.ID_USER]);
+          this.spinner.hide();
         }
       );
     } else {
       Swal.fire('Mensaje', 'Las constraseñas no son iguales.', 'warning');
+      this.spinner.hide();
     }
   }
 
@@ -78,9 +81,13 @@ export class AddUsersComponent implements OnInit {
     this.user.ID_USER = this.ID_USER;
     this.user.IDEN = user.IDEN;
     this.user.EMAIL = user.EMAIL;
+    this.spinner.show();
     this._userService.updateProfile(this.user).subscribe(
       (response: any) => {
-        // this._router.navigate(['/users']);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
       }
     );
   }
@@ -89,20 +96,27 @@ export class AddUsersComponent implements OnInit {
     if (user.passReset === user.passReset2) {
       this.user.PASSWORD = user.passReset;
       this.user.ID_USER = this.ID_USER;    
+      this.spinner.show();
       this._userService.updatePasswordAdmin(this.user).subscribe(
         (response: any) => {
-          // this._router.navigate(['/users']);
+          this.spinner.hide();
+        },
+        error => {
+          this.spinner.hide();
         }
       );
     } else {
       Swal.fire('Mensaje', 'Las constraseñas no son iguales.', 'warning');
+      this.spinner.hide();
     }
   }
 
   deleteUser(idUser: number) {
+    this.spinner.show();
     this._userService.deleteUser(idUser).subscribe(
       (response: any) => {
         this._router.navigate(['/users']);
+        this.spinner.hide();
       }
     );
   }

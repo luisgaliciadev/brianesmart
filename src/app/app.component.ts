@@ -11,7 +11,6 @@ import { SettingsService } from './services/service.index';
 export class AppComponent {
   title = 'Briane Smart';
 
-  // tslint:disable-next-line: variable-name
   constructor( public _ajustes: SettingsService) {
 
   }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { RegisterService, UserService } from '../services/service.index';
 import Swal from 'sweetalert2';
 import { Denuncia } from '../models/denuncia.model';
-import { REFERENCE_PREFIX } from '@angular/compiler/src/render3/view/util';
 
 
 declare function init_plugins();

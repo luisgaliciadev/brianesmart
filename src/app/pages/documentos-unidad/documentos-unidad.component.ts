@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import {saveAs} from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-documentos-unidad',
@@ -25,7 +26,8 @@ export class DocumentosUnidadComponent implements OnInit {
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -36,25 +38,25 @@ export class DocumentosUnidadComponent implements OnInit {
   }
 
   getDiasTramiteUnidadCond() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getDiasTramiteUnidadCond().subscribe(
       (response: any) => {
         this.diasTramite = response.cantidadDiasTramite;
-        this.loading = false;
+        this.spinner.hide();
       }, error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
 
   getTipoDocumentosUnidad() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getTipoDocumentosUnidad().subscribe(
       (response: any) => {
         this.tipoDocumentos = response.tipoDocumentosUnidad;
-        this.loading = false;
+        this.spinner.hide();
       }, error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -64,7 +66,7 @@ export class DocumentosUnidadComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     if (this.search === '') {
       this.search = '0';
     }
@@ -72,10 +74,10 @@ export class DocumentosUnidadComponent implements OnInit {
       (response: any) => {
         this.documentos = response.documentos;
         this.totalRegistros = this.documentos.length;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -92,14 +94,14 @@ export class DocumentosUnidadComponent implements OnInit {
       fgFhVencimiento: data.fgFhVencimiento,
       idUsuario: this._userService.user.ID_USER
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.registerDocUnidad(documento).subscribe(
       (response: any) => {
         this.getDocumentos();
         this.cancel();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -125,14 +127,14 @@ export class DocumentosUnidadComponent implements OnInit {
       fgFhVencimiento: this.documentos[i].FG_FH_VENCIMIENTO,
       idUsuario: this._userService.user.ID_USER
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.updateDocUnidad(documento).subscribe(
       (response: any) => {
         this.getDocumentos();
         this.cancel();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -142,14 +144,14 @@ export class DocumentosUnidadComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.deleteDocUnidad(id).subscribe(
       (response: any) => {
         this.getDocumentos();
         this.cancel();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -162,7 +164,7 @@ export class DocumentosUnidadComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getExelDocumentosUnidad().subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -171,10 +173,10 @@ export class DocumentosUnidadComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `documentosUnidad.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }

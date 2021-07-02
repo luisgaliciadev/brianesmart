@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService, RegisterService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 // import {FileSaver} from 'file-saver';
 // import * as FileSaver from 'file-saver';
 // import * as XLSX from 'xlsx';
@@ -16,10 +17,10 @@ import { Router } from '@angular/router';
   ]
 })
 export class ProductividadConductorComponent implements OnInit {
+  
   productividadConductores = [];
   desde = 0;
   hasta = 5;
-  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -35,11 +36,14 @@ export class ProductividadConductorComponent implements OnInit {
   cantDias = 0;
   viajes = "viajes"
   anchoTabla = 0;
+  zonasConductor = [];
+  idZona = 0;
 
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) { 
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -58,6 +62,20 @@ export class ProductividadConductorComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.permisoModule(this._router.url);
+    this.getZonasConcutor();
+  }
+
+  getZonasConcutor() {
+    this.spinner.show();
+    this._registerService.getZonaConductor().subscribe(
+      (response: any) => {        
+        this.zonasConductor = response.zonasConductor
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
+      }
+    );
   }
 
   async getProductividad() {
@@ -65,9 +83,14 @@ export class ProductividadConductorComponent implements OnInit {
     if (!token) {
       return;
     }
-
-    this.loading = true;
-    this._registerService.getProductividadConductor(this.fhDesde, this.fhHasta).subscribe(
+    let search = ''
+    if(this.search === '') {
+      search = '0';
+    } else {
+      search = this.search;
+    }
+    this.spinner.show();
+    this._registerService.getProductividadConductor(this.fhDesde, this.fhHasta, this.idZona, search).subscribe(
       (response: any) => {
         this.desde = 0;
         this.hasta = 5;
@@ -82,7 +105,10 @@ export class ProductividadConductorComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
+      }, 
+      error => {
+        this.spinner.hide();
       }
     );
   }
@@ -149,24 +175,6 @@ export class ProductividadConductorComponent implements OnInit {
     this.filtroPagina();
   }
 
-  // exportToExcel(json: any[], excelFile: string ): void {
-  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-  //   const workbook: XLSX.WorkBook = { 
-  //     Sheets: {'data': worksheet},
-  //     SheetNames: ['data']
-  //   };
-  
-  //   const excelBuffer: any = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
-  //   // call method buffer  and fileName
-
-
-  // }
-
-  // saveAsExcel(buffer: any, fileName: string) {
-  //   const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-  //   FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime + EXCEL_EXT);
-  // }
-
   async tableToExcel(tableID, filename = ''){
     let token = await this._userService.validarToken();
     if (!token) {
@@ -207,15 +215,20 @@ export class ProductividadConductorComponent implements OnInit {
     }
   }
 
-  // exportF(): void {
-  //   let element = document.getElementById('conductorProductividad2');
-  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+  // Limpiar busqueda
+  clear() {
+    this.search = '';
+    // this.getProductividad();
+  }
 
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-  //   XLSX.writeFile(wb, 'prueba.xlsx')
-  // }
-
- 
+  // Activar o desactivar botones de reportes
+  activeButtons() {
+    if (this.search.length > 0) {
+      this.activeButton = true;
+    } else {
+      this.activeButton = false;
+      this.getProductividad();
+    }
+  }
+   
 }

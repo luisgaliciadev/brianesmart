@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import {saveAs} from 'file-saver';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-descuento-peajes',
@@ -30,7 +31,8 @@ export class DescuentoPeajesComponent implements OnInit {
   constructor(
     public _router: Router,
     private _userService: UserService,
-    public _registerService: RegisterService
+    public _registerService: RegisterService,
+    private spinner: NgxSpinnerService
   ) {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -56,7 +58,7 @@ export class DescuentoPeajesComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     if (search === '') {
       search = '0';
     }
@@ -72,7 +74,7 @@ export class DescuentoPeajesComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       }
     );
@@ -86,7 +88,7 @@ export class DescuentoPeajesComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getExcelDescuentoPeaje(this.fhDesde, this.fhHasta, this.search).subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -95,10 +97,10 @@ export class DescuentoPeajesComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `descuentosPeaje.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -151,9 +153,9 @@ export class DescuentoPeajesComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listdescuentopeajes/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
+      window.open('#/reports/listdescuentopeajes/' + '0/' + this.fhDesde + '/' + this.fhHasta, '0', '_blank');
     } else {
-      window.open('#/listdescuentopeajes/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
+      window.open('#/reports/listdescuentopeajes/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta, '0' , '_blank');
     }
   }
 
@@ -222,16 +224,16 @@ export class DescuentoPeajesComponent implements OnInit {
       Swal.fire('Mensaje', 'Debe seleccionar al menos un registro.', 'warning');
       return;
     }
-    this.loading = true;
+    this.spinner.show();
 
     this._registerService.descontarSaldosPeaje(saldos).subscribe(
       (response: any) => {
         // console.log(response);
         this.getPeajeDescuentos(this.search);
-        this.loading = false;
+        this.spinner.hide();
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
     // console.log('saldos:',saldos);

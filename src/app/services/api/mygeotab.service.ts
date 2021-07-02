@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICES } from '../../config/config';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { throwError, Observable } from 'rxjs';
-
+import { throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { UserService } from '../user/user.service';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MygeotabService {
 
-  public URL = URL_SERVICES;
+  public URL = environment.URL_SERVICES;
 
   constructor(
    

@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 // Components
-import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
@@ -12,8 +11,7 @@ import { ModalUploadComponent } from '../components/modal-upload/modal-upload.co
 
 // Pipe Module
 import { PipesModule } from '../pipes/pipes.module';
-
-
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
@@ -23,18 +21,18 @@ import { PipesModule } from '../pipes/pipes.module';
         PipesModule
     ],
     declarations: [
-        NopagefoundComponent,
         HeaderComponent,
         SidebarComponent,
         BreadcrumbsComponent,
-        ModalUploadComponent
+        ModalUploadComponent,
+        FooterComponent
     ],
     exports: [
-        NopagefoundComponent,
         HeaderComponent,
         SidebarComponent,
         BreadcrumbsComponent,
-        ModalUploadComponent
+        ModalUploadComponent,
+        FooterComponent
     ],
     providers: [],
     bootstrap: []

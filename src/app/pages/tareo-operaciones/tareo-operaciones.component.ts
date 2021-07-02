@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import { textChangeRangeIsUnchanged } from 'typescript';
@@ -12,7 +13,6 @@ import { textChangeRangeIsUnchanged } from 'typescript';
 })
 export class TareoOperacionesComponent implements OnInit {
   
-  loading = false;
   zonasConductor = [];
   semanas = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53];
   meses = [];
@@ -35,12 +35,15 @@ export class TareoOperacionesComponent implements OnInit {
   vistaConductor = false;
   buscarConductor = '';
   cantConductoresSelec = 0;
+  totalRegistros = 0;
+  tareoOperaciones: any;
 
   constructor(
     public _registerService: RegisterService,
     public _router: Router,
     public _userService: UserService,
-    public _route: ActivatedRoute
+    public _route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) {
       this.year =  this.date.getFullYear();
       this.nroMes = this.date.getMonth() + 1;
@@ -98,14 +101,14 @@ export class TareoOperacionesComponent implements OnInit {
   }
 
   getConductores() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getConductoresDisponibles().subscribe(
       (response: any) => {
         this.conductores = response.conductores;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -119,19 +122,21 @@ export class TareoOperacionesComponent implements OnInit {
   }
 
   getTareoOp() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getTareoOp(this.idTareo).subscribe(
       (response: any) => {
+        this.tareoOperaciones = response;
         this.dias = response.diasMes;
         this.detaTareo = response.tareoOperacionesTotal;
+        this.totalRegistros = response.tareoOperacionesTotal.length;
         this.year = response.tareoOperaciones.ANIO;
         this.nroMes = response.tareoOperaciones.MES;
         this.idZona = response.tareoOperaciones.ID_ZONA;
         this.cantTurnos =  response.tareoOperaciones.CANT_TURNOS;
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -143,14 +148,14 @@ export class TareoOperacionesComponent implements OnInit {
       idZona: this.idZona,
       idUsuario: this._userService.user.ID_USER,
     }   
-    this.loading = true;
+    this.spinner.show();
     this._registerService.registerTareoOp(data).subscribe(
       (response: any) => {        
         this._router.navigate(['/tareo-operaciones',response.tareoOperaciones.ID_TAREO_OP]);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -205,19 +210,18 @@ export class TareoOperacionesComponent implements OnInit {
       turno3: 0,
       idUsuario: this._userService.user.ID_USER
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.registerDetaTareoOp(data).subscribe(
       (response: any) => {
-        console.log(response);
         this.getTareoOp();
         Swal.fire('Mensaje', 'Registro realizado correctamente.', 'success');
         this.idConductor = 0;
         this.dniConductor = '';
         this.nombreConductor = '';
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -257,15 +261,20 @@ export class TareoOperacionesComponent implements OnInit {
         }
       }
     });  
-    this.loading = true;
+    this.spinner.show();
     this._registerService.registerDetaTareosOp(data).subscribe(
       (response: any) => {
-        console.log(response);
         this.getTareoOp();
-        this.loading = false;
+        let i = 0;
+        this.conductores.forEach(conductor => {
+          this.conductores[i].seleccion = 0;
+          i++;
+        });
+        this.seleccionConductor();
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -275,20 +284,27 @@ export class TareoOperacionesComponent implements OnInit {
     if (!token) {
       return;
     }
-    
     if (deta.idDetatareo === 0) {
       let data = {
         idTareo: this.idTareo,
         idConductor: this.detaTareo[i].idConductor,
         fecha: deta.fecha,
         turno1: deta.turno1,
-        turno2: deta.turno3,
-        turno3: deta.turno2,
+        turno2: deta.turno2,
+        turno3: deta.turno3,
         idUsuario: this._userService.user.ID_USER
       }
       this.disabled = true;
       this._registerService.registerDetaTareoOp(data).subscribe(
         (response: any) => {
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['motivo1'] = response.detaTareoOperaciones.DS_MOTIVO_TAREO_OP1;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['motivo2'] = response.detaTareoOperaciones.DS_MOTIVO_TAREO_OP2;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['motivo3'] = response.detaTareoOperaciones.DS_MOTIVO_TAREO_OP3;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo1'] = response.detaTareoOperaciones.CODIGO1;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo2'] = response.detaTareoOperaciones.CODIGO2;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo3'] = response.detaTareoOperaciones.CODIGO3;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo3'] = response.detaTareoOperaciones.CODIGO3;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['idDetatareo'] = response.detaTareoOperaciones.ID_DETA_TAREO_OP;
           this.disabled = false;
         },
         error => {
@@ -302,17 +318,23 @@ export class TareoOperacionesComponent implements OnInit {
       let data = {
         idDetaTareo: deta.idDetatareo, 
         turno1: deta.turno1,
-        turno2: deta.turno3,
-        turno3: deta.turno2,
+        turno2: deta.turno2,
+        turno3: deta.turno3,
         idUsuario: this._userService.user.ID_USER
       }
       this.disabled = true;
       this._registerService.updateDetaTareoOp(data).subscribe(
         (response: any) => {
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['motivo1'] = response.detaTareoOperaciones.DS_MOTIVO_TAREO_OP1;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['motivo2'] = response.detaTareoOperaciones.DS_MOTIVO_TAREO_OP2;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['motivo3'] = response.detaTareoOperaciones.DS_MOTIVO_TAREO_OP3;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo1'] = response.detaTareoOperaciones.CODIGO1;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo2'] = response.detaTareoOperaciones.CODIGO2;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo3'] = response.detaTareoOperaciones.CODIGO3;
+          this.detaTareo[i][response.detaTareoOperaciones.DIA]['codigo3'] = response.detaTareoOperaciones.CODIGO3;
           this.disabled = false;
         },
         error => {
-          console.log('error')
           this.getTareoOp();
           this.disabled = false;
         }
@@ -320,18 +342,90 @@ export class TareoOperacionesComponent implements OnInit {
     }
   }
 
+  // async deleteDetaTareoOp(idConductor) {
+  //   let token = await this._userService.validarToken();
+  //   if (!token) {
+  //     return;
+  //   }
+
+  //   this._registerService.deleteDetaTareoOp(this.idTareo, idConductor).subscribe(
+  //     (response: any) => {
+  //       this.getTareoOp();
+  //     }
+  //   );
+  // }
+
+  async deleteTareoOp() {
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this._registerService.deleteTareoOp(this.idTareo).subscribe(
+          (response: any) => {
+            // this.getTareoOp();
+            this._router.navigate(['/tareos-operaciones']);
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+          }
+        );
+      } 
+    });
+  }
+
   async deleteDetaTareoOp(idConductor) {
     let token = await this._userService.validarToken();
     if (!token) {
       return;
     }
-
-    this._registerService.deleteDetaTareoOp(this.idTareo, idConductor).subscribe(
-      (response: any) => {
-        this.getTareoOp();
-      }
-    );
-
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })    
+    swalWithBootstrapButtons.fire({
+      title: 'Anular Registro',
+      text: "¿Desea anular este registro? No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value) {
+        this.spinner.show();
+        this._registerService.deleteDetaTareoOp(this.idTareo, idConductor).subscribe(
+          (response: any) => {
+            this.getTareoOp();
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+          }
+        );
+      } 
+    });
   }
 
   verConductores(valor) {
@@ -351,4 +445,67 @@ export class TareoOperacionesComponent implements OnInit {
   limpiar() {
   }
 
+  async tableToExcel(tableID, filename = ''){ 
+    let token = await this._userService.validarToken();
+    if (!token) {
+      return;
+    }  
+    if (this.totalRegistros === 0) {
+      return;
+    }
+    // const tareo = await this.actualizarTareo();
+    // if (tareo) {
+      this.spinner.show();
+      // setTimeout(() => {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');        
+        // Specify file name
+        filename = filename?filename + ' ' + this.tareoOperaciones.tareoOperaciones.NB_ZONA_COND + ' ' + this.nroMes + '.' + this.year + '.xls':'excel_data';
+        // Create download link element
+        downloadLink = document.createElement("a");        
+        document.body.appendChild(downloadLink);        
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });            
+            navigator.msSaveOrOpenBlob( blob, filename);
+            this.spinner.hide();
+        }else{
+           
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;        
+            // Setting the file name
+            downloadLink.download = filename;            
+            //triggering the function
+            downloadLink.click();
+            this.spinner.hide();
+        }
+      // }, 3000);    
+    // } 
+  }
+
+  actualizarTareo() {
+    this.spinner.show();
+    return new Promise(resolve => {
+      this._registerService.getTareoOp(this.idTareo).subscribe(
+        (response: any) => {
+          this.tareoOperaciones = response;
+          this.dias = response.diasMes;
+          this.detaTareo = response.tareoOperacionesTotal;
+          this.totalRegistros = response.tareoOperacionesTotal.length;
+          this.year = response.tareoOperaciones.ANIO;
+          this.nroMes = response.tareoOperaciones.MES;
+          this.idZona = response.tareoOperaciones.ID_ZONA;
+          this.cantTurnos =  response.tareoOperaciones.CANT_TURNOS;
+          resolve(this.tareoOperaciones);
+          this.spinner.hide();
+        },
+        error => {
+          this.spinner.hide();
+        }
+      );
+    });
+  }
 }

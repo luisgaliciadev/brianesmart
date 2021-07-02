@@ -1,0 +1,112 @@
+<div class="col-12 animated fadeInRight">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                    
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getRendimiento()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                        <address>
+                                            <label><b>Nombre:</b> {{conductor.NOMBRES}}</label>
+                                            <br>
+                                            <label><b>DNI:</b> {{conductor.DNI}}</label> 
+                                            <br>
+                                            <label><b>Área:</b> {{areaConductor}}</label> 
+                                        </address>  
+                            </div>
+                            <div class="col-sm-8">
+                                <table class="table color-table inverse-table table-responsive table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Días Asistidos</th>
+                                            <th class="text-center">Días Puntuales</th>
+                                            <th class="text-center">Porcentaje Puntualidad</th>
+                                            <th class="text-center">Puntuación Puntualidad</th>
+                                            <th class="text-center">Faltas A Operativos</th>
+                                            <th class="text-center">Asistencia Operativos</th>
+                                            <th class="text-center">Porcentaje Operativos</th>
+                                            <th class="text-center">Puntuación Operativos</th>
+                                            <th class="text-center">Viajes</th>
+                                            <th class="text-center">Porcentaje Viajes</th>
+                                            <th class="text-center">Puntuación Viajes</th>
+                                            <th class="text-center">Puntuación Total</th>
+                                            <th class="text-center">Toneladas Movilizadas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center">{{conductor.DIAS_ASISTIDOS}}</td>
+                                            <td class="text-center">{{conductor.DIAS_PUNTUALES}}</td>
+                                            <td class="text-center">{{conductor.PORCENTAJE_PUNTUALIDAD}}</td>
+                                            <td class="text-center">{{conductor.PUNTUACION_PUNTUALIDAD}}</td>
+                                            <td class="text-center">{{conductor.FALTAS_OPERATIVOS}}</td>
+                                            <td class="text-center">{{conductor.DIAS_PRODUCTIVOS}}</td>
+                                            <td class="text-center">{{conductor.PORCENTAJE_OPERATIVOS}}</td>
+                                            <td class="text-center">{{conductor.PUNTUACION_OPERATIVOS}}</td>
+                                            <td class="text-center">{{conductor.TOTAL_VIAJES}}</td>
+                                            <td class="text-center">{{conductor.PORCENTAJE_PRODUCCION}}</td>
+                                            <td class="text-center">{{conductor.PUNTUACION_PRODUCCION}}</td>
+                                            <td class="text-center">{{conductor.PUNTUACION_TOTAL}}</td>
+                                            <td class="text-center">{{conductor.TN | number:'4.1-5'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <div>
+                            <div align="center" title="0">                        
+                                <div class="checkbox checkbox-primary p-t-0">
+                                    <input (change)="verMeta(meta)" [value]="meta" class="filled-in" [(ngModel)]="meta" name="check1" id="check1" type="checkbox">
+                                    <label for="check1">Ver Meta</label>
+                                </div>
+                            </div>    
+                        </div>    
+                        <div style="display: block">
+                            <canvas baseChart
+                              [datasets]="radarChartData"
+                              [options]="radarChartOptions"
+                              [labels]="radarChartLabels"
+                              [chartType]="radarChartType">
+                            </canvas>
+                        </div>
+                         
+                        <div style="display: block">
+                            <canvas baseChart
+                                [data]="polarAreaChartData"
+                                [labels]="polarAreaChartLabels"
+                                [legend]="polarAreaLegend"
+                                [chartType]="polarAreaChartType">
+                            </canvas>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

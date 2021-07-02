@@ -4,7 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Peaje } from 'src/app/models/peaje.model';
 import {saveAs} from 'file-saver';
-import { URL_SERVICES } from '../../config/config';
+import { environment } from '../../../environments/environment.prod';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-peaje',
@@ -51,7 +52,7 @@ export class PeajeComponent implements OnInit {
   extesion = ['png','PNG','jpeg','JPEG','jpg','JPG','pdf']; 
   imageUpload: File;
   tempImage: string;
-  URL = URL_SERVICES;
+  URL = environment.URL_SERVICES;
   conceptosGastosOp = [];
   idConceptoGastosOp = 0;
 
@@ -60,7 +61,8 @@ export class PeajeComponent implements OnInit {
     public _router: Router,
     public _userService: UserService,
     public _route: ActivatedRoute,
-    private _uploadFileService: UploadFileService
+    private _uploadFileService: UploadFileService,
+    private spinner: NgxSpinnerService
   ) 
   { 
   }
@@ -83,7 +85,6 @@ export class PeajeComponent implements OnInit {
 
       if (this.peaje.ID_PEAJE > 0) {
         this.modificar = true;
-        // this.getPeaje();
         this.getOrdenesServicioAll(); 
       } else {
         this.getOrdenesServicioAll();
@@ -110,7 +111,7 @@ export class PeajeComponent implements OnInit {
   }
 
   getPeaje() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getPeaje(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
         this.peaje.MONTO_TOTAL = response.peaje.MONTO_TOTAL;
@@ -141,10 +142,10 @@ export class PeajeComponent implements OnInit {
         if (this.peaje.ID_PEAJE > 0) {
           this.datosOrden(this.peaje.ID_ORDEN_SERVICIO);   
         }
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -172,7 +173,7 @@ export class PeajeComponent implements OnInit {
       return;
     }
 
-    this.registrando = true;
+    this.spinner.show();
     this.peaje.ID_USUARIO_BS = this._userService.user.ID_USER;
     let peajes = {
       peaje: this.peaje,
@@ -180,11 +181,11 @@ export class PeajeComponent implements OnInit {
     };
     this._registerService.registerPeaje(peajes).subscribe(
       (response: any) => {
-        this.registrando = false;
+        this.spinner.hide();
         this._router.navigate(['/peajes']);
       },
       error => {
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -220,14 +221,14 @@ export class PeajeComponent implements OnInit {
           peaje: this.peaje,
           detaPeaje: this.conductores
         };
-        this.loading = true;
+        this.spinner.show();
         this._registerService.updatePeaje(peajes).subscribe(
           (response: any) => {
             this.getPeaje();
-            this.loading = false;
+            this.spinner.hide();
           },
           error => {
-            this.loading = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -256,14 +257,14 @@ export class PeajeComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.loading = true;
+        this.spinner.show();
         this._registerService.deletePeaje(this.peaje.ID_PEAJE).subscribe(
           (response: any) => {
             this._router.navigate(['/peajes']);
-            this.loading = false;
+            this.spinner.hide();
           },
           error => {
-            this.loading = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -271,7 +272,7 @@ export class PeajeComponent implements OnInit {
   }
 
   getOrdenesServicioAll() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getOrdenServicioAll(0).subscribe(
       (response: any) => {     
         this.ordenes = response.ordenesServicio;  
@@ -279,11 +280,11 @@ export class PeajeComponent implements OnInit {
           this.getPeaje();  
         } 
         else {
-          this.loading = false;
+          this.spinner.hide();
         }
       },
       (error: any) => {
-          this.loading = false;
+          this.spinner.hide();
           this.ordenes = [];
       }
     );
@@ -503,13 +504,12 @@ export class PeajeComponent implements OnInit {
       idTipoDoc: this.idTipoDocPeaje,
       idConceptoGastosOp: this.idConceptoGastosOp
     }
-    this.registrando = true;
+    this.spinner.show();
     this._registerService.registePeajeFact(factura).subscribe(
       (response: any) => {
         if (this.imageUpload) {
           this.changeImage(response.peajeFactura.ID_RELACION_PEAJES,response.peajeFactura.ID_PEAJE);
         }
-        // this.getPeaje();
         let montoAbono = this.conductores[this.valorI].montoAbono + this.montoDoc;
         if (montoAbono % 1 == 0) {
           this.conductores[this.valorI].montoAbono = montoAbono;
@@ -523,11 +523,11 @@ export class PeajeComponent implements OnInit {
           this.conductores[this.valorI].montoSustentar = parseFloat(montoSustentar.toFixed(2));
         }
         this.limpiarModal();
-        this.registrando = false;
+        this.spinner.hide();
       },
       error => {
         this.limpiarModal();
-        this.registrando = false;
+        this.spinner.hide();
       }
     );
   }
@@ -600,7 +600,7 @@ export class PeajeComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         if (id > 0) {
-          this.registrando = true;
+          this.spinner.show();
           this._registerService.deletePeajeFact(id).subscribe(
             (response: any) => {
               let montoAbono = this.conductores[this.valorI].montoAbono - response.peajeFactura.MONTO_COMPROBANTE;
@@ -617,10 +617,10 @@ export class PeajeComponent implements OnInit {
               }
               this.getPeajesFacturas(idDeta, dni, conductor);
               // this.getPeaje();      
-              this.registrando = false;
+              this.spinner.hide();
             }, 
             error => {
-              this.registrando = false;
+              this.spinner.hide();
             }
           );
         }
@@ -667,6 +667,10 @@ export class PeajeComponent implements OnInit {
     if (!token) {
       return;
     }
+    if(this.conductores.length === 0) {
+      return;
+    }
+    this.spinner.show();
     this._registerService.getExcelPeajeTelecredito(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -675,6 +679,10 @@ export class PeajeComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `${this.peaje.ID_PEAJE}-solicitudPeajes.xlsx`);
+        this.spinner.hide();
+      },
+      error => {
+        this.spinner.hide();
       }
     );
   }
@@ -713,16 +721,16 @@ export class PeajeComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.registrando = true;
+        this.spinner.show();
         this._registerService.procesarPeaje(this.peaje.ID_PEAJE).subscribe(
           (response: any) => {
             if (response) {
               this.getPeaje();
-              this.registrando = false;
+              this.spinner.hide();
             }
           },
           (error: any) => {
-            this.registrando = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -752,16 +760,16 @@ export class PeajeComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        this.registrando = true;
+        this.spinner.show();
         this._registerService.liquidarPeaje(this.peaje.ID_PEAJE).subscribe(
           (response: any) => {
             if (response) {
               this.getPeaje();
-              this.registrando = false;
+              this.spinner.hide();
             }
           },
           (error: any) => {
-            this.registrando = false;
+            this.spinner.hide();
           }
         );
       } 
@@ -774,7 +782,7 @@ export class PeajeComponent implements OnInit {
       return;
     }
     this._userService.loadReport();
-    window.open('#/resumenpeaje/' + this.peaje.ID_PEAJE, '0' , '_blank');
+    window.open('#/reports/resumenpeaje/' + this.peaje.ID_PEAJE, '0' , '_blank');
   }
 
   selectImage(file: File) {
@@ -848,7 +856,7 @@ export class PeajeComponent implements OnInit {
     if (!token) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getExcelPeajeFactTotal(this.peaje.ID_PEAJE).subscribe(
       (response: any) => {
         let fileBlob = response;
@@ -857,14 +865,12 @@ export class PeajeComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `${this.peaje.ID_PEAJE}-gastosOperativosDocumentos.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
-
-
   }
 
 }

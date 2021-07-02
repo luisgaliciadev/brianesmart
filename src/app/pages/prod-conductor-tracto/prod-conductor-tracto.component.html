@@ -1,0 +1,163 @@
+<div class="col-12 animated fadeInRight">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Desde:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhDesde" name="fhDesde" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Hasta:</label>
+                                <div class="input-group">                                            
+                                    <input [(ngModel)]="fhHasta" name="fhHasta" type="date" class="form-control" required>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <div class="col-sm">
+                            <div class="form-group">
+                                <label>Línea Negocio:</label>
+                                <div class="input-group">                   
+                                    <select [(ngModel)]="idZona" name="idZona" class="form-control" required>
+                                        <option value = "0">Seleccione</option>
+                                        <option *ngFor="let zonaConductor of zonasConductor" value = "{{zonaConductor.ID_ZONA_COND}}">{{zonaConductor.NB_ZONA_COND}}</option>
+                                    </select>
+                                    <button style="margin-left: 3px;" type="button" class="btn btn-info waves-effect waves-light m-r-10" (click)="getProductividad()">
+                                        <i class="fa fa-search"></i>
+                                        Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input [(ngModel)]="search" type="text" class="form-control" placeholder="Buscar" (keyup.enter)="getProductividad()" (keyup)="activeButtons()">                        
+                            <div class="input-group-addon"><i class="mdi mdi-delete-forever pointer" data-toggle="tooltip" data-placement="top" title="Borrar Busqueda" (click)="clear()"></i></div>
+                        </div>
+                    </div>
+
+                    
+             
+                    <div class="row">
+                        <div class="col-sm">
+                            <h3>Productividad de Conductores (<small>{{totalRegistros}}</small>)</h3>
+                        </div>
+                        <div class="col-sm text-right">
+                            <button  type="button" class="btn btn-success waves-effect waves-light m-r-10" (click)="tableToExcel('conductorProductividad2', 'productividadConductores')">
+                                <i class="mdi mdi-file-excel"></i>
+                                Exportar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">                    
+                        <table id = "conductorProductividad" class="tabla-productividad-conductor">
+                            <thead>
+                                <tr>
+                                    <th class="nombre">Conductor</th>
+                                    <th class="fechaIngreso">Fecha Ingreso</th>
+                                    <th *ngFor = "let dia of dias">
+                                        {{dia.NOMBRE_DIA}} {{dia.FECHA}}
+                                    </th>
+                                    <th class="text-center totalesCabecera">Total Viajes</th>
+                                    <th class="text-center totalesCabecera">Total Comisión</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let productividadConductor of productividadConductores; index as i">                                   
+                                    <td class="text-center nombre">{{productividadConductor.conductor}}</td>
+                                    <td class="text-center fechaIngreso">{{productividadConductor.fechaIngreso}}</td>
+                                    <td class="text-center" *ngFor = "let dia of dias; index as j"> 
+                                        <div data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}} | {{dia.FECHA}}">
+                                            <table class="tabla-productividad-conductor-viajes fz-8px">
+                                                <tbody *ngIf = "productividadConductores[i][dia.DIA]['viajes']['length'] > 0">                                              
+                                                        <tr *ngFor="let viaje of productividadConductores[i][dia.DIA]['viajes'];  index as j">                                                                                                                
+                                                            <td class="tracto" text-center style="width: 150px;">{{viaje.tracto}}</td>
+                                                            <td style="width: 150px;">{{viaje.ruta}}</td>
+                                                            <td style="width: 25px; vertical-align:middle !important;">{{viaje.viajes}}</td>
+                                                            <td style="width: 45px; vertical-align:middle !important;">S/ {{viaje.comisionTotal}}</td>
+                                                            <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 35px; vertical-align:middle !important; font-weight: bold;">{{productividadConductores[i][dia.DIA]['totalViajes']}}</td>  
+                                                            <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 45px; vertical-align:middle !important; font-weight: bold;">S/ {{productividadConductores[i][dia.DIA]['totalComision']}}</td>  
+                                                        </tr>
+                                                </tbody>
+                                            </table>    
+                                            <input (keyup.enter) = "registerUpdateMotivoNoProdConductor(i,dia.DIA,dia.FECHA)" *ngIf = "!productividadConductores[i][dia.DIA]['viajes']['length']" [(ngModel)]="productividadConductores[i][dia.DIA]['motivo']" name="MOTIVO" type="text" class="motivo-no-viajes bg-danger text-light">
+                                        </div> 
+                                    </td>                                     
+                                    <td data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}}" class="text-center totales">{{productividadConductor.viajesTotal}}</td>
+                                    <td data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}}" class="text-center totales">S/ {{productividadConductor.comisionTotal}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div *ngIf = "totalRegistros > 0">
+                        <button type="button" class="btn btn-secondary" id="Anterior" (click)="changePage(-5, -1)">
+                            Anterior
+                        </button>
+                
+                        <label style="margin-left: 10px; margin-right: 10px; font-weight: bold">Pagina {{pagina}} de {{paginas}}</label>
+    
+                        <button type="button" class="btn btn-secondary" id="Siguiente" (click)="changePage(+5, +1)">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table hidden id = "conductorProductividad2" class="tabla-productividad-conductor" style="border: solid 1px gray">
+    <thead>
+        <tr>
+            <th style="border: solid 1px gray;" class="items">ITEMS</th>
+            <th style="border: solid 1px gray;" class="nombre">Conductor</th>
+            <th style="border: solid 1px gray;" class="nombre">Fecha Ingreso</th>
+            <th style="border: solid 1px gray;" *ngFor = "let dia of dias">
+                {{dia.NOMBRE_DIA}} {{dia.FECHA}}
+            </th>
+            <th style="border: solid 1px gray;" class="text-center totalesCabecera">Total Viajes</th>
+            <th style="border: solid 1px gray;" class="text-center totalesCabecera">Total Comision</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let productividadConductor of productividadTotal; index as i">
+            <td style="border: solid 1px gray; vertical-align:middle; text-align: center;">{{i+1}}</td>
+            <td style="border: solid 1px gray; vertical-align:middle" class="text-center nombre">{{productividadConductor.conductor}}</td>
+            <td style="border: solid 1px gray; vertical-align:middle; text-align: center;" class="text-center nombre">{{productividadConductor.fechaIngreso}}</td>
+            <td style="border: solid 1px gray;" class="text-center" *ngFor = "let dia of dias; index as j"> 
+                <div data-toggle="tooltip" data-placement="top" title="{{productividadConductor.conductor}} | {{dia.FECHA}}">
+                    <table class="tabla-productividad-conductor-viajes fz-8px">
+                        <tbody *ngIf = "productividadTotal[i][dia.DIA]['viajes']['length'] > 0">                                              
+                                <tr *ngFor="let viaje of productividadTotal[i][dia.DIA]['viajes'];  index as j">                                                                                                                
+                                    <td style="width: 150px;">{{viaje.tracto}}</td>
+                                    <td style="width: 150px;">{{viaje.ruta}}</td>
+                                    <td style="width: 25px; vertical-align:middle;">{{viaje.viajes}}</td>
+                                    <td style="width: 45px; vertical-align:middle;">S/ {{viaje.comisionTotal}}</td>
+                                    <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 35px; vertical-align:middle !important; font-weight: bold;">{{productividadTotal[i][dia.DIA]['totalViajes']}}</td>  
+                                    <td *ngIf = "j === 0"  [attr.rowspan]="j" style="width: 45px; vertical-align:middle !important; font-weight: bold;">S/ {{productividadTotal[i][dia.DIA]['totalComision']}}</td>  
+                                </tr>
+                        </tbody>
+                    </table>    
+                    <div *ngIf = "!productividadTotal[i][dia.DIA]['viajes']['length']" style="font-weight: bold; vertical-align:middle; text-align: center;">
+                        {{productividadTotal[i][dia.DIA]['motivo']}}
+                    </div>
+                </div> 
+            </td>                                     
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle; text-align: center;">{{productividadConductor.viajesTotal}}</td>
+            <td class="text-center totales" style="font-weight: bold; border: solid 1px gray; vertical-align:middle; text-align: center;">S/ {{productividadConductor.comisionTotal}}</td>
+        </tr>
+    </tbody>
+</table>

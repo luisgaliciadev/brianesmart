@@ -4,6 +4,7 @@ import { RegisterService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
 import {saveAs} from 'file-saver';
 import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-panelcontrol-viajes',
@@ -15,7 +16,6 @@ export class PanelcontrolViajesComponent implements OnInit {
   guias = [];
   desde = 0;
   hasta = 10;
-  loading = false;
   totalRegistros = 0;
   search = '';
   activeButton;
@@ -41,7 +41,8 @@ export class PanelcontrolViajesComponent implements OnInit {
     public _router: Router,
     private _userService: UserService,
     public _registerService: RegisterService,
-    private _ngbModal: NgbModal
+    private _ngbModal: NgbModal,
+    private spinner: NgxSpinnerService
   ) {
     this.mes = this.date.getMonth() + 1;
     this.dia = this.date.getDate();
@@ -93,7 +94,7 @@ export class PanelcontrolViajesComponent implements OnInit {
     if (search === '') {
       search = '0';
     }
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getGuiasControlViaje(search, this.fhDesde, this.fhHasta, 0, this.idZona).subscribe(
       (response: any) => {
         this.desde = 0;
@@ -106,11 +107,11 @@ export class PanelcontrolViajesComponent implements OnInit {
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       },
       (error: any) => {
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
       }
     );
@@ -474,9 +475,9 @@ export class PanelcontrolViajesComponent implements OnInit {
   // printer() {
   //   this._userService.loadReport();
   //   if (this.search.length === 0) {
-  //     window.open('#/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
+  //     window.open('#/reports/listguias/' + '0/' + this.fhDesde + '/' + this.fhHasta + '/0', '0', '_blank');
   //   } else {
-  //     window.open('#/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
+  //     window.open('#/reports/listguias/' + this.search + '/' + this.fhDesde + '/' + this.fhHasta + '/0', '0' , '_blank');
   //   }
   // }
 

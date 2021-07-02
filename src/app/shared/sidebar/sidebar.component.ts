@@ -31,5 +31,12 @@ export class SidebarComponent implements OnInit {
   idModule(idModule) {
     this._userService.idModule(idModule);
   }
+  
+  hideMenu() {
+    let menu: HTMLElement = document.querySelector('.ti-close');
+    if (menu) {
+      menu.click();
+    }
+  }
 
 }

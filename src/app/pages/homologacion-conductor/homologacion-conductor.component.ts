@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegisterService, UploadFileService, UserService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
-import { NgbModal,ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { URL_SERVICES } from '../../config/config';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment.prod';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-homologacion-conductor',
@@ -30,7 +31,7 @@ export class HomologacionConductorComponent implements OnInit {
   tempImage: string;
   idRelacion = 0;
   archivo = null;
-  URL = URL_SERVICES;
+  URL = environment.URL_SERVICES;
 
   constructor(
     public _registerService: RegisterService,
@@ -38,7 +39,8 @@ export class HomologacionConductorComponent implements OnInit {
     public _userService: UserService,
     public _route: ActivatedRoute,
     private _ngbModal: NgbModal,
-    private _uploadFileService: UploadFileService
+    private _uploadFileService: UploadFileService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -46,14 +48,14 @@ export class HomologacionConductorComponent implements OnInit {
   }
 
   getClientes() {
-    this.loading = true;
+    this.spinner.show();
     this._registerService.getClientes().subscribe(
       (response: any) => {
         this.clientes = response.clientes;
-        this.loading = false;
+        this.spinner.hide();
       },
       (error:any) => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -95,20 +97,20 @@ export class HomologacionConductorComponent implements OnInit {
       return;
     }
 
-    this.busqueda = true;
+    this.spinner.show();
     this._registerService.getConductor(id).subscribe(
       (response: any) => {
         this.dniConductor = response.conductor.ID_Chofer;
         this.nombreConductor = response.conductor.Nombre;
         this.idConductor = response.conductor.ID_CONDUCTOR;
         this.getDocConductorTotal();
-        this.busqueda = false;
+        this.spinner.hide();
       },
       error => {
         this.idConductor = 0;
         this.nombreConductor = '';
         this.documentosConductor = [];
-        this.busqueda = false;
+        this.spinner.hide();
       }
     );
   }
@@ -143,15 +145,15 @@ export class HomologacionConductorComponent implements OnInit {
         idUsuario: this._userService.user.ID_USER,
         observacion: this.documentosConductor[i].OBSERVACION
       }
-      this.resgistrado = true;
+      this.spinner.show();
       this._registerService.registerDocConductorRelacion(data).subscribe(
         (response: any) => {
           this.getDocConductorTotal();
-          this.resgistrado = false;
+          this.spinner.hide();
         },
         error => {
           this.documentosConductor[i].FG_ACTIVO = false;
-          this.resgistrado = false;
+          this.spinner.hide();
         }
       );
     }
@@ -176,15 +178,15 @@ export class HomologacionConductorComponent implements OnInit {
         fgActivo,
         observacion: this.documentosConductor[i].OBSERVACION
       }
-      this.resgistrado = true;
+      this.spinner.show();
       this._registerService.updateDocCondcutor(data).subscribe(
         (response: any) => {
           this.getDocConductorTotal();
-          this.resgistrado = false;
+          this.spinner.hide();
         },
         error => {
           this.documentosConductor[i].FG_ACTIVO = false;
-          this.resgistrado = false;
+          this.spinner.hide();
         }
       );
     }    
@@ -215,15 +217,15 @@ export class HomologacionConductorComponent implements OnInit {
       fgActivo,
       observacion: this.documentosConductor[i].OBSERVACION
     }
-    this.resgistrado = true;
+    this.spinner.show();
     this._registerService.updateDocCondcutor(data).subscribe(
       (response: any) => {
         this.getDocConductorTotal();
-        this.resgistrado = false;
+        this.spinner.hide();
       },
       error => {
         this.getDocConductorTotal();
-        this.resgistrado = false;
+        this.spinner.hide();
       }
     );
   }

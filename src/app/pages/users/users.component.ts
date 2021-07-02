@@ -1,7 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import {saveAs} from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-users',
@@ -22,10 +24,10 @@ export class UsersComponent implements OnInit {
   pagina = 1;
 
   constructor(
-    // tslint:disable-next-line: variable-name
     public _userService: UserService,
-    // tslint:disable-next-line: variable-name
-    public _modalUploadService: ModalUploadService
+    public _modalUploadService: ModalUploadService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
     ) {
       this.desde = 0;
       this.hasta = 5;
@@ -34,12 +36,10 @@ export class UsersComponent implements OnInit {
     }
 
   ngOnInit() {
-    // this.getUsers(this.search);
     this.getRoles();
     this._modalUploadService.notificacion.subscribe(
       response => {
         this.getRoles();
-        // this.getUsers(this.search);
       },
     );
   }
@@ -49,7 +49,6 @@ export class UsersComponent implements OnInit {
     this._userService.getRoles().subscribe(
       (response: any) => {
         this.roles = response;
-        // console.log(this.roles);
       }
     );
   }
@@ -63,7 +62,7 @@ export class UsersComponent implements OnInit {
     this.activeButton = false;
     this.search = search;
    
-    this.loading = true;
+    this.spinner.show();
     this._userService.getUsers(search).subscribe(
       (response: any) => {
         this.desde = 0;
@@ -71,14 +70,16 @@ export class UsersComponent implements OnInit {
         this.pagina = 1;
         this.totalUsers = response.users;
         this.users = response.users.slice(this.desde, this.hasta);
-        // console.log(this.users);
         this.totalRegistros = response.users.length;
         this.paginas = Math.ceil(this.totalRegistros / 5);
         if (this.paginas <= 1) {
           this.paginas = 1;
         }
-        this.loading = false;
+        this.spinner.hide();
         this.activeButton = false;
+      },
+      error => {
+        this.spinner.hide();
       }
     );
   }
@@ -93,6 +94,9 @@ export class UsersComponent implements OnInit {
       () => {
         this.getUsers(this.search);
         this.getRoles();
+      },
+      error => {
+        this.spinner.hide();
       }
     );
   }
@@ -106,7 +110,7 @@ export class UsersComponent implements OnInit {
     if(this.totalRegistros === 0) {
       return;
     }
-    this.loading = true;
+    this.spinner.show();
     this._userService.getUsersExcel(this.search).subscribe(
       (response: any) => {
        
@@ -117,10 +121,10 @@ export class UsersComponent implements OnInit {
         });
         // use file saver npm package for saving blob to file
         saveAs(blob, `ListadoUsuarios.xlsx`);
-        this.loading = false;
+        this.spinner.hide();
       },
       error => {
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
@@ -135,9 +139,9 @@ export class UsersComponent implements OnInit {
     }
     this._userService.loadReport();
     if (this.search.length === 0) {
-      window.open('#/listusers/' + '0', '0' , '_blank');
+      window.open('#/reports/listusers/' + '0', '0' , '_blank');
     } else {
-      window.open('#/listusers/' + this.search, '0' , '_blank');
+      window.open('#/reports/listusers/' + this.search, '0' , '_blank');
     }
   }
 
@@ -192,7 +196,6 @@ export class UsersComponent implements OnInit {
       this.activeButton = false;
       this.getUsers(this.search);
     }
-    // console.log(this.activeButton);
   }
   
 }
